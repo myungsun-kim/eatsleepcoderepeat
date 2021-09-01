@@ -1,0 +1,6 @@
+{
+  "tabWidth": 2,
+  "singleQuote": true, //홑따옴표
+  "semi": true,
+  "printWidth": 80
+}
