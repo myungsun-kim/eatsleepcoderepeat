@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+
+<project name="Hadoop" default="package">
+
+  <!-- Load all the default properties, and any the user wants    -->
+  <!-- to contribute (without having to type -D or edit this file -->
+  <property file="${user.home}/build.properties" />
+  <property file="${basedir}/build.properties" />
+
+  <property name="build.encoding" value="ISO-8859-1"/>
+
+  <property name="hadoop.dir" value="/usr/local/hadoop"/>
+  <property name="lib.dir" value="${hadoop.dir}/lib"/>
+  <property name="class.dir" value="${hadoop.dir}/build/classes"/>
+  <property name="conf.dir" value="${hadoop.dir}/conf"/>
+
+  <property name="works.dir" value="${basedir}/src"/>
+  <property name="build.dir" value="${basedir}/build"/>
+  <property name="build.classes" value="${build.dir}/classes"/>
+  <property name="build.sysclasspath" value="last"/>
+  <property name="build.works" value="${build.dir}/works"/>
+
+  <property name="javac.debug" value="on"/>
+  <property name="javac.optimize" value="on"/>
+  <property name="javac.deprecation" value="off"/>
+  <property name="javac.version" value="1.7"/>
+  <property name="javac.args" value=""/>
+  <property name="javac.args.warnings" value=""/>
+  <property name="javac.args.warnings" value="-Xlint:checked"/>
+
+  <!-- the normal classpath -->
+  <path id="classpath">
+	<pathelement location="${class.dir}"/>
+    <pathelement location="${build.classes}"/>
+	<pathelement location="${hadoop.dir}/hadoop-core-1.2.1.jar" />
+	<pathelement location="${hadoop.dir}/hadoop-ant-1.2.1.jar" />
+	<pathelement location="${hadoop.dir}/hadoop-tools-1.2.1.jar" />
+	<pathelement location="${hadoop.dir}/hadoop-examples-1.2.1.jar" />
+    <fileset dir="${lib.dir}">
+      <include name="**/*.jar" />
+      <exclude name="**/excluded/" />
+    </fileset>
+    <pathelement location="${conf.dir}"/>
+  </path>
+
+  <!-- ====================================================== -->
+  <!-- Stuff needed by all targets                            -->
+  <!-- ====================================================== -->
+  <target name="init">
+    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.classes}"/>
+    <mkdir dir="${build.works}"/>
+  </target>
+
+  <target name="compile-works" depends="init">
+    <javac 
+     encoding="${build.encoding}" 
+     srcdir="${works.dir}"
+     includes="*.java"
+     destdir="${build.works}"
+     debug="${javac.debug}"
+     optimize="${javac.optimize}"
+     target="${javac.version}"
+     source="${javac.version}"
+     deprecation="${javac.deprecation}">
+      <compilerarg line="${javac.args} ${javac.args.warnings}" />
+      <classpath refid="classpath"/>
+    </javac>    
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- Make the Hadoop work jar.                                          -->
+  <!-- ================================================================== -->
+  <!--                                                                    -->
+  <!-- ================================================================== -->
+  <target name="shim-works" depends="compile-works">
+    <jar jarfile="${build.dir}/shim.jar" basedir="${build.works}">
+      <manifest>
+        <attribute name="Main-Class" value="shim/Driver"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <!-- ================================================================== -->
+  <!-- D I S T R I B U T I O N                                            -->
+  <!-- ================================================================== -->
+  <!--                                                                    -->
+  <!-- ================================================================== -->
+  <target name="package" depends="shim-works">
+    <copy file="${build.dir}/shim.jar" todir="${basedir}"/>
+  </target>
+
+</project>

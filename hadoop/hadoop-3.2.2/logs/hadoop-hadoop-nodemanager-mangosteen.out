@@ -1,0 +1,30 @@
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 31593
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 1024
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 8192
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 31593
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+2월 22, 2021 4:22:19 오후 com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory register
+정보: Registering org.apache.hadoop.yarn.server.nodemanager.webapp.NMWebServices as a root resource class
+2월 22, 2021 4:22:19 오후 com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory register
+정보: Registering org.apache.hadoop.yarn.webapp.GenericExceptionHandler as a provider class
+2월 22, 2021 4:22:19 오후 com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory register
+정보: Registering org.apache.hadoop.yarn.server.nodemanager.webapp.JAXBContextResolver as a provider class
+2월 22, 2021 4:22:19 오후 com.sun.jersey.server.impl.application.WebApplicationImpl _initiate
+정보: Initiating Jersey application, version 'Jersey: 1.19 02/11/2015 03:25 AM'
+2월 22, 2021 4:22:19 오후 com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory getComponentProvider
+정보: Binding org.apache.hadoop.yarn.server.nodemanager.webapp.JAXBContextResolver to GuiceManagedComponentProvider with the scope "Singleton"
+2월 22, 2021 4:22:19 오후 com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory getComponentProvider
+정보: Binding org.apache.hadoop.yarn.webapp.GenericExceptionHandler to GuiceManagedComponentProvider with the scope "Singleton"
+2월 22, 2021 4:22:20 오후 com.sun.jersey.guice.spi.container.GuiceComponentProviderFactory getComponentProvider
+정보: Binding org.apache.hadoop.yarn.server.nodemanager.webapp.NMWebServices to GuiceManagedComponentProvider with the scope "Singleton"
