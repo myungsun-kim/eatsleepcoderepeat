@@ -8,6 +8,9 @@ public class Driver {
 		ProgramDriver pgd = new ProgramDriver();
 		try {
 			pgd.addClass("wordcount",Wordcount.class,"");
+			pgd.addClass("wordcount1char",Wordcount1char.class,"Counts first character of words.");
+
+			pgd.addClass("wordcountsort",Wordcountsort.class,"sort by alphabetical order.");
 			pgd.addClass("kmeans",Kmeans.class,"");
       			pgd.driver(args);
 			exitCode = 0;
