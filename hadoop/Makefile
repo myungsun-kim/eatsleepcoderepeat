@@ -22,6 +22,7 @@ wordcount-init :
 	hdfs dfs -put ./matadd-data-2x2.txt ./matrix_test
 	hdfs dfs -mkdir wordcount_test_out
 	hdfs dfs -mkdir wordcountsort_test_out
+	hdfs dfs -mkdir wordcountinvertedindex_test_out
 	hdfs dfs -mkdir matrixadd_test_out
 
 wordcount1char :
@@ -45,3 +46,9 @@ matrixadd :
 	hdfs dfs -cat matrixadd_test_out/part-r-00000 | more
 	hdfs dfs -cat matrixadd_test_out/part-r-00001 | more
 
+wordcountinvertedindex :
+	ant
+	hdfs dfs -rm -r wordcountinvertedindex_test_out
+	hadoop jar ssafy.jar wordcountinvertedindex wordcount_test wordcountinvertedindex_test_out
+	hdfs dfs -cat wordcountinvertedindex_test_out/part-r-00000 | more
+	hdfs dfs -cat wordcountinvertedindex_test_out/part-r-00001 | more
