@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:8.0.26
+    container_name: mysql
+    restart: on-failure
+    environment:
+      - TZ=Asia/Seoul
+      - MYSQL_ROOT_PASSWORD=madmin
+    ports:
+      - 3306:3306
+    networks:
+      - msa-network
+
+networks:
+  msa-network:
+    external: true
