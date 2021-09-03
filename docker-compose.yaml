@@ -7,12 +7,12 @@ services:
     restart: on-failure
     environment:
       - TZ=Asia/Seoul
+      - MYSQL_DATABASE=match
       - MYSQL_ROOT_PASSWORD=madmin
     ports:
       - 3306:3306
     networks:
-      - msa-network
+      - match-network
 
 networks:
-  msa-network:
-    external: true
+  match-network:
