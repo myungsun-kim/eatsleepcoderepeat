@@ -13,6 +13,11 @@ services:
       - 3306:3306
     networks:
       - match-network
+    volumes: 
+      - ./mysql/init/:/docker-entrypoint-initdb.d/
 
 networks:
   match-network:
+
+volumes:
+  postgres: {}
