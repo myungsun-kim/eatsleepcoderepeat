@@ -7,7 +7,7 @@ services:
     restart: on-failure
     environment:
       - TZ=Asia/Seoul
-      - MYSQL_DATABASE=match
+      - MYSQL_DATABASE=matching
       - MYSQL_ROOT_PASSWORD=madmin
     ports:
       - 3306:3306
