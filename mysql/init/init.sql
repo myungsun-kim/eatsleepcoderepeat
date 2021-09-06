@@ -23,9 +23,10 @@ USE `matching` ;
 CREATE TABLE IF NOT EXISTS `matching`.`club` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(25) NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
+  `create_date` TIMESTAMP NOT NULL,
   `bio` VARCHAR(255) NULL DEFAULT NULL,
   `member_count` INT NOT NULL,
+  `max_count` INT NULL,
   `activity_point` INT NOT NULL,
   `repository` VARCHAR(255) NULL DEFAULT NULL,
   `team_chat` VARCHAR(255) NULL DEFAULT NULL,
@@ -41,9 +42,10 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `matching`.`project` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(25) NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
+  `create_date` TIMESTAMP NOT NULL,
   `bio` VARCHAR(255) NULL DEFAULT NULL,
   `member_count` INT NOT NULL,
+  `max_count` INT NULL,
   `activity_point` INT NOT NULL,
   `repository` VARCHAR(255) NULL DEFAULT NULL,
   `team_chat` VARCHAR(255) NULL DEFAULT NULL,
@@ -63,9 +65,10 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `matching`.`study` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(25) NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
+  `create_date` TIMESTAMP NOT NULL,
   `bio` VARCHAR(255) NULL DEFAULT NULL,
   `member_count` INT NOT NULL,
+  `max_count` INT NULL,
   `activity_point` INT NOT NULL,
   `repository` VARCHAR(255) NULL DEFAULT NULL,
   `team_chat` VARCHAR(255) NULL DEFAULT NULL,
@@ -86,7 +89,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `matching`.`board` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(15) NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
+  `create_date` TIMESTAMP NOT NULL,
   `club_id` INT NULL DEFAULT NULL,
   `project_id` INT NULL DEFAULT NULL,
   `study_id` INT NULL DEFAULT NULL,
@@ -112,20 +115,15 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `create_date` DATETIME NULL DEFAULT NULL,
   `email` VARCHAR(255) NOT NULL,
   `name` VARCHAR(8) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `nickname` VARCHAR(10) NOT NULL,
   `tel` VARCHAR(13) NULL DEFAULT NULL,
-  `twitter` VARCHAR(45) NULL DEFAULT NULL,
-  `git` VARCHAR(50) NULL DEFAULT NULL,
-  `facebook` VARCHAR(50) NULL DEFAULT NULL,
-  `baekjoon` VARCHAR(50) NULL DEFAULT NULL,
-  `blog` VARCHAR(50) NULL DEFAULT NULL,
-  `created_at` DATETIME NULL DEFAULT NULL,
   `bio` VARCHAR(255) NULL DEFAULT NULL,
   `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
-  `portfolio_path` VARCHAR(255) NULL DEFAULT NULL,
+  `banned` TINYINT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -138,8 +136,8 @@ CREATE TABLE IF NOT EXISTS `matching`.`article` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(100) NOT NULL,
   `content` TEXT NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
-  `modified_at` TIMESTAMP NULL DEFAULT NULL,
+  `create_date` TIMESTAMP NOT NULL,
+  `modify_date` TIMESTAMP NULL DEFAULT NULL,
   `is_deleted` TINYINT NOT NULL,
   `board_id` INT NOT NULL,
   `user_id` INT NOT NULL,
@@ -203,8 +201,8 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `matching`.`comment` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `content` TEXT NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
-  `modified_at` TIMESTAMP NULL DEFAULT NULL,
+  `create_date` TIMESTAMP NOT NULL,
+  `modify_date` TIMESTAMP NULL DEFAULT NULL,
   `is_deleted` TINYINT NOT NULL,
   `article_id` INT NOT NULL,
   `user_id` INT NOT NULL,
@@ -333,7 +331,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `matching`.`user_article_reaction` (
   `user_id` INT NOT NULL,
   `article_id` INT NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
+  `create_date` TIMESTAMP NOT NULL,
   `reaction_id` INT NOT NULL,
   PRIMARY KEY (`user_id`, `article_id`, `reaction_id`),
   INDEX `fk_user_has_article_article1_idx` (`article_id` ASC) VISIBLE,
@@ -359,7 +357,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`user_club` (
   `user_id` INT NOT NULL,
   `club_id` INT NOT NULL,
   `is_active` TINYINT NOT NULL,
-  `registered_at` TIMESTAMP NOT NULL,
+  `register_date` TIMESTAMP NOT NULL,
   `authority` TINYINT NOT NULL,
   PRIMARY KEY (`user_id`, `club_id`),
   INDEX `fk_user_has_club_club1_idx` (`club_id` ASC) VISIBLE,
@@ -380,7 +378,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE IF NOT EXISTS `matching`.`user_comment_reaction` (
   `user_id` INT NOT NULL,
   `comment_id` INT NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
+  `create_date` TIMESTAMP NOT NULL,
   `reaction_id` INT NOT NULL,
   PRIMARY KEY (`user_id`, `comment_id`, `reaction_id`),
   INDEX `fk_user_has_comment_comment1_idx` (`comment_id` ASC) VISIBLE,
@@ -426,7 +424,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`user_project` (
   `user_id` INT NOT NULL,
   `project_id` INT NOT NULL,
   `is_active` TINYINT NOT NULL,
-  `registered_at` TIMESTAMP NOT NULL,
+  `register_date` TIMESTAMP NOT NULL,
   `authority` TINYINT NOT NULL,
   PRIMARY KEY (`user_id`, `project_id`),
   INDEX `fk_user_has_project_project2_idx` (`project_id` ASC) VISIBLE,
@@ -448,7 +446,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`user_study` (
   `user_id` INT NOT NULL,
   `study_id` INT NOT NULL,
   `is_active` TINYINT NOT NULL,
-  `registered_at` TIMESTAMP NOT NULL,
+  `register_date` TIMESTAMP NOT NULL,
   `authority` TINYINT NOT NULL,
   PRIMARY KEY (`user_id`, `study_id`),
   INDEX `fk_user_has_study_study1_idx` (`study_id` ASC) VISIBLE,
@@ -481,6 +479,41 @@ CREATE TABLE IF NOT EXISTS `matching`.`user_techstack` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `matching`.`user_sns`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matching`.`user_sns` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `sns_type` VARCHAR(45) NOT NULL,
+  `sns_address` VARCHAR(45) NOT NULL,
+  INDEX `fk_user_sns_user1_idx` (`user_id` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_user_sns_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `matching`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `matching`.`user_portfolio`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matching`.`user_portfolio` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `user_id` INT NOT NULL,
+  `portfolio_path` VARCHAR(45) NOT NULL,
+  INDEX `fk_user_portfolio_user1_idx` (`user_id` ASC) VISIBLE,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_user_portfolio_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `matching`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
