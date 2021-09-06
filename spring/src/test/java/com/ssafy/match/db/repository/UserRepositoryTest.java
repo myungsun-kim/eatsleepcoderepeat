@@ -1,8 +1,6 @@
-package com.ssafy.db.repository;
+package com.ssafy.match.db.repository;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import com.ssafy.db.entity.User;
+import com.ssafy.match.db.entity.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
