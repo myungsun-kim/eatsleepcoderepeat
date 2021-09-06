@@ -15,28 +15,16 @@ public class User {
     private int id;
 
     private String email;
-
     private String password;
-
     private String nickname;
-
     private String tel;
-
     private String twitter;
-
     private String git;
-
     private String facebook;
-
     private String backjoon;
-
     private String blog;
-
     private LocalDateTime createAt;
-
     private String bio;
-
     private String coverPic;
-
     private String portfolioPath;
 }
