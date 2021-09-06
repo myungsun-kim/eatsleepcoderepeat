@@ -2,7 +2,12 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/matching?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true&MVCC=TRUE
     username: root
+<<<<<<< HEAD
     password: ssafy
+=======
+    password: madmin
+    driver-class-name: com.mysql.cj.jdbc.Driver
+>>>>>>> 75f551b8464c6801d1ab248ed6d7146d4f297b2e
 
   jpa:
     hibernate:
