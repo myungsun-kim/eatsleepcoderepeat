@@ -15,6 +15,7 @@ public class User {
     private int id;
 
     private String email;
+    private String name;
     private String password;
     private String nickname;
     private String tel;
@@ -23,8 +24,8 @@ public class User {
     private String facebook;
     private String backjoon;
     private String blog;
-    private LocalDateTime createAt;
+    private LocalDateTime create_at;
     private String bio;
-    private String coverPic;
-    private String portfolioPath;
+    private String cover_pic;
+    private String portfolio_path;
 }
