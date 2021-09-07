@@ -50,6 +50,8 @@ CREATE TABLE IF NOT EXISTS `matching`.`project` (
   `repository` VARCHAR(255) NULL DEFAULT NULL,
   `team_chat` VARCHAR(255) NULL DEFAULT NULL,
   `club_id` INT NULL DEFAULT NULL,
+  `is_active` TINYINT NOT NULL,
+  `is_participate` TINYINT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_project_club1_idx` (`club_id` ASC) VISIBLE,
   CONSTRAINT `fk_project_club1`
@@ -74,6 +76,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`study` (
   `team_chat` VARCHAR(255) NULL DEFAULT NULL,
   `club_id` INT NULL DEFAULT NULL,
   `is_active` TINYINT NOT NULL,
+  `is_participate` TINYINT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_study_club1_idx` (`club_id` ASC) VISIBLE,
   CONSTRAINT `fk_study_club1`
