@@ -35,17 +35,17 @@ public class UserController {
 
     @ApiOperation(value = "테스트용 API")
     @GetMapping("/example/{example_id}")
-//    @ResponseBody
-//    @ApiImplicitParam(name = "pk_idx",
-//        value="유저의 이메일이 아닌 고유 회원번호, db에 저장되는 int 타입의 pk_idx",
-//        example = "1")
-//    @ApiResponses(value = {
-//        @ApiResponse(code = 200,
-//            message = "성공",
+    @ResponseBody
+    @ApiImplicitParam(name = "example_id",
+        value="1과 0 중에 고르세요.",
+        example = "1")
+    @ApiResponses(value = {
+        @ApiResponse(code = 200,
+            message = "성공"),
 //            response = String.class,
 //            responseContainer = "List"),
-//        @ApiResponse(code = 404, message = "낫파운드"),
-//    })
+        @ApiResponse(code = 404, message = "낫파운드"),
+    })
     public ResponseEntity<?> test(@PathVariable String example_id){
         if("1".equals(example_id)){
             return new ResponseEntity<String>("example success!", HttpStatus.OK);
