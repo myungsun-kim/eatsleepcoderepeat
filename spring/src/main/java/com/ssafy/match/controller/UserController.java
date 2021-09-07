@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping("/join")
+    @PostMapping("/signup")
     public String join(@RequestBody User user) {
         User newUser = userRepository.save(user);
         return user.getNickname() + "님의 회원가입을 환영합니다.";
