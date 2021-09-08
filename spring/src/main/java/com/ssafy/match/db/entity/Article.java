@@ -8,17 +8,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity(name = "matching.article")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Article {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int article_id;
+    private int id;
 
     private String title;
     private String content;
@@ -28,25 +31,20 @@ public class Article {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
-    private Board board_id;
+    private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user_id;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    public Article() {
-    }
-
-    public Article(int article_id, String title, String content, LocalDateTime create_date,
-        LocalDateTime modify_date, boolean is_deleted, Board board_id,
-        User user_id) {
-        this.article_id = article_id;
+    public Article(String title, String content, LocalDateTime create_date,
+        LocalDateTime modify_date, boolean is_deleted, Board board, Member member) {
         this.title = title;
         this.content = content;
         this.create_date = create_date;
         this.modify_date = modify_date;
         this.is_deleted = is_deleted;
-        this.board_id = board_id;
-        this.user_id = user_id;
+        this.board = board;
+        this.member = member;
     }
 }

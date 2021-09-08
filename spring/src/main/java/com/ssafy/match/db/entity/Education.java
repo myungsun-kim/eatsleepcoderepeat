@@ -1,7 +1,6 @@
 package com.ssafy.match.db.entity;
 
 import java.time.LocalDateTime;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,17 +8,20 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity(name = "matching.education")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Education {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int education_id;
+    private int id;
 
     private String institution;
     private String degree;
@@ -30,23 +32,38 @@ public class Education {
     private float full_credit;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user_id;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
-    public Education() {
+    public String getInstitution() {
+        return institution;
     }
 
-    public Education(int education_id, String institution, String degree, String major,
-        LocalDateTime start_date, LocalDateTime end_date, float my_credit, float full_credit,
-        User user_id) {
-        this.education_id = education_id;
-        this.institution = institution;
-        this.degree = degree;
-        this.major = major;
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.my_credit = my_credit;
-        this.full_credit = full_credit;
-        this.user_id = user_id;
+    public String getDegree() {
+        return degree;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public LocalDateTime getStart_date() {
+        return start_date;
+    }
+
+    public LocalDateTime getEnd_date() {
+        return end_date;
+    }
+
+    public float getMy_credit() {
+        return my_credit;
+    }
+
+    public float getFull_credit() {
+        return full_credit;
+    }
+
+    public Member getMember() {
+        return member;
     }
 }

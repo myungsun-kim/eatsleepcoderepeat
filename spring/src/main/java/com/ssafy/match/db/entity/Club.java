@@ -7,18 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity(name = "matching.club")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Club {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int club_id;
+    private int id;
 
     private String name;
     private LocalDateTime create_date;
@@ -29,9 +32,6 @@ public class Club {
     private String repository;
     private String team_chat;
     private boolean is_active;
-
-    public Club() {
-    }
 
     public Club(String name, LocalDateTime create_date, String bio, int member_count, int max_count,
         int activity_point, String repository, String team_chat, boolean is_active) {
