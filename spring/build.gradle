@@ -22,6 +22,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
@@ -42,9 +44,17 @@ dependencies {
     // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
+    // https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka
+    implementation 'org.springframework.kafka:spring-kafka:2.7.6'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-websocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket:2.5.4'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.5.4'
+
     testImplementation ('org.springframework.boot:spring-boot-starter-test'){
         exclude module : 'org.junit.vintage:junit-vintage-engine'
     }
+
 }
 
 test {
