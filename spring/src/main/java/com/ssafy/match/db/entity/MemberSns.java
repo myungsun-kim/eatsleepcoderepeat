@@ -7,31 +7,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Entity(name = "matching.user_sns")
-public class UserSns {
+@Entity(name = "matching.member_sns")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class MemberSns {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int user_sns_id;
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user_id;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     private String sns_type;
     private String sns_address;
 
-    public UserSns() {
-    }
-
-    public UserSns(int user_sns_id, User user_id, String sns_type, String sns_address) {
-        this.user_sns_id = user_sns_id;
-        this.user_id = user_id;
+    public MemberSns(Member member, String sns_type, String sns_address) {
+        this.member = member;
         this.sns_type = sns_type;
         this.sns_address = sns_address;
     }

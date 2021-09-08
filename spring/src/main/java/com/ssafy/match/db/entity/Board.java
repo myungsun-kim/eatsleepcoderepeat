@@ -8,43 +8,42 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity(name = "matching.board")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int board_id;
+    private int id;
 
     private String name;
     private LocalDateTime create_date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
-    private Club club_id;
+    private Club club;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
-    private Project project_id;
+    private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "study_id")
-    private Study study_id;
+    private Study study;
 
-    public Board() {
-    }
-
-    public Board(int board_id, String name, LocalDateTime create_date,
-        Club club_id, Project project_id, Study study_id) {
-        this.board_id = board_id;
+    public Board(String name, LocalDateTime create_date, Club club,
+        Project project, Study study) {
         this.name = name;
         this.create_date = create_date;
-        this.club_id = club_id;
-        this.project_id = project_id;
-        this.study_id = study_id;
+        this.club = club;
+        this.project = project;
+        this.study = study;
     }
 }

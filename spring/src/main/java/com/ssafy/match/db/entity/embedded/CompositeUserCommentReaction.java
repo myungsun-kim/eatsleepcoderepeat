@@ -2,39 +2,39 @@ package com.ssafy.match.db.entity.embedded;
 
 import com.ssafy.match.db.entity.Comment;
 import com.ssafy.match.db.entity.Reaction;
-import com.ssafy.match.db.entity.User;
+import com.ssafy.match.db.entity.Member;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CompositeUserCommentReaction implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user_id;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
-    private Comment comment_id;
+    private Comment comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reaction_id")
-    private Reaction reaction_id;
+    private Reaction reaction;
 
-    public CompositeUserCommentReaction() {
-    }
-
-    public CompositeUserCommentReaction(User user_id, Comment comment_id,
-        Reaction reaction_id) {
-        this.user_id = user_id;
-        this.comment_id = comment_id;
-        this.reaction_id = reaction_id;
+    public CompositeUserCommentReaction(Member member, Comment comment,
+        Reaction reaction) {
+        this.member = member;
+        this.comment = comment;
+        this.reaction = reaction;
     }
 }

@@ -1,29 +1,33 @@
 package com.ssafy.match.db.entity.embedded;
 
 import com.ssafy.match.db.entity.Club;
-import com.ssafy.match.db.entity.User;
+import com.ssafy.match.db.entity.Member;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Embeddable
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CompositeUserClub implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user_id;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
-    private Club club_id;
+    private Club club;
 
-    public CompositeUserClub() {
-    }
-
-    public CompositeUserClub(User user_id, Club club_id) {
-        this.user_id = user_id;
-        this.club_id = club_id;
+    public CompositeUserClub(Member member, Club club) {
+        this.member = member;
+        this.club = club;
     }
 }
