@@ -1,6 +1,6 @@
 package com.ssafy.match.controller;
 
-import com.ssafy.match.db.entity.User;
+import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.repository.MemberRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -23,14 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class MemberController {
     @Autowired
     MemberRepository memberRepository;
 
     @PostMapping("/signup")
-    public String join(@RequestBody User user) {
-        User newUser = memberRepository.save(user);
-        return user.getNickname() + "님의 회원가입을 환영합니다?";
+    public String join(@RequestBody Member member) {
+        Member newMember = memberRepository.save(member);
+        return member.getNickname() + "님의 회원가입을 환영합니다?";
     }
 
     @ApiOperation(value = "테스트용 API")
