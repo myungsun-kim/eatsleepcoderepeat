@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CompositeUserStudy implements Serializable {
+public class CompositeMemberStudy implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -26,7 +26,7 @@ public class CompositeUserStudy implements Serializable {
     @JoinColumn(name = "study_id")
     private Study study;
 
-    public CompositeUserStudy(Member member, Study study) {
+    public CompositeMemberStudy(Member member, Study study) {
         this.member = member;
         this.study = study;
     }

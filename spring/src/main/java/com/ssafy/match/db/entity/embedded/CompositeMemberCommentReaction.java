@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CompositeUserCommentReaction implements Serializable {
+public class CompositeMemberCommentReaction implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -31,7 +31,7 @@ public class CompositeUserCommentReaction implements Serializable {
     @JoinColumn(name = "reaction_id")
     private Reaction reaction;
 
-    public CompositeUserCommentReaction(Member member, Comment comment,
+    public CompositeMemberCommentReaction(Member member, Comment comment,
         Reaction reaction) {
         this.member = member;
         this.comment = comment;
