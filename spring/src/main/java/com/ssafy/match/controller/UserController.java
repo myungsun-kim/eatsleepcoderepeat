@@ -1,6 +1,6 @@
 package com.ssafy.match.controller;
 
-import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.db.entity.User;
 import com.ssafy.match.db.repository.UserRepository;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -27,10 +27,10 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping("/join")
-    public String join(@RequestBody Member member) {
-        Member newMember = userRepository.save(member);
-        return member.getNickname() + "님의 회원가입을 환영합니다?";
+    @PostMapping("/signup")
+    public String join(@RequestBody User user) {
+        User newUser = userRepository.save(user);
+        return user.getNickname() + "님의 회원가입을 환영합니다?";
     }
 
     @ApiOperation(value = "테스트용 API")
