@@ -131,6 +131,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`member` (
   `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
   `city` VARCHAR(15) NOT NULL,
   `banned` TINYINT NULL DEFAULT NULL,
+  `authority` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 3
@@ -517,6 +518,23 @@ CREATE TABLE IF NOT EXISTS `matching`.`member_study` (
     REFERENCES `matching`.`member` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `matching`.`position`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matching`.`position` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `member_id` INT NOT NULL,
+  `name` VARCHAR(15) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_position_member1_idx` (`member_id` ASC) VISIBLE,
+  CONSTRAINT `fk_position_member1`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `matching`.`member` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

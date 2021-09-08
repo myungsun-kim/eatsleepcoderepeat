@@ -28,13 +28,13 @@ public class Member {
     private String tel;
     private String bio;
     private String cover_pic;
-
     private String city;
     private Boolean banned;
+    private String authority;
 
     public Member(LocalDateTime create_date, String email, String name, String password,
         String nickname, String tel, String bio, String cover_pic, String city,
-        Boolean banned) {
+        Boolean banned, String authority) {
         this.create_date = create_date;
         this.email = email;
         this.name = name;
@@ -45,5 +45,6 @@ public class Member {
         this.cover_pic = cover_pic;
         this.city = city;
         this.banned = banned;
+        this.authority = authority;
     }
 }

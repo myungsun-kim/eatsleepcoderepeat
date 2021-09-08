@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CompositeUserClub implements Serializable {
+public class CompositeMemberClub implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -26,7 +26,7 @@ public class CompositeUserClub implements Serializable {
     @JoinColumn(name = "club_id")
     private Club club;
 
-    public CompositeUserClub(Member member, Club club) {
+    public CompositeMemberClub(Member member, Club club) {
         this.member = member;
         this.club = club;
     }

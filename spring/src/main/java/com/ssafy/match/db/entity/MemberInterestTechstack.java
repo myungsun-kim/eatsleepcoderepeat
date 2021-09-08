@@ -1,6 +1,6 @@
 package com.ssafy.match.db.entity;
 
-import com.ssafy.match.db.entity.embedded.CompositeUserTechstack;
+import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;
@@ -15,10 +15,10 @@ import lombok.Setter;
 public class MemberInterestTechstack {
 
     @EmbeddedId
-    private CompositeUserTechstack compositeUserTechstack;
+    private CompositeMemberTechstack compositeMemberTechstack;
 
     public MemberInterestTechstack(
-        CompositeUserTechstack compositeUserTechstack) {
-        this.compositeUserTechstack = compositeUserTechstack;
+        CompositeMemberTechstack compositeMemberTechstack) {
+        this.compositeMemberTechstack = compositeMemberTechstack;
     }
 }

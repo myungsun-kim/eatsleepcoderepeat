@@ -1,6 +1,6 @@
 package com.ssafy.match.db.entity;
 
-import com.ssafy.match.db.entity.embedded.CompositeUserProject;
+import com.ssafy.match.db.entity.embedded.CompositeMemberProject;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;
@@ -15,9 +15,9 @@ import lombok.Setter;
 public class ProjectStar {
 
     @EmbeddedId
-    private CompositeUserProject compositeUserProject;
+    private CompositeMemberProject compositeMemberProject;
 
-    public ProjectStar(CompositeUserProject compositeUserProject) {
-        this.compositeUserProject = compositeUserProject;
+    public ProjectStar(CompositeMemberProject compositeMemberProject) {
+        this.compositeMemberProject = compositeMemberProject;
     }
 }

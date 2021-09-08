@@ -1,6 +1,6 @@
 package com.ssafy.match.db.entity;
 
-import com.ssafy.match.db.entity.embedded.CompositeUserArticleReaction;
+import com.ssafy.match.db.entity.embedded.CompositeMemberArticleReaction;
 import java.time.LocalDateTime;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -16,13 +16,13 @@ import lombok.Setter;
 public class MemberArticleReaction {
 
     @EmbeddedId
-    private CompositeUserArticleReaction compositeUserArticleReaction;
+    private CompositeMemberArticleReaction compositeMemberArticleReaction;
 
     private LocalDateTime created_date;
 
     public MemberArticleReaction(
-        CompositeUserArticleReaction compositeUserArticleReaction, LocalDateTime created_date) {
-        this.compositeUserArticleReaction = compositeUserArticleReaction;
+        CompositeMemberArticleReaction compositeMemberArticleReaction, LocalDateTime created_date) {
+        this.compositeMemberArticleReaction = compositeMemberArticleReaction;
         this.created_date = created_date;
     }
 }
