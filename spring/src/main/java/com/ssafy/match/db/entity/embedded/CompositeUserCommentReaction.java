@@ -5,6 +5,7 @@ import com.ssafy.match.db.entity.Reaction;
 import com.ssafy.match.db.entity.User;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
@@ -15,15 +16,15 @@ import lombok.Setter;
 @Embeddable
 public class CompositeUserCommentReaction implements Serializable {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user_id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment_id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reaction_id")
     private Reaction reaction_id;
 
