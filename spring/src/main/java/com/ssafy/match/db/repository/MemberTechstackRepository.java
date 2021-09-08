@@ -4,7 +4,7 @@ import com.ssafy.match.db.entity.MemberTechstack;
 import com.ssafy.match.db.entity.embedded.CompositeUserTechstack;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserTechstackRepository extends
+public interface MemberTechstackRepository extends
     JpaRepository<MemberTechstack, CompositeUserTechstack> {
 
 }
