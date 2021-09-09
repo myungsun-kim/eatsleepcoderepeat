@@ -33,6 +33,11 @@ public class MemberController {
         return member.getNickname() + "님의 회원가입을 환영합니다?";
     }
 
+    @GetMapping()
+    public void a(){
+        System.out.println(1);
+    }
+
     @ApiOperation(value = "테스트용 API")
     @GetMapping("/example/{example_id}")
     @ResponseBody
