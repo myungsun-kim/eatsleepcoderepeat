@@ -1,24 +1,18 @@
 package com.ssafy.match.db.entity;
 
 import java.time.LocalDateTime;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import javax.persistence.*;
+
+import lombok.*;
 
 @Getter
 @Setter
 @Entity(name = "matching.member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private LocalDateTime create_date;
     private String email;
@@ -30,11 +24,14 @@ public class Member {
     private String cover_pic;
     private String city;
     private Boolean banned;
-    private String authority;
 
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
+    @Builder
     public Member(LocalDateTime create_date, String email, String name, String password,
         String nickname, String tel, String bio, String cover_pic, String city,
-        Boolean banned, String authority) {
+        Boolean banned, Authority authority) {
         this.create_date = create_date;
         this.email = email;
         this.name = name;
