@@ -1,7 +1,9 @@
 package com.ssafy.match.controller;
 
+import com.ssafy.match.controller.dto.MemberResponseDto;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.repository.MemberRepository;
+import com.ssafy.match.service.MemberService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -22,16 +24,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/member")
 public class MemberController {
-    @Autowired
-    MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    @PostMapping("/signup")
-    public String join(@RequestBody Member member) {
-        Member newMember = memberRepository.save(member);
-        return member.getNickname() + "님의 회원가입을 환영합니다?";
+    @GetMapping("/me")
+    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
+        return ResponseEntity.ok(memberService.getMyInfo());
     }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<MemberResponseDto> getMemberInfo(@PathVariable String email) {
+        return ResponseEntity.ok(memberService.getMemberInfo(email));
+    }
+//    @Autowired
+//    MemberRepository memberRepository;
+//
+//    @PostMapping("/signup")
+//    public String join(@RequestBody Member member) {
+//        Member newMember = memberRepository.save(member);
+//        return member.getNickname() + "님의 회원가입을 환영합니다";
+//    }
 
     @ApiOperation(value = "테스트용 API")
     @GetMapping("/example/{example_id}")

@@ -2,7 +2,12 @@ package com.ssafy.match.db.repository;
 
 import com.ssafy.match.db.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface MemberRepository extends JpaRepository<Member, Integer> {
+import java.util.Optional;
 
+@Repository
+public interface MemberRepository extends JpaRepository<Member, Long> {
+    Optional<Member> findByEmail(String email);
+    boolean existsByEmail(String email);
 }
