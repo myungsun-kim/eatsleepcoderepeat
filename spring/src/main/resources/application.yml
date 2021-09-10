@@ -16,6 +16,18 @@ spring:
         show_sql: true # JPA, 하이버네이트가 생성하는 SQL이 로그에 생성 (sysout)
 #        format_sql: true
 
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: test-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.IntegerDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      bootstrap-servers: localhost:9092
+      key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
 #logging:
 #  level:
 #    org.hibernate.SQL: debug # JPA, 하이버네이트가 생성하는 SQL이 로그에 생성 (logger)
@@ -26,3 +38,4 @@ spring:
 # $ echo 'spring-boot-security-jwt-tutorial-jiwoon-spring-boot-security-jwt-tutorial' | base64
 jwt:
   secret: c3ByaW5nLWJvb3Qtc2VjdXJpdHktand0LXR1dG9yaWFsLWppd29vbi1zcHJpbmctYm9vdC1zZWN1cml0eS1qd3QtdHV0b3JpYWwK
+
