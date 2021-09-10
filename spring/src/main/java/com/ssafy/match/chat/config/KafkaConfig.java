@@ -1,7 +1,7 @@
 package com.ssafy.match.chat.config;
 
 
-import com.ssafy.match.chat.dto.ChattingMessage;
+import com.ssafy.match.chat.dto.ChatMessage;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
@@ -23,35 +23,35 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 public class KafkaConfig {
     //Sender config
     @Bean
-    public ProducerFactory<String, ChattingMessage> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfigs(), null, new JsonSerializer<ChattingMessage>());
+    public ProducerFactory<String, ChatMessage> producerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs(), null, new JsonSerializer<ChatMessage>());
     }
 
     @Bean
-    public KafkaTemplate<String, ChattingMessage> kafkaTemplate() {
+    public KafkaTemplate<String, ChatMessage> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
     @Bean
     public Map<String, Object> producerConfigs() {
         Map<String, Object> ret = new HashMap<>();
-            ret.put("bootstrap.servers", "localhost:9092"); //kafka server ip & port
-            ret.put("key.serializer", IntegerSerializer.class);
-            ret.put("value.serializer", JsonSerializer.class); // Object json parser
-            ret.put("group.id", "spring-boot-test"); // chatting  group id
+        ret.put("bootstrap.servers", "localhost:9092"); //kafka server ip & port
+        ret.put("key.serializer", IntegerSerializer.class);
+        ret.put("value.serializer", JsonSerializer.class); // Object json parser
+        ret.put("group.id", "test-group"); // chatting  group id
         return ret;
     }
     //Receiver config
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ChattingMessage> kafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, ChattingMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, ChatMessage> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ChatMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
 
     @Bean
-    public ConsumerFactory<String, ChattingMessage> consumerFactory() {
-        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), null, new JsonDeserializer<>(ChattingMessage.class));
+    public ConsumerFactory<String, ChatMessage> consumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(consumerConfigs(), null, new JsonDeserializer<>(ChatMessage.class));
     }
 
     @Bean
@@ -60,7 +60,7 @@ public class KafkaConfig {
         ret.put("bootstrap.servers", "localhost:9092");
         ret.put("key.deserializer", IntegerDeserializer.class);
         ret.put("value.deserializer", JsonDeserializer.class);
-        ret.put("group.id", "spring-boot-test");
+        ret.put("group.id", "test-group");
         return ret;
     }
 }
