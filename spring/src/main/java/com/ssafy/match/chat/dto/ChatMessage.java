@@ -10,4 +10,5 @@ import lombok.Setter;
 @Getter
 public class ChatMessage implements Serializable {
     String message;
+    int pk_idx;
 }

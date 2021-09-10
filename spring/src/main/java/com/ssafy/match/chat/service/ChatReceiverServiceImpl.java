@@ -30,16 +30,18 @@ public class ChatReceiverServiceImpl {
 //        msg.put("timestamp", Long.toString(message.getTimeStamp()));
 //        for(ChatMessage ms : message){
         msg.put("message", message.getMessage());
+        msg.put("pk_idx", Integer.toString(message.getPk_idx()));
 //        }
 //        msg.put("author", message.getUser());
 //        msg.put("message");
 //            System.out.println(message.getMessage());
-        msg.put("message", "test");
+//        msg.put("message", "test");
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(msg);
         // 프론트의Stringify와 유사
-
-        this.template.convertAndSend("/sub", json);
+        StringBuilder destSocket = new StringBuilder("/sub");
+        destSocket.append('/').append(message.getPk_idx());
+        this.template.convertAndSend(destSocket.toString(), json);
         // 실제 socket으로 메세지를 전달하는 메서드
     }
 }
