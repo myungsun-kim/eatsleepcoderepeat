@@ -20,6 +20,16 @@ USE `matching` ;
 -- -----------------------------------------------------
 -- Table `matching`.`club`
 -- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matching`.`refresh_token` (
+  `member_id` VARCHAR(500) NOT NULL,
+  `value` VARCHAR(500) NOT NULL,
+  PRIMARY KEY (`member_id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+-- -----------------------------------------------------
+-- Table `matching`.`club`
+-- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`club` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(25) NOT NULL,
