@@ -1,4 +1,4 @@
-package com.ssafy.match.service;
+package com.ssafy.match.file.service;
 
 import java.nio.file.Path;
 import java.util.stream.Stream;
