@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 
+
 @SpringBootApplication
 @EnableCaching // @Cacheable과 같은 캐싱 어노테이션 사용을 위한 설정
 public class MatchApplication {

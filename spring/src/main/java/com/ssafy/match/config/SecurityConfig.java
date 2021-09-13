@@ -28,12 +28,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    // h2 database 테스트가 원활하도록 관련 API 들은 전부 무시
-//    @Override
-//    public void configure(WebSecurity web) {
-//        web.ignoring()
-//                .antMatchers("/h2-console/**", "/favicon.ico");
-//    }
+    // swagger 관련 API 들은 전부 무시
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring()
+                .antMatchers("/swagger-ui/**", "/swagger-resources/**","/v2/**", "/favicon.ico", "/chat/**");
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -64,10 +64,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
-
-                .and()
-                .authorizeRequests()
-                .antMatchers("/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 
 //                .and()
