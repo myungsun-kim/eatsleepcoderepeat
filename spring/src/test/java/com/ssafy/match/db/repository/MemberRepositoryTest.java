@@ -34,18 +34,18 @@ class MemberRepositoryTest {
     @Transactional
     @Rollback(value = false)
     public void userCRUD(){
-        Member member = new Member(LocalDateTime.now(), "qjawlsqjacks@naver.com", "박범진", "1234", "BJP", "01028732329", "test", "coverpic?", "부천", false, "fsda");
-        Position position = new Position(member, "개발자");
-        Club club = new Club("헬스", LocalDateTime.now(), "냠", 0, 7, 0, "afsd", "sfd", false  );
-        Project project = new Project("프로젝트", LocalDateTime.now(), "FSda", 0, 7, 0, "fsda", "sfd", club, true, true);
-        Study study = new Study("스터디", LocalDateTime.now(), "FSda", 0, 7, 0, "fsda", null, club, true, true);
+//        Member member = new Member(LocalDateTime.now(), "qjawlsqjacks@naver.com", "박범진", "1234", "BJP", "01028732329", "test", "coverpic?", "부천", false, "fsda");
+//        Position position = new Position(member, "개발자");
+//        Club club = new Club("헬스", LocalDateTime.now(), "냠", 0, 7, 0, "afsd", "sfd", false  );
+//        Project project = new Project("프로젝트", LocalDateTime.now(), "FSda", 0, 7, 0, "fsda", "sfd", club, true, true);
+//        Study study = new Study("스터디", LocalDateTime.now(), "FSda", 0, 7, 0, "fsda", null, club, true, true);
 
 
-        memberRepository.save(member);
-        positionRepository.save(position);
-        clubRepository.save(club);
-        projectRepository.save(project);
-        studyRepository.save(study);
+//        memberRepository.save(member);
+//        positionRepository.save(position);
+//        clubRepository.save(club);
+//        projectRepository.save(project);
+//        studyRepository.save(study);
 
     }
 }
