@@ -28,11 +28,13 @@ public class MemberRequestDto {
         return Member.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
+                .create_date(LocalDateTime.now())
                 .name(name)
-                .banned(banned)
-                .city(city)
-                .tel(tel)
                 .nickname(nickname)
+                .tel(tel)
+                .bio(bio)
+                .city(city)
+                .banned(banned)
                 .authority(Authority.ROLE_USER)
                 .build();
     }
