@@ -1,14 +1,11 @@
 package com.ssafy.match.db.entity;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
