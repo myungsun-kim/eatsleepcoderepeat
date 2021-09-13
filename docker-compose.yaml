@@ -35,6 +35,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+<<<<<<< HEAD
   redis:
     container_name: redis
     image: redis
@@ -45,9 +46,15 @@ services:
     networks:
       - match-network
     
+=======
+
+>>>>>>> 676f14783eaa9fecd51a3d05955f1a295849ed7a
 networks:
   match-network:
 
 volumes:
   postgres: {}
+<<<<<<< HEAD
   redis: {}
+=======
+>>>>>>> 676f14783eaa9fecd51a3d05955f1a295849ed7a
