@@ -49,8 +49,8 @@ public class MessageSocketController {
         System.out.println(message);
 
         System.out.println(destPk);
-        message.setPk_idx(destPk);
-        System.out.println(message.getMessage());
+        message.setId(destPk);
+//        System.out.println(message.getMessage());
         sender.send(BOOT_TOPIC, message);
 //
     }

@@ -10,6 +10,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
+
 @Component
 public class ChatSenderServiceImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatSenderServiceImpl.class);

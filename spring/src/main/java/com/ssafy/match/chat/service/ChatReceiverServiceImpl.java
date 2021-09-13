@@ -29,8 +29,8 @@ public class ChatReceiverServiceImpl {
         HashMap<String, String> msg = new HashMap<>();
 //        msg.put("timestamp", Long.toString(message.getTimeStamp()));
 //        for(ChatMessage ms : message){
-        msg.put("message", message.getMessage());
-        msg.put("pk_idx", Integer.toString(message.getPk_idx()));
+        msg.put("content", message.getContent());
+        msg.put("pk_idx", Integer.toString(message.getId()));
 //        }
 //        msg.put("author", message.getUser());
 //        msg.put("message");
@@ -40,7 +40,7 @@ public class ChatReceiverServiceImpl {
         String json = mapper.writeValueAsString(msg);
         // 프론트의Stringify와 유사
         StringBuilder destSocket = new StringBuilder("/sub");
-        destSocket.append('/').append(message.getPk_idx());
+        destSocket.append('/').append(message.getId());
         this.template.convertAndSend(destSocket.toString(), json);
         // 실제 socket으로 메세지를 전달하는 메서드
     }

@@ -546,6 +546,30 @@ CREATE TABLE IF NOT EXISTS `matching`.`position` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `matching`.`message`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matching`.`message` (
+    `id` INT NOT NULL,
+    `sender_id` INT NOT NULL,
+    `receiver_id` INT NOT NULL,
+    `sent_time` TIMESTAMP NULL,
+    `read_time` TIMESTAMP NULL,
+    `content` TEXT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `fk_message_member1_idx` (`sender_id` ASC) VISIBLE,
+    INDEX `fk_message_member2_idx` (`receiver_id` ASC) VISIBLE,
+    CONSTRAINT `fk_message_member1`
+    FOREIGN KEY (`sender_id`)
+    REFERENCES `matching`.`member` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+    CONSTRAINT `fk_message_member2`
+    FOREIGN KEY (`receiver_id`)
+    REFERENCES `matching`.`member` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
