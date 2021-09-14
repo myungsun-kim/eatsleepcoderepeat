@@ -1,11 +1,23 @@
 <template>
-  <div id="nav">
+  <!-- <div id="nav">
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+    <router-link to="/about">Main</router-link>
+  </div> -->
+
+  <TopNavigationBar />
+
+  <!-- Main(프로젝트명) 역할 -->
   <router-view />
 </template>
+<script>
+import TopNavigationBar from './views/TopNavigationBar.vue';
 
+export default {
+  components: {
+    TopNavigationBar,
+  },
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
