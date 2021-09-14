@@ -1,6 +1,5 @@
 package com.ssafy.match.controller;
 
-
 import com.ssafy.match.controller.dto.MemberRequestDto;
 import com.ssafy.match.controller.dto.MemberResponseDto;
 import com.ssafy.match.controller.dto.TokenDto;

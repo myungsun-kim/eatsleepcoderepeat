@@ -1,4 +1,4 @@
-package com.ssafy.match.db.entity;
+package com.ssafy.match.group.entity;
 
 import com.ssafy.match.db.entity.embedded.CompositeStudyTechstack;
 import javax.persistence.EmbeddedId;
