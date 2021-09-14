@@ -1,5 +1,6 @@
 <template>
-  <div>read my page</div>
+  <div>NO sub header</div>
+  <router-view></router-view>
 </template>
 
 <script>

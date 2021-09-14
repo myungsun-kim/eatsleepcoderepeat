@@ -4,18 +4,18 @@
     <router-link to="/about">Main</router-link>
   </div> -->
 
-  <TopNavigationBar />
+  <!-- <TopNavigationBar /> -->
 
   <!-- Main(프로젝트명) 역할 -->
   <router-view />
 </template>
 <script>
-import TopNavigationBar from './views/TopNavigationBar.vue';
+// import TopNavigationBar from './views/TopNavigationBar.vue';
 
 export default {
-  components: {
-    TopNavigationBar,
-  },
+  // components: {
+  //   TopNavigationBar,
+  // },
 };
 </script>
 <style>
