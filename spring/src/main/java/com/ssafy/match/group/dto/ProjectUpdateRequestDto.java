@@ -15,7 +15,7 @@ public class ProjectUpdateRequestDto {
 
     @ApiModelProperty(name = "host_name", example = "5")
     @ApiParam(value = "프로젝트장 Id", required = true)
-    private Long host_id;
+    private Long hostId;
 
     @ApiModelProperty(name = "schedule", example = "매주 화, 수 6시")
     @ApiParam(value = "프로젝트 작업 시간", required = true)
@@ -31,15 +31,15 @@ public class ProjectUpdateRequestDto {
 
     @ApiModelProperty(name = "developer_count", example = "3")
     @ApiParam(value = "개발자 모집 인원", required = true)
-    private int developer_count;
+    private int developerMaxCount;
 
     @ApiModelProperty(name = "designer_count", example = "3")
     @ApiParam(value = "디자이너 모집 인원", required = true)
-    private int designer_count;
+    private int designerMaxCount;
 
     @ApiModelProperty(name = "planner_count", example = "3")
     @ApiParam(value = "기획자 모집 인원", required = true)
-    private int planner_count;
+    private int plannerMaxCount;
 
     @ApiModelProperty(name = "city", example = "구미")
     @ApiParam(value = "활동지역", required = true)
@@ -51,15 +51,15 @@ public class ProjectUpdateRequestDto {
 
     @ApiModelProperty(name = "is_public", example = "false")
     @ApiParam(value = "공개 비공개", required = true)
-    private boolean is_public;
+    private boolean isPublic;
 
     @ApiModelProperty(name = "is_participate", example = "false")
     @ApiParam(value = "참여 가능 여부", required = true)
-    private boolean is_participate;
+    private boolean isParticipate;
 
     @ApiModelProperty(name = "club_id", example = "3")
     @ApiParam(value = "소속된 클럽 id")
-    private Long club_id;
+    private Long clubId;
 
     @ApiModelProperty(name = "uuid", example = "3fads23-fdfd13-23d2")
     @ApiParam(value = "사진 고유 uuid")
@@ -67,6 +67,6 @@ public class ProjectUpdateRequestDto {
 
     @ApiModelProperty(name = "host_role", example = "디자이너")
     @ApiParam(value = "프로젝트장 역할", required = true)
-    private String host_role;
+    private String hostRole;
 
 }
