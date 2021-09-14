@@ -2,8 +2,6 @@
   <p>SignUp</p>
 </template>
 
-<script>
-export default {};
-</script>
+<script></script>
 
 <style></style>

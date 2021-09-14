@@ -1,5 +1,5 @@
 <template>
-  <div>read my page</div>
+  <div>Chat</div>
 </template>
 
 <script>
