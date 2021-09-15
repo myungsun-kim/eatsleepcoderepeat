@@ -9,11 +9,6 @@
   <div class="font-noto-md">font-noto-md 안녕하세요 500</div>
   <div class="font-s-md">font-s-md 안녕하세요</div>
 
-  <el-row :gutter="20">
-    <el-col :span="12" :offset="0" class="simple-bg">test1</el-col>
-    <el-col :span="12" :offset="0" class="simple-bg">test2</el-col>
-  </el-row>
-
   <!-- Main(프로젝트명) 역할 -->
 
   <router-view />
@@ -56,22 +51,13 @@ export default {};
 .font-noto-bold {
   font-family: 'noto-sans-kr';
   font-weight: 700;
-  font-size: 60pt;
 }
 .font-noto-md {
   font-family: 'noto-sans-kr';
   font-weight: 500;
-  font-size: 60pt;
 }
 
 .font-s-md {
   font-family: 'S-CoreDream-5Medium';
-  font-size: 60pt;
-}
-
-.simple-bg {
-  background-color: red;
-  border: 1px solid;
-  border-color: blue;
 }
 </style>
