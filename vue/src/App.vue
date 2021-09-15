@@ -6,9 +6,9 @@
   </div> -->
 
     <!-- <TopNavigationBar /> -->
-    <div class="font-noto-bold">font-noto-bold 안녕하세요 700</div>
+    <!-- <div class="font-noto-bold">font-noto-bold 안녕하세요 700</div>
     <div class="font-noto-md">font-noto-md 안녕하세요 500</div>
-    <div class="font-s-md">font-s-md 안녕하세요</div>
+    <div class="font-s-md">font-s-md 안녕하세요</div> -->
 
     <!-- Main(프로젝트명) 역할 -->
 
@@ -32,20 +32,6 @@ export default {};
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-
-html,
 body {
   margin: 0;
 }
