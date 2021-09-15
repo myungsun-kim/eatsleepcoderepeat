@@ -4,7 +4,6 @@ import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
-import com.ssafy.match.group.dto.BasicResponse;
 import com.ssafy.match.group.dto.ClubRequestDto;
 import com.ssafy.match.group.entity.Club;
 import com.ssafy.match.group.repository.ClubRepository;
