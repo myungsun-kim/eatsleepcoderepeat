@@ -1,26 +1,5 @@
 <template>
   <p>SignUp</p>
-  <el-row :gutter="20">
-    <el-col :span="6"><div class="grid-content bg-purple"></div></el-col>
-    <el-col :span="6" :offset="6"
-      ><div class="grid-content bg-purple"></div
-    ></el-col>
-  </el-row>
-  <el-row :gutter="20">
-    <el-col :span="6" :offset="6"
-      ><div class="grid-content bg-purple"></div
-    ></el-col>
-    <el-col :span="6" :offset="6"
-      ><div class="grid-content bg-purple"></div
-    ></el-col>
-  </el-row>
-  <el-row :gutter="20">
-    <el-col :span="12" :offset="6">
-      <p>hello</p>
-      <div class="grid-content bg-purple">
-        <p></p></div
-    ></el-col>
-  </el-row>
 </template>
 
 <script></script>
