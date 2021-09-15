@@ -27,17 +27,22 @@ spring:
 
   kafka:
     consumer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: localhost:29092
       group-id: test-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.IntegerDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
-      bootstrap-servers: localhost:9092
+      bootstrap-servers: localhost:29092
       key-serializer: org.apache.kafka.common.serialization.IntegerSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
   redis:
-    host: localhost:9092
+    lettuce:
+        pool:
+          max-active: 10
+          max-idle: 10
+          min-idle: 2
+    host: localhost
     port: 6379
 #logging:
 #  level:

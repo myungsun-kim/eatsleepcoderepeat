@@ -21,14 +21,14 @@ import lombok.Setter;
 public class ChatMessage implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    long id;
 
 //    @OneToOne(name = "id")
 //    @JoinColumn(name = "sender_id")
     @Column(name = "sender_id")
-    int senderId;
+    long senderId;
     @Column(name = "receiver_id")
-    int receiverId;
+    long receiverId;
     Timestamp sent_time;
     Timestamp read_time;
 //    String message;

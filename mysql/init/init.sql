@@ -577,25 +577,27 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
+
 -- -----------------------------------------------------
 -- Table `matching`.`message`
 -- -----------------------------------------------------
+
 CREATE TABLE IF NOT EXISTS `matching`.`message` (
-    `id` INT NOT NULL,
-    `sender_id` INT NOT NULL,
-    `receiver_id` INT NOT NULL,
-    `sent_time` TIMESTAMP NULL,
-    `read_time` TIMESTAMP NULL,
-    `content` TEXT NULL,
-    PRIMARY KEY (`id`),
-    INDEX `fk_message_member1_idx` (`sender_id` ASC) VISIBLE,
-    INDEX `fk_message_member2_idx` (`receiver_id` ASC) VISIBLE,
-    CONSTRAINT `fk_message_member1`
+  `id` INT NOT NULL,
+  `sender_id` BIGINT NOT NULL,
+  `receiver_id` BIGINT NOT NULL,
+  `sent_time` TIMESTAMP NULL,
+  `read_time` TIMESTAMP NULL,
+  `content` TEXT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_message_member1_idx` (`sender_id` ASC) VISIBLE,
+  INDEX `fk_message_member2_idx` (`receiver_id` ASC) VISIBLE,
+  CONSTRAINT `fk_message_member1`
     FOREIGN KEY (`sender_id`)
     REFERENCES `matching`.`member` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-    CONSTRAINT `fk_message_member2`
+  CONSTRAINT `fk_message_member2`
     FOREIGN KEY (`receiver_id`)
     REFERENCES `matching`.`member` (`id`)
     ON DELETE NO ACTION

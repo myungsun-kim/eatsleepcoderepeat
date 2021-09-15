@@ -31,7 +31,7 @@ public class MessageSocketController {
 //    @Autowired
 //    private ChatReceiverServiceImpl receiver;
 
-    private static String BOOT_TOPIC = "test";
+    private static String BOOT_TOPIC = "test1";
 
     //// "url/app/message"로 들어오는 메시지를 "/topic/public"을 구독하고있는 사람들에게 송신
     @MessageMapping("/pub/{toUserPk}")//@MessageMapping works for WebSocket protocol communication. This defines the URL mapping.
