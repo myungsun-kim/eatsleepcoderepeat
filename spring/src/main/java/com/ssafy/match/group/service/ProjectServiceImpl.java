@@ -4,12 +4,14 @@ import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.db.entity.embedded.CompositeProjectTechstack;
+import com.ssafy.match.db.repository.MemberProjectRepository;
 import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.db.repository.TechstackRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
 import com.ssafy.match.group.dto.ProjectCreateRequestDto;
 import com.ssafy.match.group.dto.ProjectInfoResponseDto;
+import com.ssafy.match.group.dto.ProjectMemberRoleResponseDto;
 import com.ssafy.match.group.dto.ProjectUpdateRequestDto;
 import com.ssafy.match.group.entity.Club;
 import com.ssafy.match.group.entity.Project;
@@ -19,6 +21,7 @@ import com.ssafy.match.group.repository.ProjectRepository;
 import com.ssafy.match.group.repository.ProjectTechstackRepository;
 import com.ssafy.match.util.SecurityUtil;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +39,7 @@ public class ProjectServiceImpl implements ProjectService{
     private final ProjectTechstackRepository projectTechstackRepository;
     private final DBFileRepository dbFileRepository;
     private final ClubRepository clubRepository;
+    private final MemberProjectRepository memberProjectRepository;
 
     public ResponseEntity<HttpStatus> create(ProjectCreateRequestDto dto) {
         Long currentMemberId = SecurityUtil.getCurrentMemberId();
@@ -107,7 +111,7 @@ public class ProjectServiceImpl implements ProjectService{
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
+    // 현재 프로젝트 정보 리턴
     public ResponseEntity<ProjectInfoResponseDto> projectInfo(Long projectId) {
 
         Project project = projectRepository.findById(projectId)
@@ -137,14 +141,29 @@ public class ProjectServiceImpl implements ProjectService{
 
         return ResponseEntity.ok(responseDto);
     }
+    // 현재 프로젝트에 어떤 멤버가 속해있는지 멤버 리스트 리턴
+    public ResponseEntity<List<Member>> projectMember(Long projectId) {
 
-    public ResponseEntity<HttpStatus> projectMember(Long projectId) {
-        return null;
-    }
+        projectRepository.findById(projectId)
+            .orElseThrow(NullPointerException::new);
 
-    public void findHostNickname(Long hostId){
-//        Optional<Member> host = memberRepository.fi
+        return ResponseEntity.ok(memberProjectRepository.findMemberWithProject(projectId));
     }
+    // 해당 역할에 속한 인원 id, name, nickname과 인원 수
+    public ResponseEntity<List<ProjectMemberRoleResponseDto>> roleInfo(Long projectId, String role){
+
+        projectRepository.findById(projectId)
+            .orElseThrow(NullPointerException::new);
+
+        List<Member> memberList = memberProjectRepository.findRoleInfo(projectId, role);
+
+        List<ProjectMemberRoleResponseDto> infoList = new ArrayList<>();
+        for (Member member: memberList) {
+            infoList.add(new ProjectMemberRoleResponseDto(member.getId(), member.getName(), member.getNickname()));
+        }
+
+        return ResponseEntity.ok(infoList);
+    };
     public void setDBFile(Project project, String uuid) {
         if (uuid == null) {
             project.setDbFile(null);

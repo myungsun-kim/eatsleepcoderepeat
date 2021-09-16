@@ -3,7 +3,6 @@ package com.ssafy.match.group.controller;
 import com.ssafy.match.group.dto.ProjectCreateRequestDto;
 import com.ssafy.match.group.dto.ProjectUpdateRequestDto;
 import com.ssafy.match.group.service.ProjectService;
-import com.ssafy.match.group.service.ProjectServiceImpl;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +11,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,8 +56,41 @@ public class ProjectController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity deleteClub(@PathVariable("id") Long projectId) {
+    public ResponseEntity deleteProject(@PathVariable("id") Long projectId) {
         return ResponseEntity.ok(projectService.delete(projectId));
+    }
+
+    @GetMapping("/info/{projectId}")
+    @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
+    @ApiOperation(value = "프로젝트 정보 조회", notes = "<strong>받은 프로젝트 Id</strong>로 해당 프로젝트를 조회한다.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity projectInfo(@PathVariable("id") Long projectId) {
+        return ResponseEntity.ok(projectService.projectInfo(projectId));
+    }
+
+    @GetMapping("/member/{projectId}")
+    @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
+    @ApiOperation(value = "프로젝트 인원 조회", notes = "<strong>받은 프로젝트 Id</strong>로 프로젝트의 인원 리스트를 조회한다.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity projectMember(@PathVariable("id") Long projectId) {
+        return ResponseEntity.ok(projectService.projectMember(projectId));
+    }
+
+    @GetMapping("/{projectId}&{role}")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path"),
+        @ApiImplicitParam(name = "role", value = "찾는 역할", required = true, dataType = "String", paramType = "path")
+    })
+    @ApiOperation(value = "프로젝트 역할 인원 조회", notes = "<strong>받은 프로젝트 Id와 역할</strong>로 해당 역할 인원을 조회한다.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity roleInfo(@PathVariable("id") Long projectId, @PathVariable("role") String role) {
+        return ResponseEntity.ok(projectService.roleInfo(projectId, role));
     }
 
 }
