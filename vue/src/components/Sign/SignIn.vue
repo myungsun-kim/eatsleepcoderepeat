@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <div class="left">
+    <el-row :gutter="20">
+      <el-col :span="12" :offset="0"></el-col>
+      <el-col :span="12" :offset="0"></el-col>
+    </el-row>
+
+    <!-- <div class="left">
       <div class="content1">
         <div id="h1">
           <p>환영합니다!</p>
@@ -19,13 +24,7 @@
           </div>
         </form>
       </div>
-    </div>
-
-    <div class="right">
-      <div class="content2">
-        <h1>아직 회원이 아니신가요?</h1>
-      </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -43,17 +42,10 @@ export default {};
 .container .left {
   /* transform: translate(50%, 50%); */
   float: left;
-  width: 70%;
+  width: 100%;
   height: 100vh;
   box-sizing: border-box;
   border: 1px solid red;
-}
-.container .right {
-  float: right;
-  width: 30%;
-  height: 100%;
-  box-sizing: border-box;
-  border: 1px solid blue;
 }
 #h1 {
   font-size: 48px;
