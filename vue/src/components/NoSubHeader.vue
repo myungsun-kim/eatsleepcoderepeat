@@ -1,6 +1,7 @@
 <template>
-  <div>NO sub header</div>
-  <router-view></router-view>
+  <div class="height100">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
