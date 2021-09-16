@@ -1,30 +1,6 @@
 <template>
   <div class="container">
-    <el-row :gutter="20">
-      <el-col :span="12" :offset="0"></el-col>
-      <el-col :span="12" :offset="0"></el-col>
-    </el-row>
-
-    <!-- <div class="left">
-      <div class="content1">
-        <div id="h1">
-          <p>환영합니다!</p>
-        </div>
-        <form id="login">
-          <div>
-            <input
-              id="id"
-              type="text"
-              onfocus="this.value='';"
-              value="이름을 입력하세요"
-            />
-          </div>
-          <div>
-            <input type="text" id="password" />
-          </div>
-        </form>
-      </div>
-    </div> -->
+    <div class="height10">1짜리</div>
   </div>
 </template>
 
