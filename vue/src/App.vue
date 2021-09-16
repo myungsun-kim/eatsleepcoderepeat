@@ -28,7 +28,8 @@ export default {};
 
 body {
   margin: 0;
-  /* overflow: hidden; */
+  /* 스크롤바 생김->그만큼 x가 안보임->좌우스크롤 발생 << 이를 방지 */
+  overflow-x: hidden;
   /* min-height: 100%; */
 }
 
