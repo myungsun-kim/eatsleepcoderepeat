@@ -1,17 +1,10 @@
 <template>
-  <div class="red-color">
-    <!-- <div id="nav">
+  <!-- <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">Main</router-link>
   </div> -->
 
-    <!-- <TopNavigationBar /> -->
-    <!-- <div class="font-noto-bold">font-noto-bold 안녕하세요 700</div>
-    <div class="font-noto-md">font-noto-md 안녕하세요 500</div>
-    <div class="font-s-md">font-s-md 안녕하세요</div> -->
-
-    <!-- Main(프로젝트명) 역할 -->
-
+  <div class="bg-color">
     <router-view />
   </div>
 </template>
@@ -30,10 +23,13 @@ export default {};
   padding: 0px;
   text-align: center;
   color: #2c3e50;
+  /* overflow: hidden; */
 }
 
 body {
   margin: 0;
+  /* overflow: hidden; */
+  /* min-height: 100%; */
 }
 
 /* font cdn:s-core dream */
@@ -58,9 +54,59 @@ body {
   font-family: 'S-CoreDream-5Medium';
 }
 
-.red-color {
-  background-color: salmon;
-  width: 100vw;
-  height: 100vh;
+.test-border {
+  border: 1px solid black;
+  box-sizing: border-box;
+}
+.test-router-border {
+  border: 5px solid springgreen;
+  box-sizing: border-box;
+  height: 90%;
+}
+
+.bg-color {
+  background-color: #f2f2f2;
+  width: 100%;
+  height: 100%;
+}
+.height100 {
+  border: 3px solid rgb(0, 183, 255);
+  box-sizing: border-box;
+  height: 100%;
+}
+.height90 {
+  border: 3px solid rgb(166, 255, 0);
+  box-sizing: border-box;
+  height: 90%;
+}
+.height50 {
+  border: 3px solid rgb(139, 0, 139);
+  box-sizing: border-box;
+  height: 50%;
+}
+.height30 {
+  border: 3px solid rgb(255, 0, 212);
+  box-sizing: border-box;
+  height: 30%;
+}
+.height10 {
+  border: 3px solid rgb(0, 25, 139);
+  box-sizing: border-box;
+  height: 10%;
+}
+.height92 {
+  border: 3px solid rgb(255, 123, 0);
+  box-sizing: border-box;
+  height: 92%;
+}
+.height8 {
+  border: 3px solid rgb(113, 139, 255);
+  box-sizing: border-box;
+  height: 8%;
+}
+.height5 {
+  border: 3px solid rgb(0, 255, 234);
+  box-sizing: border-box;
+  height: 5%;
 }
 </style>
