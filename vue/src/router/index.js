@@ -6,9 +6,11 @@ import SubHeader from '../components/SubHeader.vue';
 import Introduce from '../components/MenuBar1/Introduce.vue';
 import CreateNotice from '../components/MenuBar1/Notice/CreateNotice.vue';
 import ReadNotice from '../components/MenuBar1/Notice/ReadNotice.vue';
+import ReadDetailNotice from '../components/MenuBar1/Notice/ReadDetailNotice.vue';
 import UpdateNotice from '../components/MenuBar1/Notice/UpdateNotice.vue';
 import CreateBoard from '../components/MenuBar1/Board/CreateBoard.vue';
 import ReadBoard from '../components/MenuBar1/Board/ReadBoard.vue';
+import ReadDetailBoard from '../components/MenuBar1/Board/ReadDetailBoard.vue';
 import UpdateBoard from '../components/MenuBar1/Board/UpdateBoard.vue';
 import Manage from '../components/MenuBar1/Manage.vue';
 // sub header 끝
@@ -67,6 +69,10 @@ const routes = [
             component: ReadNotice,
           },
           {
+            path: '/subheader/notice/detail',
+            component: ReadDetailNotice,
+          },
+          {
             path: '/subheader/notice/update',
             component: UpdateNotice,
           },
@@ -75,12 +81,20 @@ const routes = [
             component: ReadBoard,
           },
           {
+            path: '/subheader/board/detail',
+            component: ReadDetailBoard,
+          },
+          {
             path: '/subheader/board/create',
             component: CreateBoard,
           },
           {
             path: '/subheader/board/read',
             component: ReadBoard,
+          },
+          {
+            path: '/subheader/notice/detail',
+            component: ReadDetailNotice,
           },
           {
             path: '/subheader/board/update',
