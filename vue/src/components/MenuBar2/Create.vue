@@ -1,14 +1,14 @@
 <template>
   <el-row class="height5">
-    <el-col :span="24" :offset="0" class="test-border">
+    <el-col :span="24" class="test-border">
       CREATE - study, project, club 5% 여백. 입력 줄 간 간격을 넣을 것인지
       말것인지 결정해야함
     </el-col>
   </el-row>
 
-  <el-row class="test-border height100">
-    <el-col :span="5" :offset="0" class="test-border"></el-col>
-    <el-col :span="14" :offset="0" class="test-border">
+  <el-row class="test-border">
+    <el-col :span="5" class="test-border"></el-col>
+    <el-col :span="14" class="test-border">
       <el-row class="test-border height5">[스터디 생성]</el-row>
       <el-row class="test-border height5">스터디 이름</el-row>
       <el-row class="test-border height5">
@@ -27,7 +27,7 @@
         ></el-input>
       </el-row>
       <el-row class="test-border">
-        <el-col :span="11" :offset="0" class="test-border">
+        <el-col :span="11" class="test-border">
           <el-row> 일정 (?) </el-row>
           <el-row>
             <el-input
@@ -53,10 +53,8 @@
             ></el-input>
           </el-row>
         </el-col>
-        <el-col :span="2" :offset="0" class="test-border"></el-col>
-        <el-col :span="11" :offset="0" class="test-border"
-          >프로필사진 등록</el-col
-        >
+        <el-col :span="2" class="test-border"></el-col>
+        <el-col :span="11" class="test-border">프로필사진 등록</el-col>
       </el-row>
       <el-row class="test-border height5">비공개 스터디 ✔</el-row>
       <el-row class="test-border height5"></el-row>
@@ -88,12 +86,12 @@
       </el-row>
       <el-row class="test-border height5"></el-row>
       <el-row class="test-border height5">
-        <el-col :span="10" :offset="0" class="test-border"></el-col>
-        <el-col :span="2" :offset="0" class="test-border">생성</el-col>
-        <el-col :span="2" :offset="0" class="test-border">취소</el-col>
-        <el-col :span="10" :offset="0" class="test-border"></el-col>
+        <el-col :span="10" class="test-border"></el-col>
+        <el-col :span="2" class="test-border">생성</el-col>
+        <el-col :span="2" class="test-border">취소</el-col>
+        <el-col :span="10" class="test-border"></el-col>
       </el-row>
     </el-col>
-    <el-col :span="5" :offset="0" class="test-border"></el-col>
+    <el-col :span="5" class="test-border"></el-col>
   </el-row>
 </template>
