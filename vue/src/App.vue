@@ -128,4 +128,9 @@ body {
   box-sizing: border-box;
   height: 5%;
 }
+.height1 {
+  border: 3px solid rgb(0, 255, 111);
+  box-sizing: border-box;
+  height: 1%;
+}
 </style>
