@@ -74,6 +74,11 @@ body {
   box-sizing: border-box;
   height: 100%;
 }
+.height92 {
+  border: 3px solid rgb(255, 123, 0);
+  box-sizing: border-box;
+  height: 92%;
+}
 .height90 {
   border: 3px solid rgb(166, 255, 0);
   box-sizing: border-box;
@@ -94,11 +99,6 @@ body {
   box-sizing: border-box;
   height: 10%;
 }
-.height92 {
-  border: 3px solid rgb(255, 123, 0);
-  box-sizing: border-box;
-  height: 92%;
-}
 .height8 {
   border: 3px solid rgb(113, 139, 255);
   box-sizing: border-box;
@@ -108,5 +108,10 @@ body {
   border: 3px solid rgb(0, 255, 234);
   box-sizing: border-box;
   height: 5%;
+}
+.height1 {
+  border: 3px solid rgb(0, 255, 111);
+  box-sizing: border-box;
+  height: 1%;
 }
 </style>
