@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -92,5 +93,35 @@ public class ProjectController {
     public ResponseEntity roleInfo(@PathVariable("id") Long projectId, @PathVariable("role") String role) {
         return ResponseEntity.ok(projectService.roleInfo(projectId, role));
     }
+
+    @GetMapping("/add/{projectId}&{techName}")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path"),
+        @ApiImplicitParam(name = "techName", value = "기술명", required = true, dataType = "String", paramType = "path")
+    })
+    @ApiOperation(value = "프로젝트 기술 스택 추가", notes = "<strong>받은 프로젝트 Id와 기술 스택 이름</strong>으로 프로젝트에 기술 스택을 추가한다.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity addTechstack(@PathVariable("id") Long projectId, @PathVariable("techName") String techName) {
+        projectService.addTechstack(projectId, techName);
+
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("/remove/{projectId}&{techName}")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path"),
+        @ApiImplicitParam(name = "techName", value = "기술명", required = true, dataType = "String", paramType = "path")
+    })
+    @ApiOperation(value = "프로젝트 기술 스택 제거", notes = "<strong>받은 프로젝트 Id와 기술 스택 이름</strong>으로 프로젝트에 기술 스택을 제거한다.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity removeTechstack(@PathVariable("id") Long projectId, @PathVariable("techName") String techName) {
+        projectService.removeTechstack(projectId, techName);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
 
 }

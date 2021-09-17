@@ -3,15 +3,14 @@ package com.ssafy.match.group.dto;
 import com.ssafy.match.db.entity.City;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
-import java.util.ArrayList;
 import lombok.Getter;
 
 @Getter
 public class ProjectCreateRequestDto {
 
     @ApiModelProperty(name = "techstack", example = "['자바', '파이썬', '스프링', '쿠버네티스']")
-    @ApiParam(value = "기술 스택 리스트", required = true)
-    private ArrayList<String> stackList;
+    @ApiParam(value = "기술 스택 배열", required = true)
+    private String[] stack;
 
     @ApiModelProperty(name = "name", example = "매칭 프로젝트")
     @ApiParam(value = "프로젝트명", required = true)

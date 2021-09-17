@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ProjectServiceImpl implements ProjectService{
+public class ProjectServiceImpl implements ProjectService {
 
     private final MemberRepository memberRepository;
     private final ProjectRepository projectRepository;
@@ -66,6 +66,7 @@ public class ProjectServiceImpl implements ProjectService{
             .isParticipate(true)
             .build();
 
+        createTechstack(project, dto.getStack());
         setDBFile(project, dto.getUuid());
         setClub(project, dto.getClubId());
         changeRole(project, dto.getHostRole());
@@ -111,15 +112,23 @@ public class ProjectServiceImpl implements ProjectService{
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
     // 현재 프로젝트 정보 리턴
     public ResponseEntity<ProjectInfoResponseDto> projectInfo(Long projectId) {
 
         Project project = projectRepository.findById(projectId)
-                            .orElseThrow(NullPointerException::new);
+            .orElseThrow(NullPointerException::new);
+
+        ProjectTechstack[] projectTechstacks = projectTechstackRepository.findByProject(project);
+        String[] techstack = new String[projectTechstacks.length];
+
+        for (int i = 0; i < projectTechstacks.length; i++) {
+            techstack[i] = projectTechstacks[i].getCompositeProjectTechstack().getTechstack().getName();
+        }
 
         ProjectInfoResponseDto responseDto = ProjectInfoResponseDto.builder()
             .name(project.getName())
-            .stackList(null)
+            .stack(techstack)
             .schedule(project.getSchedule())
             .period(project.getPeriod())
             .hostNickname(project.getMember().getNickname())
@@ -141,6 +150,7 @@ public class ProjectServiceImpl implements ProjectService{
 
         return ResponseEntity.ok(responseDto);
     }
+
     // 현재 프로젝트에 어떤 멤버가 속해있는지 멤버 리스트 리턴
     public ResponseEntity<List<Member>> projectMember(Long projectId) {
 
@@ -149,8 +159,9 @@ public class ProjectServiceImpl implements ProjectService{
 
         return ResponseEntity.ok(memberProjectRepository.findMemberWithProject(projectId));
     }
+
     // 해당 역할에 속한 인원 id, name, nickname과 인원 수
-    public ResponseEntity<List<ProjectMemberRoleResponseDto>> roleInfo(Long projectId, String role){
+    public ResponseEntity<List<ProjectMemberRoleResponseDto>> roleInfo(Long projectId, String role) {
 
         projectRepository.findById(projectId)
             .orElseThrow(NullPointerException::new);
@@ -158,21 +169,85 @@ public class ProjectServiceImpl implements ProjectService{
         List<Member> memberList = memberProjectRepository.findRoleInfo(projectId, role);
 
         List<ProjectMemberRoleResponseDto> infoList = new ArrayList<>();
-        for (Member member: memberList) {
-            infoList.add(new ProjectMemberRoleResponseDto(member.getId(), member.getName(), member.getNickname()));
+        for (Member member : memberList) {
+            infoList.add(new ProjectMemberRoleResponseDto(member.getId(), member.getName(),
+                member.getNickname()));
         }
 
         return ResponseEntity.ok(infoList);
-    };
+    }
+
+    // 첫 생성시 일괄 적용
+    public void createTechstack(Project project, String[] techName) {
+        for (String tech : techName) {
+            Techstack techstack = findTechstack(tech);
+
+            CompositeProjectTechstack compositeProjectTechstack = CompositeProjectTechstack
+                .builder()
+                .project(project)
+                .techstack(techstack)
+                .build();
+
+            ProjectTechstack projectTechstack = ProjectTechstack.builder()
+                .compositeProjectTechstack(compositeProjectTechstack)
+                .build();
+
+            projectTechstackRepository.save(projectTechstack);
+        }
+    }
+
+    public void addTechstack(Long projectId, String techName) {
+        Project project = findProject(projectId);
+        Techstack techstack = findTechstack(techName);
+
+        CompositeProjectTechstack compositeProjectTechstack = new CompositeProjectTechstack(
+            techstack, project);
+        Optional<ProjectTechstack> projectTechstack = projectTechstackRepository
+            .findById(compositeProjectTechstack);
+
+        if (projectTechstack.isPresent()) {
+            return;
+        }
+        ProjectTechstack stack = new ProjectTechstack(compositeProjectTechstack);
+
+        projectTechstackRepository.save(stack);
+    }
+
+    public void removeTechstack(Long projectId, String techName) {
+        Project project = findProject(projectId);
+        Techstack techstack = findTechstack(techName);
+
+        CompositeProjectTechstack compositeProjectTechstack = new CompositeProjectTechstack(
+            techstack, project);
+        Optional<ProjectTechstack> projectTechstack = projectTechstackRepository
+            .findById(compositeProjectTechstack);
+
+        if (projectTechstack.isEmpty()) {
+            return;
+        }
+        projectTechstackRepository.delete(projectTechstack.get());
+    }
+
+    public Project findProject(Long projectId) {
+        return projectRepository.findById(projectId)
+            .orElseThrow(() -> new NullPointerException("프로젝트 정보가 없습니다."));
+    }
+
+    public Techstack findTechstack(String techName) {
+        return techstackRepository.findByName(techName)
+            .orElseThrow(() -> new NullPointerException("기술 스택 정보가 없습니다."));
+    }
+
     public void setDBFile(Project project, String uuid) {
         if (uuid == null) {
             project.setDbFile(null);
             return;
         }
 
-        DBFile dbFile = dbFileRepository.getById(uuid);
-        project.setDbFile(dbFile);
+        DBFile dbFile = dbFileRepository.findById(uuid)
+            .orElseThrow(() -> new NullPointerException("파일 정보가 없습니다."));
 
+        project.setDbFile(dbFile);
     }
 
     public void setClub(Project project, Long clubId) {
@@ -181,27 +256,10 @@ public class ProjectServiceImpl implements ProjectService{
             return;
         }
 
-        Club club = clubRepository.getById(clubId);
+        Club club = clubRepository.findById(clubId)
+            .orElseThrow(() -> new NullPointerException("클럽 정보가 없습니다."));
+
         project.setClub(club);
-    }
-
-    public void createTechStack(Project project) {
-        List<Techstack> techStack = techstackRepository.findAll();
-
-        for (Techstack tech : techStack) {
-            CompositeProjectTechstack compositeProjectTechstack = CompositeProjectTechstack.builder()
-                .project(project)
-                .techstack(tech)
-                .build();
-
-            ProjectTechstack projectTechstack = ProjectTechstack.builder()
-                .compositeProjectTechstack(compositeProjectTechstack)
-                .isActive(false)
-                .build();
-
-            projectTechstackRepository.save(projectTechstack);
-        }
-
     }
 
     // (아이디어가 생각이 안나서 임시로 If문 사용 조언 구함)

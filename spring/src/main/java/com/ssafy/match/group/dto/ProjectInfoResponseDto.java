@@ -19,8 +19,8 @@ public class ProjectInfoResponseDto {
     private String name;
 
     @ApiModelProperty(name = "techstack", example = "['자바', '파이썬', '스프링', '쿠버네티스']")
-    @ApiParam(value = "기술 스택 리스트", required = true)
-    private ArrayList<String> stackList;
+    @ApiParam(value = "기술 스택", required = true)
+    private String[] stack;
 
     @ApiModelProperty(name = "schedule", example = "매주 화, 수 6시")
     @ApiParam(value = "프로젝트 작업 시간", required = true)

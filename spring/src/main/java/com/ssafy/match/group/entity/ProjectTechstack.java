@@ -21,13 +21,8 @@ public class ProjectTechstack {
     @EmbeddedId
     private CompositeProjectTechstack compositeProjectTechstack;
 
-    @Column(name = "is_active")
-    private boolean isActive;
-
     @Builder
-    public ProjectTechstack(
-        CompositeProjectTechstack compositeProjectTechstack, boolean isActive) {
+    public ProjectTechstack(CompositeProjectTechstack compositeProjectTechstack) {
         this.compositeProjectTechstack = compositeProjectTechstack;
-        this.isActive = isActive;
     }
 }
