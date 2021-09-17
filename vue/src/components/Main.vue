@@ -1,36 +1,35 @@
 <template>
-  <el-row id="main" :gutter="0">
-    <el-col :span="5" :offset="0"></el-col>
-    <el-col :span="14" :offset="0">
-      <el-row :gutter="0" style="height: 20%"></el-row>
-      <el-row :gutter="0" id="main-box">
-        <el-row :gutter="0" style="height: 25%"></el-row>
-        <el-row :gutter="0" style="height: 13%; font-size: 64px">
-          <el-col :span="6" :offset="0"></el-col>
-          <el-col :span="12" :offset="0">상징하는 멘트</el-col>
-          <el-col :span="6" :offset="0"></el-col>
+  <el-row id="main">
+    <el-col :span="5"></el-col>
+    <el-col :span="14">
+      <el-row style="height: 20%"></el-row>
+      <el-row id="main-box">
+        <el-row style="height: 25%"></el-row>
+        <el-row style="height: 13%; font-size: 64px">
+          <el-col :span="6"></el-col>
+          <el-col :span="12">상징하는 멘트</el-col>
+          <el-col :span="6"></el-col>
         </el-row>
-        <el-row :gutter="0" style="height: 7%"></el-row>
-        <el-row :gutter="0" style="height: 10%; font-size: 48px">
-          <el-col :span="6" :offset="0"></el-col>
-          <el-col :span="12" :offset="0">서브 멘트</el-col>
-          <el-col :span="6" :offset="0"></el-col>
+        <el-row style="height: 7%"></el-row>
+        <el-row style="height: 10%; font-size: 48px">
+          <el-col :span="6"></el-col>
+          <el-col :span="12">서브 멘트</el-col>
+          <el-col :span="6"></el-col>
         </el-row>
         <el-row :gutter="0" style="height: 20%"></el-row>
         <el-row :gutter="0" style="height: 5%">
-          <el-col :span="10" :offset="0"></el-col>
-          <el-col :span="2" :offset="0">
-            <button type="button">로그인</button>
+          <el-col :span="10"></el-col>
+          <el-col :span="2">
+            <button class="sign-btn">로그인</button>
           </el-col>
-          <el-col :span="2" :offset="0">
-            <button type="button">회원가입</button>
+          <el-col :span="2">
+            <button class="sign-btn">회원가입</button>
           </el-col>
-          <!-- <el-col :span="2" :offset="0">회원가입</el-col> -->
-          <el-col :span="10" :offset="0"></el-col>
+          <el-col :span="10"></el-col>
         </el-row>
       </el-row>
     </el-col>
-    <el-col :span="5" :offset="0"></el-col>
+    <el-col :span="5"></el-col>
   </el-row>
 </template>
 
@@ -53,7 +52,7 @@ export default {
   color: white;
   border: 3px solid #ffffff;
 }
-button {
+.sign-btn {
   display: block;
   border: 0;
   outline: 0;
