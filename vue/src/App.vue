@@ -28,8 +28,9 @@ export default {};
 
 body {
   margin: 0;
-  /* overflow: hidden; */
-  /* min-height: 100%; */
+  /* 스크롤바 생김->그만큼 x가 안보임->좌우스크롤 발생 << 이를 방지 */
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 /* font cdn:s-core dream */
@@ -63,6 +64,9 @@ body {
   box-sizing: border-box;
   height: 90%;
 }
+.vh100 {
+  height: 100vh;
+}
 
 .bg-color {
   background-color: #f2f2f2;
@@ -74,6 +78,11 @@ body {
   box-sizing: border-box;
   height: 100%;
 }
+.height95 {
+  border: 3px solid rgb(255, 0, 0);
+  box-sizing: border-box;
+  height: 95%;
+}
 .height92 {
   border: 3px solid rgb(255, 123, 0);
   box-sizing: border-box;
@@ -84,6 +93,11 @@ body {
   box-sizing: border-box;
   height: 90%;
 }
+.height85 {
+  border: 3px solid rgb(255, 238, 0);
+  box-sizing: border-box;
+  height: 85%;
+}
 .height50 {
   border: 3px solid rgb(139, 0, 139);
   box-sizing: border-box;
@@ -93,6 +107,11 @@ body {
   border: 3px solid rgb(255, 0, 212);
   box-sizing: border-box;
   height: 30%;
+}
+.height20 {
+  border: 3px solid rgb(61, 143, 65);
+  box-sizing: border-box;
+  height: 20%;
 }
 .height10 {
   border: 3px solid rgb(0, 25, 139);
