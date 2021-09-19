@@ -47,6 +47,7 @@ body {
   font-weight: 700;
 }
 .font-noto-md {
+  /* 적용 안되면 이걸로 바꿔보기 -> Noto Sans KR  */
   font-family: 'noto-sans-kr';
   font-weight: 500;
 }
@@ -103,10 +104,20 @@ body {
   box-sizing: border-box;
   height: 50%;
 }
+.height40 {
+  border: 3px solid rgb(255, 0, 0);
+  box-sizing: border-box;
+  height: 40%;
+}
 .height30 {
   border: 3px solid rgb(255, 0, 212);
   box-sizing: border-box;
   height: 30%;
+}
+.height25 {
+  border: 3px solid rgb(229, 255, 0);
+  box-sizing: border-box;
+  height: 25%;
 }
 .height20 {
   border: 3px solid rgb(61, 143, 65);
@@ -132,5 +143,28 @@ body {
   border: 3px solid rgb(0, 255, 111);
   box-sizing: border-box;
   height: 1%;
+}
+
+/* buttons */
+/*
+  color: 글자 색
+  background-color: 버튼 배경 색
+*/
+.btn-1747C9 {
+  color: white;
+  background-color: #1747c9;
+}
+.btn-ghost {
+  color: black;
+  border: 1px solid black;
+  background-color: #f2f2f2;
+}
+
+/* btns 끝 */
+
+.itemlist-title-left {
+  font-size: 36px;
+  text-align: left;
+  margin: 0;
 }
 </style>
