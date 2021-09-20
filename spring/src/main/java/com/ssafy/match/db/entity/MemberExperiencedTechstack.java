@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.kafka.common.protocol.types.Field;
 
 @Getter
 @Setter
@@ -17,8 +18,11 @@ public class MemberInterestTechstack {
     @EmbeddedId
     private CompositeMemberTechstack compositeMemberTechstack;
 
+    private String kind;
+
     public MemberInterestTechstack(
-        CompositeMemberTechstack compositeMemberTechstack) {
+        CompositeMemberTechstack compositeMemberTechstack, String kind) {
         this.compositeMemberTechstack = compositeMemberTechstack;
+        this.kind = kind;
     }
 }
