@@ -56,7 +56,8 @@ public class SwaggerConfig {
             .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.controller"))
             // api 필요한 클래스패스 추가하기
             .paths(
-                        PathSelectors.ant("/**/user/**")
+                        PathSelectors.ant("/api/member/**")
+                        .or(PathSelectors.ant("/api/auth/**"))
 //						.or(PathSelectors.ant("/**/**"))
 //                PathSelectors.any()
             )
