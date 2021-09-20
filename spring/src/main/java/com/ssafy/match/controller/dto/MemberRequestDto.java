@@ -23,6 +23,8 @@ public class MemberRequestDto {
     private String cover_pic;
     private String city;
     private Boolean banned;
+    private String position;
+    private Boolean is_active;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
@@ -34,7 +36,9 @@ public class MemberRequestDto {
                 .tel(tel)
                 .bio(bio)
                 .city(city)
-                .banned(banned)
+                .banned(Boolean.FALSE)
+                .position(position)
+                .is_active(Boolean.TRUE)
                 .authority(Authority.ROLE_USER)
                 .build();
     }

@@ -24,6 +24,8 @@ public class Member {
     private String cover_pic;
     private String city;
     private Boolean banned;
+    private String position;
+    private Boolean is_active;
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
@@ -31,7 +33,7 @@ public class Member {
     @Builder
     public Member(LocalDateTime create_date, String email, String name, String password,
         String nickname, String tel, String bio, String cover_pic, String city,
-        Boolean banned, Authority authority) {
+        Boolean banned, Authority authority, String position, Boolean is_active) {
         this.create_date = create_date;
         this.email = email;
         this.name = name;
@@ -43,5 +45,7 @@ public class Member {
         this.city = city;
         this.banned = banned;
         this.authority = authority;
+        this.position = position;
+        this.is_active = is_active;
     }
 }
