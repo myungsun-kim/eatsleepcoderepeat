@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
 @Entity(name = "matching.project_techstack")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectTechstack {
@@ -21,8 +20,20 @@ public class ProjectTechstack {
     @EmbeddedId
     private CompositeProjectTechstack compositeProjectTechstack;
 
+    @Column(name = "is_active")
+    private boolean isActive;
+
+    public void activation(){
+        this.isActive = true;
+    }
+
+    public void deactivation(){
+        this.isActive = false;
+    }
     @Builder
-    public ProjectTechstack(CompositeProjectTechstack compositeProjectTechstack) {
+    public ProjectTechstack(
+        CompositeProjectTechstack compositeProjectTechstack, boolean isActive) {
         this.compositeProjectTechstack = compositeProjectTechstack;
+        this.isActive = isActive;
     }
 }

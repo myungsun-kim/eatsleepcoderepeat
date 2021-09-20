@@ -1,7 +1,8 @@
-package com.ssafy.match.db.entity;
+package com.ssafy.match.group.entity;
 
 import com.ssafy.match.db.entity.embedded.CompositeMemberProject;
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;
@@ -20,18 +21,26 @@ public class MemberProject {
     private CompositeMemberProject compositeMemberProject;
 
     private String role;
-    private boolean is_active;
-    private LocalDateTime register_date;
-    private boolean authority;
+    @Column(name = "is_active")
+    private boolean isActive;
+    @Column(name = "register_date")
+    private LocalDateTime registerDate;
+
+    public void activation(){
+        this.isActive = true;
+    }
+
+    public void deactivation(){
+        this.isActive = false;
+    }
 
     @Builder
     public MemberProject(
-        CompositeMemberProject compositeMemberProject, String role, boolean is_active,
-        LocalDateTime register_date, boolean authority) {
+        CompositeMemberProject compositeMemberProject, String role, boolean isActive,
+        LocalDateTime registerDate) {
         this.compositeMemberProject = compositeMemberProject;
         this.role = role;
-        this.is_active = is_active;
-        this.register_date = register_date;
-        this.authority = authority;
+        this.isActive = isActive;
+        this.registerDate = registerDate;
     }
 }

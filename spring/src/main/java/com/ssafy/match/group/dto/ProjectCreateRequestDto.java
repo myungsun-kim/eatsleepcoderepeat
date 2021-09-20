@@ -3,14 +3,16 @@ package com.ssafy.match.group.dto;
 import com.ssafy.match.db.entity.City;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
+import java.util.List;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class ProjectCreateRequestDto {
 
-    @ApiModelProperty(name = "techstack", example = "['자바', '파이썬', '스프링', '쿠버네티스']")
-    @ApiParam(value = "기술 스택 배열", required = true)
-    private String[] stack;
+    @ApiModelProperty(name = "techstack", example = "{'자바', '파이썬', '스프링', '쿠버네티스'}")
+    @ApiParam(value = "기술 스택 리스트", required = true)
+    private List<String> techList;
 
     @ApiModelProperty(name = "name", example = "매칭 프로젝트")
     @ApiParam(value = "프로젝트명", required = true)
@@ -46,7 +48,7 @@ public class ProjectCreateRequestDto {
 
     @ApiModelProperty(name = "city", example = "구미")
     @ApiParam(value = "활동지역", required = true)
-    private City city;
+    private String city;
 
     @ApiModelProperty(name = "is_public", example = "false")
     @ApiParam(value = "공개 비공개", required = true)
@@ -64,4 +66,24 @@ public class ProjectCreateRequestDto {
     @ApiParam(value = "프로젝트장 역할", required = true)
     private String hostRole;
 
+    @Builder
+    public ProjectCreateRequestDto(List<String> techList, String name, Long hostId,
+        String schedule, String bio, int period, int developerMaxCount, int designerMaxCount,
+        int plannerMaxCount, String city, boolean isPublic, Long clubId, String uuid,
+        String hostRole) {
+        this.techList = techList;
+        this.name = name;
+        this.hostId = hostId;
+        this.schedule = schedule;
+        this.bio = bio;
+        this.period = period;
+        this.developerMaxCount = developerMaxCount;
+        this.designerMaxCount = designerMaxCount;
+        this.plannerMaxCount = plannerMaxCount;
+        this.city = city;
+        this.isPublic = isPublic;
+        this.clubId = clubId;
+        this.uuid = uuid;
+        this.hostRole = hostRole;
+    }
 }

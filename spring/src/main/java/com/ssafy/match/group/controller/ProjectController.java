@@ -61,67 +61,67 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.delete(projectId));
     }
 
-    @GetMapping("/info/{projectId}")
-    @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
-    @ApiOperation(value = "프로젝트 정보 조회", notes = "<strong>받은 프로젝트 Id</strong>로 해당 프로젝트를 조회한다.")
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "성공"),
-    })
-    public ResponseEntity projectInfo(@PathVariable("id") Long projectId) {
-        return ResponseEntity.ok(projectService.projectInfo(projectId));
-    }
-
-    @GetMapping("/member/{projectId}")
-    @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
-    @ApiOperation(value = "프로젝트 인원 조회", notes = "<strong>받은 프로젝트 Id</strong>로 프로젝트의 인원 리스트를 조회한다.")
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "성공"),
-    })
-    public ResponseEntity projectMember(@PathVariable("id") Long projectId) {
-        return ResponseEntity.ok(projectService.projectMember(projectId));
-    }
-
-    @GetMapping("/{projectId}&{role}")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path"),
-        @ApiImplicitParam(name = "role", value = "찾는 역할", required = true, dataType = "String", paramType = "path")
-    })
-    @ApiOperation(value = "프로젝트 역할 인원 조회", notes = "<strong>받은 프로젝트 Id와 역할</strong>로 해당 역할 인원을 조회한다.")
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "성공"),
-    })
-    public ResponseEntity roleInfo(@PathVariable("id") Long projectId, @PathVariable("role") String role) {
-        return ResponseEntity.ok(projectService.roleInfo(projectId, role));
-    }
-
-    @GetMapping("/add/{projectId}&{techName}")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path"),
-        @ApiImplicitParam(name = "techName", value = "기술명", required = true, dataType = "String", paramType = "path")
-    })
-    @ApiOperation(value = "프로젝트 기술 스택 추가", notes = "<strong>받은 프로젝트 Id와 기술 스택 이름</strong>으로 프로젝트에 기술 스택을 추가한다.")
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "성공"),
-    })
-    public ResponseEntity addTechstack(@PathVariable("id") Long projectId, @PathVariable("techName") String techName) {
-        projectService.addTechstack(projectId, techName);
-
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    @GetMapping("/remove/{projectId}&{techName}")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path"),
-        @ApiImplicitParam(name = "techName", value = "기술명", required = true, dataType = "String", paramType = "path")
-    })
-    @ApiOperation(value = "프로젝트 기술 스택 제거", notes = "<strong>받은 프로젝트 Id와 기술 스택 이름</strong>으로 프로젝트에 기술 스택을 제거한다.")
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "성공"),
-    })
-    public ResponseEntity removeTechstack(@PathVariable("id") Long projectId, @PathVariable("techName") String techName) {
-        projectService.removeTechstack(projectId, techName);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
+//    @GetMapping("/info/{projectId}")
+//    @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
+//    @ApiOperation(value = "프로젝트 정보 조회", notes = "<strong>받은 프로젝트 Id</strong>로 해당 프로젝트를 조회한다.")
+//    @ApiResponses({
+//        @ApiResponse(code = 200, message = "성공"),
+//    })
+//    public ResponseEntity projectInfo(@PathVariable("id") Long projectId) {
+//        return ResponseEntity.ok(projectService.projectInfo(projectId));
+//    }
+//
+//    @GetMapping("/member/{projectId}")
+//    @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
+//    @ApiOperation(value = "프로젝트 인원 조회", notes = "<strong>받은 프로젝트 Id</strong>로 프로젝트의 인원 리스트를 조회한다.")
+//    @ApiResponses({
+//        @ApiResponse(code = 200, message = "성공"),
+//    })
+//    public ResponseEntity projectMember(@PathVariable("id") Long projectId) {
+//        return ResponseEntity.ok(projectService.projectMember(projectId));
+//    }
+//
+//    @GetMapping("/{projectId}&{role}")
+//    @ApiImplicitParams({
+//        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path"),
+//        @ApiImplicitParam(name = "role", value = "찾는 역할", required = true, dataType = "String", paramType = "path")
+//    })
+//    @ApiOperation(value = "프로젝트 역할 인원 조회", notes = "<strong>받은 프로젝트 Id와 역할</strong>로 해당 역할 인원을 조회한다.")
+//    @ApiResponses({
+//        @ApiResponse(code = 200, message = "성공"),
+//    })
+//    public ResponseEntity roleInfo(@PathVariable("id") Long projectId, @PathVariable("role") String role) {
+//        return ResponseEntity.ok(projectService.roleInfo(projectId, role));
+//    }
+//
+//    @GetMapping("/add/{projectId}&{techName}")
+//    @ApiImplicitParams({
+//        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path"),
+//        @ApiImplicitParam(name = "techName", value = "기술명", required = true, dataType = "String", paramType = "path")
+//    })
+//    @ApiOperation(value = "프로젝트 기술 스택 추가", notes = "<strong>받은 프로젝트 Id와 기술 스택 이름</strong>으로 프로젝트에 기술 스택을 추가한다.")
+//    @ApiResponses({
+//        @ApiResponse(code = 200, message = "성공"),
+//    })
+//    public ResponseEntity addTechstack(@PathVariable("id") Long projectId, @PathVariable("techName") String techName) {
+//        projectService.addTechstack(projectId, techName);
+//
+//        return ResponseEntity.ok(HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/remove/{projectId}&{techName}")
+//    @ApiImplicitParams({
+//        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path"),
+//        @ApiImplicitParam(name = "techName", value = "기술명", required = true, dataType = "String", paramType = "path")
+//    })
+//    @ApiOperation(value = "프로젝트 기술 스택 제거", notes = "<strong>받은 프로젝트 Id와 기술 스택 이름</strong>으로 프로젝트에 기술 스택을 제거한다.")
+//    @ApiResponses({
+//        @ApiResponse(code = 200, message = "성공"),
+//    })
+//    public ResponseEntity removeTechstack(@PathVariable("id") Long projectId, @PathVariable("techName") String techName) {
+//        projectService.removeTechstack(projectId, techName);
+//        return ResponseEntity.ok(HttpStatus.OK);
+//    }
 
 
 }
