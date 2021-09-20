@@ -3,10 +3,16 @@ package com.ssafy.match.group.dto;
 import com.ssafy.match.db.entity.City;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
+import java.util.List;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class ProjectCreateRequestDto {
+
+    @ApiModelProperty(name = "techstack", example = "{'자바', '파이썬', '스프링', '쿠버네티스'}")
+    @ApiParam(value = "기술 스택 리스트", required = true)
+    private List<String> techList;
 
     @ApiModelProperty(name = "name", example = "매칭 프로젝트")
     @ApiParam(value = "프로젝트명", required = true)
@@ -14,7 +20,7 @@ public class ProjectCreateRequestDto {
 
     @ApiModelProperty(name = "host_name", example = "5")
     @ApiParam(value = "프로젝트장 Id", required = true)
-    private Long host_id;
+    private Long hostId;
 
     @ApiModelProperty(name = "schedule", example = "매주 화, 수 6시")
     @ApiParam(value = "프로젝트 작업 시간", required = true)
@@ -30,27 +36,27 @@ public class ProjectCreateRequestDto {
 
     @ApiModelProperty(name = "developer_count", example = "3")
     @ApiParam(value = "개발자 모집 인원", required = true)
-    private int developer_count;
+    private int developerMaxCount;
 
     @ApiModelProperty(name = "designer_count", example = "3")
     @ApiParam(value = "디자이너 모집 인원", required = true)
-    private int designer_count;
+    private int designerMaxCount;
 
     @ApiModelProperty(name = "planner_count", example = "3")
     @ApiParam(value = "기획자 모집 인원", required = true)
-    private int planner_count;
+    private int plannerMaxCount;
 
     @ApiModelProperty(name = "city", example = "구미")
     @ApiParam(value = "활동지역", required = true)
-    private City city;
+    private String city;
 
     @ApiModelProperty(name = "is_public", example = "false")
     @ApiParam(value = "공개 비공개", required = true)
-    private boolean is_public;
+    private boolean isPublic;
 
     @ApiModelProperty(name = "club_id", example = "3")
     @ApiParam(value = "소속된 클럽 id")
-    private Long club_id;
+    private Long clubId;
 
     @ApiModelProperty(name = "uuid", example = "3fads23-fdfd13-23d2")
     @ApiParam(value = "사진 고유 uuid")
@@ -58,6 +64,26 @@ public class ProjectCreateRequestDto {
 
     @ApiModelProperty(name = "host_role", example = "디자이너")
     @ApiParam(value = "프로젝트장 역할", required = true)
-    private String host_role;
+    private String hostRole;
 
+    @Builder
+    public ProjectCreateRequestDto(List<String> techList, String name, Long hostId,
+        String schedule, String bio, int period, int developerMaxCount, int designerMaxCount,
+        int plannerMaxCount, String city, boolean isPublic, Long clubId, String uuid,
+        String hostRole) {
+        this.techList = techList;
+        this.name = name;
+        this.hostId = hostId;
+        this.schedule = schedule;
+        this.bio = bio;
+        this.period = period;
+        this.developerMaxCount = developerMaxCount;
+        this.designerMaxCount = designerMaxCount;
+        this.plannerMaxCount = plannerMaxCount;
+        this.city = city;
+        this.isPublic = isPublic;
+        this.clubId = clubId;
+        this.uuid = uuid;
+        this.hostRole = hostRole;
+    }
 }
