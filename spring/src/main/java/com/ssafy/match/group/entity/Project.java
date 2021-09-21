@@ -5,6 +5,7 @@ import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.file.entity.DBFile;
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -36,18 +38,27 @@ public class Project {
     @JoinColumn(name = "host_id")
     private Member member;
 
-    private String host_role;
-    private LocalDateTime create_date;
-    private LocalDateTime modify_date;
-    private String Schedule;
+    @Column(name = "host_role")
+    private String hostRole;
+    @Column(name = "create_Date")
+    private LocalDateTime createDate;
+    @Column(name = "modify_date")
+    private LocalDateTime modifyDate;
+    private String schedule;
     private int period;
     private String bio;
-    private int developer_count;
-    private int developer_max_count;
-    private int planner_count;
-    private int planner_max_count;
-    private int designer_count;
-    private int designer_max_count;
+    @Column(name = "developer_count")
+    private int developerCount;
+    @Column(name = "developer_max_count")
+    private int developerMaxCount;
+    @Column(name = "planner_count")
+    private int plannerCount;
+    @Column(name = "planner_max_count")
+    private int plannerMaxCount;
+    @Column(name = "designer_count")
+    private int designerCount;
+    @Column(name = "designer_max_count")
+    private int designerMaxCount;
 
     @Enumerated(EnumType.STRING)
     private City city;
@@ -55,9 +66,13 @@ public class Project {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private boolean is_active;
-    private boolean is_public;
-    private boolean is_participate;
+    @Column(name = "is_active")
+    private boolean isActive;
+    @Column(name = "is_public")
+    private boolean isPublic;
+    @Column(name = "is_participate")
+    private boolean isParticipate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
@@ -70,53 +85,51 @@ public class Project {
 //    private String team_chat;
 
     public void plusDeveloper(){
-        developer_count++;
+        developerCount++;
     }
 
     public void plusPlanner(){
-        planner_count++;
+        plannerCount++;
     }
 
     public void plusDesigner(){
-        designer_count++;
+        designerCount++;
     }
     public void minusDeveloper(){
-        developer_count--;
+        developerCount--;
     }
 
     public void minusPlanner(){
-        planner_count--;
+        plannerCount--;
     }
 
     public void minusDesigner(){
-        designer_count--;
+        designerCount--;
     }
 
-    public Project(String name, Member member, String host_role, LocalDateTime create_date,
-        LocalDateTime modify_date, String schedule, int period, String bio, int developer_count,
-        int developer_max_count, int planner_count, int planner_max_count, int designer_count,
-        int designer_max_count, City city, Status status, boolean is_active, boolean is_public,
-        boolean is_participate, Club club, DBFile dbFile) {
+    @Builder
+    public Project(String name, Member member, LocalDateTime createDate,
+        LocalDateTime modifyDate, String schedule, int period, String bio, int developerCount,
+        int developerMaxCount, int plannerCount, int plannerMaxCount, int designerCount,
+        int designerMaxCount, City city, Status status, boolean isActive, boolean isPublic,
+        boolean isParticipate) {
         this.name = name;
         this.member = member;
-        this.host_role = host_role;
-        this.create_date = create_date;
-        this.modify_date = modify_date;
-        Schedule = schedule;
+        this.createDate = createDate;
+        this.modifyDate = modifyDate;
+        this.schedule = schedule;
         this.period = period;
         this.bio = bio;
-        this.developer_count = developer_count;
-        this.developer_max_count = developer_max_count;
-        this.planner_count = planner_count;
-        this.planner_max_count = planner_max_count;
-        this.designer_count = designer_count;
-        this.designer_max_count = designer_max_count;
+        this.developerCount = developerCount;
+        this.developerMaxCount = developerMaxCount;
+        this.plannerCount = plannerCount;
+        this.plannerMaxCount = plannerMaxCount;
+        this.designerCount = designerCount;
+        this.designerMaxCount = designerMaxCount;
         this.city = city;
         this.status = status;
-        this.is_active = is_active;
-        this.is_public = is_public;
-        this.is_participate = is_participate;
-        this.club = club;
-        this.dbFile = dbFile;
+        this.isActive = isActive;
+        this.isPublic = isPublic;
+        this.isParticipate = isParticipate;
     }
 }

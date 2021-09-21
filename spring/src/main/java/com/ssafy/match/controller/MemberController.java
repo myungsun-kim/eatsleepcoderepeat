@@ -1,5 +1,6 @@
 package com.ssafy.match.controller;
 
+import com.ssafy.match.controller.dto.MemberModifyRequestDto;
 import com.ssafy.match.controller.dto.MemberResponseDto;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.repository.MemberRepository;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +38,11 @@ public class MemberController {
     @GetMapping("/{email}")
     public ResponseEntity<MemberResponseDto> getMemberInfo(@PathVariable String email) {
         return ResponseEntity.ok(memberService.getMemberInfo(email));
+    }
+
+    @PatchMapping
+    public ResponseEntity<MemberResponseDto> modifyMemberInfo(@RequestBody MemberModifyRequestDto dto){
+        return ResponseEntity.ok(memberService.modifyMyInfo(dto));
     }
 //    @Autowired
 //    MemberRepository memberRepository;

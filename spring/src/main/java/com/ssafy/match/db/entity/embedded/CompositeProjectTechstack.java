@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class CompositeProjectTechstack implements Serializable {
     @JoinColumn(name = "project_id")
     private Project project;
 
+    @Builder
     public CompositeProjectTechstack(Techstack techstack, Project project) {
         this.techstack = techstack;
         this.project = project;
