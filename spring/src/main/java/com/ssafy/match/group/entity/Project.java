@@ -80,31 +80,24 @@ public class Project {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cover_pic")
     private DBFile dbFile;
-//    private int activity_point;
-//    private String repository;
-//    private String team_chat;
 
     public void plusDeveloper(){
-        developerCount++;
+        this.developerCount++;
     }
-
     public void plusPlanner(){
-        plannerCount++;
+        this.plannerCount++;
     }
-
     public void plusDesigner(){
-        designerCount++;
+        this.designerCount++;
     }
     public void minusDeveloper(){
-        developerCount--;
+        this.developerCount--;
     }
-
     public void minusPlanner(){
-        plannerCount--;
+        this.plannerCount--;
     }
-
     public void minusDesigner(){
-        designerCount--;
+        this.designerCount--;
     }
 
     @Builder

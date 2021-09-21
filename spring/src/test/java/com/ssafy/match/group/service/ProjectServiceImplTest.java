@@ -7,7 +7,7 @@ import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
-import com.ssafy.match.db.repository.MemberProjectRepository;
+import com.ssafy.match.group.repository.MemberProjectRepository;
 import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.db.repository.TechstackRepository;
 import com.ssafy.match.group.dto.ProjectCreateRequestDto;
@@ -139,12 +139,10 @@ class ProjectServiceImplTest {
             .isParticipate(true)
             .build();
 
-        projectServiceImpl.setDBFile(project, dto.getUuid());
-        projectServiceImpl.setClub(project, dto.getClubId());
-        projectServiceImpl.changeRole(project, "디자이너");
-
         projectRepository.save(project);
 
+        projectServiceImpl.setDBFile(project.getId(), dto.getUuid());
+        projectServiceImpl.setClub(project.getId(), dto.getClubId());
         projectServiceImpl.createTechstack(project.getId());
         projectServiceImpl.addTechstack(project.getId(), dto.getTechList());
         projectServiceImpl.addMember(project.getId(), dto.getHostId(), dto.getHostRole());
@@ -199,27 +197,32 @@ class ProjectServiceImplTest {
             .isParticipate(true)
             .build();
 
-        projectServiceImpl.setDBFile(project, dto.getUuid());
-        projectServiceImpl.setClub(project, dto.getClubId());
-        projectServiceImpl.changeRole(project, "디자이너");
-
         projectRepository.save(project);
 
+        projectServiceImpl.setDBFile(project.getId(), dto.getUuid());
+        projectServiceImpl.setClub(project.getId(), dto.getClubId());
         projectServiceImpl.createTechstack(project.getId());
         projectServiceImpl.addTechstack(project.getId(), dto.getTechList());
         projectServiceImpl.addMember(project.getId(), dto.getHostId(), dto.getHostRole());
 
         List<ProjectTechstack> list = projectTechstackRepository.findByProjectTechstack(project);
+        System.out.println("=========================");
         for (int i = 0; i < list.size(); i++) {
             System.out.print(list.get(i).isActive() + " ");
         }
+        System.out.println("\n" + "=========================");
         List<MemberProject> memberProjects = memberProjectRepository.findMemberWithProject(project);
+        System.out.println("=========================");
         for (int i = 0; i < memberProjects.size(); i++) {
             System.out.print(memberProjects.get(i).getRole());
         }
-        assertEquals(project.getMember().getName(), "박범진");
-        assertEquals(project.getDesignerCount(), 1);
-        assertEquals(project.getCity(), City.부천);
+        System.out.println("\n" + "=========================");
+        System.out.println(project.getDesignerCount());
+        System.out.println(project.getHostRole());
+
+        assertEquals("박범진", project.getMember().getName());
+        assertEquals(1, project.getDesignerCount());
+        assertEquals(City.부천, project.getCity());
 
     }
 
@@ -252,9 +255,41 @@ class ProjectServiceImplTest {
     }
 
     @Test
+    void addMember(){
+        projectServiceImpl.addMember(1L, 2L, "기획자");
+        Member member = projectServiceImpl.findMember(2L);
+        Project project = projectServiceImpl.findProject(1L);
+
+        assertEquals("디자이너", project.getHostRole());
+        assertEquals("기획자", memberProjectRepository.findMemberProject(project, member).getRole());
+        assertEquals(1, project.getDesignerCount());
+        assertEquals(1, project.getPlannerCount());
+    }
+
+    @Test
     void removeTechstack() {
     }
 
+    @Test
+    void setClub(){
 
+    }
+
+    @Test
+    void setDBFile(){
+
+    }
+
+    @Test
+    void changeRole(){
+        projectServiceImpl.changeRole(1L, 1L, "개발자");
+        Member member = projectServiceImpl.findMember(1L);
+        Project project = projectServiceImpl.findProject(1L);
+
+        assertEquals("개발자", project.getHostRole());
+        assertEquals("개발자", memberProjectRepository.findMemberProject(project, member).getRole());
+        assertEquals(0, project.getDesignerCount());
+        assertEquals(1, project.getDeveloperCount());
+    }
 
 }

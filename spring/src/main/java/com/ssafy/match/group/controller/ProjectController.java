@@ -28,7 +28,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping
-    @ApiImplicitParam(name = "dto", value = "프로젝트 생성 dto", required = true, dataType = "ProjectUpdateRequestDto", paramType = "json")
+    @ApiImplicitParam(name = "dto", value = "프로젝트 생성 dto", required = true, dataType = "ProjectCreateRequestDto", paramType = "json")
     @ApiOperation(value = "프로젝트 생성", notes = "<strong>받은 프로젝트 정보</strong>를 사용해서 프로젝트을 생성한다.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),

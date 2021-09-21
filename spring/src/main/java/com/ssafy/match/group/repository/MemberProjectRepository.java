@@ -1,4 +1,4 @@
-package com.ssafy.match.db.repository;
+package com.ssafy.match.group.repository;
 
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.embedded.CompositeMemberProject;
@@ -14,6 +14,6 @@ public interface MemberProjectRepository extends JpaRepository<MemberProject, Co
     @Query(value = "select mp from matching.member_project mp where mp.compositeMemberProject.project = :project and mp.isActive = true")
     List<MemberProject> findMemberWithProject(@Param("project") Project project);
 
-    @Query(value = "select * from matching.member_project mp where mp.project_id = :project_id and mp.is_active = 1 and mp.role = :role", nativeQuery = true)
-    List<Member> findRoleInfo(@Param("project_id") Long projectId, @Param("role") String role);
+    @Query(value = "select mp from matching.member_project mp where mp.compositeMemberProject.project = :project and mp.compositeMemberProject.member = :member")
+    MemberProject findMemberProject(@Param("project") Project project, @Param("member") Member member);
 }

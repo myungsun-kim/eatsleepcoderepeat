@@ -1,5 +1,6 @@
 package com.ssafy.match.db.repository;
 
+import com.ssafy.match.group.repository.MemberProjectRepository;
 import com.ssafy.match.group.repository.ProjectRepository;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
