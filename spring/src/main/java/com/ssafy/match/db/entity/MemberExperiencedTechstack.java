@@ -19,7 +19,7 @@ public class MemberExperiencedTechstack {
     private CompositeMemberTechstack compositeMemberTechstack;
 
     public MemberExperiencedTechstack(
-        CompositeMemberTechstack compositeMemberTechstack, String kind) {
+        CompositeMemberTechstack compositeMemberTechstack) {
         this.compositeMemberTechstack = compositeMemberTechstack;
     }
 }
