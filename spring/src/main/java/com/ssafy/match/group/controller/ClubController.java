@@ -3,7 +3,7 @@ package com.ssafy.match.group.controller;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.file.repository.DBFileRepository;
-import com.ssafy.match.group.dto.ClubRequestDto;
+import com.ssafy.match.group.dto.club.ClubRequestDto;
 import com.ssafy.match.group.entity.Club;
 import com.ssafy.match.group.repository.ClubRepository;
 import io.swagger.annotations.ApiOperation;

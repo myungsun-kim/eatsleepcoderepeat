@@ -7,10 +7,12 @@ import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
-import com.ssafy.match.db.repository.MemberProjectRepository;
+import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
+import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
+import com.ssafy.match.group.repository.MemberProjectRepository;
 import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.db.repository.TechstackRepository;
-import com.ssafy.match.group.dto.ProjectCreateRequestDto;
+import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
 import com.ssafy.match.group.entity.Club;
 import com.ssafy.match.group.entity.MemberProject;
 import com.ssafy.match.group.entity.Project;
@@ -27,7 +29,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 
@@ -51,7 +52,7 @@ class ProjectServiceImplTest {
     MemberProjectRepository memberProjectRepository;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception {
         Member member1 = Member.builder()
             .create_date(LocalDateTime.now())
             .email("qjawlsqjacks@naver.com")
@@ -139,21 +140,21 @@ class ProjectServiceImplTest {
             .isParticipate(true)
             .build();
 
-        projectServiceImpl.setDBFile(project, dto.getUuid());
-        projectServiceImpl.setClub(project, dto.getClubId());
-        projectServiceImpl.changeRole(project, "디자이너");
-
         projectRepository.save(project);
 
+        projectServiceImpl.setDBFile(project.getId(), dto.getUuid());
+        projectServiceImpl.setClub(project.getId(), dto.getClubId());
         projectServiceImpl.createTechstack(project.getId());
         projectServiceImpl.addTechstack(project.getId(), dto.getTechList());
         projectServiceImpl.addMember(project.getId(), dto.getHostId(), dto.getHostRole());
+
+        projectServiceImpl.addMember(1L, 2L, "기획자");
 
     }
 
     @Test
     @Disabled
-    void create() {
+    void create() throws Exception {
         Member member1 = memberRepository.findById(1L)
             .orElseThrow(() -> new NullPointerException("없으"));
 
@@ -199,40 +200,142 @@ class ProjectServiceImplTest {
             .isParticipate(true)
             .build();
 
-        projectServiceImpl.setDBFile(project, dto.getUuid());
-        projectServiceImpl.setClub(project, dto.getClubId());
-        projectServiceImpl.changeRole(project, "디자이너");
-
         projectRepository.save(project);
 
+        projectServiceImpl.setDBFile(project.getId(), dto.getUuid());
+        projectServiceImpl.setClub(project.getId(), dto.getClubId());
         projectServiceImpl.createTechstack(project.getId());
         projectServiceImpl.addTechstack(project.getId(), dto.getTechList());
         projectServiceImpl.addMember(project.getId(), dto.getHostId(), dto.getHostRole());
 
         List<ProjectTechstack> list = projectTechstackRepository.findByProjectTechstack(project);
+        System.out.println("=========================");
         for (int i = 0; i < list.size(); i++) {
             System.out.print(list.get(i).isActive() + " ");
         }
+        System.out.println("\n" + "=========================");
         List<MemberProject> memberProjects = memberProjectRepository.findMemberWithProject(project);
+        System.out.println("=========================");
         for (int i = 0; i < memberProjects.size(); i++) {
             System.out.print(memberProjects.get(i).getRole());
         }
-        assertEquals(project.getMember().getName(), "박범진");
-        assertEquals(project.getDesignerCount(), 1);
-        assertEquals(project.getCity(), City.부천);
+        System.out.println("\n" + "=========================");
+        System.out.println(project.getDesignerCount());
+        System.out.println(project.getHostRole());
+
+        assertEquals("박범진", project.getMember().getName());
+        assertEquals(1, project.getDesignerCount());
+        assertEquals(City.부천, project.getCity());
 
     }
 
     @Test
-    void update() {
+    void update() throws Exception {
+        Member member1 = projectServiceImpl.findMember(1L);
+        Project project = projectServiceImpl.findProject(1L);
+
+        if(project.getMember().getId() != 1L) {
+            new Exception("권한이 없습니다.");
+        }
+
+        List<String> addStackList = new ArrayList<>();
+        addStackList.add("Spring");
+        List<String> removeStackList = new ArrayList<>();
+        removeStackList.add("Java");
+        removeStackList.add("Python");
+
+        ProjectUpdateRequestDto dto = ProjectUpdateRequestDto.builder()
+            .addStackList(addStackList)
+            .removeStackList(removeStackList)
+            .name("업데이트 프로젝트")
+            .hostId(2L)
+            .schedule("야미")
+            .bio("아 졸려")
+            .period(1)
+            .developerMaxCount(4)
+            .designerMaxCount(4)
+            .plannerMaxCount(4)
+            .city("광주")
+            .status(Status.종료됨)
+            .isPublic(false)
+            .isParticipate(false)
+            .clubId(null)
+            .uuid(null)
+            .hostRole("기획자")
+            .build();
+
+        project.setName(dto.getName());
+//        project.setMember(member2);
+        project.setSchedule(dto.getSchedule());
+        project.setBio(dto.getBio());
+        project.setPeriod(dto.getPeriod());
+        project.setModifyDate(LocalDateTime.now());
+        project.setDeveloperMaxCount(dto.getDeveloperMaxCount());
+        project.setDesignerMaxCount(dto.getDesignerMaxCount());
+        project.setPlannerMaxCount(dto.getPlannerMaxCount());
+        project.setCity(City.from(dto.getCity()));
+        project.setStatus(dto.getStatus());
+        project.setPublic(dto.isPublic());
+        project.setParticipate(dto.isParticipate());
+        projectRepository.save(project);
+
+        projectServiceImpl.setDBFile(project.getId(), dto.getUuid());
+        projectServiceImpl.setClub(project.getId(), dto.getClubId());
+        projectServiceImpl.addTechstack(project.getId(), dto.getAddStackList());
+        projectServiceImpl.removeTechstack(project.getId(), dto.getRemoveStackList());
+        projectServiceImpl.changeRole(project.getId(), member1.getId(), dto.getHostRole());
+
+        List<ProjectTechstack> list = projectTechstackRepository.findByProjectTechstack(project);
+        System.out.println("=========================");
+        for (int i = 0; i < list.size(); i++) {
+            System.out.print(list.get(i).isActive() + " ");
+        }
+        System.out.println("\n" + "=========================");
+
+        List<MemberProject> memberProjects = memberProjectRepository.findMemberWithProject(project);
+        System.out.println("=========================");
+        for (int i = 0; i < memberProjects.size(); i++) {
+            System.out.print(memberProjects.get(i).getRole() + " ");
+        }
+        System.out.println("\n" + "=========================");
+
+        Project project2 = projectServiceImpl.findProject(1L);
+        Member member2 = projectServiceImpl.findMember(2L);
+        assertEquals("기획자", project2.getHostRole());
+        assertEquals("기획자", memberProjectRepository.findMemberProject(project2, member2).getRole());
+        assertEquals(0, project2.getDesignerCount());
+        assertEquals(2, project2.getPlannerCount());
     }
 
     @Test
-    void delete() {
+    void delete() throws Exception {
+        Project project = projectServiceImpl.findProject(1L);
+
+        if(project.getMember().getId() != 1L) {
+            new Exception("권한이 없습니다.");
+        }
+
+        List<MemberProject> memberProjects = memberProjectRepository.findMemberWithProject(project);
+        for (MemberProject mem: memberProjects) {
+            mem.deactivation();
+            memberProjectRepository.save(mem);
+        }
+
+        project.setActive(false);
+        projectRepository.save(project);
+
+        System.out.println("==============");
+        for (MemberProject mem: memberProjects) {
+            System.out.println(mem.isActive() + " ");
+        }
+        System.out.println("=============");
+        assertEquals(false, project.isActive());
     }
 
     @Test
-    void projectInfo() {
+    void projectInfo() throws Exception {
+        ProjectInfoResponseDto dto = projectServiceImpl.projectInfo(1L);
+        System.out.println(dto);
     }
 
     @Test
@@ -240,7 +343,29 @@ class ProjectServiceImplTest {
     }
 
     @Test
-    void roleInfo() {
+    void memberNicknames() throws Exception {
+        List<String> develop = projectServiceImpl.memberNicknames(1L, "디자이너");
+        for (String str: develop) {
+            System.out.println("===============");
+            System.out.println(str);
+        }
+        assertEquals("BJP", develop.get(0));
+        List<String> planner = projectServiceImpl.memberNicknames(1L, "기획자");
+        for (String str: planner) {
+            System.out.println("===============");
+            System.out.println(str);
+        }
+        assertEquals("BCP", planner.get(0));
+    }
+
+    @Test
+    void projectInMember() throws Exception {
+        List<Project> list = projectServiceImpl.projectInMember(1L);
+        for (Project pro: list) {
+            System.out.println("========");
+            System.out.println(pro.getName());
+        }
+        assertEquals("디자이너", list.get(0).getHostRole());
     }
 
     @Test
@@ -252,9 +377,46 @@ class ProjectServiceImplTest {
     }
 
     @Test
+    void addMember() throws Exception {
+        projectServiceImpl.addMember(1L, 2L, "기획자");
+        Member member = projectServiceImpl.findMember(2L);
+        Project project = projectServiceImpl.findProject(1L);
+
+        assertEquals("디자이너", project.getHostRole());
+        assertEquals("기획자", memberProjectRepository.findMemberProject(project, member).getRole());
+        assertEquals(1, project.getDesignerCount());
+        assertEquals(1, project.getPlannerCount());
+    }
+
+    @Test
     void removeTechstack() {
     }
 
+    @Test
+    void removeMember(){
 
+    }
+
+    @Test
+    void setClub(){
+
+    }
+
+    @Test
+    void setDBFile(){
+
+    }
+
+    @Test
+    void changeRole() throws Exception {
+        projectServiceImpl.changeRole(1L, 1L, "개발자");
+        Member member = projectServiceImpl.findMember(1L);
+        Project project = projectServiceImpl.findProject(1L);
+
+        assertEquals("개발자", project.getHostRole());
+        assertEquals("개발자", memberProjectRepository.findMemberProject(project, member).getRole());
+        assertEquals(0, project.getDesignerCount());
+        assertEquals(1, project.getDeveloperCount());
+    }
 
 }

@@ -26,23 +26,23 @@ class MemberServiceTest {
     @Autowired
     MemberService memberService;
 
-    @Test
-    @Transactional
-    @Rollback(value = false)
-    public void modifyMember(){
-        byte[] a = new byte[]{1};
-        DBFile dbFile = new DBFile("df", "pdf", a);
-        Member member = new Member(LocalDateTime.now(), "qjawlsqjacks@naver.com", "박범진", "1234",
-            "BJP", "01028732329", "test", dbFile, "부천", false, null);
-
-        memberRepository.save(member);
-        member = memberRepository.getById(1L);
-
-        member.setNickname("적당히해");
-        member.setBio("멤버 수정 짜증");
-        member.setCity("광주");
-
-        memberService.setDBFile(member, null);
-        memberRepository.save(member);
-    }
+//    @Test
+//    @Transactional
+//    @Rollback(value = false)
+//    public void modifyMember(){
+//        byte[] a = new byte[]{1};
+//        DBFile dbFile = new DBFile("df", "pdf", a);
+//        Member member = new Member(LocalDateTime.now(), "qjawlsqjacks@naver.com", "박범진", "1234",
+//            "BJP", "01028732329", "test", dbFile, "부천", false, null);
+//
+//        memberRepository.save(member);
+//        member = memberRepository.getById(1L);
+//
+//        member.setNickname("적당히해");
+//        member.setBio("멤버 수정 짜증");
+//        member.setCity("광주");
+//
+//        memberService.setDBFile(member, null);
+//        memberRepository.save(member);
+//    }
 }
