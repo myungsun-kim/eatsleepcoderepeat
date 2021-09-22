@@ -24,12 +24,12 @@
 //
 //    @Autowired
 //    MemberRepository memberRepository;
-//    @Autowired
-//    ClubRepository clubRepository;
-//    @Autowired
-//    StudyRepository studyRepository;
-//    @Autowired
-//    ProjectRepository projectRepository;
+////    @Autowired
+////    ClubRepository clubRepository;
+////    @Autowired
+////    StudyRepository studyRepository;
+////    @Autowired
+////    ProjectRepository projectRepository;
 //    @Autowired
 //    MemberClubRepository memberClubRepository;
 //
@@ -37,27 +37,27 @@
 //    @Transactional
 //    @Rollback(value = false)
 //    public void userCRUD(){
-//        Member member = new Member(LocalDateTime.now(), "qjawlsqjacks@naver.com", "박범진", "1234",
-//            "BJP", "01028732329", "test", "coverpic?", "부천", false, "fsda");
-//        Member member2 = new Member(LocalDateTime.now(), "qjawlsqjacks@naver.com", "박범찬", "1234",
-//            "BJP", "01028732329", "test", "coverpic?", "부천", false, "fsda");
+//        Member member = new Member("", "qjawlsqjacks@naver.com", "박범진", "1234qwer!",
+//            "BJP", "01028732329", "test", "대구", false, "개발자", true);
+//        Member member2 = new Member(LocalDateTime.now(), "my_email@naver.com", "문일민", "1234qwer!",
+//            "test", "01028732329", "test", "부산", false, "디자이너", true);
 //
-//        Club club = new Club("헬스", LocalDateTime.now(), "냠", 0, 7, 0, "afsd", "sfd", false);
+////        Club club = new Club("헬스", LocalDateTime.now(), "냠", 0, 7, 0, "afsd", "sfd", false);
 ////        Project project = new Project("프로젝트", LocalDateTime.now(), "FSda", 0, 7, 0, "fsda", "sfd", club, true, true);
 ////        Study study = new Study("스터디", LocalDateTime.now(), "FSda", 0, 7, 0, "fsda", null, club, true, true);
 //
 //        memberRepository.save(member);
 //        memberRepository.save(member2);
-//        clubRepository.save(club);
+////        clubRepository.save(club);
 //
 //
-//        CompositeMemberClub compositeMemberClub = new CompositeMemberClub(member, club);
-//        CompositeMemberClub compositeMemberClub1 = new CompositeMemberClub(member2, club);
-//        MemberClub memberClub = new MemberClub(compositeMemberClub, false, LocalDateTime.now(), false);
-//        MemberClub memberClub2 = new MemberClub(compositeMemberClub1, false, LocalDateTime.now(), false);
+////        CompositeMemberClub compositeMemberClub = new CompositeMemberClub(member, club);
+////        CompositeMemberClub compositeMemberClub1 = new CompositeMemberClub(member2, club);
+////        MemberClub memberClub = new MemberClub(compositeMemberClub, false, LocalDateTime.now(), false);
+////        MemberClub memberClub2 = new MemberClub(compositeMemberClub1, false, LocalDateTime.now(), false);
 //
-//        memberClubRepository.save(memberClub);
-//        memberClubRepository.save(memberClub2);
+////        memberClubRepository.save(memberClub);
+////        memberClubRepository.save(memberClub2);
 //
 ////        List<Member> list = memberClubRepository.findby
 ////        projectRepository.save(project);

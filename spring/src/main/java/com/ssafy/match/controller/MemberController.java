@@ -1,5 +1,6 @@
 package com.ssafy.match.controller;
 
+import com.ssafy.match.controller.dto.MemberInfoDto;
 import com.ssafy.match.controller.dto.MemberModifyRequestDto;
 import com.ssafy.match.controller.dto.MemberResponseDto;
 import com.ssafy.match.db.entity.Member;
@@ -30,15 +31,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("/me")
-    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
-        return ResponseEntity.ok(memberService.getMyInfo());
+    @GetMapping("/account")
+    public ResponseEntity<MemberInfoDto> getMyInfo() {
+        return ResponseEntity.ok(memberService.getMyPage());
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<MemberResponseDto> getMemberInfo(@PathVariable String email) {
-        return ResponseEntity.ok(memberService.getMemberInfo(email));
-    }
+//    @GetMapping("/me")
+//    public ResponseEntity<MemberResponseDto> getMyMemberInfo() {
+//        return ResponseEntity.ok(memberService.getMyInfo());
+//    }
+
+//    @GetMapping("/{email}")
+//    public ResponseEntity<MemberResponseDto> getMemberInfo(@PathVariable String email) {
+//        return ResponseEntity.ok(memberService.getMemberInfo(email));
+//    }
 
     @PatchMapping
     public ResponseEntity<MemberResponseDto> modifyMemberInfo(@RequestBody MemberModifyRequestDto dto){
