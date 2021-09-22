@@ -1,13 +1,12 @@
-package com.ssafy.match.group.dto;
+package com.ssafy.match.group.dto.study;
 
 import com.ssafy.match.db.entity.City;
-import com.ssafy.match.db.entity.Status;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.Getter;
 
 @Getter
-public class StudyUpdateRequestDto {
+public class StudyCreateRequestDto {
 
     @ApiModelProperty(name = "name", example = "매칭 스터디")
     @ApiParam(value = "스터디명", required = true)
@@ -21,7 +20,7 @@ public class StudyUpdateRequestDto {
     @ApiParam(value = "스터디 작업 시간", required = true)
     private String schedule;
 
-    @ApiModelProperty(name = "bio", example = "Git 매칭 프로젝트입니다.")
+    @ApiModelProperty(name = "bio", example = "알고리즘 스터디입니다.")
     @ApiParam(value = "스터디 소개", required = true)
     private String bio;
 
@@ -37,17 +36,9 @@ public class StudyUpdateRequestDto {
     @ApiParam(value = "활동지역", required = true)
     private City city;
 
-    @ApiModelProperty(name = "status", example = "모집중, 진행중, 종료됨")
-    @ApiParam(value = "스터디 상태", required = true)
-    private Status status;
-
     @ApiModelProperty(name = "is_public", example = "false")
     @ApiParam(value = "공개 비공개", required = true)
     private boolean is_public;
-
-    @ApiModelProperty(name = "is_participate", example = "false")
-    @ApiParam(value = "참여 가능 여부", required = true)
-    private boolean is_participate;
 
     @ApiModelProperty(name = "club_id", example = "3")
     @ApiParam(value = "소속된 클럽 id")

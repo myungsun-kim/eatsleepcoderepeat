@@ -1,6 +1,6 @@
-package com.ssafy.match.group.dto;
+package com.ssafy.match.group.dto.project;
 
-import com.ssafy.match.db.entity.City;
+import com.ssafy.match.db.entity.Status;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
@@ -8,18 +8,22 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class ProjectCreateRequestDto {
+public class ProjectUpdateRequestDto {
 
-    @ApiModelProperty(name = "techstack", example = "{'자바', '파이썬', '스프링', '쿠버네티스'}")
-    @ApiParam(value = "기술 스택 리스트", required = true)
-    private List<String> techList;
+    @ApiModelProperty(name = "techstack", example = "['자바', '파이썬', '스프링', '쿠버네티스']")
+    @ApiParam(value = "추가된 기술 스택 리스트", required = true)
+    private List<String> addStackList;
+
+    @ApiModelProperty(name = "techstack", example = "['자바', '파이썬']")
+    @ApiParam(value = "제거된 기술 스택 리스트", required = true)
+    private List<String> removeStackList;
 
     @ApiModelProperty(name = "name", example = "매칭 프로젝트")
     @ApiParam(value = "프로젝트명", required = true)
     private String name;
 
     @ApiModelProperty(name = "host_name", example = "5")
-    @ApiParam(value = "프로젝트장 Id", required = true)
+    @ApiParam(value = "프로젝트장 Id(변경 가능)", required = true)
     private Long hostId;
 
     @ApiModelProperty(name = "schedule", example = "매주 화, 수 6시")
@@ -50,9 +54,17 @@ public class ProjectCreateRequestDto {
     @ApiParam(value = "활동지역", required = true)
     private String city;
 
+    @ApiModelProperty(name = "status", example = "모집중, 진행중, 종료됨")
+    @ApiParam(value = "프로젝트 상태", required = true)
+    private Status status;
+
     @ApiModelProperty(name = "is_public", example = "false")
     @ApiParam(value = "공개 비공개", required = true)
     private boolean isPublic;
+
+    @ApiModelProperty(name = "is_participate", example = "false")
+    @ApiParam(value = "참여 가능 여부", required = true)
+    private boolean isParticipate;
 
     @ApiModelProperty(name = "club_id", example = "3")
     @ApiParam(value = "소속된 클럽 id")
@@ -67,11 +79,13 @@ public class ProjectCreateRequestDto {
     private String hostRole;
 
     @Builder
-    public ProjectCreateRequestDto(List<String> techList, String name, Long hostId,
-        String schedule, String bio, int period, int developerMaxCount, int designerMaxCount,
-        int plannerMaxCount, String city, boolean isPublic, Long clubId, String uuid,
-        String hostRole) {
-        this.techList = techList;
+    public ProjectUpdateRequestDto(List<String> addStackList,
+        List<String> removeStackList, String name, Long hostId, String schedule,
+        String bio, int period, int developerMaxCount, int designerMaxCount, int plannerMaxCount,
+        String city, Status status, boolean isPublic, boolean isParticipate, Long clubId,
+        String uuid, String hostRole) {
+        this.addStackList = addStackList;
+        this.removeStackList = removeStackList;
         this.name = name;
         this.hostId = hostId;
         this.schedule = schedule;
@@ -81,7 +95,9 @@ public class ProjectCreateRequestDto {
         this.designerMaxCount = designerMaxCount;
         this.plannerMaxCount = plannerMaxCount;
         this.city = city;
+        this.status = status;
         this.isPublic = isPublic;
+        this.isParticipate = isParticipate;
         this.clubId = clubId;
         this.uuid = uuid;
         this.hostRole = hostRole;

@@ -10,6 +10,12 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProjectTechstackRepository extends JpaRepository<ProjectTechstack, CompositeProjectTechstack> {
     // 현재 프로젝트의 기술 스택 조회
-    @Query("select pt from matching.project_techstack pt where pt.compositeProjectTechstack.project = :project and pt.isActive = true")
+    @Query("select pt from matching.project_techstack pt "
+        + "where pt.compositeProjectTechstack.project = :project and pt.isActive = true")
     List<ProjectTechstack> findByProjectTechstack(@Param("project") Project project);
+
+    // 현재 프로젝트의 기술 스택명 조회
+    @Query("select pt.compositeProjectTechstack.techstack.name from matching.project_techstack pt "
+        + "where pt.compositeProjectTechstack.project = :project and pt.isActive = true")
+    List<String> findByProjectTechstackName(@Param("project") Project project);
 }

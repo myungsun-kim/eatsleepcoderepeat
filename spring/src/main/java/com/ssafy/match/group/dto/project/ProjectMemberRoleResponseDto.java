@@ -1,4 +1,4 @@
-package com.ssafy.match.group.dto;
+package com.ssafy.match.group.dto.project;
 
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;

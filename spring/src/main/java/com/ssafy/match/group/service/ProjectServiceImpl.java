@@ -6,27 +6,30 @@ import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.db.entity.embedded.CompositeMemberProject;
 import com.ssafy.match.db.entity.embedded.CompositeProjectTechstack;
-import com.ssafy.match.group.repository.MemberProjectRepository;
+import com.ssafy.match.db.repository.MemberClubRepository;
 import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.db.repository.TechstackRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
-import com.ssafy.match.group.dto.ProjectCreateRequestDto;
-import com.ssafy.match.group.dto.ProjectUpdateRequestDto;
+import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
+import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
+import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
 import com.ssafy.match.group.entity.Club;
 import com.ssafy.match.group.entity.MemberProject;
 import com.ssafy.match.group.entity.Project;
 import com.ssafy.match.group.entity.ProjectTechstack;
 import com.ssafy.match.group.repository.ClubRepository;
+import com.ssafy.match.group.repository.MemberProjectRepository;
 import com.ssafy.match.group.repository.ProjectRepository;
 import com.ssafy.match.group.repository.ProjectTechstackRepository;
 import com.ssafy.match.util.SecurityUtil;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,9 +45,10 @@ public class ProjectServiceImpl implements ProjectService {
     private final DBFileRepository dbFileRepository;
     private final ClubRepository clubRepository;
     private final MemberProjectRepository memberProjectRepository;
+    private final MemberClubRepository memberClubRepository;
 
     @Transactional
-    public ResponseEntity<Long> create(ProjectCreateRequestDto dto) {
+    public Long create(ProjectCreateRequestDto dto) throws Exception {
         Long currentMemberId = SecurityUtil.getCurrentMemberId();
         Member member = findMember(currentMemberId);
 
@@ -77,17 +81,21 @@ public class ProjectServiceImpl implements ProjectService {
         addTechstack(project.getId(), dto.getTechList());
         addMember(project.getId(), currentMemberId, dto.getHostRole());
 
-        return ResponseEntity.ok(project.getId());
+        return project.getId();
     }
 
     @Transactional
-    public ResponseEntity<HttpStatus> update(ProjectUpdateRequestDto dto, Long projectId) {
+    public HttpStatus update(Long projectId, ProjectUpdateRequestDto dto) throws Exception {
+        Project project = findProject(projectId);
+        Long currentMemberId = SecurityUtil.getCurrentMemberId();
 
-        Project project = projectRepository.getById(projectId); // 존재 하지 않을때 예외처리 필요
-        Member member = memberRepository.getById(dto.getHostId());
+        if (project.getMember().getId() != currentMemberId) {
+            throw new Exception("권한이 없습니다.");
+        }
+//        Member changeMember = findMember(dto.getHostId());
 
         project.setName(dto.getName());
-        project.setMember(member);
+//        project.setMember(changeMember);
         project.setSchedule(dto.getSchedule());
         project.setBio(dto.getBio());
         project.setPeriod(dto.getPeriod());
@@ -95,95 +103,127 @@ public class ProjectServiceImpl implements ProjectService {
         project.setDeveloperMaxCount(dto.getDeveloperMaxCount());
         project.setDesignerMaxCount(dto.getDesignerMaxCount());
         project.setPlannerMaxCount(dto.getPlannerMaxCount());
-        project.setCity(dto.getCity());
+        project.setCity(City.from(dto.getCity()));
         project.setStatus(dto.getStatus());
         project.setPublic(dto.isPublic());
         project.setParticipate(dto.isParticipate());
-//        setDBFile(project, dto.getUuid());
-//        setClub(project, dto.getClubId());
+        setDBFile(projectId, dto.getUuid());
+        setClub(projectId, dto.getClubId());
+        addTechstack(projectId, dto.getAddStackList());
+        removeTechstack(projectId, dto.getRemoveStackList());
+        changeRole(projectId, currentMemberId, dto.getHostRole());
 
         projectRepository.save(project);
 
-        return ResponseEntity.ok(HttpStatus.OK);
+        return HttpStatus.OK;
     }
 
     @Transactional
-    public ResponseEntity<HttpStatus> delete(Long projectId) {
-        Project project = projectRepository.getById(projectId);
-        project.setActive(false);
+    public HttpStatus delete(Long projectId) throws Exception {
+        Project project = findProject(projectId);
+        Long currentMemberId = SecurityUtil.getCurrentMemberId();
 
+        if (project.getMember().getId() != currentMemberId) {
+            throw new Exception("권한이 없습니다.");
+        }
+
+        List<MemberProject> memberProjects = memberProjectRepository.findMemberWithProject(project);
+        for (MemberProject mem : memberProjects) {
+            mem.deactivation();
+        }
+
+        project.setActive(false);
         projectRepository.save(project);
 
-        return ResponseEntity.ok(HttpStatus.OK);
+        return HttpStatus.OK;
     }
 
-//    // 현재 프로젝트 정보 리턴
-//    public ResponseEntity<ProjectInfoResponseDto> projectInfo(Long projectId) {
-//
-//        Project project = projectRepository.findById(projectId)
-//            .orElseThrow(NullPointerException::new);
-//
-//        ProjectTechstack[] projectTechstacks = projectTechstackRepository.findByProject(project);
-//        String[] techstack = new String[projectTechstacks.length];
-//
-//        for (int i = 0; i < projectTechstacks.length; i++) {
-//            techstack[i] = projectTechstacks[i].getCompositeProjectTechstack().getTechstack().getName();
-//        }
-//
-//        ProjectInfoResponseDto responseDto = ProjectInfoResponseDto.builder()
-//            .name(project.getName())
-//            .stack(techstack)
-//            .schedule(project.getSchedule())
-//            .period(project.getPeriod())
-//            .hostNickname(project.getMember().getNickname())
-//            .developerCount(project.getDeveloperCount())
-//            .developerMaxCount(project.getDeveloperMaxCount())
-//            .designerCount(project.getDesignerCount())
-//            .designerMaxCount(project.getDesignerMaxCount())
-//            .plannerCount(project.getPlannerCount())
-//            .plannerMaxCount(project.getPlannerMaxCount())
-//            .isPublic(project.isPublic())
-//            .city(project.getCity())
-//            .status(project.getStatus())
-//            .isParticipate(project.isParticipate())
-//            .clubName(project.getClub().getName())
-//            .picData(project.getDbFile().getData())
-//            .modifyDate(project.getModifyDate())
-//            .bio(project.getBio())
-//            .build();
-//
-//        return ResponseEntity.ok(responseDto);
-//    }
-//
-//    // 현재 프로젝트에 어떤 멤버가 속해있는지 멤버 리스트 리턴
-//    public ResponseEntity<List<Member>> projectMember(Long projectId) {
-//
-//        projectRepository.findById(projectId)
-//            .orElseThrow(NullPointerException::new);
-//
-//        return ResponseEntity.ok(memberProjectRepository.findMemberWithProject(projectId));
-//    }
-//
-//    // 해당 역할에 속한 인원 id, name, nickname과 인원 수
-//    public ResponseEntity<List<ProjectMemberRoleResponseDto>> roleInfo(Long projectId, String role) {
-//
-//        projectRepository.findById(projectId)
-//            .orElseThrow(NullPointerException::new);
-//
-//        List<Member> memberList = memberProjectRepository.findRoleInfo(projectId, role);
-//
-//        List<ProjectMemberRoleResponseDto> infoList = new ArrayList<>();
-//        for (Member member : memberList) {
-//            infoList.add(new ProjectMemberRoleResponseDto(member.getId(), member.getName(),
-//                member.getNickname()));
-//        }
-//
-//        return ResponseEntity.ok(infoList);
-//    }
-//
+    // 현재 프로젝트 정보 리턴
+    public ProjectInfoResponseDto projectInfo(Long projectId) throws Exception {
+
+        Project project = findProject(projectId);
+        if (SecurityUtil.getCurrentMemberId() != project.getMember().getId()
+            && project.isPublic() == false) {
+            throw new Exception("비공개된 프로젝트입니다.");
+        }
+
+        List<String> developerNicknames = memberNicknames(projectId, "개발자");
+        List<String> desiginerNicknames = memberNicknames(projectId, "디자이너");
+        List<String> plannerNicknames = memberNicknames(projectId, "기획자");
+        List<String> allTechstack = allTechstackName();
+        List<String> projectTechstack = projectTechstackName(projectId);
+        List<Club> hostClub = memberClubRepository.findClubByMember(project.getMember());
+        List<Member> projectMember = memberInProject(projectId);
+        List<String> projectCity = Stream.of(City.values())
+            .map(Enum::name)
+            .collect(Collectors.toList());
+
+        ProjectInfoResponseDto responseDto = ProjectInfoResponseDto.builder()
+            .name(project.getName())
+            .schedule(project.getSchedule())
+            .period(project.getPeriod())
+            .hostNickname(project.getMember().getNickname())
+            .developerCount(project.getDeveloperCount())
+            .developerNicknames(developerNicknames)
+            .developerMaxCount(project.getDeveloperMaxCount())
+            .designerCount(project.getDesignerCount())
+            .designerNicknames(desiginerNicknames)
+            .designerMaxCount(project.getDesignerMaxCount())
+            .plannerCount(project.getPlannerCount())
+            .plannerNicknames(plannerNicknames)
+            .plannerMaxCount(project.getPlannerMaxCount())
+            .isPublic(project.isPublic())
+            .city(project.getCity())
+            .status(project.getStatus())
+            .isParticipate(project.isParticipate())
+            .modifyDate(project.getModifyDate())
+            .bio(project.getBio())
+            .allTechstack(allTechstack)
+            .projectTechstack(projectTechstack)
+            .hostClub(hostClub)
+            .projectMember(projectMember)
+            .projectCity(projectCity)
+            .build();
+
+        if (project.getClub() != null) {
+            responseDto.setClubId(project.getClub().getId());
+            responseDto.setClubName(project.getClub().getName());
+        }
+        if (project.getDbFile() != null) {
+            responseDto.setPicData(project.getDbFile().getData());
+        }
+
+        return responseDto;
+    }
+
+    // 현재 프로젝트에 어떤 멤버가 속해있는지 멤버 리스트 리턴
+    public List<Member> memberInProject(Long projectId) throws Exception {
+        return memberProjectRepository.memberInProject(findProject(projectId));
+    }
+
+    // 특정 프로젝트의 특정 역할인 멤버의 닉네임 리스트
+    public List<String> memberNicknames(Long projectId, String role) throws Exception {
+        return memberProjectRepository.findMemberNickname(findProject(projectId), role);
+    }
+
+    // 특정 멤버의 활성화 프로젝트 리스트
+    public List<Project> projectInMember(Long memberId) throws Exception {
+        return memberProjectRepository.projectInMember(findMember(memberId));
+    }
+
+    // 모든 기술스택의 이름 리스트
+    public List<String> allTechstackName() {
+        return techstackRepository.findAllName();
+    }
+
+    // 현재 프로젝트 기술 스택의 이름 리스트
+    public List<String> projectTechstackName(Long projectId) throws Exception {
+        return projectTechstackRepository.findByProjectTechstackName(findProject(projectId));
+    }
+
     // 첫 생성시 일괄 적용
     @Transactional
-    public void createTechstack(Long projectId) {
+    public void createTechstack(Long projectId) throws Exception {
         Project project = findProject(projectId);
         List<Techstack> techstacks = techstackRepository.findAll();
 
@@ -204,42 +244,52 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Transactional
-    public void addTechstack(Long projectId, List<String> techName) {
+    public void addTechstack(Long projectId, List<String> techName) throws Exception {
         Project project = findProject(projectId);
 
-        for (String name: techName) {
+        for (String name : techName) {
+            Techstack techstack = findTechstack(name);
+
+            CompositeProjectTechstack compositeProjectTechstack = new CompositeProjectTechstack(
+                techstack, project);
+            // DB에 해당 프로젝트 기술스택이 초기화 되어있지 않으면 새로 생성
+//            ProjectTechstack projectTechstack = projectTechstackRepository
+//                .findById(compositeProjectTechstack).orElseGet(() -> new ProjectTechstack(compositeProjectTechstack, true));
+            Optional<ProjectTechstack> projectTechstack = projectTechstackRepository
+                .findById(compositeProjectTechstack);
+
+            if (projectTechstack.isPresent()) {
+                projectTechstack.get().activation();
+            } else {
+                ProjectTechstack newProjectTechstack = new ProjectTechstack(
+                    compositeProjectTechstack, true);
+                projectTechstackRepository.save(newProjectTechstack);
+            }
+
+        }
+
+    }
+
+    @Transactional
+    public void removeTechstack(Long projectId, List<String> techName) throws Exception {
+        Project project = findProject(projectId);
+
+        for (String name : techName) {
             Techstack techstack = findTechstack(name);
 
             CompositeProjectTechstack compositeProjectTechstack = new CompositeProjectTechstack(
                 techstack, project);
             // DB에 해당 프로젝트 기술스택이 초기화 되어있지 않으면 새로 생성
             ProjectTechstack projectTechstack = projectTechstackRepository
-                .findById(compositeProjectTechstack).orElseGet(() -> new ProjectTechstack(compositeProjectTechstack, true));
+                .findById(compositeProjectTechstack)
+                .orElseThrow(() -> new NullPointerException("해당 기술 스택이 초기화되지 않았습니다."));
 
-            projectTechstack.activation();
-
-            projectTechstackRepository.save(projectTechstack);
+            projectTechstack.deactivation();
         }
-
     }
-//
-//    public void removeTechstack(Long projectId, String techName) {
-//        Project project = findProject(projectId);
-//        Techstack techstack = findTechstack(techName);
-//
-//        CompositeProjectTechstack compositeProjectTechstack = new CompositeProjectTechstack(
-//            techstack, project);
-//        Optional<ProjectTechstack> projectTechstack = projectTechstackRepository
-//            .findById(compositeProjectTechstack);
-//
-//        if (projectTechstack.isEmpty()) {
-//            return;
-//        }
-//        projectTechstackRepository.delete(projectTechstack.get());
-//    }
-//
+
     @Transactional
-    public void addMember(Long projectId, Long memberId, String role) {
+    public void addMember(Long projectId, Long memberId, String role) throws Exception {
         Project project = findProject(projectId);
         Member member = findMember(memberId);
 
@@ -257,14 +307,27 @@ public class ProjectServiceImpl implements ProjectService {
 
         changeRole(projectId, memberId, role);
     }
-    public Project findProject(Long projectId) {
-        return projectRepository.findById(projectId)
+
+    public Project findProject(Long projectId) throws Exception {
+        Project project = projectRepository.findById(projectId)
             .orElseThrow(() -> new NullPointerException("프로젝트 정보가 없습니다."));
+
+        if (project.isActive() == false) {
+            throw new Exception("삭제된 프로젝트입니다.");
+        }
+
+        return project;
     }
 
-    public Member findMember(Long memberId) {
-        return memberRepository.findById(memberId)
+    public Member findMember(Long memberId) throws Exception {
+        Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new NullPointerException("회원 정보가 없습니다."));
+
+        if (member.getIs_active() == false) {
+            throw new Exception("삭제된 멤버입니다.");
+        }
+
+        return member;
     }
 
     public Techstack findTechstack(String techName) {
@@ -273,7 +336,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Transactional
-    public void setDBFile(Long projectId, String uuid) {
+    public void setDBFile(Long projectId, String uuid) throws Exception {
         Project project = findProject(projectId);
 
         if (uuid == null) {
@@ -286,8 +349,9 @@ public class ProjectServiceImpl implements ProjectService {
 
         project.setDbFile(dbFile);
     }
+
     @Transactional
-    public void setClub(Long projectId, Long clubId) {
+    public void setClub(Long projectId, Long clubId) throws Exception {
         Project project = findProject(projectId);
 
         if (clubId == null) {
@@ -302,11 +366,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     // (아이디어가 생각이 안나서 임시로 If문 사용 조언 구함)
-    // 멤버 추가, 역할 수정했을 때 프로젝트 인원 변화
-    // 정확한 원인은 모르겠으나 파라미터로 projectId가 아닌 project를 통째로 넘길때 다른 객체로 취급 되어 변경이 이루어지지않음
-    // 유추하기로 다른 트랙잭션이라 다른 영속성 컨텍스트로 취급 되는듯? 뇌피셜
     @Transactional
-    public void changeRole(Long projectId, Long memberId, String role) {
+    public void changeRole(Long projectId, Long memberId, String role) throws Exception {
         Project project = findProject(projectId);
         Member member = findMember(memberId);
         MemberProject memberProject = memberProjectRepository.findMemberProject(project, member);
@@ -360,8 +421,10 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
 
-        if(project.getMember().getId().equals(member.getId())) {
+        if (project.getMember().getId().equals(member.getId())) {
             project.setHostRole(role);
         }
+
+//        projectRepository.save(project);
     }
 }
