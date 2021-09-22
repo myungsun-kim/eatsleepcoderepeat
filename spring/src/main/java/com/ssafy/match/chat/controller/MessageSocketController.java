@@ -35,44 +35,19 @@ public class MessageSocketController {
 
     //// "url/app/message"로 들어오는 메시지를 "/topic/public"을 구독하고있는 사람들에게 송신
     @MessageMapping("/pub/{toUserPk}")//@MessageMapping works for WebSocket protocol communication. This defines the URL mapping.
-////    @SendTo("/topic/public")//websocket subscribe topic& direct send
-    public void sendMessage(@Payload ChatMessage message, @DestinationVariable String toUserPk) throws Exception {
+    public void pubMessage(@Payload ChatMessage message, @DestinationVariable String toUserPk) throws Exception {
+        System.out.println(message.getRead_time());
         int destPk = 0;
         try{
             destPk = Integer.parseInt(toUserPk);
         }catch (Exception e){
             LOGGER.error("Destination Variable toUserPk is not int");
+            // 메세지 전송에 문제가 있습니다.
             return;
         }
-////        message.setTimeStamp(System.currentTimeMillis());
-////        chattingHistoryDAO.save(message);
-        System.out.println(message);
-
-        System.out.println(destPk);
         message.setId(destPk);
-//        System.out.println(message.getMessage());
-        sender.send(BOOT_TOPIC, message);
-//
+        sender.send(/*BOOT_TOPIC,*/ message);
     }
-
-//    @MessageMapping("/pub/{sessionId}")  // 클라이언트가 메세지를 보내는 주소
-//    @SendTo("/sub/{sessionId}")
-//    public String SocketHandler(String message,
-//        @DestinationVariable String sessionId) {
-//        try {
-//            // cache
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(message);
-//        return message;
-//    }
-
-//    @RequestMapping("/history")
-//    public List<ChattingMessage> getChattingHistory() throws Exception {
-//        System.out.println("history!");
-//        return chattingHistoryDAO.get();
-//    }
 
 //    @MessageMapping("/file")
 //    @SendTo("/topic/chatting")

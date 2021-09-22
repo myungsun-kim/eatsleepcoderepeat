@@ -1,5 +1,5 @@
 package com.ssafy.match.chat.config;
 
 public class TuningValuesConfig {
-    public static final int CACHE_SIZE = 100;
+    public static final int CACHE_SIZE = 5;
 }

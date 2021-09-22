@@ -22,15 +22,17 @@ public class ChatMessage implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+    /*
+    * 1 => 일반 메세지
+    * 2 => 읽음 메세지
+    * */
+    int type;
 
-//    @OneToOne(name = "id")
-//    @JoinColumn(name = "sender_id")
     @Column(name = "sender_id")
     long senderId;
     @Column(name = "receiver_id")
     long receiverId;
     Timestamp sent_time;
     Timestamp read_time;
-//    String message;
     String content;
 }

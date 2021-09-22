@@ -34,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
                 .antMatchers("/swagger-ui/**", "/swagger-resources/**","/v2/**", "/favicon.ico",
                     "/chat/**", // chat api
-                    "/socket/chat/**" // chat socket
+                    "/socket/chat/**", // chat socket
+                    "/chat/sessions/**"
                 );
     }
 

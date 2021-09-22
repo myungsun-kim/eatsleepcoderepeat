@@ -3,24 +3,13 @@ package com.ssafy.match.chat.service;
 import com.ssafy.match.chat.config.TuningValuesConfig;
 import com.ssafy.match.chat.dao.MessageRepository;
 import com.ssafy.match.chat.dto.ChatMessage;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor
@@ -34,66 +23,66 @@ public class ChatPersistentServiceImpl {
     RedisTemplate<String, Object> redisTemplate;
 
 //    @Cacheable(key="#id", value="message")
-    public List<ChatMessage> getMessageByIdInit(long id){
+    public List<ChatMessage> getMessageByIdInit(long id1, long id2){
         final ListOperations<String, Object> strObjListOps = redisTemplate.opsForList();
-//        System.out.println("호우!");
-        final String redisKey = concatChatKey(id);
+        final String redisKey = concatChatKey(id1,id2);
         if(redisTemplate.hasKey(redisKey)){
             return (List<ChatMessage>)(Object)strObjListOps.range(redisKey,0,strObjListOps.size(redisKey));
         }
-        List<ChatMessage> ret = messageRepository.findBySenderIdOrReceiverId(id,id);
+        List<ChatMessage> ret = messageRepository.findBySenderIdOrReceiverId(id1,id2);
         for(ChatMessage msg : ret){
             strObjListOps.rightPush(redisKey, msg);
         }
-        return setMessageToRedisInit(id);
+        return setMessageToRedisInit(id1,id2);
     }
-    private List<ChatMessage> setMessageToRedisInit(long id){
+
+    public List<ChatMessage> getPastMessageById(long id1, long id2, long msgId){
+        List<ChatMessage> ret = messageRepository.findMoreMessageBySenderIdOrReceiverId(id1,id2, msgId);
+        return ret;
+    }
+
+    private List<ChatMessage> setMessageToRedisInit(long id1, long id2){
         final ListOperations<String, Object> strObjListOps = redisTemplate.opsForList();
-        List<ChatMessage> ret = messageRepository.findBySenderIdOrReceiverId(id,id);
+        List<ChatMessage> ret = messageRepository.findBySenderIdOrReceiverId(id1,id2);
+        if(redisTemplate.hasKey(concatChatKey(id1,id2))){
+            redisTemplate.delete(concatChatKey(id1,id2));
+        }
         for(ChatMessage msg : ret){
-            strObjListOps.rightPush(concatChatKey(id), msg);
+            strObjListOps.rightPush(concatChatKey(id1,id2), msg);
         }
         return ret;
     }
-/*
-* 레디스에 캐싱된 메세지들 {메세지1, 메세지2, 메세지3.....}
-* 사람이 메세지4를 상대방에게 보내는 상황
-* ID 1이 있다 -> 이미 매핑되엉 ㅣㅆ는 값이 있다
-* 어디선가 id를 쓸텐데 메세지가 변경이 될 경우 이 id를 새로 따고 집어넣냐
-* 기존의 아이
-* 2. 만약 캐시 생명? (용어기억안남, 캐시 정책에 따라 다르겠지만 몇 초 후에 캐시가 invalid하다고 설정한 경우)
-* 캐시생명이 끝나면 리스트 전체가 죽을텐데.....
-* */
-
-//    @Transactional
-//    @Caching(
-//        put={
-//            @CachePut(key="#msg.receiverId", value="getMessageById"),
-//            @CachePut(key="#msg.senderId", value="getMessageById")
-//        },
-//        evict={
-//            @CacheEvict(key="#msg.receiverId", value="userMessages", beforeInvocation = true),
-//            @CacheEvict(key="#msg.senderId", value="userMessages", beforeInvocation = true)
-//        }
-//    )
     public void setMessage(ChatMessage msg){
-        pushMessageToRedis(msg, msg.getReceiverId());
-        pushMessageToRedis(msg, msg.getSenderId());
+        System.out.println(msg.getType());
+        // 만약 특정 메세지를 읽었다는 표시를 할 경우 저장하지 않고 db 업데이트를 수행함
+//        if(msg.getType() == 2){
+//            System.out.println("update");
+//            messageRepository.updateRead(msg.getRead_time(), msg.getReceiverId());
+//            this.setMessageToRedisInit(msg.getReceiverId());
+//            return;
+//        }
+
+        ChatMessage saved = null;
         for(int i = 0; i < RETRY_COUNT; i++){
             try{
-                messageRepository.save(msg);
+                saved = messageRepository.save(msg);
                 break;
             }catch(DataAccessException e){
                 e.printStackTrace();
                 System.out.println("!");
             }
         }
+        pushMessageToRedis(saved, saved.getReceiverId(), saved.getSenderId());
+        pushMessageToRedis(saved, saved.getSenderId(), saved.getReceiverId());
     }
-    private void pushMessageToRedis(ChatMessage msg, long key){
+    public List<ChatMessage> findSessions(long id){
+        return messageRepository.findSessions(id);
+    }
+    private void pushMessageToRedis(ChatMessage msg, long key1, long key2){
         final ListOperations<String, Object> strObjListOps = redisTemplate.opsForList();
-        String redisKey = concatChatKey(key);
+        String redisKey = concatChatKey(key1, key2);
         if(!redisTemplate.hasKey(redisKey)){
-            setMessageToRedisInit(key);
+            setMessageToRedisInit(key1, key2);
         }
         strObjListOps.rightPush(redisKey, msg);
         long cacheSize = strObjListOps.size(redisKey);
@@ -105,11 +94,9 @@ public class ChatPersistentServiceImpl {
             );
         }
     }
-    private String concatChatKey(long key){
+    private String concatChatKey(long key1, long key2){
         StringBuilder sb = new StringBuilder("chat:");
-        sb.append(key);
+        sb.append(key1).append(':').append(key2);
         return sb.toString();
     }
-
-//    public List<ChatMessage>
 }

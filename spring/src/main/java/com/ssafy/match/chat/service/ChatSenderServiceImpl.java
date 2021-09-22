@@ -9,23 +9,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
-
-@Component
+@Service
 public class ChatSenderServiceImpl {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatSenderServiceImpl.class);
-
-//    @Autowired
-    private final KafkaTemplate<String, ChatMessage> kafkaTemplate;
-//    private final MessageRepository messageRepository;
+    private final ChatReceiverServiceImpl chatReceiverService;
+//    private final KafkaTemplate<String, ChatMessage> kafkaTemplate;
     private final ChatPersistentServiceImpl chatPersistentService;
 
-    public void send(String topic, ChatMessage data) {
-        LOGGER.info("sending data='{}' to topic='{}'", data, topic);
+    public void send(ChatMessage data) {
+//        LOGGER.info("sending data='{}' to topic='{}'", data, topic);
         chatPersistentService.setMessage(data);
-        kafkaTemplate.send(topic, data);
-
+        try{
+            chatReceiverService.receive(data);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+//        kafkaTemplate.send(topic, data);
         // Kafka Template에 save 등 구현하기
     }
 }

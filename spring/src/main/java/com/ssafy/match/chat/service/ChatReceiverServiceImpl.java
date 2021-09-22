@@ -25,19 +25,11 @@ public class ChatReceiverServiceImpl {
     private SimpMessagingTemplate template;
 
     //@KafkaListener 어노테이션 부착 시 -> 받아올 메세지가 있을 때 수행하는 일들을 아래 메서드에 적용한다.
-    @KafkaListener(topics = "test1")
-    public void receive(@Payload ChatMessage message) throws Exception {
+//    @KafkaListener(topics = "test1")
+    public void receive(/*@Payload*/ ChatMessage message) throws Exception {
         LOGGER.info("message='{}'", message);
-//        HashMap<String, String> msg = new HashMap<>();
-//        msg.put("timestamp", Long.toString(message.getTimeStamp()));
-//        for(ChatMessage ms : message){
-//        msg.put("content", message.getContent());
-//        msg.put("pk_idx", Long.toString(message.getId()));
-//        }
-//        msg.put("author", message.getUser());
-//        msg.put("message");
-            System.out.println(message.getContent());
-//        msg.put("message", "test");
+        System.out.println(message.getContent());
+
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(message);
         // 프론트의Stringify와 유사

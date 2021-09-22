@@ -589,6 +589,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`message` (
   `sent_time` TIMESTAMP NULL,
   `read_time` TIMESTAMP NULL,
   `content` TEXT NULL,
+  `type` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_message_member1_idx` (`sender_id` ASC) VISIBLE,
   INDEX `fk_message_member2_idx` (`receiver_id` ASC) VISIBLE,
