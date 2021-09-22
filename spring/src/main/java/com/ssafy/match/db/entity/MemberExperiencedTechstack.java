@@ -11,18 +11,15 @@ import org.apache.kafka.common.protocol.types.Field;
 
 @Getter
 @Setter
-@Entity(name = "matching.member_interest_techstack")
+@Entity(name = "matching.member_experienced_techstack")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberExperiencedTechstack {
 
     @EmbeddedId
     private CompositeMemberTechstack compositeMemberTechstack;
 
-    private String kind;
-
     public MemberExperiencedTechstack(
-        CompositeMemberTechstack compositeMemberTechstack, String kind) {
+        CompositeMemberTechstack compositeMemberTechstack) {
         this.compositeMemberTechstack = compositeMemberTechstack;
-        this.kind = kind;
     }
 }
