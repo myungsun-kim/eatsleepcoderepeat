@@ -1,6 +1,12 @@
 <template>
-  <SubNavBar />
-  <router-view></router-view>
+  <div class="height100">
+    <div class="height8">
+      <SubNavBar />
+    </div>
+    <div class="height92">
+      <router-view></router-view>
+    </div>
+  </div>
 </template>
 
 <script>
