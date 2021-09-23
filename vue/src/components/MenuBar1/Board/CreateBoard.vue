@@ -16,7 +16,10 @@
         ><el-col :span="2"
           ><el-button class="btn-1747C9 font-noto-bold">생성</el-button></el-col
         ><el-col :span="1"></el-col
-        ><el-col :span="2"><el-button>취소</el-button></el-col
+        ><el-col :span="2"
+          ><el-button class="btn-ghost-red" style="font-size: 14px"
+            >취소</el-button
+          ></el-col
         ><el-col :span="10"></el-col
       ></el-row>
       <el-row style="height: 20%"> </el-row>
