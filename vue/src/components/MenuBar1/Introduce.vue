@@ -75,12 +75,12 @@
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8"> 21.09.07 15:38 </el-row>
-      <el-row class="height1"> </el-row
-    ></el-col>
+      <el-row class="height1"> </el-row>
+    </el-col>
     <el-col :span="1"></el-col>
-    <el-col :span="8"
-      ><el-row class="height5"> </el-row
-      ><el-row style="height: 80%; background-color: red"> 사진 </el-row>
+    <el-col :span="8">
+      <el-row class="height5"></el-row>
+      <el-row style="height: 80%; background-color: red"> 사진 </el-row>
     </el-col>
     <el-col :span="3"></el-col>
   </el-row>
@@ -101,17 +101,22 @@
         상황이 있을 경우 선정하여 풀어봅니다. 진행 방식 매 주 선정한 알고리즘
         문제를 모임 전에 풀어옵니다. 주 1회 온라인 모임을 가지고, 한 명씩 코드
         설명을 합니다. 모임을 가질 요일은 스터디원이 다 모집된 후에 정하도록
-        하겠습니다 </el-row
-      ><el-row
-        ><el-col :span="9"></el-col
-        ><el-col :span="2"
-          ><el-button class="btn-1747C9 font-14">수정</el-button></el-col
-        ><el-col :span="1"></el-col
-        ><el-col :span="2"
-          ><el-button class="btn-ghost-red" style="font-size: 14px"
-            >삭제</el-button
-          ></el-col
-        ><el-col :span="10"></el-col> <el-col :span="3"></el-col>
+        하겠습니다
+      </el-row>
+      <el-row>
+        <el-col :span="9"></el-col>
+        <el-col :span="2">
+          <el-button class="btn-1747C9 font-14">수정</el-button>
+        </el-col>
+        <el-col :span="1"></el-col>
+        <el-col :span="2">
+          <el-button class="btn-ghost-red" style="font-size: 14px">
+            <StudyDeleteModal />
+            <StudyQuitModal />
+          </el-button>
+        </el-col>
+        <el-col :span="10"></el-col>
+        <el-col :span="3"></el-col>
         <!-- <el-col :span="9"></el-col
         ><el-col :span="2"><el-button>신청</el-button></el-col
         ><el-col :span="1"></el-col
@@ -125,9 +130,12 @@
     ><el-col :span="3"></el-col>
   </el-row>
 </template>
-
 <script>
+import StudyDeleteModal from '../Modal/StudyDeleteModal.vue';
+import StudyQuitModal from '../Modal/StudyQuitModal.vue';
 export default {
-  methods: {},
+  components: {
+    StudyQuitModal,
+  },
 };
 </script>
