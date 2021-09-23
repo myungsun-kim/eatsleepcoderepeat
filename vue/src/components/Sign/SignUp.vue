@@ -20,81 +20,84 @@
         <div class="height5">5</div>
       </div>
     </el-col>
-    <!-- Step1 기본정보-->
-    <!-- <el-col :span="15" :offset="0" id="step1">
-      <div class="height100">
-        <div class="height20">20</div>
-        <div class="height5" id="H1">
-          <p id="h1">회원가입</p>
-        </div>
-        <div class="height10" id="H2">
-          <p id="h2">Step1-기본정보</p>
-        </div>
-        <div class="height40" id="input1">
-          <input
-            type="text"
-            placeholder="이메일"
-            id="email"
-            onfocus="this.placeholder=''"
-            onblur="this.placeholder='이메일'"
-          />
-          <div id="H3">
+
+    <div v-if="state.form.state === 1">
+      <!-- Step1 기본정보-->
+      <el-col :span="15" :offset="0" id="step1">
+        <div class="height100">
+          <div class="height20">20</div>
+          <div class="height5" id="H1">
+            <p id="h1">회원가입</p>
+          </div>
+          <div class="height10" id="H2">
+            <p id="h2">Step1-기본정보</p>
+          </div>
+          <div class="height40" id="input1">
             <input
               type="text"
-              placeholder="이름"
-              id="name"
+              placeholder="이메일"
+              id="email"
               onfocus="this.placeholder=''"
-              onblur="this.placeholder='이름'"
+              onblur="this.placeholder='이메일'"
+            />
+            <div id="H3">
+              <input
+                type="text"
+                placeholder="이름"
+                id="name"
+                onfocus="this.placeholder=''"
+                onblur="this.placeholder='이름'"
+              />
+              <input
+                type="text"
+                placeholder="닉네임"
+                id="nickname"
+                onfocus="this.placeholder=''"
+                onblur="this.placeholder='닉네임'"
+              />
+            </div>
+            <input
+              type="text"
+              placeholder="비밀번호"
+              id="password"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='비밀번호'"
             />
             <input
               type="text"
-              placeholder="닉네임"
-              id="nickname"
+              placeholder="비밀번호 확인"
+              id="checkpassword"
               onfocus="this.placeholder=''"
-              onblur="this.placeholder='닉네임'"
+              onblur="this.placeholder='비밀번호 확인'"
+            />
+            <input
+              type="text"
+              placeholder="분야 선택"
+              id="field"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='분야 선택'"
+            />
+            <input
+              type="text"
+              placeholder="지역 선택"
+              id="region"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='지역 선택'"
             />
           </div>
-          <input
-            type="text"
-            placeholder="비밀번호"
-            id="password"
-            onfocus="this.placeholder=''"
-            onblur="this.placeholder='비밀번호'"
-          />
-          <input
-            type="text"
-            placeholder="비밀번호 확인"
-            id="checkpassword"
-            onfocus="this.placeholder=''"
-            onblur="this.placeholder='비밀번호 확인'"
-          />
-          <input
-            type="text"
-            placeholder="분야 선택"
-            id="field"
-            onfocus="this.placeholder=''"
-            onblur="this.placeholder='분야 선택'"
-          />
-          <input
-            type="text"
-            placeholder="지역 선택"
-            id="region"
-            onfocus="this.placeholder=''"
-            onblur="this.placeholder='지역 선택'"
-          />
-        </div>
-        <div class="height10" id="button0">
-          <el-row :gutter="0">
-            <el-col :span="12" :offset="0"></el-col>
-            <el-col :span="12" :offset="0"></el-col>
-          </el-row>
+          <div class="height10" id="button0">
+            <el-row :gutter="0">
+              <el-col :span="12" :offset="0"></el-col>
+              <el-col :span="12" :offset="0"></el-col>
+            </el-row>
 
-          <button id="next0">다음</button>
+            <button id="next0">다음</button>
+          </div>
+          <div class="height10">10</div>
+          <div class="height5">5</div>
         </div>
-        <div class="height10">10</div>
-        <div class="height5">5</div>
-      </div>
-    </el-col> -->
+      </el-col>
+    </div>
 
     <!-- Step2 포트폴리오 -->
     <!-- <el-col :span="15" :offset="0" id="step2">
@@ -275,6 +278,7 @@ export default {
         state: '1',
       },
     });
+    return { store, signUp, state };
   },
 };
 </script>
