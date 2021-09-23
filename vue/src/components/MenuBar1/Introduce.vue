@@ -1,30 +1,49 @@
 <template>
-  <el-row style="height: 40%">
+  <el-row class="font-20">
     <el-col :span="3"></el-col>
     <el-col :span="3"
       ><el-row class="height1"> </el-row>
-      <el-row class="height8"> 스터디 이름 </el-row>
+      <el-row class="height8">
+        <i class="el-icon-postcard"></i>&nbsp;스터디 이름
+      </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> 주요 기술 스택 </el-row>
+      <el-row class="height8">
+        <i class="el-icon-setting"></i>&nbsp; 주요 기술 스택
+      </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> 프로젝트 일정 </el-row>
+      <el-row class="height8">
+        <i class="el-icon-date"></i>&nbsp;프로젝트 일정
+      </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> 프로젝트 기간 </el-row>
+      <el-row class="height8">
+        <i class="el-icon-time"></i>&nbsp;프로젝트 기간
+      </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> 팀장 </el-row>
+      <el-row class="height8">
+        <i class="el-icon-star-off"></i>&nbsp;팀장
+      </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> 인원 </el-row>
+      <el-row class="height8"> <i class="el-icon-user"></i>&nbsp;인원 </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> 공개여부 </el-row>
+      <el-row class="height8">
+        <i class="el-icon-lock"></i>&nbsp;공개여부
+      </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> 지역 </el-row>
+      <el-row class="height8">
+        <i class="el-icon-position"></i>&nbsp;지역
+      </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> 스터디 상태 </el-row>
+      <el-row class="height8">
+        <i class="el-icon-video-play"></i>&nbsp;스터디 상태
+      </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> 소속 클럽 </el-row>
+      <el-row class="height8">
+        <i class="el-icon-folder"></i>&nbsp;소속 클럽
+      </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> 마지막 수정일 </el-row>
-      <el-row class="height1"> </el-row>
+      <el-row class="height8">
+        <i class="el-icon-edit"></i>&nbsp;마지막 수정일
+      </el-row>
     </el-col>
     <el-col :span="1"></el-col>
     <el-col :span="5"
@@ -39,7 +58,11 @@
       <el-row class="height1"> </el-row>
       <el-row class="height8"> MinMin </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> 5/6명(Minsu, Sun, Jun, Kim, Min) </el-row>
+      <el-row class="height8">
+        <el-button type="text" @click="open">
+          5/6명(Minsu, Sun, Jun, Kim, Min)
+        </el-button></el-row
+      >
       <el-row class="height1"> </el-row>
       <el-row class="height8"> 비공개 </el-row>
       <el-row class="height1"> </el-row>
@@ -47,7 +70,9 @@
       <el-row class="height1"> </el-row>
       <el-row class="height8"> 진행중- 참여불가 </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> SSAFY </el-row>
+      <el-row class="height8">
+        <el-button type="text">SSAFY</el-button>
+      </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8"> 21.09.07 15:38 </el-row>
       <el-row class="height1"> </el-row
@@ -60,11 +85,13 @@
     <el-col :span="3"></el-col>
   </el-row>
   <el-row class="height5"> </el-row>
-  <el-row class="height50">
+  <el-row class="height50 font-20">
     <el-col :span="3"></el-col>
     <el-col :span="18">
-      <el-row class="height8"> 소개 </el-row>
-      <el-row class="height92"
+      <el-row class="height8">
+        <i class="el-icon-chat-dot-round font-20"></i>&nbsp;소개
+      </el-row>
+      <el-row class="height92 font-20"
         >안녕하세요! 🔥성공적인 취업 및 이직🔥를 목표로 기초부터 알고리즘 스터디
         시작하실 분들 모집합니다. 언어: 기술스택에 명시된 언어 중 편한 언어로
         진행하시면 됩니다. 알고리즘 문제 선정 방식 🤔 알고리즘은 진행하는 팀원의
@@ -74,7 +101,22 @@
         상황이 있을 경우 선정하여 풀어봅니다. 진행 방식 매 주 선정한 알고리즘
         문제를 모임 전에 풀어옵니다. 주 1회 온라인 모임을 가지고, 한 명씩 코드
         설명을 합니다. 모임을 가질 요일은 스터디원이 다 모집된 후에 정하도록
-        하겠습니다
+        하겠습니다 </el-row
+      ><el-row
+        ><el-col :span="9"></el-col
+        ><el-col :span="2"><el-button>수정</el-button></el-col
+        ><el-col :span="1"></el-col
+        ><el-col :span="2"><el-button>삭제</el-button></el-col
+        ><el-col :span="10"></el-col> <el-col :span="3"></el-col>
+        <!-- <el-col :span="9"></el-col
+        ><el-col :span="2"><el-button>신청</el-button></el-col
+        ><el-col :span="1"></el-col
+        ><el-col :span="2"><el-button>취소</el-button></el-col
+        ><el-col :span="10"></el-col> <el-col :span="3"></el-col
+      > -->
+        <!-- <el-col :span="11"></el-col
+        ><el-col :span="2"><el-button>탈퇴</el-button></el-col
+        ><el-col :span="10"></el-col>  -->
       </el-row> </el-col
     ><el-col :span="3"></el-col>
   </el-row>
@@ -82,6 +124,6 @@
 
 <script>
 export default {
-  components: {},
+  methods: {},
 };
 </script>
