@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <el-row class="font-20">
     <el-col :span="3"></el-col>
     <el-col :span="3"
       ><el-row class="height1"> </el-row>
@@ -85,13 +85,13 @@
     <el-col :span="3"></el-col>
   </el-row>
   <el-row class="height5"> </el-row>
-  <el-row class="height50">
+  <el-row class="height50 font-20">
     <el-col :span="3"></el-col>
     <el-col :span="18">
       <el-row class="height8">
-        <i class="el-icon-chat-dot-round"></i>&nbsp;소개
+        <i class="el-icon-chat-dot-round font-20"></i>&nbsp;소개
       </el-row>
-      <el-row class="height92"
+      <el-row class="height92 font-20"
         >안녕하세요! 🔥성공적인 취업 및 이직🔥를 목표로 기초부터 알고리즘 스터디
         시작하실 분들 모집합니다. 언어: 기술스택에 명시된 언어 중 편한 언어로
         진행하시면 됩니다. 알고리즘 문제 선정 방식 🤔 알고리즘은 진행하는 팀원의
