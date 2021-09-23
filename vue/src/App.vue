@@ -82,7 +82,7 @@ body {
   margin: 0;
 }
 .font-14 {
-  font-size: 20px;
+  font-size: 14px;
   margin: 0;
 }
 
