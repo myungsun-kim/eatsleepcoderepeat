@@ -1,6 +1,5 @@
-package com.ssafy.match.group.entity;
+package com.ssafy.match.group.entity.study;
 
-import com.ssafy.match.db.entity.embedded.CompositeStudyTechstack;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;

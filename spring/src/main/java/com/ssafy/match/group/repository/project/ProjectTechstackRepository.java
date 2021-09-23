@@ -1,8 +1,8 @@
-package com.ssafy.match.group.repository;
+package com.ssafy.match.group.repository.project;
 
-import com.ssafy.match.group.entity.Project;
-import com.ssafy.match.group.entity.ProjectTechstack;
-import com.ssafy.match.db.entity.embedded.CompositeProjectTechstack;
+import com.ssafy.match.group.entity.project.Project;
+import com.ssafy.match.group.entity.project.ProjectTechstack;
+import com.ssafy.match.group.entity.project.CompositeProjectTechstack;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

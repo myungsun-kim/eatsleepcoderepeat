@@ -7,22 +7,27 @@ import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
+import com.ssafy.match.group.dto.project.FormRegisterRequestDto;
+import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
 import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
-import com.ssafy.match.group.repository.MemberProjectRepository;
+import com.ssafy.match.group.entity.project.ProjectApplicationForm;
+import com.ssafy.match.group.repository.project.MemberProjectRepository;
 import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.db.repository.TechstackRepository;
 import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
-import com.ssafy.match.group.entity.Club;
-import com.ssafy.match.group.entity.MemberProject;
-import com.ssafy.match.group.entity.Project;
-import com.ssafy.match.group.entity.ProjectTechstack;
-import com.ssafy.match.group.repository.ClubRepository;
-import com.ssafy.match.group.repository.ProjectRepository;
-import com.ssafy.match.group.repository.ProjectTechstackRepository;
+import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.group.entity.project.MemberProject;
+import com.ssafy.match.group.entity.project.Project;
+import com.ssafy.match.group.entity.project.ProjectTechstack;
+import com.ssafy.match.group.repository.club.ClubRepository;
+import com.ssafy.match.group.repository.project.ProjectApplicationFormRepository;
+import com.ssafy.match.group.repository.project.ProjectRepository;
+import com.ssafy.match.group.repository.project.ProjectTechstackRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -36,6 +41,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 class ProjectServiceImplTest {
+
     @Autowired
     MemberRepository memberRepository;
     @Autowired
@@ -50,6 +56,8 @@ class ProjectServiceImplTest {
     ProjectServiceImpl projectServiceImpl;
     @Autowired
     MemberProjectRepository memberProjectRepository;
+    @Autowired
+    ProjectApplicationFormRepository projectApplicationFormRepository;
 
     @BeforeEach
     void setUp() throws Exception {
@@ -88,7 +96,8 @@ class ProjectServiceImplTest {
             .build();
         memberRepository.save(member2);
 
-        Club club1 = new Club("헬스", member1, LocalDateTime.now(), "냠", City.구미, 1,  6, true, true, null);
+        Club club1 = new Club("헬스", member1, LocalDateTime.now(), "냠", City.구미, 1, 6, true, true,
+            null);
         clubRepository.save(club1);
 
         Techstack techstack1 = new Techstack("Java");
@@ -234,7 +243,7 @@ class ProjectServiceImplTest {
         Member member1 = projectServiceImpl.findMember(1L);
         Project project = projectServiceImpl.findProject(1L);
 
-        if(project.getMember().getId() != 1L) {
+        if (project.getMember().getId() != 1L) {
             new Exception("권한이 없습니다.");
         }
 
@@ -311,12 +320,12 @@ class ProjectServiceImplTest {
     void delete() throws Exception {
         Project project = projectServiceImpl.findProject(1L);
 
-        if(project.getMember().getId() != 1L) {
+        if (project.getMember().getId() != 1L) {
             new Exception("권한이 없습니다.");
         }
 
         List<MemberProject> memberProjects = memberProjectRepository.findMemberWithProject(project);
-        for (MemberProject mem: memberProjects) {
+        for (MemberProject mem : memberProjects) {
             mem.deactivation();
             memberProjectRepository.save(mem);
         }
@@ -325,7 +334,7 @@ class ProjectServiceImplTest {
         projectRepository.save(project);
 
         System.out.println("==============");
-        for (MemberProject mem: memberProjects) {
+        for (MemberProject mem : memberProjects) {
             System.out.println(mem.isActive() + " ");
         }
         System.out.println("=============");
@@ -345,13 +354,13 @@ class ProjectServiceImplTest {
     @Test
     void memberNicknames() throws Exception {
         List<String> develop = projectServiceImpl.memberNicknames(1L, "디자이너");
-        for (String str: develop) {
+        for (String str : develop) {
             System.out.println("===============");
             System.out.println(str);
         }
         assertEquals("BJP", develop.get(0));
         List<String> planner = projectServiceImpl.memberNicknames(1L, "기획자");
-        for (String str: planner) {
+        for (String str : planner) {
             System.out.println("===============");
             System.out.println(str);
         }
@@ -361,7 +370,7 @@ class ProjectServiceImplTest {
     @Test
     void projectInMember() throws Exception {
         List<Project> list = projectServiceImpl.projectInMember(1L);
-        for (Project pro: list) {
+        for (Project pro : list) {
             System.out.println("========");
             System.out.println(pro.getName());
         }
@@ -389,21 +398,31 @@ class ProjectServiceImplTest {
     }
 
     @Test
+    void removeMember() throws Exception {
+        projectServiceImpl.removeMember(1L, 2L);
+        Project project = projectServiceImpl.findProject(1L);
+        Member member = projectServiceImpl.findMember(2L);
+        CompositeMemberProject compositeMemberProject = new CompositeMemberProject(member, project);
+        MemberProject memberProject = memberProjectRepository.findById(compositeMemberProject)
+            .get();
+
+        assertEquals(0, project.getPlannerCount());
+        assertEquals(false, memberProject.isActive());
+        List<Member> list = projectServiceImpl.memberInProject(1L);
+        assertEquals(1, list.size());
+    }
+
+    @Test
     void removeTechstack() {
     }
 
     @Test
-    void removeMember(){
+    void setClub() {
 
     }
 
     @Test
-    void setClub(){
-
-    }
-
-    @Test
-    void setDBFile(){
+    void setDBFile() {
 
     }
 
@@ -417,6 +436,80 @@ class ProjectServiceImplTest {
         assertEquals("개발자", memberProjectRepository.findMemberProject(project, member).getRole());
         assertEquals(0, project.getDesignerCount());
         assertEquals(1, project.getDeveloperCount());
+    }
+
+    @Test
+    void createForm() throws Exception {
+        Member member = Member.builder()
+            .create_date(LocalDateTime.now())
+            .email("qjawlsqjacks@naver.com")
+            .name("박범준")
+            .password("1234")
+            .nickname("BJP")
+            .tel("01028732329")
+            .bio("테스트 멤버 3")
+            .city("서울")
+            .banned(false)
+            .position("개발자")
+            .is_active(true)
+            .authority(Authority.ROLE_USER)
+            .dbFile(null)
+            .build();
+        memberRepository.save(member);
+
+        Project project = projectServiceImpl.findProject(1L);
+        CompositeMemberProject mp = new CompositeMemberProject(member, project);
+
+        Optional<ProjectApplicationForm> form = projectApplicationFormRepository.findById(mp);
+        if(form.isPresent()){
+            throw new Exception("신청한 내역이 존재합니다.");
+        }
+
+        FormRegisterRequestDto dto = FormRegisterRequestDto.builder()
+            .name("박범준")
+            .city("서울")
+            .role("개발자")
+            .position("BE")
+            .git(null)
+            .twitter(null)
+            .backjoon(null)
+            .facebook(null)
+            .bio("sdf")
+            .createDate(LocalDateTime.now())
+            .dbFile(null)
+            .build();
+
+        ProjectApplicationForm projectApplicationForm = ProjectApplicationForm.builder()
+            .compositeMemberProject(mp)
+            .name(dto.getName())
+            .city(City.from(dto.getCity()))
+            .role(dto.getRole())
+            .position(dto.getPosition())
+            .git(dto.getGit())
+            .twitter(dto.getTwitter())
+            .facebook(dto.getFacebook())
+            .backjoon(dto.getBackjoon())
+            .bio(dto.getBio())
+            .createDate(LocalDateTime.now())
+            .build();
+
+        if(dto.getGit() != null){
+            projectApplicationForm.setGit(dto.getGit());
+        }
+        if(dto.getTwitter() != null){
+            projectApplicationForm.setTwitter(dto.getTwitter());
+        }
+        if(dto.getFacebook() != null){
+            projectApplicationForm.setFacebook(dto.getFacebook());
+        }
+        if(dto.getGit() != null){
+            projectApplicationForm.setGit(dto.getGit());
+        }
+        if (dto.getDbFile() != null) {
+            projectApplicationForm.setDbFile(dto.getDbFile());
+        }
+
+        projectApplicationFormRepository.save(projectApplicationForm);
     }
 
 }
