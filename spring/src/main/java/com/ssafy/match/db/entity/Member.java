@@ -1,10 +1,9 @@
 package com.ssafy.match.db.entity;
 
 import com.ssafy.match.file.entity.DBFile;
+import com.ssafy.match.group.entity.club.Club;
 import java.time.LocalDateTime;
 import javax.persistence.*;
-
-import com.ssafy.match.group.entity.Club;
 import lombok.*;
 
 @Getter
