@@ -34,9 +34,9 @@ public class Member {
     @JoinColumn(name = "cover_pic")
     private DBFile dbFile;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "club_id")
-    private Club club;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "club_id")
+//    private Club club;
 
     @Builder
     public Member(LocalDateTime create_date, String email, String name, String password,

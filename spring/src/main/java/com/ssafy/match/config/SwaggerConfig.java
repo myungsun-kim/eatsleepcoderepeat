@@ -52,7 +52,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
 //            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
             .apiInfo(apiInfo)
-            .groupName("Chat")
+            .groupName("Member")
             .select()
             .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.controller"))
             // api 필요한 클래스패스 추가하기
@@ -77,7 +77,6 @@ public class SwaggerConfig {
             .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.chat.controller"))
             // api 필요한 클래스패스 추가하기
             .paths(
-
                         PathSelectors.ant("/**/chat/**")
 //						.or(PathSelectors.ant("/**/**"))
 //                PathSelectors.any()
