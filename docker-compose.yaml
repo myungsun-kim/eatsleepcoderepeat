@@ -2,7 +2,7 @@ version: '3'
 
 services:
   spring:
-    build: ./spring
+    build: ./backend
     container_name: spring
     networks:
       - match-network
