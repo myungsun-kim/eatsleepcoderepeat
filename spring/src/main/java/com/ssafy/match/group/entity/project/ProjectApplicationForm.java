@@ -33,7 +33,7 @@ public class ProjectApplicationForm {
     @EmbeddedId
     private CompositeMemberProject compositeMemberProject;
 
-    private String name;
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
     private City city;
@@ -61,11 +61,11 @@ public class ProjectApplicationForm {
 
     @Builder
     public ProjectApplicationForm(
-        CompositeMemberProject compositeMemberProject, String name, City city, String role,
+        CompositeMemberProject compositeMemberProject, String nickname, City city, String role,
         String position, String git, String twitter, String facebook, String backjoon,
         String bio, LocalDateTime createDate, DBFile dbFile) {
         this.compositeMemberProject = compositeMemberProject;
-        this.name = name;
+        this.nickname = nickname;
         this.city = city;
         this.role = role;
         this.position = position;
