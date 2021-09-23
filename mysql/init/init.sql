@@ -583,7 +583,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `matching`.`message` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `sender_id` BIGINT NOT NULL,
   `receiver_id` BIGINT NOT NULL,
   `sent_time` TIMESTAMP NULL,
