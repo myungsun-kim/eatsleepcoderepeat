@@ -94,6 +94,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `matching`.`project` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `activity_point` INT NOT NULL,
+  `city` VARCHAR(15) NOT NULL,
   `bio` VARCHAR(255) NULL DEFAULT NULL,
   `create_date` DATETIME(6) NULL DEFAULT NULL,
   `is_active` BIT(1) NOT NULL,
