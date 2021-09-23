@@ -2,10 +2,20 @@ package com.ssafy.match.db.entity;
 
 import com.ssafy.match.file.entity.DBFile;
 import java.time.LocalDateTime;
-import javax.persistence.*;
-
-import com.ssafy.match.group.entity.Club;
-import lombok.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter

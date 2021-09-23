@@ -1,6 +1,6 @@
 package com.ssafy.match.db.entity;
 
-import com.ssafy.match.db.entity.embedded.CompositeMemberProject;
+import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;

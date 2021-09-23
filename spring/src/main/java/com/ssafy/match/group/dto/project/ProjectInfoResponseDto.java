@@ -3,17 +3,15 @@ package com.ssafy.match.group.dto.project;
 import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
-import com.ssafy.match.group.entity.Club;
+import com.ssafy.match.group.entity.club.Club;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Lob;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -53,7 +51,7 @@ public class ProjectInfoResponseDto {
     private int designerCount;
 
     @ApiModelProperty(name = "designerNicknames", example = "{'Minsu', 'Sun'}")
-    @ApiParam(value = "해당 프로젝트에 속해있는 개발자의 닉네임", required = true)
+    @ApiParam(value = "해당 프로젝트에 속해있는 디자이너의 닉네임", required = true)
     private List<String> designerNicknames;
 
     @ApiModelProperty(name = "designerMaxCount", example = "3")
@@ -65,7 +63,7 @@ public class ProjectInfoResponseDto {
     private int plannerCount;
 
     @ApiModelProperty(name = "plannerNicknames", example = "{'Minsu', 'Sun'}")
-    @ApiParam(value = "해당 프로젝트에 속해있는 개발자의 닉네임", required = true)
+    @ApiParam(value = "해당 프로젝트에 속해있는 기획자의 닉네임", required = true)
     private List<String> plannerNicknames;
 
     @ApiModelProperty(name = "plannerMaxCount", example = "3")

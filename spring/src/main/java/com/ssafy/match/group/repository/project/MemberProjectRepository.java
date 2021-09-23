@@ -1,9 +1,9 @@
-package com.ssafy.match.group.repository;
+package com.ssafy.match.group.repository.project;
 
 import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.entity.embedded.CompositeMemberProject;
-import com.ssafy.match.group.entity.MemberProject;
-import com.ssafy.match.group.entity.Project;
+import com.ssafy.match.group.entity.project.CompositeMemberProject;
+import com.ssafy.match.group.entity.project.MemberProject;
+import com.ssafy.match.group.entity.project.Project;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,7 +23,7 @@ public interface MemberProjectRepository extends JpaRepository<MemberProject, Co
 
     // 특정 프로젝트의 특정 멤버의 관계 정보
     @Query(value = "select mp from matching.member_project mp "
-        + "where mp.compositeMemberProject.project = :project and mp.compositeMemberProject.member = :member and mp.isActive = true")
+        + "where mp.compositeMemberProject.project = :project and mp.compositeMemberProject.member = :member")
     MemberProject findMemberProject(@Param("project") Project project, @Param("member") Member member);
 
     // 특정 프로젝트의 활성화 되어있는 개발자들의 닉네임 정보

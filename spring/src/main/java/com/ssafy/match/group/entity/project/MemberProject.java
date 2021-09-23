@@ -1,6 +1,5 @@
-package com.ssafy.match.group.entity;
+package com.ssafy.match.group.entity.project;
 
-import com.ssafy.match.db.entity.embedded.CompositeMemberProject;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;

@@ -1,8 +1,8 @@
 package com.ssafy.match.db.entity;
 
-import com.ssafy.match.group.entity.Club;
-import com.ssafy.match.group.entity.Project;
-import com.ssafy.match.group.entity.Study;
+import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.group.entity.project.Project;
+import com.ssafy.match.group.entity.study.Study;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

@@ -3,7 +3,7 @@ package com.ssafy.match.db.repository;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.MemberClub;
 import com.ssafy.match.db.entity.embedded.CompositeMemberClub;
-import com.ssafy.match.group.entity.Club;
+import com.ssafy.match.group.entity.club.Club;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,4 +1,4 @@
-package com.ssafy.match.group.entity;
+package com.ssafy.match.group.entity.club;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.match.db.entity.City;

@@ -1,6 +1,6 @@
-package com.ssafy.match.db.entity.embedded;
+package com.ssafy.match.group.entity.project;
 
-import com.ssafy.match.group.entity.Study;
+import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.db.entity.Member;
 import java.io.Serializable;
 import javax.persistence.Embeddable;
@@ -16,18 +16,18 @@ import lombok.Setter;
 @Setter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CompositeMemberStudy implements Serializable {
+public class CompositeMemberProject implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "study_id")
-    private Study study;
+    @JoinColumn(name = "project_id")
+    private Project project;
 
-    public CompositeMemberStudy(Member member, Study study) {
+    public CompositeMemberProject(Member member, Project project) {
         this.member = member;
-        this.study = study;
+        this.project = project;
     }
 }

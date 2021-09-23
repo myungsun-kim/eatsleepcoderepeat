@@ -1,9 +1,10 @@
 package com.ssafy.match.group.controller;
 
 import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
+import com.ssafy.match.group.dto.project.ProjectInfoForCreateResponseDto;
 import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
 import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
-import com.ssafy.match.group.entity.Project;
+import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.service.ProjectService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -29,6 +30,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProjectController {
 
     private final ProjectService projectService;
+
+    @GetMapping
+    @ApiImplicitParam(name = "dto", value = "프로젝트 생성을 위한 Dto", required = true, dataType = "ProjectInfoForCreateResponseDto", paramType = "json")
+    @ApiOperation(value = "프로젝트 생성을 위한 정보", notes = "<strong>프로젝트를 생성하기 위한</strong> 전체 기술, 생성할 멤버의 클럽, 선택할 수 있는 지역 리스트를 받는다")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<ProjectInfoForCreateResponseDto> infoForCreate() throws Exception {
+        return ResponseEntity.ok(projectService.infoForCreate());
+    }
 
     @PostMapping
     @ApiImplicitParam(name = "dto", value = "프로젝트 생성 dto", required = true, dataType = "ProjectCreateRequestDto", paramType = "json")
@@ -61,7 +72,7 @@ public class ProjectController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<HttpStatus> deleteProject(@PathVariable("id") Long projectId)
+    public ResponseEntity<HttpStatus> deleteProject(@PathVariable("projectId") Long projectId)
         throws Exception {
         return ResponseEntity.ok(projectService.delete(projectId));
     }
@@ -89,8 +100,6 @@ public class ProjectController {
         throws Exception {
         return ResponseEntity.ok(projectService.projectInMember(memberId));
     }
-
-
 
 
 }

@@ -4,24 +4,29 @@ import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
-import com.ssafy.match.db.entity.embedded.CompositeMemberProject;
-import com.ssafy.match.db.entity.embedded.CompositeProjectTechstack;
+import com.ssafy.match.group.dto.project.FormRegisterRequestDto;
+import com.ssafy.match.group.dto.project.FormtInfoForRegisterResponseDto;
+import com.ssafy.match.group.entity.project.CompositeMemberProject;
+import com.ssafy.match.group.entity.project.CompositeProjectTechstack;
 import com.ssafy.match.db.repository.MemberClubRepository;
 import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.db.repository.TechstackRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
 import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
+import com.ssafy.match.group.dto.project.ProjectInfoForCreateResponseDto;
 import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
 import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
-import com.ssafy.match.group.entity.Club;
-import com.ssafy.match.group.entity.MemberProject;
-import com.ssafy.match.group.entity.Project;
-import com.ssafy.match.group.entity.ProjectTechstack;
-import com.ssafy.match.group.repository.ClubRepository;
-import com.ssafy.match.group.repository.MemberProjectRepository;
-import com.ssafy.match.group.repository.ProjectRepository;
-import com.ssafy.match.group.repository.ProjectTechstackRepository;
+import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.group.entity.project.MemberProject;
+import com.ssafy.match.group.entity.project.Project;
+import com.ssafy.match.group.entity.project.ProjectApplicationForm;
+import com.ssafy.match.group.entity.project.ProjectTechstack;
+import com.ssafy.match.group.repository.club.ClubRepository;
+import com.ssafy.match.group.repository.project.MemberProjectRepository;
+import com.ssafy.match.group.repository.project.ProjectApplicationFormRepository;
+import com.ssafy.match.group.repository.project.ProjectRepository;
+import com.ssafy.match.group.repository.project.ProjectTechstackRepository;
 import com.ssafy.match.util.SecurityUtil;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,7 +51,23 @@ public class ProjectServiceImpl implements ProjectService {
     private final ClubRepository clubRepository;
     private final MemberProjectRepository memberProjectRepository;
     private final MemberClubRepository memberClubRepository;
+    private final ProjectApplicationFormRepository projectApplicationFormRepository;
 
+    public ProjectInfoForCreateResponseDto infoForCreate() throws Exception {
+        Member member = findMember(SecurityUtil.getCurrentMemberId());
+
+        List<String> allTechstack = allTechstackName();
+        List<Club> hostClub = memberClubRepository.findClubByMember(member);
+        List<String> projectCity = Stream.of(City.values())
+            .map(Enum::name)
+            .collect(Collectors.toList());
+
+        return ProjectInfoForCreateResponseDto.builder()
+            .allTechstack(allTechstack)
+            .hostClub(hostClub)
+            .projectCity(projectCity)
+            .build();
+    }
     @Transactional
     public Long create(ProjectCreateRequestDto dto) throws Exception {
         Long currentMemberId = SecurityUtil.getCurrentMemberId();
@@ -308,6 +329,26 @@ public class ProjectServiceImpl implements ProjectService {
         changeRole(projectId, memberId, role);
     }
 
+    @Transactional
+    public void removeMember(Long projectId, Long memberId) throws Exception {
+        Project project = findProject(projectId);
+        Member member = findMember(memberId);
+
+        if(project.getMember().getId() == memberId){
+            throw new Exception("프로젝트장은 탈퇴할 수 없습니다.");
+        }
+
+        CompositeMemberProject compositeMemberProject = new CompositeMemberProject(member, project);
+        // DB에 해당 멤버 기록이 없다면 새로 생성
+        MemberProject memberProject = memberProjectRepository.findById(compositeMemberProject)
+            .orElseThrow(() -> new NullPointerException("이미 탈퇴된 멤버입니다."));
+
+        memberProject.setRegisterDate(LocalDateTime.now());
+        memberProject.deactivation();
+        changeRole(projectId, memberId, "");
+//        memberProjectRepository.save(memberProject);
+    }
+
     public Project findProject(Long projectId) throws Exception {
         Project project = projectRepository.findById(projectId)
             .orElseThrow(() -> new NullPointerException("프로젝트 정보가 없습니다."));
@@ -426,5 +467,91 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
 //        projectRepository.save(project);
+    }
+
+    // 신청 버튼 클릭시 관련 정보 및 권한 체크
+    public FormtInfoForRegisterResponseDto checkForRegister(Long projectId) throws Exception {
+        Member member = findMember(SecurityUtil.getCurrentMemberId());
+        Project project = findProject(projectId);
+
+        List<Member> memberList = memberInProject(projectId);
+        for (Member mem: memberList) {
+            if(SecurityUtil.getCurrentMemberId() == mem.getId()){
+                throw new Exception("이미 가입한 멤버입니다.");
+            }
+        }
+
+        if(!project.isParticipate()){
+            throw new Exception("참여 불가능한 프로젝트입니다.");
+        }
+
+        List<String> allTechstack = allTechstackName();
+        List<String> projectCity = Stream.of(City.values())
+            .map(Enum::name)
+            .collect(Collectors.toList());
+
+        return FormtInfoForRegisterResponseDto.builder()
+            .name(member.getName())
+            .position(member.getPosition())
+            .allTechstack(allTechstack)
+            .projectCity(projectCity)
+            .build();
+    }
+
+    @Transactional
+    public HttpStatus createForm(Long projectId, FormRegisterRequestDto dto) throws Exception {
+        Member member = findMember(SecurityUtil.getCurrentMemberId());
+        Project project = findProject(projectId);
+
+        CompositeMemberProject mp = new CompositeMemberProject(member, project);
+
+        Optional<ProjectApplicationForm> form = projectApplicationFormRepository.findById(mp);
+        if (form.isPresent()) {
+            throw new Exception("신청한 내역이 존재합니다.");
+        }
+
+        ProjectApplicationForm projectApplicationForm = ProjectApplicationForm.builder()
+            .compositeMemberProject(mp)
+            .name(dto.getName())
+            .city(City.from(dto.getCity()))
+            .role(dto.getRole())
+            .position(dto.getPosition())
+            .git(dto.getGit())
+            .twitter(dto.getTwitter())
+            .facebook(dto.getFacebook())
+            .backjoon(dto.getBackjoon())
+            .bio(dto.getBio())
+            .createDate(LocalDateTime.now())
+            .build();
+
+        if(dto.getGit() != null){
+            projectApplicationForm.setGit(dto.getGit());
+        }
+        if(dto.getTwitter() != null){
+            projectApplicationForm.setTwitter(dto.getTwitter());
+        }
+        if(dto.getFacebook() != null){
+            projectApplicationForm.setFacebook(dto.getFacebook());
+        }
+        if(dto.getGit() != null){
+            projectApplicationForm.setGit(dto.getGit());
+        }
+        if (dto.getDbFile() != null) {
+            projectApplicationForm.setDbFile(dto.getDbFile());
+        }
+
+        projectApplicationFormRepository.save(projectApplicationForm);
+        return HttpStatus.OK;
+    }
+
+    // 특정 프로젝트 모든 신청서 조회
+    public List<ProjectApplicationForm> allProjectForm(Long projectId) throws Exception {
+        Project project = findProject(projectId);
+
+        if(SecurityUtil.getCurrentMemberId() != project.getMember().getId()){
+            throw new Exception("조회 권한이 없습니다.");
+        }
+
+        return projectApplicationFormRepository.formByProjectId(project);
     }
 }
