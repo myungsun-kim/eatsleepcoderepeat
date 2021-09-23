@@ -7,17 +7,18 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.kafka.common.protocol.types.Field;
 
 @Getter
 @Setter
-@Entity(name = "matching.member_interest_techstack")
+@Entity(name = "matching.member_experienced_techstack")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberInterestTechstack {
+public class MemberExperiencedTechstack {
 
     @EmbeddedId
     private CompositeMemberTechstack compositeMemberTechstack;
 
-    public MemberInterestTechstack(
+    public MemberExperiencedTechstack(
         CompositeMemberTechstack compositeMemberTechstack) {
         this.compositeMemberTechstack = compositeMemberTechstack;
     }

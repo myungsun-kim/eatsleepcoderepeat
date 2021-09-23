@@ -33,6 +33,8 @@ CREATE TABLE IF NOT EXISTS `matching`.`member` (
   `nickname` VARCHAR(255) NULL DEFAULT NULL,
   `password` VARCHAR(255) NULL DEFAULT NULL,
   `tel` VARCHAR(255) NULL DEFAULT NULL,
+  `position` VARCHAR(20) NULL DEFAULT NULL,
+  `is_active` BIT(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 2
@@ -376,9 +378,26 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `matching`.`member_interest_techstack`
+-- Table `matching`.`member_beginner_techstack`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `matching`.`member_interest_techstack` (
+CREATE TABLE IF NOT EXISTS `matching`.`member_beginner_techstack` (
+  `member_id` BIGINT NOT NULL,
+  `techstack_id` INT NOT NULL,
+  PRIMARY KEY (`member_id`, `techstack_id`),
+  CONSTRAINT `FKhiwqgp87b3o133ipcrwvmtred`
+    FOREIGN KEY (`techstack_id`)
+    REFERENCES `matching`.`techstack` (`id`),
+  CONSTRAINT `FKqkqcrqsbs4ir3m652e6ee7rpq`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `matching`.`member` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -----------------------------------------------------
+-- Table `matching`.`member_experienced_techstack`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matching`.`member_experienced_techstack` (
   `member_id` BIGINT NOT NULL,
   `techstack_id` INT NOT NULL,
   PRIMARY KEY (`member_id`, `techstack_id`),
