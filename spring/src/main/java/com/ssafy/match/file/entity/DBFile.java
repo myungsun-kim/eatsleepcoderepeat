@@ -30,10 +30,6 @@ public class DBFile {
     @Lob
     private byte[] data;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
     public DBFile(String file_name, String file_type, byte[] data) {
         this.file_name = file_name;
         this.file_type = file_type;

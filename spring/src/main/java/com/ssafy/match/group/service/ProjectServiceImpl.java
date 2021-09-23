@@ -512,7 +512,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         ProjectApplicationForm projectApplicationForm = ProjectApplicationForm.builder()
             .compositeMemberProject(mp)
-            .name(dto.getName())
+            .nickname(dto.getNickname())
             .city(City.from(dto.getCity()))
             .role(dto.getRole())
             .position(dto.getPosition())

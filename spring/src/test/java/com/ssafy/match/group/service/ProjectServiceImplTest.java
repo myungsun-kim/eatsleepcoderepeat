@@ -466,7 +466,7 @@ class ProjectServiceImplTest {
         }
 
         FormRegisterRequestDto dto = FormRegisterRequestDto.builder()
-            .name("박범준")
+            .nickname("박범준")
             .city("서울")
             .role("개발자")
             .position("BE")
@@ -481,7 +481,7 @@ class ProjectServiceImplTest {
 
         ProjectApplicationForm projectApplicationForm = ProjectApplicationForm.builder()
             .compositeMemberProject(mp)
-            .name(dto.getName())
+            .nickname(dto.getNickname())
             .city(City.from(dto.getCity()))
             .role(dto.getRole())
             .position(dto.getPosition())
