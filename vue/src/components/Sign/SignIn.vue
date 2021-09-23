@@ -9,10 +9,22 @@
         </div>
         <div class="height5">5</div>
         <div class="height5">
-          <input type="text" value="이메일" id="email" />
+          <input
+            type="text"
+            placeholder="이메일"
+            id="email"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='이메일'"
+          />
         </div>
         <div class="height10">
-          <input type="text" value="비밀번호" id="password" />
+          <input
+            type="text"
+            placeholder="비밀번호"
+            id="password"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='비밀번호'"
+          />
         </div>
         <div class="height5">
           <button id="login">로그인</button>

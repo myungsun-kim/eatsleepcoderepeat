@@ -20,7 +20,6 @@
         <div class="height5">5</div>
       </div>
     </el-col>
-
     <!-- Step1 기본정보-->
     <!-- <el-col :span="15" :offset="0" id="step1">
       <div class="height100">
@@ -260,7 +259,25 @@
   </el-row>
 </template>
 
-<script></script>
+<script>
+import { reactive, ref } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+export default {
+  name: 'SignUp',
+
+  setup() {
+    const store = useStore();
+    // 독립적인 반응형 값 생성 ref()
+    const signUp = ref(null);
+    const state = reactive({
+      form: {
+        state: '1',
+      },
+    });
+  },
+};
+</script>
 
 <style scoped>
 /* 공통 */
