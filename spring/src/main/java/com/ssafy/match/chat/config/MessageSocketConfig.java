@@ -18,13 +18,12 @@ public class MessageSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/sub");
-//        config.setApplicationDestinationPrefixes("/pub");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // TODO : CORS 설정 * 안먹히는 문제
-        registry.addEndpoint("/chat")
+        registry.addEndpoint("/socket/chat")
             .setAllowedOriginPatterns("*").withSockJS();
 //            .setAllowedOrigins("https://localhost:8080", "https://i5d204.p.ssafy.io",
 //                "http://localhost:8080").withSockJS();

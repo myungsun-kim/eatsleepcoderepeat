@@ -378,9 +378,26 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `matching`.`member_interest_techstack`
+-- Table `matching`.`member_beginner_techstack`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `matching`.`member_interest_techstack` (
+CREATE TABLE IF NOT EXISTS `matching`.`member_beginner_techstack` (
+  `member_id` BIGINT NOT NULL,
+  `techstack_id` INT NOT NULL,
+  PRIMARY KEY (`member_id`, `techstack_id`),
+  CONSTRAINT `FKhiwqgp87b3o133ipcrwvmtred`
+    FOREIGN KEY (`techstack_id`)
+    REFERENCES `matching`.`techstack` (`id`),
+  CONSTRAINT `FKqkqcrqsbs4ir3m652e6ee7rpq`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `matching`.`member` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+-- -----------------------------------------------------
+-- Table `matching`.`member_experienced_techstack`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matching`.`member_experienced_techstack` (
   `member_id` BIGINT NOT NULL,
   `techstack_id` INT NOT NULL,
   PRIMARY KEY (`member_id`, `techstack_id`),
@@ -579,6 +596,33 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
+
+-- -----------------------------------------------------
+-- Table `matching`.`message`
+-- -----------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `matching`.`message` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `sender_id` BIGINT NOT NULL,
+  `receiver_id` BIGINT NOT NULL,
+  `sent_time` TIMESTAMP NULL,
+  `read_time` TIMESTAMP NULL,
+  `content` TEXT NULL,
+  `type` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_message_member1_idx` (`sender_id` ASC) VISIBLE,
+  INDEX `fk_message_member2_idx` (`receiver_id` ASC) VISIBLE,
+  CONSTRAINT `fk_message_member1`
+    FOREIGN KEY (`sender_id`)
+    REFERENCES `matching`.`member` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_message_member2`
+    FOREIGN KEY (`receiver_id`)
+    REFERENCES `matching`.`member` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

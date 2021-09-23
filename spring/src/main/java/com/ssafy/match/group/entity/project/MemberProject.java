@@ -20,8 +20,10 @@ public class MemberProject {
     private CompositeMemberProject compositeMemberProject;
 
     private String role;
+
     @Column(name = "is_active")
     private boolean isActive;
+
     @Column(name = "register_date")
     private LocalDateTime registerDate;
 

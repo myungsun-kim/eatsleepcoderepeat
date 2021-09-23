@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -29,13 +32,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers("/swagger-ui/**", "/swagger-resources/**","/v2/**", "/favicon.ico");
+                .antMatchers("/swagger-ui/**", "/swagger-resources/**","/v2/**", "/favicon.ico",
+                    "/chat/**", // chat api
+                    "/socket/chat/**", // chat socket
+                    "/chat/sessions/**"
+                );
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // CSRF 설정 Disable
         http.csrf().disable()
+            .cors().disable()
+            .formLogin().disable()
+
 
                 // exception handling 할 때 우리가 만든 클래스를 추가
                 .exceptionHandling()
@@ -60,8 +70,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/**").permitAll()
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 
+//                .and()
+//                .authorizeRequests()
+//
+//                .antMatchers("/swagger-resources/**").permitAll()
+
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        // - (3)
+        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedOrigin("http://localhost");
+//        configuration.addAllowedOrigin("https://59.151.220.195:5501");
+        // above origin is for the test @ daebalprime local.
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(false);
+
+//        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

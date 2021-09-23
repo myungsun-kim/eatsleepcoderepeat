@@ -4,6 +4,7 @@ import com.ssafy.match.file.entity.DBFile;
 import java.time.LocalDateTime;
 import javax.persistence.*;
 
+import com.ssafy.match.group.entity.Club;
 import lombok.*;
 
 @Getter
@@ -33,6 +34,10 @@ public class Member {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cover_pic")
     private DBFile dbFile;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_id")
+    private Club club;
 
     @Builder
     public Member(LocalDateTime create_date, String email, String name, String password,
