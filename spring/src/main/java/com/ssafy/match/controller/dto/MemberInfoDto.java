@@ -1,20 +1,13 @@
 package com.ssafy.match.controller.dto;
 
-import com.ssafy.match.db.entity.Authority;
-import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.file.entity.DBFile;
-import com.ssafy.match.group.entity.Club;
-import com.ssafy.match.group.entity.Project;
+import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.group.entity.project.Project;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
-import lombok.*;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class MemberInfoDto {
