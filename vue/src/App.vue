@@ -12,6 +12,10 @@
 export default {};
 </script>
 <style>
+body {
+  margin: 0;
+}
+
 #app {
   font-family: 'Noto Sans KR', 'S-CoreDream-5Medium', '맑은 고딕', Avenir,
     Helvetica, Arial, sans-serif;
@@ -84,10 +88,20 @@ body {
   box-sizing: border-box;
   height: 50%;
 }
+.height40 {
+  border: 3px solid rgb(255, 59, 59);
+  box-sizing: border-box;
+  height: 40%;
+}
 .height30 {
   border: 3px solid rgb(255, 0, 212);
   box-sizing: border-box;
   height: 30%;
+}
+.height20 {
+  border: 3px solid rgb(182, 49, 31);
+  box-sizing: border-box;
+  height: 20%;
 }
 .height10 {
   border: 3px solid rgb(0, 25, 139);
