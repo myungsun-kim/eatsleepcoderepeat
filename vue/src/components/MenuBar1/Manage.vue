@@ -1,6 +1,6 @@
 <template>
-  <el-row style="height: 85%"
-    ><el-col :span="3"></el-col>
+  <el-row style="height: 85%">
+    <el-col :span="3"></el-col>
     <el-col :span="18">회원목록테이블</el-col>
     <el-col :span="3"></el-col>
   </el-row>
@@ -14,10 +14,12 @@
         ><el-col :span="2"><button>글 쓰기</button></el-col>
       </el-row>
       <el-row class="height10"> </el-row>
-      <el-row style="height: 35%"
-        ><el-col :span="4"></el-col><el-col :span="2">리스트</el-col
-        ><el-col :span="12">검색창</el-col
-        ><el-col :span="2"><button>검색</button></el-col>
+      <el-row style="height: 35%">
+        <el-col :span="4"></el-col>
+        <el-col :span="2">리스트</el-col>
+        <el-col :span="12">검색창</el-col>
+        <el-col :span="1"><button>수락</button></el-col>
+        <el-col :span="1"><button>취소</button></el-col>
         <el-col :span="4"></el-col>
       </el-row>
       <el-row class="height10"> </el-row>
@@ -27,7 +29,8 @@
 </template>
 
 <script>
+import MemberAcceptModal from '../Modal/MemberAcceptModal.vue';
 export default {
-  components: {},
+  components: { MemberAcceptModal },
 };
 </script>

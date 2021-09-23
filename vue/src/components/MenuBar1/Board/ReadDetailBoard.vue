@@ -1,14 +1,16 @@
 <template>
   <el-row
     ><el-col :span="5"></el-col>
-    <el-col :span="13"
-      ><el-row> 공지사항 </el-row><el-row> 금주 모임 시간 변경 안내 </el-row
-      ><el-row> Minsu </el-row
+    <el-col :span="13">
+      <el-row> 공지사항 </el-row>
+      <el-row> 금주 모임 시간 변경 안내 </el-row>
+      <el-row> Minsu </el-row
       ><el-row>
-        <el-col :span="4">21.09.08 13:49</el-col><el-col :span="17"></el-col
-        ><el-col :span="1"><button>수정</button></el-col
-        ><el-col :span="1"><button>삭제</button></el-col
-        ><el-col :span="1"></el-col>
+        <el-col :span="4">21.09.08 13:49</el-col>
+        <el-col :span="17"></el-col>
+        <el-col :span="1"><button>수정</button></el-col>
+        <el-col :span="1"><ArticleDeleteModal></ArticleDeleteModal></el-col>
+        <el-col :span="1"></el-col>
       </el-row>
       <el-row style
         >본문 Section 1.10.32 of "de Finibus Bonorum et Malorum", written by
@@ -43,24 +45,26 @@
       </el-row>
       <el-row>
         <el-col :span="21"></el-col>
-        <el-col :span="2"><button>목록</button></el-col
-        ><el-col :span="1"></el-col>
+        <el-col :span="2"><button>목록</button></el-col>
+        <el-col :span="1"></el-col>
       </el-row>
       <el-row>
         <el-col :span="2">댓글</el-col>
         <el-col :span="22"></el-col>
       </el-row>
       <el-row>
-        <el-col :span="24"><textarea>등록버튼</textarea></el-col> </el-row
-      ><el-row>
+        <el-col :span="24"><textarea>등록버튼</textarea></el-col>
+      </el-row>
+      <el-row>
         <el-col :span="1"></el-col>
-        <el-col :span="22"></el-col
-        ><el-row>
+        <el-col :span="22"></el-col>
+        <el-row>
           <el-col :span="1">사진</el-col>
-          <el-col :span="21">닉네임<br />3시간전</el-col
-          ><el-col :span="1"><button>수정</button></el-col
-          ><el-col :span="1"><button>삭제</button></el-col> </el-row
-        ><el-row>
+          <el-col :span="21">닉네임<br />3시간전</el-col>
+          <el-col :span="1"><button>수정</button></el-col>
+          <el-col :span="1"><button>삭제</button></el-col>
+        </el-row>
+        <el-row>
           <el-col :span="2"><button>답글쓰기</button></el-col>
           <el-col :span="22"></el-col>
         </el-row>
@@ -74,3 +78,9 @@
     <el-col :span="6"></el-col>
   </el-row>
 </template>
+<script>
+import ArticleDeleteModal from '../../Modal/ArticleDeleteModal.vue';
+export default {
+  components: { ArticleDeleteModal },
+};
+</script>
