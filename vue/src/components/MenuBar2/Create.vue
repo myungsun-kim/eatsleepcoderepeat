@@ -1,3 +1,232 @@
 <template>
-  <div>create - study, project, club</div>
+  <div>
+    <el-row :gutter="0">
+      <el-col :span="5" :offset="0">
+        <div class="height100">1</div>
+      </el-col>
+      <el-col :span="13" :offset="0">
+        <div class="height100">
+          <div id="h1">스터디 생성</div>
+          <div id="box1">
+            <div id="h2">스터디 이름</div>
+            <input
+              type="text"
+              placeholder="이름을 입력하세요."
+              id="input"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='이름을 입력하세요'"
+            />
+          </div>
+          <div id="box1">
+            <div id="h2">기술스택</div>
+            <input
+              type="text"
+              placeholder="사용하는 기술 스택을 입력하세요."
+              id="input"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='사용하는 기술 스택을 입력하세요'"
+            />
+          </div>
+          <div id="box3">
+            <div id="box2">
+              <div id="box1">
+                <div id="h2">일정</div>
+                <input
+                  type="text"
+                  placeholder="스터디 일정을 입력하세요"
+                  id="input1"
+                  onfocus="this.placeholder=''"
+                  onblur="this.placeholder='스터디 일정을 입력하세요'"
+                />
+              </div>
+              <div id="box1">
+                <div id="h2">스터디 기간(단위: 주)</div>
+                <input
+                  type="text"
+                  placeholder="숫자만 입력하세요"
+                  id="input1"
+                  onfocus="this.placeholder=''"
+                  onblur="this.placeholder='숫자만 입력하세요'"
+                />
+              </div>
+              <div id="box1">
+                <div id="h2">인원</div>
+                <input
+                  type="text"
+                  placeholder="Dropdown 지역 목록 + 무관"
+                  id="input1"
+                  onfocus="this.placeholder=''"
+                  onblur="this.placeholder='Dropdown 지역 목록 + 무관'"
+                />
+              </div>
+            </div>
+            <div id="box4">
+              <div id="h2">프로필 사진 등록</div>
+              <el-upload
+                class="upload-demo"
+                drag
+                action="https://jsonplaceholder.typicode.com/posts/"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :file-list="fileList"
+                multiple
+              >
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text">
+                  파일을 드래그 하거나
+                  <br />
+                  <em>클릭해서 업로드 하세요</em>
+                </div>
+              </el-upload>
+            </div>
+          </div>
+          <div id="box1">
+            <div id="h2">지역</div>
+            <input
+              type="text"
+              placeholder="Dropdown 지역 목록 + 무관"
+              id="input"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='Dropdown 지역 목록 + 무관'"
+            />
+          </div>
+
+          <div id="box1">
+            <div id="h2">소속 클럽</div>
+            <input
+              type="text"
+              placeholder="Dropdown 가입된 클럽들 + 클럽 없음"
+              id="input"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='Dropdown 가입된 클럽들 + 클럽 없음'"
+            />
+          </div>
+          <div id="box1">
+            <div id="h2">소개</div>
+            <input
+              type="text"
+              placeholder="해당 스터디에 대해 소개해주세요"
+              id="input"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='해당 스터디에 대해 소개해주세요'"
+            />
+          </div>
+          <div>
+            <button>생성</button>
+            <button>취소</button>
+          </div>
+        </div>
+      </el-col>
+      <el-col :span="6" :offset="0">
+        <div class="height100">3</div>
+      </el-col>
+    </el-row>
+
+    <!-- <p id="h1">스터디 생성</p>
+    <div>스터디이름</div>
+    <div>기술스택</div>
+    <div>
+      <div>
+        <div>일정</div>
+        <div>스터디 기간</div>
+        <div>인원</div>
+      </div>
+      <div>프로필 사진 등록</div>
+    </div>
+    <div>비공개 스터디</div>
+    <div>지역</div>
+    <div>소속 클럽</div>
+    <div>소개</div> -->
+  </div>
 </template>
+<style scoped>
+#h1 {
+  width: 184px;
+  height: 52px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 52px;
+  margin-top: 50px;
+  margin-bottom: 0px;
+  margin-left: 1px;
+  text-align: left;
+  color: #000000;
+}
+#h2 {
+  width: 200px;
+  height: 35px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 29px;
+  margin-top: 10px;
+  margin-left: 2px;
+  text-align: left;
+  color: #000000;
+}
+#input {
+  width: 782px;
+  height: 50px;
+
+  background: #e8e8e8;
+  border-radius: 10px;
+  border: 0px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  margin-left: 2px;
+
+  /* 비밀번호확인 텍스트 */
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  text-align: left;
+
+  color: #919191;
+}
+#input1 {
+  width: 363px;
+  height: 50px;
+
+  background: #e8e8e8;
+  border-radius: 10px;
+  border: 0px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  margin-left: 2px;
+
+  /* 비밀번호확인 텍스트 */
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  text-align: left;
+
+  color: #919191;
+}
+#box1 {
+  display: flex;
+  flex-flow: column;
+}
+#box2 {
+  display: flex;
+  flex-flow: column;
+}
+#box3 {
+  display: flex;
+}
+#box4 {
+  margin-left: 60px;
+  display: flex;
+  flex-flow: column;
+}
+</style>
