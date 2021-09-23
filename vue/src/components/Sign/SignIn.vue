@@ -1,3 +1,203 @@
 <template>
-  <div>sign IN</div>
+  <el-row :gutter="0" class="height100">
+    <el-col :span="15" :offset="0">
+      <div class="height100">
+        <div class="height30">30</div>
+        <div class="height5">5</div>
+        <div class="height10" id="H1">
+          <p id="h1">환영합니다!</p>
+        </div>
+        <div class="height5">5</div>
+        <div class="height5">
+          <input type="text" value="이메일" id="email" />
+        </div>
+        <div class="height10">
+          <input type="text" value="비밀번호" id="password" />
+        </div>
+        <div class="height5">
+          <button id="login">로그인</button>
+        </div>
+        <div class="height30">30</div>
+      </div>
+    </el-col>
+    <el-col :span="9" :offset="0" id="right">
+      <div class="height100">
+        <div class="height30">30</div>
+        <div class="height5">5</div>
+        <div class="height10" id="P1">
+          <p id="p1">아직 회원이 아니신가요?</p>
+        </div>
+        <div class="height10" id="P2">
+          <p id="p2">
+            회원가입을 하고 여러분이 원하는 스터디와 프로젝트를 찾아보세요!
+          </p>
+        </div>
+        <div class="height5">5</div>
+        <div class="height5">
+          <button id="signin">회원가입</button>
+        </div>
+        <div class="height5">5</div>
+        <div class="height30">30</div>
+      </div>
+    </el-col>
+  </el-row>
 </template>
+
+<script>
+export default {};
+</script>
+
+<style scoped>
+#right {
+  background: linear-gradient(
+    180deg,
+    rgba(45, 109, 206, 0.6) 0%,
+    rgba(66, 142, 255, 0.7) 55%,
+    #c4e6ff 100%
+  );
+}
+#H1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#h1 {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 48px;
+  line-height: 58px;
+  /* identical to box height, or 121% */
+
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #202121;
+}
+#email {
+  /* 버튼 */
+  width: 400px;
+  height: 48px;
+
+  background: #e8e8e8;
+  border-radius: 10px;
+  border: 0px;
+
+  /* 텍스트 */
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+
+  text-align: left;
+  padding-left: 10px;
+
+  color: #919191;
+}
+#password {
+  width: 400px;
+  height: 48px;
+
+  background: #e8e8e8;
+  border-radius: 10px;
+  border: 0px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+
+  text-align: left;
+  padding-left: 10px;
+
+  color: #919191;
+}
+
+#login {
+  /* 버튼 */
+  width: 178px;
+  height: 50px;
+
+  background: #307ff5;
+  border-radius: 30px;
+  border: 0px;
+
+  /* 텍스트 */
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  /* or 100% */
+
+  text-align: center;
+
+  color: #ffffff;
+}
+#P1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#p1 {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: bold;
+  /* font-size: 250%; */
+  font-size: 40px;
+  line-height: 58px;
+  /* identical to box height, or 145% */
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #ffffff;
+}
+#P2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#p2 {
+  width: 290px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 30px;
+  /* or 150% */
+
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  color: #ffffff;
+}
+#signin {
+  /* 텍스트 */
+  width: 64px;
+  height: 18px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  /* or 100% */
+
+  text-align: center;
+
+  color: #000000;
+
+  /* 버튼 */
+  width: 178px;
+  height: 50px;
+
+  border: 0px;
+  background: #ffffff;
+  border-radius: 30px;
+}
+</style>
