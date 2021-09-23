@@ -10,7 +10,8 @@
       </el-row>
     </el-col>
     <el-col :span="2"></el-col>
-    <el-col :span="5"></el-col><el-col :span="3"></el-col
+    <el-col :span="5"><img src="../assets/Item/logo.png" /></el-col
+    ><el-col :span="3"></el-col
     ><el-col :span="6"
       ><el-row>
         <el-col :span="2"> <i class="el-icon-search"></i></el-col>
