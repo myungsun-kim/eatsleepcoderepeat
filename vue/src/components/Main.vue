@@ -20,10 +20,10 @@
         <el-row :gutter="0" style="height: 5%">
           <el-col :span="10"></el-col>
           <el-col :span="2">
-            <button class="sign-btn">로그인</button>
+            <button class="sign-btn" @click="goSignIn">로그인</button>
           </el-col>
           <el-col :span="2">
-            <button class="sign-btn">회원가입</button>
+            <button class="sign-btn" @click="goSignUp">회원가입</button>
           </el-col>
           <el-col :span="10"></el-col>
         </el-row>
@@ -34,8 +34,27 @@
 </template>
 
 <script>
+// import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
 export default {
   components: {},
+  setup() {
+    // const store = useStore();
+    const router = useRouter();
+
+    const goSignIn = function () {
+      router.push({ path: '/noheader/signin' });
+    };
+    const goSignUp = function () {
+      router.push({ path: '/noheader/signup' });
+    };
+
+    return {
+      goSignIn,
+      goSignUp,
+    };
+  },
 };
 </script>
 <style>

@@ -112,8 +112,8 @@
             />
           </div>
           <div>
-            <el-button class="btn-create">생성</el-button>
-            <el-button class="btn-cancel">취소</el-button>
+            <el-button class="btn-create" @click="goIntroduce">생성</el-button>
+            <el-button class="btn-cancel" @click="goHome">취소</el-button>
           </div>
         </div>
       </el-col>
@@ -123,6 +123,30 @@
     </el-row>
   </div>
 </template>
+<script>
+// import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+export default {
+  components: {},
+  setup() {
+    // const store = useStore();
+    const router = useRouter();
+
+    const goIntroduce = function () {
+      router.push({ path: '/subheader/introduce' });
+    };
+    const goHome = function () {
+      router.push({ path: '/nosubheader/home' });
+    };
+
+    return {
+      goIntroduce,
+      goHome,
+    };
+  },
+};
+</script>
 <style scoped>
 #h1 {
   width: 184px;

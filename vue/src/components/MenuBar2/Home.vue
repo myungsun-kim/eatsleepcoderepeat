@@ -4,7 +4,9 @@
       home - study, project, club 5% 여백
     </el-col>
     <el-col :span="3" class="test-border">
-      <el-button class="btn-1747C9 font-noto-bold">스터디 생성</el-button>
+      <el-button class="btn-1747C9 font-noto-bold" @click="goCreate"
+        >스터디 생성</el-button
+      >
     </el-col>
   </el-row>
 
@@ -43,7 +45,7 @@
     <el-col :span="2" class="test-border"></el-col>
 
     <!-- item 한개 -->
-    <el-col :span="4" class="test-border">
+    <el-col :span="4" class="test-border" @click="goIntroduce">
       <el-row class="height40 item-img"></el-row>
       <el-row class="height10 item-head-title">백준 알고 스터디 하실 분</el-row>
       <el-row class="height10 item-content">기술 스택: Java, Kotlin</el-row>
@@ -66,7 +68,7 @@
       </el-row>
     </el-col>
     <el-col :span="1" class="test-border"></el-col>
-    <el-col :span="4" class="test-border">
+    <el-col :span="4" class="test-border" @click="goIntroduce">
       <el-row class="height40 item-img"></el-row>
       <el-row class="height10 item-head-title">단기간 면접 대비 CS 공부</el-row>
       <el-row class="height10 item-content">기술 스택: Java, Kotlin</el-row>
@@ -176,7 +178,30 @@
     </el-col>
   </el-row>
 </template>
+<script>
+// import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
+export default {
+  components: {},
+  setup() {
+    // const store = useStore();
+    const router = useRouter();
+
+    const goCreate = function () {
+      router.push({ path: '/nosubheader/create' });
+    };
+    const goIntroduce = function () {
+      router.push({ path: '/subheader/introduce' });
+    };
+
+    return {
+      goCreate,
+      goIntroduce,
+    };
+  },
+};
+</script>
 <style>
 .item-img {
   background-image: url('../../assets/Item/Cat.png');

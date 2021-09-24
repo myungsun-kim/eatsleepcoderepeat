@@ -1,9 +1,9 @@
 <template>
   <el-row style="maxheight: 85%">
-    <el-col :span="3"
-      >element-plus tablem 일정 개수를 넘어가면 다음 페이지로 넘어가는 알고리즘
-      필요</el-col
-    >
+    <el-col :span="3">
+      element-plus tablem 일정 개수를 넘어가면 다음 페이지로 넘어가는 알고리즘
+      필요
+    </el-col>
     <el-col :span="18">
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column
@@ -37,9 +37,11 @@
           <el-pagination background layout="prev, pager, next" :total="1000">
           </el-pagination>
         </el-col>
-        <el-col :span="3"></el-col>
+        <el-col :span="3"> </el-col>
         <el-col :span="2">
-          <el-button class="btn-1747C9 font-noto-bold">글 쓰기</el-button>
+          <el-button class="btn-1747C9 font-noto-bold" @click="goCreateNotice">
+            글 쓰기
+          </el-button>
         </el-col>
       </el-row>
       <el-row class="height10">여백</el-row>
@@ -75,6 +77,9 @@
 </template>
 
 <script>
+// import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
 export default {
   data() {
     return {
@@ -104,6 +109,19 @@ export default {
           date: '2016-05-03',
         },
       ],
+    };
+  },
+  setup() {
+    // const store = useStore();
+    const router = useRouter();
+
+    const goCreateNotice = function () {
+      console.log('@');
+      router.push({ path: '/subheader/notice/create' });
+    };
+
+    return {
+      goCreateNotice,
     };
   },
 };
