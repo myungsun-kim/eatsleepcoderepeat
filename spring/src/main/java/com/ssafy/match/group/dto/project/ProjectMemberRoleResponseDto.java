@@ -3,7 +3,9 @@ package com.ssafy.match.group.dto.project;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class ProjectMemberRoleResponseDto {
 
     @ApiModelProperty(name = "id", example = "3")

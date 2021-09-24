@@ -6,6 +6,7 @@ import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.group.dto.project.FormRegisterRequestDto;
 import com.ssafy.match.group.dto.project.FormtInfoForRegisterResponseDto;
+import com.ssafy.match.group.dto.project.ProjectMemberRoleResponseDto;
 import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import com.ssafy.match.group.entity.project.CompositeProjectTechstack;
 import com.ssafy.match.db.repository.MemberClubRepository;
@@ -29,6 +30,7 @@ import com.ssafy.match.group.repository.project.ProjectRepository;
 import com.ssafy.match.group.repository.project.ProjectTechstackRepository;
 import com.ssafy.match.util.SecurityUtil;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -93,7 +95,6 @@ public class ProjectServiceImpl implements ProjectService {
             .isPublic(dto.isPublic())
             .isParticipate(true)
             .build();
-
 
         projectRepository.save(project);
 
@@ -176,7 +177,13 @@ public class ProjectServiceImpl implements ProjectService {
         List<String> allTechstack = allTechstackName();
         List<String> projectTechstack = projectTechstackName(projectId);
         List<Club> hostClub = memberClubRepository.findClubByMember(project.getMember());
+
         List<Member> projectMember = memberInProject(projectId);
+        List<ProjectMemberRoleResponseDto> projectMemberInfo = new ArrayList<>();
+        for (Member mem: projectMember) {
+            projectMemberInfo.add(new ProjectMemberRoleResponseDto(mem.getId(), mem.getName(), mem.getNickname()));
+        }
+
         List<String> projectCity = Stream.of(City.values())
             .map(Enum::name)
             .collect(Collectors.toList());
@@ -204,7 +211,7 @@ public class ProjectServiceImpl implements ProjectService {
             .allTechstack(allTechstack)
             .projectTechstack(projectTechstack)
             .hostClub(hostClub)
-            .projectMember(projectMember)
+            .projectMemberInfo(projectMemberInfo)
             .projectCity(projectCity)
             .build();
 
@@ -554,5 +561,11 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         return projectApplicationFormRepository.formByProjectId(project);
+    }
+
+    // 신청서 목록의 복합 기본키를 가져와 해당 신청서 상세조회
+    public ProjectApplicationForm oneProjectForm(CompositeMemberProject cmp){
+        return projectApplicationFormRepository.oneFormById(cmp)
+            .orElseThrow(()-> new NullPointerException("존재하지 않는 신청서입니다"));
     }
 }
