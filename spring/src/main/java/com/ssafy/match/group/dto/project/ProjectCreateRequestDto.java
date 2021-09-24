@@ -3,10 +3,15 @@ package com.ssafy.match.group.dto.project;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectCreateRequestDto {
 
     @ApiModelProperty(name = "techList", example = "{'자바', '파이썬', '스프링', '쿠버네티스'}")
@@ -16,10 +21,6 @@ public class ProjectCreateRequestDto {
     @ApiModelProperty(name = "name", example = "매칭 프로젝트")
     @ApiParam(value = "프로젝트명", required = true)
     private String name;
-
-    @ApiModelProperty(name = "hostId", example = "5")
-    @ApiParam(value = "프로젝트장 Id", required = true)
-    private Long hostId;
 
     @ApiModelProperty(name = "schedule", example = "매주 화, 수 6시")
     @ApiParam(value = "프로젝트 작업 시간", required = true)
@@ -66,13 +67,12 @@ public class ProjectCreateRequestDto {
     private String hostRole;
 
     @Builder
-    public ProjectCreateRequestDto(List<String> techList, String name, Long hostId,
+    public ProjectCreateRequestDto(List<String> techList, String name,
         String schedule, String bio, int period, int developerMaxCount, int designerMaxCount,
         int plannerMaxCount, String city, boolean isPublic, Long clubId, String uuid,
         String hostRole) {
         this.techList = techList;
         this.name = name;
-        this.hostId = hostId;
         this.schedule = schedule;
         this.bio = bio;
         this.period = period;
