@@ -78,7 +78,7 @@
       </el-row>
     </el-col>
     <el-col :span="1" class="test-border"></el-col>
-    <el-col :span="4" class="test-border" @click="goIntroduce">
+    <el-col :span="4" class="test-border" @click="clickIntroduce">
       <el-row class="height40 item-img"></el-row>
       <el-row class="height10 item-head-title">단기간 면접 대비 CS 공부</el-row>
       <el-row class="height10 item-content">기술 스택: Java, Kotlin</el-row>
