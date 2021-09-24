@@ -37,7 +37,9 @@ public class MessageSocketController {
     @MessageMapping("/pub/{toUserPk}")//@MessageMapping works for WebSocket protocol communication. This defines the URL mapping.
     public void pubMessage(@Payload ChatMessage message, @DestinationVariable String toUserPk) throws Exception {
         System.out.println(message.getRead_time());
-        int destPk = 0;
+
+        //
+        int destPk = 0; // jwt에서 까서 pk를 넣든지 아니면 db가서 가져오든지
         try{
             destPk = Integer.parseInt(toUserPk);
         }catch (Exception e){

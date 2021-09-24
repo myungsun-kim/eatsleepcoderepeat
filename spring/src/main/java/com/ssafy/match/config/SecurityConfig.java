@@ -35,7 +35,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui/**", "/swagger-resources/**","/v2/**", "/favicon.ico",
                     "/chat/**", // chat api
                     "/socket/chat/**", // chat socket
-                    "/chat/sessions/**"
+                    "/chat/sessions/**",
+                    "/external/**"
                 );
     }
 
@@ -43,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // CSRF 설정 Disable
         http.csrf().disable()
-            .cors().disable()
+//            .cors().disable()
             .formLogin().disable()
 
 
