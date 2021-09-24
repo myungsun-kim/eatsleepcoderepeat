@@ -4,37 +4,20 @@
       home - study, project, club 5% 여백
     </el-col>
     <el-col :span="3" class="test-border">
-      <el-button
-        class="btn-1747C9 font-noto-bold"
-        v-if="store.state.category == 1"
-        @click="clickCreate"
-        >스터디 생성</el-button
-      >
-      <el-button
-        class="btn-1747C9 font-noto-bold"
-        v-else-if="store.state.category == 2"
-        @click="clickCreate"
-        >프로젝트 생성</el-button
-      >
-      <el-button
-        class="btn-1747C9 font-noto-bold"
-        v-else-if="store.state.category == 3"
-        @click="clickCreate"
-        >클럽 생성</el-button
+      <el-button class="btn-1747C9 font-noto-bold" @click="clickCreate"
+        ><span v-if="store.state.category == 1">스터디 생성</span
+        ><span v-else-if="store.state.category == 2">프로젝트 생성</span
+        ><span v-else-if="store.state.category == 3">클럽 생성</span></el-button
       >
     </el-col>
   </el-row>
 
   <el-row class="height5">
     <el-col :span="22" :offset="2" class="test-border">
-      <p class="itemlist-title-left" v-if="store.state.category == 1">
-        내 스터디 목록
-      </p>
-      <p class="itemlist-title-left" v-else-if="store.state.category == 2">
-        내 프로젝트 목록
-      </p>
-      <p class="itemlist-title-left" v-else-if="store.state.category == 3">
-        내 클럽 목록
+      <p class="itemlist-title-left">
+        <span v-if="store.state.category == 1">내 스터디 목록</span>
+        <span v-else-if="store.state.category == 2">내 프로젝트 목록</span>
+        <span v-else-if="store.state.category == 3">내 클럽 목록</span>
       </p>
     </el-col>
   </el-row>
@@ -59,14 +42,10 @@
 
   <el-row class="height5">
     <el-col :span="22" :offset="2" class="test-border">
-      <p class="itemlist-title-left" v-if="store.state.category == 1">
-        추천 스터디 목록
-      </p>
-      <p class="itemlist-title-left" v-else-if="store.state.category == 2">
-        추천 프로젝트 목록
-      </p>
-      <p class="itemlist-title-left" v-else-if="store.state.category == 3">
-        추천 클럽 목록
+      <p class="itemlist-title-left">
+        <span v-if="store.state.category == 1">추천 스터디 목록</span>
+        <span v-else-if="store.state.category == 2">추천 프로젝트 목록</span>
+        <span v-else-if="store.state.category == 3">추천 클럽 목록</span>
       </p>
     </el-col>
   </el-row>
@@ -138,14 +117,10 @@
 
   <el-row class="height5">
     <el-col :span="22" :offset="2" class="test-border">
-      <p class="itemlist-title-left" v-if="store.state.category == 1">
-        전체 스터디 목록
-      </p>
-      <p class="itemlist-title-left" v-else-if="store.state.category == 2">
-        전체 프로젝트 목록
-      </p>
-      <p class="itemlist-title-left" v-else-if="store.state.category == 3">
-        전체 클럽 목록
+      <p class="itemlist-title-left">
+        <span v-if="store.state.category == 1">전체 스터디 목록</span>
+        <span v-else-if="store.state.category == 2">전체 프로젝트 목록</span>
+        <span v-else-if="store.state.category == 3">전체 클럽 목록</span>
       </p>
     </el-col>
   </el-row>
