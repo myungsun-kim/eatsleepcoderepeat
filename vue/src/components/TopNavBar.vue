@@ -34,7 +34,10 @@
     <el-col :span="2"></el-col>
     <el-col :span="5"
       ><el-row class="height100 logo-div"
-        ><img src="../assets/Item/logo.png" class="logo" /></el-row></el-col
+        ><img
+          src="../assets/Item/logo.png"
+          class="logo"
+          @click="clickMain" /></el-row></el-col
     ><el-col :span="3"></el-col
     ><el-col :span="6"
       ><el-row class="height100">
@@ -94,6 +97,10 @@ export default {
       // console.log(store.state.category);
     };
 
+    const clickMain = function () {
+      router.push({ path: '/' });
+    };
+
     const clickChat = function () {
       router.push({ path: '/nosubheader/chat' });
     };
@@ -108,6 +115,7 @@ export default {
       clickStudy,
       clickProject,
       clickClub,
+      clickMain,
       clickChat,
       clickMyPage,
     };

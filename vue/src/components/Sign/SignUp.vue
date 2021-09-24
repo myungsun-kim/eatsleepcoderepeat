@@ -272,7 +272,7 @@ export default {
     // const signUp = ref(null);
     const state = reactive({
       form: {
-        step: '2',
+        step: '1',
       },
     });
     return { store, state };

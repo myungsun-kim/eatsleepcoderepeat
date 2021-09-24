@@ -180,6 +180,35 @@ body {
   border: 1px solid black;
   background-color: #f2f2f2;
 }
+.btn-ghost-round {
+  background: #ffffff;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 30px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  color: #000000;
+}
+
+.btn-ghost-round-blue {
+  background: #ffffff;
+  border: 1px solid #1747c9;
+  box-sizing: border-box;
+  border-radius: 30px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  color: #1747c9;
+}
 .btn-ghost-red {
   font-size: 14pt;
   color: #f53030;
@@ -214,4 +243,12 @@ body {
 }
 
 /* btns 끝 */
+/* 정렬 시작 */
+/* 정리하고자 하는 것의 부모에 넣어주면 된다. */
+.align-center {
+  display: flex;
+  justify-content: center;
+}
+
+/* 정렬 끝 */
 </style>

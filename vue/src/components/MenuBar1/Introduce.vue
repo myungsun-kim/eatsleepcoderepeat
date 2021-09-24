@@ -103,14 +103,19 @@
         하겠습니다
       </el-row>
       <el-row>
-        <el-col :span="9"></el-col>
+        <el-col :span="7"></el-col>
         <el-col :span="2">
-          <el-button class="btn-1747C9 font-14">수정</el-button>
+          <el-button class="btn-1747C9 font-14" @click="goUpdate">
+            수정
+          </el-button>
         </el-col>
-        <el-col :span="1"></el-col>
         <el-col :span="2">
           <el-button class="btn-ghost-red" style="font-size: 14px">
             <StudyDeleteModal />
+          </el-button>
+        </el-col>
+        <el-col :span="2">
+          <el-button class="btn-ghost-red" style="font-size: 14px">
             <StudyQuitModal />
           </el-button>
         </el-col>
@@ -141,9 +146,13 @@ export default {
     const store = useStore();
     const router = useRouter();
 
+    const goUpdate = function () {
+      router.push({ path: '/nosubheader/update' });
+    };
     return {
       store,
       router,
+      goUpdate,
     };
   },
   components: {

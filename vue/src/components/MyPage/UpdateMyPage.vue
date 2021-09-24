@@ -3,21 +3,40 @@
     <el-col :span="24" class="test-border"> UPDATE MY PAGE 여백: </el-col>
   </el-row>
   <el-row class="height5">
-    <el-col :span="22" :offset="2" class="test-border">
+    <el-col :span="7"></el-col>
+
+    <el-col :span="17" class="test-border itemlist-title-left">
       마이페이지 수정
     </el-col>
   </el-row>
   <el-row class="height5"> </el-row>
   <el-row class="height85">
-    <el-col :span="10" :offset="7" class="test-border">
+    <el-col :span="10" :offset="7" class="test-border flex-parent">
       <el-row class="test-border">
-        <el-col :span="9" class="test-border"> File Upload </el-col>
-        <el-col :span="13" :offset="2" class="test-border">
+        <el-col :span="12" class="test-border">
+          <el-upload
+            class="upload-demo"
+            drag
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :file-list="fileList"
+            multiple
+          >
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">
+              파일을 드래그 하거나
+              <br />
+              <em>클릭해서 업로드 하세요</em>
+            </div>
+          </el-upload>
+        </el-col>
+        <el-col :span="10" :offset="2" class="test-border">
           <el-row class="test-border">
             <el-col :span="5" class="test-border"> ID </el-col>
             <el-col :span="15" :offset="4" class="test-border">
-              ssafy@ssafy</el-col
-            >
+              <el-input type="text" placeholder="ssafy@ssafy.com"></el-input>
+            </el-col>
           </el-row>
           <el-row class="test-border">
             <el-col :span="5" class="test-border"> 이름 </el-col>
@@ -71,11 +90,14 @@
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> 자기소개 </el-col>
         <el-col :span="16" :offset="1" class="test-border">
-          다양한 프로젝트를 하고 싶습니다. 다양한 프로젝트를 하고 싶습니다.
-          다양한 프로젝트를 하고 싶습니다.
+          v-model로 값을 받으려고 생각중. 자세한 것은 최준성 팀원의 저번
+          프로젝트 관해서 '입력, v-model, input' 키워드로 물어볼 것
         </el-col>
       </el-row>
-      <el-row class="test-border"> 수정페이지로 이동 </el-row>
+      <el-row class="test-border align-center">
+        <el-button class="btn-ghost-round-blue">수정 </el-button>
+        <el-button class="btn-ghost-round">취소 </el-button>
+      </el-row>
     </el-col>
   </el-row>
 </template>
@@ -89,5 +111,11 @@ export default {
 <style scoped>
 .test-border {
   margin-bottom: 3%;
+}
+.flex-parent {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: space-evenly;
 }
 </style>
