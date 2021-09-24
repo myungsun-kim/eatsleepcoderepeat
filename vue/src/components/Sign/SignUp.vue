@@ -14,7 +14,7 @@
         </div>
         <div class="height5"></div>
         <div class="height5">
-          <button id="login">로그인</button>
+          <el-button id="login">로그인</el-button>
         </div>
         <div class="height30">30</div>
         <div class="height5">5</div>
@@ -22,7 +22,7 @@
     </el-col>
 
     <!-- Step1 기본정보-->
-    <!-- <el-col :span="15" :offset="0" id="step1">
+    <el-col :span="15" :offset="0" id="step1" v-if="state.form.step == 1">
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -90,15 +90,15 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <button id="next0">다음</button>
+          <el-button id="next0">다음</el-button>
         </div>
         <div class="height10">10</div>
         <div class="height5">5</div>
       </div>
-    </el-col> -->
+    </el-col>
 
     <!-- Step2 포트폴리오 -->
-    <!-- <el-col :span="15" :offset="0" id="step2">
+    <el-col :span="15" :offset="0" id="step2" v-else-if="state.form.step == 2">
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -164,15 +164,15 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <button id="previous">이전</button>
-          <button id="skip">건너뛰기</button>
-          <button id="next">다음</button>
+          <el-button id="previous">이전</el-button>
+          <el-button id="skip">건너뛰기</el-button>
+          <el-button id="next">다음</el-button>
         </div>
       </div>
-    </el-col> -->
+    </el-col>
 
     <!-- Step3 개발수준 -->
-    <!-- <el-col :span="15" :offset="0" id="step3">
+    <el-col :span="15" :offset="0" id="step3" v-else-if="state.form.step == 3">
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -224,15 +224,15 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <button id="previous">이전</button>
-          <button id="skip">건너뛰기</button>
-          <button id="next">다음</button>
+          <el-button id="previous">이전</el-button>
+          <el-button id="skip">건너뛰기</el-button>
+          <el-button id="next">다음</el-button>
         </div>
       </div>
-    </el-col> -->
+    </el-col>
 
     <!-- Step4 세부정보 -->
-    <!-- <el-col :span="15" :offset="0" id="step4">
+    <el-col :span="15" :offset="0" id="step4" v-else>
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -251,16 +251,34 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <button id="previous">이전</button>
-          <button id="skip">건너뛰기</button>
-          <button id="next">다음</button>
+          <el-button id="previous">이전</el-button>
+          <el-button id="skip">건너뛰기</el-button>
+          <el-button id="next">다음</el-button>
         </div>
       </div>
-    </el-col> -->
+    </el-col>
   </el-row>
 </template>
 
-<script></script>
+<script>
+import { reactive } from 'vue';
+import { useStore } from 'vuex';
+export default {
+  name: 'SignUp',
+
+  setup() {
+    const store = useStore();
+    // 독립적인 반응형 값 생성 ref()
+    // const signUp = ref(null);
+    const state = reactive({
+      form: {
+        step: '2',
+      },
+    });
+    return { store, state };
+  },
+};
+</script>
 
 <style scoped>
 /* 공통 */

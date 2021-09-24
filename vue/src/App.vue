@@ -203,6 +203,28 @@ body {
   color: #1747c9;
   border: 1px solid #1747c9;
 }
+.btn-create {
+  width: 76px;
+  height: 32px;
+  color: white;
+  background-color: #1747c9;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+}
+.btn-cancel {
+  width: 76px;
+  height: 32px;
+  color: #f53030;
+  border: 1px solid #f53030;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+}
 
 /* btns 끝 */
 </style>

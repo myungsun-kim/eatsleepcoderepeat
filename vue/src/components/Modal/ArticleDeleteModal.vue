@@ -1,8 +1,6 @@
 <template>
   <!-- 글 삭제  03-5-2 -->
-  <button @click="modalOpen = true">
-    Open full screen modal! (With teleport!)
-  </button>
+  <button @click="modalOpen = true">삭제</button>
   <teleport to="body">
     <div v-if="modalOpen" class="modal">
       <div class="height40">
