@@ -56,7 +56,7 @@ export default {
   },
 };
 </script>
-<style scope>
+<style scoped>
 .modal {
   position: absolute;
   top: 0;
