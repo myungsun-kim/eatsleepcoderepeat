@@ -47,8 +47,7 @@ public class ProjectController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<Long> createProject(@RequestBody ProjectCreateRequestDto dto)
-        throws Exception {
+    public ResponseEntity<Long> createProject(@RequestBody ProjectCreateRequestDto dto) throws Exception {
         return ResponseEntity.ok(projectService.create(dto));
     }
 
