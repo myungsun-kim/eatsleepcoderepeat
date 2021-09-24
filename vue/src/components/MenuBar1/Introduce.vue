@@ -140,34 +140,25 @@ import { useRouter } from 'vue-router';
 import MemberListModal from '../Modal/MemberListModal.vue';
 import StudyDeleteModal from '../Modal/StudyDeleteModal.vue';
 import StudyQuitModal from '../Modal/StudyQuitModal.vue';
-import { useRouter } from 'vue-router';
 
 export default {
   setup() {
     const store = useStore();
     const router = useRouter();
 
+    const goUpdate = function () {
+      router.push({ path: '/nosubheader/update' });
+    };
     return {
       store,
       router,
+      goUpdate,
     };
   },
   components: {
     MemberListModal,
     StudyQuitModal,
     StudyDeleteModal,
-  },
-  setup() {
-    // const store = useStore();
-    const router = useRouter();
-
-    const goUpdate = function () {
-      router.push({ path: '/nosubheader/update' });
-    };
-
-    return {
-      goUpdate,
-    };
   },
 };
 </script>
