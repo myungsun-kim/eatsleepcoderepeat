@@ -35,6 +35,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
@@ -117,7 +118,6 @@ class ProjectServiceImplTest {
         ProjectCreateRequestDto dto = ProjectCreateRequestDto.builder()
             .techList(techList)
             .name("프로젝트")
-            .hostId(member1.getId())
             .schedule("매주 화 6시")
             .period(7)
             .bio("매칭 프로젝트")
@@ -152,16 +152,17 @@ class ProjectServiceImplTest {
             .isParticipate(true)
             .build();
 
-        System.out.println(project);
         projectRepository.save(project);
-        projectServiceImpl.addMember(project, dto.getHostId(), dto.getHostRole());
-        System.out.println(project);
+
+        projectServiceImpl.addMember(project, member1.getId(), dto.getHostRole());
         projectServiceImpl.setDBFile(project.getId(), dto.getUuid());
         projectServiceImpl.setClub(project.getId(), dto.getClubId());
         projectServiceImpl.createTechstack(project.getId());
         projectServiceImpl.addTechstack(project.getId(), dto.getTechList());
 
-
+//        ProjectInfoResponseDto qdto = projectServiceImpl.projectInfo(project.getId());
+//        System.out.println(qdto.getName());
+//        System.out.println(qdto.getBio());
 //        projectServiceImpl.addMember(project, 2L, "기획자");
 
     }
@@ -179,7 +180,6 @@ class ProjectServiceImplTest {
         ProjectCreateRequestDto dto = ProjectCreateRequestDto.builder()
             .techList(techList)
             .name("프로젝트")
-            .hostId(1L)
             .schedule("매주 화 6시")
             .period(7)
             .bio("매칭 프로젝트")
@@ -213,7 +213,7 @@ class ProjectServiceImplTest {
             .isPublic(dto.isPublic())
             .isParticipate(true)
             .build();
-        projectServiceImpl.addMember(project, dto.getHostId(), dto.getHostRole());
+        projectServiceImpl.addMember(project, member1.getId(), dto.getHostRole());
         projectRepository.save(project);
 
         projectServiceImpl.setDBFile(project.getId(), dto.getUuid());
@@ -350,7 +350,7 @@ class ProjectServiceImplTest {
     @Test
     void projectInfo() throws Exception {
         ProjectInfoResponseDto dto = projectServiceImpl.projectInfo(1L);
-        System.out.println(dto);
+
     }
 
     @Test

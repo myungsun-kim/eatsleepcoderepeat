@@ -121,7 +121,7 @@ public class ProjectInfoResponseDto {
 
     @ApiModelProperty(name = "projectMember", example = "{{memberId: 1, memberName: '첫번째', ...}, {memberId: 2, memberName: '두번째', ...}}}")
     @ApiParam(value = "해당 프로젝트에 속한 멤버 조회", required = true)
-    private List<Member> projectMember;
+    private List<ProjectMemberRoleResponseDto> projectMemberInfo;
 
     @ApiModelProperty(name = "projectCity", example = "{'광주', '구미'}")
     @ApiParam(value = "선택할 수 있는 지역 리스트", required = true)
