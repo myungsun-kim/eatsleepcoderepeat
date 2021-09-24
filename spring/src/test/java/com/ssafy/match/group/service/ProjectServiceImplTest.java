@@ -33,12 +33,15 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 @WebAppConfiguration
 @ExtendWith(SpringExtension.class)
+@Transactional
 @SpringBootTest
 class ProjectServiceImplTest {
 
@@ -114,7 +117,7 @@ class ProjectServiceImplTest {
         ProjectCreateRequestDto dto = ProjectCreateRequestDto.builder()
             .techList(techList)
             .name("프로젝트")
-            .hostId(1L)
+            .hostId(member1.getId())
             .schedule("매주 화 6시")
             .period(7)
             .bio("매칭 프로젝트")
@@ -149,15 +152,17 @@ class ProjectServiceImplTest {
             .isParticipate(true)
             .build();
 
+        System.out.println(project);
         projectRepository.save(project);
-
+        projectServiceImpl.addMember(project, dto.getHostId(), dto.getHostRole());
+        System.out.println(project);
         projectServiceImpl.setDBFile(project.getId(), dto.getUuid());
         projectServiceImpl.setClub(project.getId(), dto.getClubId());
         projectServiceImpl.createTechstack(project.getId());
         projectServiceImpl.addTechstack(project.getId(), dto.getTechList());
-        projectServiceImpl.addMember(project.getId(), dto.getHostId(), dto.getHostRole());
 
-        projectServiceImpl.addMember(1L, 2L, "기획자");
+
+//        projectServiceImpl.addMember(project, 2L, "기획자");
 
     }
 
@@ -208,14 +213,14 @@ class ProjectServiceImplTest {
             .isPublic(dto.isPublic())
             .isParticipate(true)
             .build();
-
+        projectServiceImpl.addMember(project, dto.getHostId(), dto.getHostRole());
         projectRepository.save(project);
 
         projectServiceImpl.setDBFile(project.getId(), dto.getUuid());
         projectServiceImpl.setClub(project.getId(), dto.getClubId());
         projectServiceImpl.createTechstack(project.getId());
         projectServiceImpl.addTechstack(project.getId(), dto.getTechList());
-        projectServiceImpl.addMember(project.getId(), dto.getHostId(), dto.getHostRole());
+
 
         List<ProjectTechstack> list = projectTechstackRepository.findByProjectTechstack(project);
         System.out.println("=========================");
@@ -286,13 +291,14 @@ class ProjectServiceImplTest {
         project.setStatus(dto.getStatus());
         project.setPublic(dto.isPublic());
         project.setParticipate(dto.isParticipate());
+        projectServiceImpl.changeRole(project, member1.getId(), dto.getHostRole());
         projectRepository.save(project);
 
         projectServiceImpl.setDBFile(project.getId(), dto.getUuid());
         projectServiceImpl.setClub(project.getId(), dto.getClubId());
         projectServiceImpl.addTechstack(project.getId(), dto.getAddStackList());
         projectServiceImpl.removeTechstack(project.getId(), dto.getRemoveStackList());
-        projectServiceImpl.changeRole(project.getId(), member1.getId(), dto.getHostRole());
+
 
         List<ProjectTechstack> list = projectTechstackRepository.findByProjectTechstack(project);
         System.out.println("=========================");
@@ -387,9 +393,9 @@ class ProjectServiceImplTest {
 
     @Test
     void addMember() throws Exception {
-        projectServiceImpl.addMember(1L, 2L, "기획자");
         Member member = projectServiceImpl.findMember(2L);
         Project project = projectServiceImpl.findProject(1L);
+        projectServiceImpl.addMember(project, 2L, "기획자");
 
         assertEquals("디자이너", project.getHostRole());
         assertEquals("기획자", memberProjectRepository.findMemberProject(project, member).getRole());
@@ -428,9 +434,9 @@ class ProjectServiceImplTest {
 
     @Test
     void changeRole() throws Exception {
-        projectServiceImpl.changeRole(1L, 1L, "개발자");
-        Member member = projectServiceImpl.findMember(1L);
         Project project = projectServiceImpl.findProject(1L);
+        projectServiceImpl.changeRole(project, 1L, "개발자");
+        Member member = projectServiceImpl.findMember(1L);
 
         assertEquals("개발자", project.getHostRole());
         assertEquals("개발자", memberProjectRepository.findMemberProject(project, member).getRole());
@@ -466,7 +472,7 @@ class ProjectServiceImplTest {
         }
 
         FormRegisterRequestDto dto = FormRegisterRequestDto.builder()
-            .name("박범준")
+            .nickname("박범준")
             .city("서울")
             .role("개발자")
             .position("BE")
@@ -481,7 +487,7 @@ class ProjectServiceImplTest {
 
         ProjectApplicationForm projectApplicationForm = ProjectApplicationForm.builder()
             .compositeMemberProject(mp)
-            .name(dto.getName())
+            .nickname(dto.getNickname())
             .city(City.from(dto.getCity()))
             .role(dto.getRole())
             .position(dto.getPosition())

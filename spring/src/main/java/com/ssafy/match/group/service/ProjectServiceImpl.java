@@ -94,13 +94,14 @@ public class ProjectServiceImpl implements ProjectService {
             .isParticipate(true)
             .build();
 
+
         projectRepository.save(project);
 
         setDBFile(project.getId(), dto.getUuid());
         setClub(project.getId(), dto.getClubId());
         createTechstack(project.getId());
         addTechstack(project.getId(), dto.getTechList());
-        addMember(project.getId(), currentMemberId, dto.getHostRole());
+        addMember(project, currentMemberId, dto.getHostRole());
 
         return project.getId();
     }
@@ -128,11 +129,12 @@ public class ProjectServiceImpl implements ProjectService {
         project.setStatus(dto.getStatus());
         project.setPublic(dto.isPublic());
         project.setParticipate(dto.isParticipate());
+        changeRole(project, currentMemberId, dto.getHostRole());
         setDBFile(projectId, dto.getUuid());
         setClub(projectId, dto.getClubId());
         addTechstack(projectId, dto.getAddStackList());
         removeTechstack(projectId, dto.getRemoveStackList());
-        changeRole(projectId, currentMemberId, dto.getHostRole());
+
 
         projectRepository.save(project);
 
@@ -310,8 +312,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Transactional
-    public void addMember(Long projectId, Long memberId, String role) throws Exception {
-        Project project = findProject(projectId);
+    public void addMember(Project project, Long memberId, String role) throws Exception {
+//        Project project = findProject(projectId);
         Member member = findMember(memberId);
 
         CompositeMemberProject compositeMemberProject = new CompositeMemberProject(member, project);
@@ -326,7 +328,7 @@ public class ProjectServiceImpl implements ProjectService {
         memberProject.activation();
         memberProjectRepository.save(memberProject);
 
-        changeRole(projectId, memberId, role);
+        changeRole(project, memberId, role);
     }
 
     @Transactional
@@ -345,7 +347,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         memberProject.setRegisterDate(LocalDateTime.now());
         memberProject.deactivation();
-        changeRole(projectId, memberId, "");
+        changeRole(project, memberId, "");
 //        memberProjectRepository.save(memberProject);
     }
 
@@ -408,8 +410,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     // (아이디어가 생각이 안나서 임시로 If문 사용 조언 구함)
     @Transactional
-    public void changeRole(Long projectId, Long memberId, String role) throws Exception {
-        Project project = findProject(projectId);
+    public void changeRole(Project project, Long memberId, String role) throws Exception {
+//        Project project = findProject(projectId);
         Member member = findMember(memberId);
         MemberProject memberProject = memberProjectRepository.findMemberProject(project, member);
 
@@ -466,7 +468,6 @@ public class ProjectServiceImpl implements ProjectService {
             project.setHostRole(role);
         }
 
-//        projectRepository.save(project);
     }
 
     // 신청 버튼 클릭시 관련 정보 및 권한 체크
@@ -512,7 +513,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         ProjectApplicationForm projectApplicationForm = ProjectApplicationForm.builder()
             .compositeMemberProject(mp)
-            .name(dto.getName())
+            .nickname(dto.getNickname())
             .city(City.from(dto.getCity()))
             .role(dto.getRole())
             .position(dto.getPosition())

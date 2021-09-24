@@ -25,7 +25,7 @@ public interface ProjectService {
 
     List<Project> projectInMember(Long memberId) throws Exception;
 
-    void addMember(Long projectId, Long memberId, String role) throws Exception;
+    void addMember(Project project, Long memberId, String role) throws Exception;
 
     void removeMember(Long projectId, Long memberId) throws Exception;
 
@@ -33,7 +33,7 @@ public interface ProjectService {
 
     void setClub(Long projectId, Long clubId) throws Exception;
 
-    void changeRole(Long projectId, Long memberId, String role) throws Exception;
+    void changeRole(Project project, Long memberId, String role) throws Exception;
 
     FormtInfoForRegisterResponseDto checkForRegister(Long projectId) throws Exception;
 

@@ -16,7 +16,7 @@ import lombok.Setter;
 @Builder
 public class FormRegisterRequestDto {
 
-    private String name;
+    private String nickname;
 
     private String city;
 
