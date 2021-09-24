@@ -60,9 +60,8 @@
       <el-row class="height1"> </el-row>
       <el-row class="height8">
         <el-button type="text" @click="open">
-          5/6명(Minsu, Sun, Jun, Kim, Min)
-        </el-button></el-row
-      >
+          5/6명(Minsu, Sun, Jun, Kim, Min) <MemberListModal /> </el-button
+      ></el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8"> 비공개 </el-row>
       <el-row class="height1"> </el-row>
@@ -131,11 +130,14 @@
   </el-row>
 </template>
 <script>
+import MemberListModal from '../Modal/MemberListModal.vue';
 import StudyDeleteModal from '../Modal/StudyDeleteModal.vue';
 import StudyQuitModal from '../Modal/StudyQuitModal.vue';
 export default {
   components: {
+    MemberListModal,
     StudyQuitModal,
+    StudyDeleteModal,
   },
 };
 </script>
