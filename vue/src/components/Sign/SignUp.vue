@@ -14,7 +14,7 @@
         </div>
         <div class="height5"></div>
         <div class="height5">
-          <button id="login">로그인</button>
+          <el-button id="login">로그인</el-button>
         </div>
         <div class="height30">30</div>
         <div class="height5">5</div>
@@ -90,7 +90,7 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <button id="next0">다음</button>
+          <el-button id="next0">다음</el-button>
         </div>
         <div class="height10">10</div>
         <div class="height5">5</div>
@@ -164,9 +164,9 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <button id="previous">이전</button>
-          <button id="skip">건너뛰기</button>
-          <button id="next">다음</button>
+          <el-button id="previous">이전</el-button>
+          <el-button id="skip">건너뛰기</el-button>
+          <el-button id="next">다음</el-button>
         </div>
       </div>
     </el-col>
@@ -224,9 +224,9 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <button id="previous">이전</button>
-          <button id="skip">건너뛰기</button>
-          <button id="next">다음</button>
+          <el-button id="previous">이전</el-button>
+          <el-button id="skip">건너뛰기</el-button>
+          <el-button id="next">다음</el-button>
         </div>
       </div>
     </el-col>
@@ -251,9 +251,9 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <button id="previous">이전</button>
-          <button id="skip">건너뛰기</button>
-          <button id="next">다음</button>
+          <el-button id="previous">이전</el-button>
+          <el-button id="skip">건너뛰기</el-button>
+          <el-button id="next">다음</el-button>
         </div>
       </div>
     </el-col>
@@ -272,7 +272,7 @@ export default {
     // const signUp = ref(null);
     const state = reactive({
       form: {
-        step: '1',
+        step: '2',
       },
     });
     return { store, state };
