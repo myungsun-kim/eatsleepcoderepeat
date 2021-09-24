@@ -105,13 +105,16 @@
         <el-col :span="6" class="test-border"> Item3 </el-col>
         <el-col :span="6" class="test-border"> Item4 </el-col>
       </el-row>
-      <el-row class="height5">회원 탈퇴</el-row>
+      <el-row class="height5"><ServiceQuitModal /></el-row>
     </el-col>
   </el-row>
 </template>
 
 <script>
+import ServiceQuitModal from '../Modal/ServiceQuitModal.vue';
 export default {
-  components: {},
+  components: {
+    ServiceQuitModal,
+  },
 };
 </script>
