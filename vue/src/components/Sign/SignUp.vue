@@ -98,7 +98,6 @@
     </el-col>
 
     <!-- Step2 포트폴리오 -->
-
     <el-col :span="15" :offset="0" id="step2" v-else-if="state.form.step == 2">
       <div class="height100">
         <div class="height20">20</div>
@@ -262,7 +261,7 @@
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import { useStore } from 'vuex';
 export default {
   name: 'SignUp',
