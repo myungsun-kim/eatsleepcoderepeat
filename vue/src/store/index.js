@@ -1,8 +1,9 @@
 import { createStore } from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
 
 export default createStore({
   state: {
-    category: 1,
+    category: null,
     // category 1:스터디 2:프로젝트 3:클럽
   },
   mutations: {
@@ -12,4 +13,5 @@ export default createStore({
   },
   actions: {},
   modules: {},
+  plugins: [createPersistedState()],
 });
