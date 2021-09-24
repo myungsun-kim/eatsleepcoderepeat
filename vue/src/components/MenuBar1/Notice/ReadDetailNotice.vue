@@ -8,8 +8,8 @@
       <el-row>
         <el-col :span="4">21.09.08 13:49</el-col>
         <el-col :span="17"></el-col>
-        <el-col :span="1"><button>수정</button></el-col>
-        <el-col :span="1"><ArticleDeleteModal></ArticleDeleteModal></el-col>
+        <el-col :span="1"><button @click="goUpdateNotice">수정</button></el-col>
+        <el-col :span="1"><ArticleDeleteModal /></el-col>
         <el-col :span="1"></el-col>
       </el-row>
       <el-row style
@@ -45,7 +45,7 @@
       </el-row>
       <el-row>
         <el-col :span="21"></el-col>
-        <el-col :span="2"><button>목록</button></el-col>
+        <el-col :span="2"><button @click="goReadNotice">목록</button></el-col>
         <el-col :span="1"></el-col>
       </el-row>
       <el-row>
@@ -80,7 +80,26 @@
 </template>
 <script>
 import ArticleDeleteModal from '../../Modal/ArticleDeleteModal.vue';
+// import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
 export default {
   components: { ArticleDeleteModal },
+  setup() {
+    // const store = useStore();
+    const router = useRouter();
+
+    const goUpdateNotice = function () {
+      router.push({ path: '/subheader/notice/update' });
+    };
+    const goReadNotice = function () {
+      router.push({ path: '/subheader/notice/read' });
+    };
+
+    return {
+      goUpdateNotice,
+      goReadNotice,
+    };
+  },
 };
 </script>

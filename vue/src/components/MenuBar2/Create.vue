@@ -43,20 +43,20 @@
                 <div id="h2">스터디 기간(단위: 주)</div>
                 <input
                   type="text"
-                  placeholder="숫자만 입력하세요"
+                  placeholder="숫자를 입력하세요"
                   id="input1"
                   onfocus="this.placeholder=''"
-                  onblur="this.placeholder='숫자만 입력하세요'"
+                  onblur="this.placeholder='숫자를 입력하세요'"
                 />
               </div>
               <div id="box1">
                 <div id="h2">인원</div>
                 <input
                   type="text"
-                  placeholder="Dropdown 지역 목록 + 무관"
+                  placeholder="숫자를 입력하세요"
                   id="input1"
                   onfocus="this.placeholder=''"
-                  onblur="this.placeholder='Dropdown 지역 목록 + 무관'"
+                  onblur="this.placeholder='숫자를 입력하세요'"
                 />
               </div>
             </div>
@@ -82,13 +82,10 @@
           </div>
           <div id="box1">
             <div id="h2">지역</div>
-            <input
-              type="text"
-              placeholder="Dropdown 지역 목록 + 무관"
-              id="input"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='Dropdown 지역 목록 + 무관'"
-            />
+            <select id="region">
+              <option value="1">11</option>
+              <option value="2">22</option>
+            </select>
           </div>
 
           <div id="box1">
@@ -112,8 +109,8 @@
             />
           </div>
           <div>
-            <el-button class="btn-create">생성</el-button>
-            <el-button class="btn-cancel">취소</el-button>
+            <el-button class="btn-create" @click="goIntroduce">생성</el-button>
+            <el-button class="btn-cancel" @click="goHome">취소</el-button>
           </div>
         </div>
       </el-col>
@@ -123,6 +120,38 @@
     </el-row>
   </div>
 </template>
+<script>
+// import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+  import { reactive, ref } from 'vue';
+  import { useStore } from 'vuex';
+
+export default {
+    name: 'create',
+  components: {},
+  setup() {
+    const router = useRouter();
+        const store = useStore();
+    // 독립적인 반응형 값 생성 ref()
+    // const create = ref(null);
+    const state = reactive({
+      form: {},
+    });
+
+    const goIntroduce = function () {
+      router.push({ path: '/subheader/introduce' });
+    };
+    const goHome = function () {
+      router.push({ path: '/nosubheader/home' });
+    };
+
+    return {
+      goIntroduce,
+      goHome,
+      store,state
+    };
+};
+</script>
 <style scoped>
 #h1 {
   width: 184px;
@@ -197,6 +226,8 @@
 
   color: #919191;
 }
+#region {
+}
 #box1 {
   display: flex;
   flex-flow: column;
@@ -212,5 +243,11 @@
   margin-left: 60px;
   display: flex;
   flex-flow: column;
+}
+#btn {
+  margin-top: 30px;
+}
+.btn-cancel {
+  margin-left: 10px;
 }
 </style>

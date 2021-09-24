@@ -103,14 +103,19 @@
         하겠습니다
       </el-row>
       <el-row>
-        <el-col :span="9"></el-col>
+        <el-col :span="7"></el-col>
         <el-col :span="2">
-          <el-button class="btn-1747C9 font-14">수정</el-button>
+          <el-button class="btn-1747C9 font-14" @click="goUpdate">
+            수정
+          </el-button>
         </el-col>
-        <el-col :span="1"></el-col>
         <el-col :span="2">
           <el-button class="btn-ghost-red" style="font-size: 14px">
             <StudyDeleteModal />
+          </el-button>
+        </el-col>
+        <el-col :span="2">
+          <el-button class="btn-ghost-red" style="font-size: 14px">
             <StudyQuitModal />
           </el-button>
         </el-col>
@@ -135,6 +140,7 @@ import { useRouter } from 'vue-router';
 import MemberListModal from '../Modal/MemberListModal.vue';
 import StudyDeleteModal from '../Modal/StudyDeleteModal.vue';
 import StudyQuitModal from '../Modal/StudyQuitModal.vue';
+import { useRouter } from 'vue-router';
 
 export default {
   setup() {
@@ -150,6 +156,18 @@ export default {
     MemberListModal,
     StudyQuitModal,
     StudyDeleteModal,
+  },
+  setup() {
+    // const store = useStore();
+    const router = useRouter();
+
+    const goUpdate = function () {
+      router.push({ path: '/nosubheader/update' });
+    };
+
+    return {
+      goUpdate,
+    };
   },
 };
 </script>

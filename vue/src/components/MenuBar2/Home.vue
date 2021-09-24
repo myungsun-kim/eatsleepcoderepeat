@@ -78,7 +78,7 @@
       </el-row>
     </el-col>
     <el-col :span="1" class="test-border"></el-col>
-    <el-col :span="4" class="test-border">
+    <el-col :span="4" class="test-border" @click="goIntroduce">
       <el-row class="height40 item-img"></el-row>
       <el-row class="height10 item-head-title">단기간 면접 대비 CS 공부</el-row>
       <el-row class="height10 item-content">기술 스택: Java, Kotlin</el-row>
@@ -192,6 +192,22 @@
     </el-col>
   </el-row>
 </template>
+<script>
+// import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+export default {
+  components: {},
+  setup() {
+    // const store = useStore();
+    const router = useRouter();
+
+    const goCreate = function () {
+      router.push({ path: '/nosubheader/create' });
+    };
+    const goIntroduce = function () {
+      router.push({ path: '/subheader/introduce' });
+    };
 
 <script>
 import { useStore } from 'vuex';
@@ -219,7 +235,6 @@ export default {
   },
 };
 </script>
-
 <style>
 .item-img {
   background-image: url('../../assets/Item/Cat.png');

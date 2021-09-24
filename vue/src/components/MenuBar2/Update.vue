@@ -96,11 +96,32 @@
       <el-row class="test-border height5"></el-row>
       <el-row class="test-border height5">
         <el-col :span="10" class="test-border"></el-col>
-        <el-col :span="2" class="test-border">수정</el-col>
-        <el-col :span="2" class="test-border">취소</el-col>
+        <el-col :span="2" class="test-border" @click="goIntroduce">수정</el-col>
+        <el-col :span="2" class="test-border" @click="goIntroduce">취소</el-col>
         <el-col :span="10" class="test-border"></el-col>
       </el-row>
     </el-col>
     <el-col :span="5" class="test-border"></el-col>
   </el-row>
 </template>
+
+<script>
+// import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+export default {
+  components: {},
+  setup() {
+    // const store = useStore();
+    const router = useRouter();
+
+    const goIntroduce = function () {
+      router.push({ path: '/subheader/introduce' });
+    };
+
+    return {
+      goIntroduce,
+    };
+  },
+};
+</script>
