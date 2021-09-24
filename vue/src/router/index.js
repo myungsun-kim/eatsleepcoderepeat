@@ -33,6 +33,7 @@ import NoHeader from '../views/NoHeader.vue';
 import SignIn from '../components/Sign/SignIn.vue';
 import SignUp from '../components/Sign/SignUp.vue';
 
+import NotFound from '../views/NotFound.vue';
 const routes = [
   // 1-1. Top Nav Bar가 있는 경우: Header
   {
@@ -179,6 +180,10 @@ const routes = [
         component: SignUp,
       },
     ],
+  },
+  {
+    path: '/:catchAll(.*)',
+    component: NotFound,
   },
 ];
 
