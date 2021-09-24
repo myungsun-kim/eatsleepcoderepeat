@@ -47,9 +47,6 @@ public class Club {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cover_pic")
     private DBFile dbFile;
-//    private int activity_point;
-//    private String repository;
-//    private String team_chat;
 
     public Club(String name, Member member, LocalDateTime create_date, String bio,
         City city, int member_count, int max_count, boolean is_public, boolean is_active,
