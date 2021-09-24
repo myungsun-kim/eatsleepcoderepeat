@@ -21,86 +21,85 @@
       </div>
     </el-col>
 
-    <div v-if="state.form.state === 1">
-      <!-- Step1 기본정보-->
-      <el-col :span="15" :offset="0" id="step1">
-        <div class="height100">
-          <div class="height20">20</div>
-          <div class="height5" id="H1">
-            <p id="h1">회원가입</p>
-          </div>
-          <div class="height10" id="H2">
-            <p id="h2">Step1-기본정보</p>
-          </div>
-          <div class="height40" id="input1">
-            <input
-              type="text"
-              placeholder="이메일"
-              id="email"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='이메일'"
-            />
-            <div id="H3">
-              <input
-                type="text"
-                placeholder="이름"
-                id="name"
-                onfocus="this.placeholder=''"
-                onblur="this.placeholder='이름'"
-              />
-              <input
-                type="text"
-                placeholder="닉네임"
-                id="nickname"
-                onfocus="this.placeholder=''"
-                onblur="this.placeholder='닉네임'"
-              />
-            </div>
-            <input
-              type="text"
-              placeholder="비밀번호"
-              id="password"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='비밀번호'"
-            />
-            <input
-              type="text"
-              placeholder="비밀번호 확인"
-              id="checkpassword"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='비밀번호 확인'"
-            />
-            <input
-              type="text"
-              placeholder="분야 선택"
-              id="field"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='분야 선택'"
-            />
-            <input
-              type="text"
-              placeholder="지역 선택"
-              id="region"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='지역 선택'"
-            />
-          </div>
-          <div class="height10" id="button0">
-            <el-row :gutter="0">
-              <el-col :span="12" :offset="0"></el-col>
-              <el-col :span="12" :offset="0"></el-col>
-            </el-row>
-
-            <button id="next0">다음</button>
-          </div>
-          <div class="height10">10</div>
-          <div class="height5">5</div>
+    <!-- Step1 기본정보-->
+    <el-col :span="15" :offset="0" id="step1" v-if="state.form.step == 1">
+      <div class="height100">
+        <div class="height20">20</div>
+        <div class="height5" id="H1">
+          <p id="h1">회원가입</p>
         </div>
-      </el-col>
-    </div>
+        <div class="height10" id="H2">
+          <p id="h2">Step1-기본정보</p>
+        </div>
+        <div class="height40" id="input1">
+          <input
+            type="text"
+            placeholder="이메일"
+            id="email"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='이메일'"
+          />
+          <div id="H3">
+            <input
+              type="text"
+              placeholder="이름"
+              id="name"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='이름'"
+            />
+            <input
+              type="text"
+              placeholder="닉네임"
+              id="nickname"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='닉네임'"
+            />
+          </div>
+          <input
+            type="text"
+            placeholder="비밀번호"
+            id="password"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='비밀번호'"
+          />
+          <input
+            type="text"
+            placeholder="비밀번호 확인"
+            id="checkpassword"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='비밀번호 확인'"
+          />
+          <input
+            type="text"
+            placeholder="분야 선택"
+            id="field"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='분야 선택'"
+          />
+          <input
+            type="text"
+            placeholder="지역 선택"
+            id="region"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='지역 선택'"
+          />
+        </div>
+        <div class="height10" id="button0">
+          <el-row :gutter="0">
+            <el-col :span="12" :offset="0"></el-col>
+            <el-col :span="12" :offset="0"></el-col>
+          </el-row>
+
+          <button id="next0">다음</button>
+        </div>
+        <div class="height10">10</div>
+        <div class="height5">5</div>
+      </div>
+    </el-col>
 
     <!-- Step2 포트폴리오 -->
-    <!-- <el-col :span="15" :offset="0" id="step2">
+
+    <el-col :span="15" :offset="0" id="step2" v-else-if="state.form.step == 2">
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -171,10 +170,10 @@
           <button id="next">다음</button>
         </div>
       </div>
-    </el-col> -->
+    </el-col>
 
     <!-- Step3 개발수준 -->
-    <!-- <el-col :span="15" :offset="0" id="step3">
+    <el-col :span="15" :offset="0" id="step3" v-else-if="state.form.step == 3">
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -231,10 +230,10 @@
           <button id="next">다음</button>
         </div>
       </div>
-    </el-col> -->
+    </el-col>
 
     <!-- Step4 세부정보 -->
-    <!-- <el-col :span="15" :offset="0" id="step4">
+    <el-col :span="15" :offset="0" id="step4" v-else>
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -258,27 +257,26 @@
           <button id="next">다음</button>
         </div>
       </div>
-    </el-col> -->
+    </el-col>
   </el-row>
 </template>
 
 <script>
 import { reactive, ref } from 'vue';
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 export default {
   name: 'SignUp',
 
   setup() {
     const store = useStore();
     // 독립적인 반응형 값 생성 ref()
-    const signUp = ref(null);
+    // const signUp = ref(null);
     const state = reactive({
       form: {
-        state: '1',
+        step: '1',
       },
     });
-    return { store, signUp, state };
+    return { store, state };
   },
 };
 </script>
