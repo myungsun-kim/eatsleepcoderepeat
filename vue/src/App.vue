@@ -4,26 +4,13 @@
     <router-link to="/about">Main</router-link>
   </div> -->
 
-  <div>
-    <TeleportModal></TeleportModal>
-  </div>
-
   <div class="bg-color">
     <router-view />
   </div>
 </template>
 <script>
-import TeleportModal from '../src/components/Modal/TeleportModal.vue';
-
 export default {
-  components: {
-    TeleportModal,
-  },
-  data() {
-    return {
-      modalOpen: false,
-    };
-  },
+  components: {},
 };
 </script>
 <style>
