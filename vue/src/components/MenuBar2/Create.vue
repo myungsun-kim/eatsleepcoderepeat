@@ -112,8 +112,8 @@
             />
           </div>
           <div>
-            <button>생성</button>
-            <button>취소</button>
+            <el-button class="btn-create">생성</el-button>
+            <el-button class="btn-cancel">취소</el-button>
           </div>
         </div>
       </el-col>
@@ -121,22 +121,6 @@
         <div class="height100">3</div>
       </el-col>
     </el-row>
-
-    <!-- <p id="h1">스터디 생성</p>
-    <div>스터디이름</div>
-    <div>기술스택</div>
-    <div>
-      <div>
-        <div>일정</div>
-        <div>스터디 기간</div>
-        <div>인원</div>
-      </div>
-      <div>프로필 사진 등록</div>
-    </div>
-    <div>비공개 스터디</div>
-    <div>지역</div>
-    <div>소속 클럽</div>
-    <div>소개</div> -->
   </div>
 </template>
 <style scoped>

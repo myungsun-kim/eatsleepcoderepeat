@@ -27,7 +27,7 @@
           />
         </div>
         <div class="height5">
-          <button id="login">로그인</button>
+          <el-button id="login">로그인</el-button>
         </div>
         <div class="height30">30</div>
       </div>
@@ -46,7 +46,7 @@
         </div>
         <div class="height5">5</div>
         <div class="height5">
-          <button id="signin">회원가입</button>
+          <el-button id="signin">회원가입</el-button>
         </div>
         <div class="height5">5</div>
         <div class="height30">30</div>
