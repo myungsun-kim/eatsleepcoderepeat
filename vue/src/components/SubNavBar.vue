@@ -8,7 +8,11 @@
             class="sub-nav-btn font-noto-md"
             type="text"
             @click="clickIntroduce"
-            >스터디 소개</el-button
+            ><span v-if="store.state.category == 1">스터디 소개</span
+            ><span v-else-if="store.state.category == 2">프로젝트 소개</span
+            ><span v-else-if="store.state.category == 3"
+              >클럽 소개</span
+            ></el-button
           ></el-col
         >
         <el-col :span="1"></el-col
@@ -35,7 +39,9 @@
             class="sub-nav-btn font-noto-md"
             type="text"
             @click="clickManage"
-            >스터디 관리</el-button
+            ><span v-if="store.state.category == 1">스터디 관리</span
+            ><span v-if="store.state.category == 2">프로젝트 관리</span
+            ><span v-if="store.state.category == 3">클럽 관리</span></el-button
           ></el-col
         >
       </el-row></el-col
