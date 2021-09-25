@@ -3,6 +3,7 @@ package com.ssafy.match.service;
 import com.ssafy.match.controller.dto.MemberInfoDto;
 import com.ssafy.match.controller.dto.MemberModifyRequestDto;
 import com.ssafy.match.controller.dto.MemberResponseDto;
+import com.ssafy.match.controller.dto.MemberUpdateDto;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.db.repository.MemberBeginnerTechstackRepository;
@@ -65,11 +66,26 @@ public class MemberService {
         memberInfoDto.setBeginTechList(begTechList);
         return memberInfoDto;
     }
-//    @Transactional(readOnly = true)
+
+    //    @Transactional(readOnly = true)
 //    public MemberInfoDto getMyPage() {
 //        return memberRepository.findById(SecurityUtil.getCurrentMemberId())
 //                .map(MemberInfoDto::new)
 //                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+//    }
+
+//    @Transactional
+//    public MemberUpdateDto updateMyInfo(MemberUpdateDto memberUpdateDto) {
+//        Long currentMemberId = SecurityUtil.getCurrentMemberId();
+//        Member member = memberRepository.getById(currentMemberId);
+//        if (memberRepository.existsByNickname(memberUpdateDto.getNickname())) {
+//            throw new RuntimeException("이미 존재하는 닉네임입니다");
+//        } else {
+//            member.setNickname(memberUpdateDto.getNickname());
+//        }
+//        member.setCity();
+//
+//        return;
 //    }
 
     public MemberResponseDto modifyMyInfo(MemberModifyRequestDto dto) {
