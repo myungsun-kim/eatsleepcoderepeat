@@ -6,6 +6,7 @@ import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.group.dto.project.FormRegisterRequestDto;
 import com.ssafy.match.group.dto.project.FormtInfoForRegisterResponseDto;
+import com.ssafy.match.group.dto.project.FormtInfoResponseDto;
 import com.ssafy.match.group.dto.project.ProjectMemberRoleResponseDto;
 import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import com.ssafy.match.group.entity.project.CompositeProjectTechstack;
@@ -552,20 +553,81 @@ public class ProjectServiceImpl implements ProjectService {
         return HttpStatus.OK;
     }
 
-    // 특정 프로젝트 모든 신청서 조회
-    public List<ProjectApplicationForm> allProjectForm(Long projectId) throws Exception {
+    // 모든 신청서 작성일 기준 내림차순 조회
+    public List<FormtInfoResponseDto> allProjectForm(Long projectId) throws Exception {
         Project project = findProject(projectId);
 
         if(SecurityUtil.getCurrentMemberId() != project.getMember().getId()){
             throw new Exception("조회 권한이 없습니다.");
         }
 
-        return projectApplicationFormRepository.formByProjectId(project);
+        List<ProjectApplicationForm> forms = projectApplicationFormRepository.formByProjectId(project);
+        List<FormtInfoResponseDto> formtInfoResponseDtos = new ArrayList<>();
+
+        for (ProjectApplicationForm form: forms) {
+            formtInfoResponseDtos.add(new FormtInfoResponseDto(form));
+        }
+
+        return formtInfoResponseDtos;
     }
 
-    // 신청서 목록의 복합 기본키를 가져와 해당 신청서 상세조회
-    public ProjectApplicationForm oneProjectForm(CompositeMemberProject cmp){
+    // 닉네임으로 신청서 검색
+    public List<FormtInfoResponseDto> allFormByProjectNickname(Long projectId, String nickname) throws Exception{
+        Project project = findProject(projectId);
+
+        if(SecurityUtil.getCurrentMemberId() != project.getMember().getId()){
+            throw new Exception("조회 권한이 없습니다.");
+        }
+
+        List<ProjectApplicationForm> forms = projectApplicationFormRepository.allFormByProjectNickname(project, nickname);
+        List<FormtInfoResponseDto> formtInfoResponseDtos = new ArrayList<>();
+
+        for (ProjectApplicationForm form: forms) {
+            formtInfoResponseDtos.add(new FormtInfoResponseDto(form));
+        }
+
+        return formtInfoResponseDtos;
+    }
+
+    // 신청서 목록의 복합 기본키를 가져와 해당 신청서 상세조회 (프론트 방식에 따라 불필요할 수 있음)
+    public FormtInfoResponseDto oneProjectForm(Long projectId, Long memberId) throws Exception {
+        CompositeMemberProject cmp = new CompositeMemberProject(findMember(memberId), findProject(projectId));
+
         return projectApplicationFormRepository.oneFormById(cmp)
+            .map(FormtInfoResponseDto::new)
             .orElseThrow(()-> new NullPointerException("존재하지 않는 신청서입니다"));
+    }
+
+    // 가입 승인
+    @Transactional
+    public HttpStatus approval(Long projectId, Long memberId) throws Exception {
+        List<Member> members = memberInProject(projectId);
+        Project project = findProject(projectId);
+        Member member = findMember(memberId);
+
+        for (Member mem: members) {
+            if(mem.equals(member)){
+                throw new Exception("이미 가입되어있는 회원입니다.");
+            }
+        }
+
+        ProjectApplicationForm form = projectApplicationFormRepository
+            .findById(new CompositeMemberProject(findMember(memberId), findProject(projectId)))
+            .orElseThrow(() -> new NullPointerException("존재하지 않는 신청서입니다."));
+
+        addMember(project, memberId, form.getRole());
+        reject(projectId, memberId);
+
+        return HttpStatus.OK;
+    }
+
+    // 신청서 제거
+    @Transactional
+    public HttpStatus reject(Long projectId, Long memberId) throws Exception {
+        projectApplicationFormRepository.delete(projectApplicationFormRepository
+            .findById(new CompositeMemberProject(findMember(memberId), findProject(projectId)))
+            .orElseThrow(() -> new NullPointerException("존재하지 않는 신청서입니다.")));
+
+        return HttpStatus.OK;
     }
 }
