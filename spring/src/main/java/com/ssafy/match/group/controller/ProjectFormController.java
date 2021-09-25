@@ -2,10 +2,12 @@ package com.ssafy.match.group.controller;
 
 import com.ssafy.match.group.dto.project.FormRegisterRequestDto;
 import com.ssafy.match.group.dto.project.FormtInfoForRegisterResponseDto;
+import com.ssafy.match.group.dto.project.FormtInfoResponseDto;
 import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
 import com.ssafy.match.group.dto.project.ProjectInfoForCreateResponseDto;
 import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
 import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
+import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.entity.project.ProjectApplicationForm;
 import com.ssafy.match.group.service.ProjectService;
@@ -34,7 +36,7 @@ public class ProjectFormController {
 
     private final ProjectService projectService;
 
-    @GetMapping("/forcreate")
+    @GetMapping("/forcreate/{projectId}")
     @ApiImplicitParam(name = "dto", value = "신청서 생성을 위한 Dto", required = true, dataType = "FormInfoForRegisterResponseDto", paramType = "json")
     @ApiOperation(value = "신청서 생성을 위한 정보", notes = "<strong>프로젝트를에 가입하기 위한</strong>신청서를 작성하기 위한 정보(전체 기술, 선택할 수 있는 지역 리스트)를 받는다")
     @ApiResponses({
@@ -57,63 +59,63 @@ public class ProjectFormController {
         return ResponseEntity.ok(projectService.createForm(projectId, dto));
     }
 
-//    @PatchMapping("/{projectId}")
-//    @ApiImplicitParams({
-//        @ApiImplicitParam(name = "dto", value = "프로젝트 수정 dto", required = true, dataType = "ProjectUpdateRequestDto", paramType = "json"),
-//        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
-//    })
-//    @ApiOperation(value = "프로젝트 수정", notes = "<strong>받은 프로젝트 정보</strong>를 사용해서 프로젝트를 수정한다.")
-//    @ApiResponses({
-//        @ApiResponse(code = 200, message = "성공"),
-//    })
-//    public ResponseEntity<HttpStatus> updateProject(@RequestBody ProjectUpdateRequestDto dto,
-//        @PathVariable("projectId") Long projectId) throws Exception {
-//        return ResponseEntity.ok(projectService.update(projectId, dto));
-//    }
-//
-//    @DeleteMapping("/{projectId}")
-//    @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
-//    @ApiOperation(value = "프로젝트 삭제", notes = "<strong>받은 프로젝트 Id</strong>로 프로젝트와 포함된 멤버관계를 삭제한다.")
-//    @ApiResponses({
-//        @ApiResponse(code = 200, message = "성공"),
-//    })
-//    public ResponseEntity<HttpStatus> deleteProject(@PathVariable("id") Long projectId)
-//        throws Exception {
-//        return ResponseEntity.ok(projectService.delete(projectId));
-//    }
-//
-//    @GetMapping("/detail/{projectId}")
-//    @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
-//    @ApiOperation(value = "프로젝트 상세정보 조회",
-//        notes = "<strong>받은 프로젝트 Id</strong>로 해당 프로젝트를 조회 + 전체 기술스택, 역할별 인원 닉네임, 전체 지역 정보, 포함 인원 등")
-//    @ApiResponses({
-//        @ApiResponse(code = 200, message = "성공"),
-//    })
-//    public ResponseEntity<ProjectInfoResponseDto> projectInfo(@PathVariable("projectId") Long projectId)
-//        throws Exception {
-//        return ResponseEntity.ok(projectService.projectInfo(projectId));
-//    }
-//
-//    @GetMapping("/info/{memberId}")
-//    @ApiImplicitParam(name = "memberId", value = "멤버 Id", required = true, dataType = "Long", paramType = "path")
-//    @ApiOperation(value = "특정 멤버가 속한 프로젝트 조회",
-//        notes = "<strong>받은 멤버 Id</strong>로 해당 멤버가 속한 프로젝트 정보 조회")
-//    @ApiResponses({
-//        @ApiResponse(code = 200, message = "성공"),
-//    })
-//    public ResponseEntity<List<Project>> projectInMember(@PathVariable("memberId") Long memberId)
-//        throws Exception {
-//        return ResponseEntity.ok(projectService.projectInMember(memberId));
-//    }
-
-    @GetMapping("/all/{projectId}")
-    @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
-    @ApiOperation(value = "특정 프로젝트 모든 신청서 조회", notes = "특정 프로젝트의 모든 신청서 리스트를 받는다")
+    @PostMapping("/approval/{projectId}&{memberId}")
+    @ApiImplicitParams({
+        @ApiImplicitParam (name = "cmp", value = "신청서 ID", required = true, dataType = "CompositeMemberProject", paramType = "json"),
+    })
+    @ApiOperation(value = "프로젝트 가입 승인", notes = "<strong>받은 신청서 Id</strong>를 사용해서 해당 멤버를 가입 승인한다.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<List<ProjectApplicationForm>> allProjectForm(@PathVariable("projectId") Long projectId) throws Exception {
+    public ResponseEntity<HttpStatus> approval(@PathVariable("projectId") Long projectId, @PathVariable("memberId") Long memberId) throws Exception {
+        return ResponseEntity.ok(projectService.approval(projectId, memberId));
+    }
+
+    @DeleteMapping("{projectId}&{memberId}")
+    @ApiImplicitParam(name = "cmp", value = "신청서 ID", required = true, dataType = "CompositeMemberProject", paramType = "json")
+    @ApiOperation(value = "신청서 삭제", notes = "<strong>받은 신청서 Id</strong>를 사용해서 해당 신청서를 제거한다.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<HttpStatus> reject(@PathVariable("projectId") Long projectId, @PathVariable("memberId") Long memberId) throws Exception{
+        return ResponseEntity.ok(projectService.reject(projectId, memberId));
+    }
+
+    @GetMapping("/all/{projectId}/{nickname}")
+    @ApiImplicitParams({
+        @ApiImplicitParam (name = "nickname", value = "검색 닉네임", required = true, dataType = "String", paramType = "path"),
+        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
+    })
+    @ApiOperation(value = "특정 프로젝트 닉네임 포함 모든 신청서 조회", notes = "특정 프로젝트의 닉네임 포함 모든 신청서 리스트를 작성일 기준 내림차순으로 받는다")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<List<FormtInfoResponseDto>> allFormByProjectNickname(@PathVariable("projectId") Long projectId,
+        @PathVariable("nickname") String nickname) throws Exception {
+        return ResponseEntity.ok(projectService.allFormByProjectNickname(projectId, nickname));
+    }
+
+    @GetMapping("/all/{projectId}")
+    @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
+    @ApiOperation(value = "특정 프로젝트 모든 신청서 조회", notes = "특정 프로젝트의 모든 신청서 리스트를 작성일 기준 내림차순으로 받는다")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<List<FormtInfoResponseDto>> allProjectForm(@PathVariable("projectId") Long projectId) throws Exception {
         return ResponseEntity.ok(projectService.allProjectForm(projectId));
+    }
+
+    @GetMapping("/one/{projectId}&{memberId}")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path"),
+        @ApiImplicitParam(name = "membertId", value = "멤버 ID", required = true, dataType = "Long", paramType = "path")
+    })
+    @ApiOperation(value = "특정 신청서 조회", notes = "특정 신청서를 상세 조회한다.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<FormtInfoResponseDto> oneProjectForm(@PathVariable("projectId") Long projectId, @PathVariable("memberId") Long memberId) throws Exception {
+        return ResponseEntity.ok(projectService.oneProjectForm(projectId, memberId));
     }
 
 }
