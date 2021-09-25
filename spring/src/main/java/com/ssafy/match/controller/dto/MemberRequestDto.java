@@ -2,11 +2,16 @@ package com.ssafy.match.controller.dto;
 
 import com.ssafy.match.db.entity.Authority;
 import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.db.entity.MemberExperiencedTechstack;
+import com.ssafy.match.db.entity.Techstack;
+import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
 import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -25,6 +30,7 @@ public class MemberRequestDto {
     private Boolean banned;
     private String position;
     private Boolean is_active;
+    private List<String> techList;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
@@ -42,6 +48,19 @@ public class MemberRequestDto {
                 .authority(Authority.ROLE_USER)
                 .build();
     }
+//    public MemberExperiencedTechstack toMemberExperiencedTechstack(Member member, Techstack techstack) {
+//        CompositeMemberTechstack compositeMemberTechstack = toCompositeMemberTechstack(member, techstack);
+//        return MemberExperiencedTechstack.builder()
+//                .compositeMemberTechstack(compositeMemberTechstack)
+//                .build();
+//    }
+//    public CompositeMemberTechstack toCompositeMemberTechstack(Member member, Techstack techstack) {
+//        return CompositeMemberTechstack
+//                .builder()
+//                .member(member)
+//                .teckstack(techstack)
+//                .build();
+//    }
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(email, password);

@@ -7,10 +7,8 @@ import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 
 @Getter
 @Setter
@@ -26,6 +24,7 @@ public class CompositeMemberTechstack implements Serializable {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    @Builder
     public CompositeMemberTechstack(Techstack teckstack, Member member) {
         this.teckstack = teckstack;
         this.member = member;
