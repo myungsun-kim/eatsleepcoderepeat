@@ -50,7 +50,7 @@ public class AuthService {
             CompositeMemberTechstack compositeMemberTechstack = CompositeMemberTechstack
                     .builder()
                     .member(ret)
-                    .teckstack(techstack)
+                    .techstack(techstack)
                     .build();
             MemberExperiencedTechstack memberExperiencedTechstack = MemberExperiencedTechstack.builder().compositeMemberTechstack(compositeMemberTechstack).build();
 

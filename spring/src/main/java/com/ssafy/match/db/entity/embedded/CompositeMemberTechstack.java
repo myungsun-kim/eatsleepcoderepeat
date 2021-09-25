@@ -18,15 +18,15 @@ public class CompositeMemberTechstack implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "techstack_id")
-    private Techstack teckstack;
+    private Techstack techstack;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @Builder
-    public CompositeMemberTechstack(Techstack teckstack, Member member) {
-        this.teckstack = teckstack;
+    public CompositeMemberTechstack(Techstack techstack, Member member) {
+        this.techstack = techstack;
         this.member = member;
     }
 }
