@@ -6,12 +6,9 @@ import com.ssafy.match.controller.dto.TokenRequestDto;
 import com.ssafy.match.controller.dto.TokenDto;
 import com.ssafy.match.db.entity.*;
 import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
-import com.ssafy.match.db.repository.MemberExperiencedTechstackRepository;
-import com.ssafy.match.db.repository.TechstackRepository;
+import com.ssafy.match.db.repository.*;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.jwt.TokenProvider;
-import com.ssafy.match.db.repository.MemberRepository;
-import com.ssafy.match.db.repository.RefreshTokenRepository;
 import com.ssafy.match.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,6 +31,7 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
     private final TechstackRepository techstackRepository;
+    private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
 
 
     @Transactional
@@ -42,21 +40,40 @@ public class AuthService {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
         Member member = memberRequestDto.toMember(passwordEncoder);
-//        MemberExperiencedTechstack memberExperiencedTechstack = memberRequestDto.
-        Member ret = memberRepository.save(member);
-        for (String tech : memberRequestDto.getTechList()) {
-            Techstack techstack = techstackRepository.findByName(tech)
-                    .orElseThrow(() -> new NullPointerException("기술 스택 정보가 없습니다."));
-            CompositeMemberTechstack compositeMemberTechstack = CompositeMemberTechstack
-                    .builder()
-                    .member(ret)
-                    .techstack(techstack)
-                    .build();
-            MemberExperiencedTechstack memberExperiencedTechstack = MemberExperiencedTechstack.builder().compositeMemberTechstack(compositeMemberTechstack).build();
 
-            memberExperiencedTechstackRepository.save(memberExperiencedTechstack);
-//            MemberExperiencedTechstack memberExperiencedTechstack = memberRequestDto.toMemberExperiencedTechstack(member, techstack);
-//            memberExperiencedTechstackRepository.save(memberExperiencedTechstack);
+        Member ret = memberRepository.save(member);
+
+        System.out.println("################");
+        System.out.println(memberRequestDto.getExpTechList());
+        System.out.println("################");
+        if (memberRequestDto.getExpTechList() != null){
+            for (String techExp : memberRequestDto.getExpTechList()) {
+                Techstack techstackExp = techstackRepository.findByName(techExp)
+                        .orElseThrow(() -> new NullPointerException("기술 스택 정보가 없습니다."));
+                CompositeMemberTechstack compositeMemberTechstackExp = CompositeMemberTechstack
+                        .builder()
+                        .member(ret)
+                        .techstack(techstackExp)
+                        .build();
+                MemberExperiencedTechstack memberExperiencedTechstack = MemberExperiencedTechstack.builder().compositeMemberTechstack(compositeMemberTechstackExp).build();
+
+                memberExperiencedTechstackRepository.save(memberExperiencedTechstack);
+                //            MemberExperiencedTechstack memberExperiencedTechstack = memberRequestDto.toMemberExperiencedTechstack(member, techstack);
+                //            memberExperiencedTechstackRepository.save(memberExperiencedTechstack);
+            }
+        }
+        if (memberRequestDto.getBeginTechList() != null){
+            for (String techBegin : memberRequestDto.getBeginTechList()) {
+                Techstack techstackBegin = techstackRepository.findByName(techBegin)
+                        .orElseThrow(() -> new NullPointerException("기술 스택 정보가 없습니다."));
+                CompositeMemberTechstack compositeMemberTechstackBegin = CompositeMemberTechstack
+                        .builder()
+                        .member(ret)
+                        .techstack(techstackBegin)
+                        .build();
+                MemberBeginnerTechstack memberBeginnerTechstack = MemberBeginnerTechstack.builder().compositeMemberTechstack(compositeMemberTechstackBegin).build();
+                memberBeginnerTechstackRepository.save(memberBeginnerTechstack);
+            }
         }
         return MemberResponseDto.of(ret);
     }

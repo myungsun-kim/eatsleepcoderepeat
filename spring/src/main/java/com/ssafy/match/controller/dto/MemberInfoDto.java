@@ -51,7 +51,8 @@ public class MemberInfoDto {
 //    @ApiParam(value = "내가 속한 클럽 목록", required = true)
     private List<Club> myClubList = new ArrayList<>();
     private List<Project> myProjectList = new ArrayList<>();
-    private List<String> experiencedList = new ArrayList<>();
+    private List<String> expTechList = new ArrayList<>();
+    private List<String> beginTechList = new ArrayList<>();
 
 //    public MemberInfoDto(Member member) {
 //        email = member.getEmail();

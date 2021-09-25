@@ -5,13 +5,17 @@ import com.ssafy.match.controller.dto.MemberModifyRequestDto;
 import com.ssafy.match.controller.dto.MemberResponseDto;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Techstack;
+import com.ssafy.match.db.repository.MemberBeginnerTechstackRepository;
+import com.ssafy.match.db.repository.MemberClubRepository;
 import com.ssafy.match.db.repository.MemberExperiencedTechstackRepository;
 import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
+import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.CompositeProjectTechstack;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.entity.project.ProjectTechstack;
+import com.ssafy.match.group.repository.project.MemberProjectRepository;
 import com.ssafy.match.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,9 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final DBFileRepository dbFileRepository;
     private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
+    private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
+    private final MemberClubRepository memberClubRepository;
+    private final MemberProjectRepository memberProjectRepository;
 //    @Transactional(readOnly = true)
 //    public MemberResponseDto getMemberInfo(String email) {
 //        return memberRepository.findByEmail(email)
@@ -41,17 +48,21 @@ public class MemberService {
 //                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
 //    }
 
-
     @Transactional(readOnly = true)
     public MemberInfoDto getMyPage() {
         MemberInfoDto memberInfoDto = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .map(MemberInfoDto::of)
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
-//        Member member = memberRepository.getById(SecurityUtil.getCurrentMemberId());
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new NullPointerException("유저가 없습니다."));
-        List<String> techstackList = memberExperiencedTechstackRepository.findByMemberTechstackName(member);
-        memberInfoDto.setExperiencedList(techstackList);
+        List<Club> myClubList = memberClubRepository.findClubByMember(member);
+        List<Project> myProjectList = memberProjectRepository.projectInMember(member);
+        List<String> expTechList = memberExperiencedTechstackRepository.findTechstackByMemberName(member);
+        List<String> begTechList = memberBeginnerTechstackRepository.findTechstackByMemberName(member);
+        memberInfoDto.setMyProjectList(myProjectList);
+        memberInfoDto.setMyClubList(myClubList);
+        memberInfoDto.setExpTechList(expTechList);
+        memberInfoDto.setBeginTechList(begTechList);
         return memberInfoDto;
     }
 //    @Transactional(readOnly = true)
