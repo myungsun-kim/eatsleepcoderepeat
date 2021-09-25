@@ -63,11 +63,11 @@ public class ProjectUpdateRequestDto {
 
     @ApiModelProperty(name = "is_public", example = "false")
     @ApiParam(value = "공개 비공개", required = true)
-    private boolean isPublic;
+    private Boolean isPublic;
 
     @ApiModelProperty(name = "is_participate", example = "false")
     @ApiParam(value = "참여 가능 여부", required = true)
-    private boolean isParticipate;
+    private Boolean isParticipate;
 
     @ApiModelProperty(name = "club_id", example = "3")
     @ApiParam(value = "소속된 클럽 id")
@@ -80,6 +80,14 @@ public class ProjectUpdateRequestDto {
     @ApiModelProperty(name = "host_role", example = "디자이너")
     @ApiParam(value = "프로젝트장 역할", required = true)
     private String hostRole;
+
+//    public boolean getIsPublic(){
+//        return isPublic;
+//    }
+//
+//    public boolean getIsParticipate(){
+//        return isParticipate;
+//    }
 
     @Builder
     public ProjectUpdateRequestDto(List<String> addStackList,

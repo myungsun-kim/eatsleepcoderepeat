@@ -664,13 +664,13 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`project_techstack` (
   `is_active` BIT(1) NOT NULL,
-  `project_id1` BIGINT NOT NULL,
+  `project_id` BIGINT NOT NULL,
   `techstack_id` INT NOT NULL,
-  PRIMARY KEY (`project_id1`, `techstack_id`),
-  INDEX `fk_project_techstack_project1_idx` (`project_id1` ASC) VISIBLE,
+  PRIMARY KEY (`project_id`, `techstack_id`),
+  INDEX `fk_project_techstack_project1_idx` (`project_id` ASC) VISIBLE,
   INDEX `fk_project_techstack_techstack1_idx` (`techstack_id` ASC) VISIBLE,
   CONSTRAINT `fk_project_techstack_project1`
-    FOREIGN KEY (`project_id1`)
+    FOREIGN KEY (`project_id`)
     REFERENCES `matching`.`project` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,

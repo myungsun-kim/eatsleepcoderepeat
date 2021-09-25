@@ -93,7 +93,7 @@ public class ProjectServiceImpl implements ProjectService {
             .city(City.from(dto.getCity()))
             .status(Status.모집중)
             .isActive(true)
-            .isPublic(dto.isPublic())
+            .isPublic(dto.getIsPublic())
             .isParticipate(true)
             .build();
 
@@ -129,8 +129,8 @@ public class ProjectServiceImpl implements ProjectService {
         project.setPlannerMaxCount(dto.getPlannerMaxCount());
         project.setCity(City.from(dto.getCity()));
         project.setStatus(dto.getStatus());
-        project.setPublic(dto.isPublic());
-        project.setParticipate(dto.isParticipate());
+        project.setPublic(dto.getIsPublic());
+        project.setParticipate(dto.getIsParticipate());
         changeRole(project, currentMemberId, dto.getHostRole());
         setDBFile(projectId, dto.getUuid());
         setClub(projectId, dto.getClubId());
