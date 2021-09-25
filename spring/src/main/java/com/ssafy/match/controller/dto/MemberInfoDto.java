@@ -47,6 +47,9 @@ public class MemberInfoDto {
 //    @ApiParam(value = "사진", required = false)
     private DBFile dbFile;
 
+    @ApiModelProperty(name = "portfolio_uri", example = "포트폴리오 uri")
+    private String portfolio_uri;
+
 //    @ApiModelProperty(name = "myClubList", example = "{{clubId: 1, clubName: '클럽 A', ...}, {clubId: 2, clubName: '클럽 B', ...}}")
 //    @ApiParam(value = "내가 속한 클럽 목록", required = true)
     private List<Club> myClubList = new ArrayList<>();
@@ -74,11 +77,12 @@ public class MemberInfoDto {
                 .city(member.getCity())
                 .position(member.getPosition())
                 .dbFile(member.getDbFile())
+                .portfolio_uri(member.getPortfolio_uri())
                 .build();
     }
 
     @Builder
-    public MemberInfoDto(String email, String name, String nickname, String tel, String bio, String city, String position, DBFile dbFile) {
+    public MemberInfoDto(String email, String name, String nickname, String tel, String bio, String city, String position, DBFile dbFile, String portfolio_uri) {
         this.email = email;
         this.name = name;
         this.nickname = nickname;
@@ -87,6 +91,7 @@ public class MemberInfoDto {
         this.city = city;
         this.position = position;
         this.dbFile = dbFile;
+        this.portfolio_uri = portfolio_uri;
 //        this.myClubList = myClubList;
     }
 

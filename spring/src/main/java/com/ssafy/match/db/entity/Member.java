@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotEmpty;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,17 +28,22 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime create_date;
+    @NotEmpty
     private String email;
+    @NotEmpty
     private String name;
+    @NotEmpty
     private String password;
+    @NotEmpty
     private String nickname;
+    private LocalDateTime create_date;
     private String tel;
     private String bio;
     private String city;
     private Boolean banned;
     private String position;
     private Boolean is_active;
+    private String portfolio_uri;
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
@@ -52,7 +59,7 @@ public class Member {
     @Builder
     public Member(LocalDateTime create_date, String email, String name, String password,
         String nickname, String tel, String bio, String city, Boolean banned, String position,
-        Boolean is_active, Authority authority, DBFile dbFile) {
+        Boolean is_active, Authority authority, DBFile dbFile, String portfolio_uri) {
         this.create_date = create_date;
         this.email = email;
         this.name = name;
@@ -66,5 +73,6 @@ public class Member {
         this.is_active = is_active;
         this.authority = authority;
         this.dbFile = dbFile;
+        this.portfolio_uri = portfolio_uri;
     }
 }

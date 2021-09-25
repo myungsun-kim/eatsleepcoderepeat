@@ -17,7 +17,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,17 +37,13 @@ public class AuthService {
 
 
     @Transactional
-    public MemberResponseDto signup(MemberRequestDto memberRequestDto) throws Exception {
+    public MemberResponseDto signup(@RequestBody @Valid MemberRequestDto memberRequestDto) throws Exception {
         if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
         Member member = memberRequestDto.toMember(passwordEncoder);
-
         Member ret = memberRepository.save(member);
 
-        System.out.println("################");
-        System.out.println(memberRequestDto.getExpTechList());
-        System.out.println("################");
         if (memberRequestDto.getExpTechList() != null){
             for (String techExp : memberRequestDto.getExpTechList()) {
                 Techstack techstackExp = techstackRepository.findByName(techExp)
