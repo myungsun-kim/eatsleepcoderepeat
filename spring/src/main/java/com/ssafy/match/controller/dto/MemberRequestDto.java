@@ -30,6 +30,7 @@ public class MemberRequestDto {
     private Boolean banned;
     private String position;
     private Boolean is_active;
+    private String portfolio_uri;
     private List<String> expTechList;
     private List<String> beginTechList;
 
@@ -47,6 +48,7 @@ public class MemberRequestDto {
                 .position(position)
                 .is_active(Boolean.TRUE)
                 .authority(Authority.ROLE_USER)
+                .portfolio_uri(portfolio_uri)
                 .build();
     }
 //    public MemberExperiencedTechstack toMemberExperiencedTechstack(Member member, Techstack techstack) {
