@@ -1,12 +1,16 @@
 package com.ssafy.match.controller.dto;
 
 import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.db.entity.MemberExperiencedTechstack;
+import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.Builder;
 import lombok.Data;
 
 @Data
@@ -47,29 +51,42 @@ public class MemberInfoDto {
 //    @ApiParam(value = "내가 속한 클럽 목록", required = true)
     private List<Club> myClubList = new ArrayList<>();
     private List<Project> myProjectList = new ArrayList<>();
+    private List<String> experiencedList = new ArrayList<>();
 
-    public MemberInfoDto(Member member) {
-        email = member.getEmail();
-        name = member.getName();
-        nickname = member.getNickname();
-        tel = member.getTel();
-        bio = member.getBio();
-        city = member.getCity();
-        position = member.getPosition();
-        dbFile = member.getDbFile();
+//    public MemberInfoDto(Member member) {
+//        email = member.getEmail();
+//        name = member.getName();
+//        nickname = member.getNickname();
+//        tel = member.getTel();
+//        bio = member.getBio();
+//        city = member.getCity();
+//        position = member.getPosition();
+//        dbFile = member.getDbFile();
+//    }
+    public static MemberInfoDto of(Member member) {
+        return MemberInfoDto.builder()
+                .email(member.getEmail())
+                .name(member.getName())
+                .nickname(member.getNickname())
+                .tel(member.getTel())
+                .bio(member.getBio())
+                .city(member.getCity())
+                .position(member.getPosition())
+                .dbFile(member.getDbFile())
+                .build();
     }
 
-//    @Builder
-//    public MemberInfoDto(String email, String name, String nickname, String tel, String bio, String city, String position, DBFile dbFile, List myClubList) {
-//        this.email = email;
-//        this.name = name;
-//        this.nickname = nickname;
-//        this.tel = tel;
-//        this.bio = bio;
-//        this.city = city;
-//        this.position = position;
-//        this.dbFile = dbFile;
+    @Builder
+    public MemberInfoDto(String email, String name, String nickname, String tel, String bio, String city, String position, DBFile dbFile) {
+        this.email = email;
+        this.name = name;
+        this.nickname = nickname;
+        this.tel = tel;
+        this.bio = bio;
+        this.city = city;
+        this.position = position;
+        this.dbFile = dbFile;
 //        this.myClubList = myClubList;
-//    }
+    }
 
 }

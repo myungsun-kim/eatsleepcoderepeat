@@ -4,11 +4,15 @@ import com.ssafy.match.controller.dto.MemberRequestDto;
 import com.ssafy.match.controller.dto.MemberResponseDto;
 import com.ssafy.match.controller.dto.TokenRequestDto;
 import com.ssafy.match.controller.dto.TokenDto;
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.entity.RefreshToken;
+import com.ssafy.match.db.entity.*;
+import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
+import com.ssafy.match.db.repository.MemberExperiencedTechstackRepository;
+import com.ssafy.match.db.repository.TechstackRepository;
+import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.jwt.TokenProvider;
 import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.db.repository.RefreshTokenRepository;
+import com.ssafy.match.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -16,6 +20,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,15 +32,33 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
+    private final TechstackRepository techstackRepository;
+
 
     @Transactional
-    public MemberResponseDto signup(MemberRequestDto memberRequestDto) {
+    public MemberResponseDto signup(MemberRequestDto memberRequestDto) throws Exception {
         if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
-
         Member member = memberRequestDto.toMember(passwordEncoder);
-        return MemberResponseDto.of(memberRepository.save(member));
+//        MemberExperiencedTechstack memberExperiencedTechstack = memberRequestDto.
+        Member ret = memberRepository.save(member);
+        for (String tech : memberRequestDto.getTechList()) {
+            Techstack techstack = techstackRepository.findByName(tech)
+                    .orElseThrow(() -> new NullPointerException("기술 스택 정보가 없습니다."));
+            CompositeMemberTechstack compositeMemberTechstack = CompositeMemberTechstack
+                    .builder()
+                    .member(ret)
+                    .teckstack(techstack)
+                    .build();
+            MemberExperiencedTechstack memberExperiencedTechstack = MemberExperiencedTechstack.builder().compositeMemberTechstack(compositeMemberTechstack).build();
+
+            memberExperiencedTechstackRepository.save(memberExperiencedTechstack);
+//            MemberExperiencedTechstack memberExperiencedTechstack = memberRequestDto.toMemberExperiencedTechstack(member, techstack);
+//            memberExperiencedTechstackRepository.save(memberExperiencedTechstack);
+        }
+        return MemberResponseDto.of(ret);
     }
 
     @Transactional
