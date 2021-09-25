@@ -30,7 +30,8 @@ public class MemberRequestDto {
     private Boolean banned;
     private String position;
     private Boolean is_active;
-    private List<String> techList;
+    private List<String> expTechList;
+    private List<String> beginTechList;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
