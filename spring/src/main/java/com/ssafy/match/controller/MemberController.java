@@ -1,28 +1,17 @@
 package com.ssafy.match.controller;
 
-import com.ssafy.match.controller.dto.MemberInfoDto;
-import com.ssafy.match.controller.dto.MemberModifyRequestDto;
-import com.ssafy.match.controller.dto.MemberResponseDto;
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.repository.MemberRepository;
+import com.ssafy.match.controller.dto.*;
 import com.ssafy.match.service.MemberService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @CrossOrigin("*")
@@ -32,8 +21,13 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/account")
-    public ResponseEntity<MemberInfoDto> getMyInfo() {
+    public ResponseEntity<MemberInfoDto> getMyPage() {
         return ResponseEntity.ok(memberService.getMyPage());
+    }
+
+    @PutMapping
+    public ResponseEntity<MemberUpdateResponseDto> updateMember(@RequestBody @Valid MemberUpdateRequestDto memberUpdateRequestDto) {
+        return ResponseEntity.ok(memberService.updateMyInfo(memberUpdateRequestDto));
     }
 
 //    @GetMapping("/me")
@@ -46,10 +40,10 @@ public class MemberController {
 //        return ResponseEntity.ok(memberService.getMemberInfo(email));
 //    }
 
-    @PatchMapping
-    public ResponseEntity<MemberResponseDto> modifyMemberInfo(@RequestBody MemberModifyRequestDto dto){
-        return ResponseEntity.ok(memberService.modifyMyInfo(dto));
-    }
+//    @PatchMapping
+//    public ResponseEntity<MemberResponseDto> modifyMemberInfo(@RequestBody MemberModifyRequestDto dto){
+//        return ResponseEntity.ok(memberService.modifyMyInfo(dto));
+//    }
 //    @Autowired
 //    MemberRepository memberRepository;
 //

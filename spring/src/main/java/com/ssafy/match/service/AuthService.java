@@ -37,7 +37,7 @@ public class AuthService {
 
 
     @Transactional
-    public MemberResponseDto signup(@RequestBody @Valid MemberRequestDto memberRequestDto) throws Exception {
+    public MemberResponseDto signup(MemberRequestDto memberRequestDto) throws Exception {
         if (memberRepository.existsByEmail(memberRequestDto.getEmail())) {
             throw new RuntimeException("이미 가입되어 있는 유저입니다");
         }
@@ -80,13 +80,9 @@ public class AuthService {
     public TokenDto login(MemberRequestDto memberRequestDto) {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = memberRequestDto.toAuthentication();
-        System.out.println("##");
-        System.out.println(authenticationToken);
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        System.out.println("##");
-        System.out.println(authentication);
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 

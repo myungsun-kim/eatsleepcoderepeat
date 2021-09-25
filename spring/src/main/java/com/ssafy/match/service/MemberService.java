@@ -1,11 +1,7 @@
 package com.ssafy.match.service;
 
-import com.ssafy.match.controller.dto.MemberInfoDto;
-import com.ssafy.match.controller.dto.MemberModifyRequestDto;
-import com.ssafy.match.controller.dto.MemberResponseDto;
-import com.ssafy.match.controller.dto.MemberUpdateDto;
+import com.ssafy.match.controller.dto.*;
 import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.db.repository.MemberBeginnerTechstackRepository;
 import com.ssafy.match.db.repository.MemberClubRepository;
 import com.ssafy.match.db.repository.MemberExperiencedTechstackRepository;
@@ -13,17 +9,17 @@ import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
 import com.ssafy.match.group.entity.club.Club;
-import com.ssafy.match.group.entity.project.CompositeProjectTechstack;
 import com.ssafy.match.group.entity.project.Project;
-import com.ssafy.match.group.entity.project.ProjectTechstack;
 import com.ssafy.match.group.repository.project.MemberProjectRepository;
 import com.ssafy.match.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +30,8 @@ public class MemberService {
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
     private final MemberClubRepository memberClubRepository;
     private final MemberProjectRepository memberProjectRepository;
+    private final PasswordEncoder passwordEncoder;
+//    private final MemberService memberService;
 //    @Transactional(readOnly = true)
 //    public MemberResponseDto getMemberInfo(String email) {
 //        return memberRepository.findByEmail(email)
@@ -74,33 +72,25 @@ public class MemberService {
 //                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
 //    }
 
-//    @Transactional
-//    public MemberUpdateDto updateMyInfo(MemberUpdateDto memberUpdateDto) {
-//        Long currentMemberId = SecurityUtil.getCurrentMemberId();
-//        Member member = memberRepository.getById(currentMemberId);
-//        if (memberRepository.existsByNickname(memberUpdateDto.getNickname())) {
-//            throw new RuntimeException("이미 존재하는 닉네임입니다");
-//        } else {
-//            member.setNickname(memberUpdateDto.getNickname());
-//        }
-//        member.setCity();
-//
-//        return;
-//    }
-
-    public MemberResponseDto modifyMyInfo(MemberModifyRequestDto dto) {
-        Long currentMemberId = SecurityUtil.getCurrentMemberId();
-
-        Member member = memberRepository.getById(currentMemberId);
-
-        member.setNickname(dto.getNickname());
-        member.setBio(dto.getBio());
-        member.setCity(dto.getCity());
-
-        setDBFile(member, dto.getUuid());
-
-        return MemberResponseDto.of(memberRepository.save(member));
+    @Transactional
+    public MemberUpdateResponseDto updateMyInfo(MemberUpdateRequestDto memberUpdateRequestDto) {
+        update(memberUpdateRequestDto.getEmail(), memberUpdateRequestDto.getName(), memberUpdateRequestDto.getPassword(), memberUpdateRequestDto.getNickname(), memberUpdateRequestDto.getTel(), memberUpdateRequestDto.getBio(), memberUpdateRequestDto.getCity(), memberUpdateRequestDto.getPosition(), memberUpdateRequestDto.getPortfolio_uri());
+        return MemberUpdateResponseDto.of(SecurityUtil.getCurrentMemberId());
     }
+
+//    public MemberResponseDto modifyMyInfo(@RequestBody @Valid MemberModifyRequestDto dto) {
+//        Long currentMemberId = SecurityUtil.getCurrentMemberId();
+//
+//        Member member = memberRepository.getById(currentMemberId);
+//
+//        member.setNickname(dto.getNickname());
+//        member.setBio(dto.getBio());
+//        member.setCity(dto.getCity());
+//
+//        setDBFile(member, dto.getUuid());
+//
+//        return MemberResponseDto.of(memberRepository.save(member));
+//    }
 
     public void setDBFile(Member member, String uuid){
         if(uuid == null) {
@@ -110,7 +100,23 @@ public class MemberService {
 
         DBFile dbFile = dbFileRepository.getById(uuid);
         member.setDbFile(dbFile);
-
     }
 
+    @Transactional
+    public void update(String email, String name, String password, String nickname, String tel, String bio, String city, String position, String portfolio_uri) {
+        Member member = memberRepository.getById(SecurityUtil.getCurrentMemberId());
+
+        if (memberRepository.existsByNickname(nickname)) {
+        } else {
+            member.setNickname(nickname);
+        }
+        member.setPassword(passwordEncoder.encode(password));
+        member.setTel(tel);
+        member.setName(name);
+        member.setEmail(email);
+        member.setBio(bio);
+        member.setCity(city);
+        member.setPosition(position);
+        member.setPortfolio_uri(portfolio_uri);
+    }
 }
