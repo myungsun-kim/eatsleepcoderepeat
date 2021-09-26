@@ -19,6 +19,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/mypage")
+    @ApiOperation(value = "마이 페이지")
     public ResponseEntity<MemberInfoDto> getMyPage() {
         return ResponseEntity.ok(memberService.getMyPage());
     }
@@ -39,4 +40,10 @@ public class MemberController {
         return new ResponseEntity<String>("수정이 실패했습니다!", HttpStatus.NOT_ACCEPTABLE);
     }
 
+    @DeleteMapping
+    @ApiOperation(value = "회원 탈퇴")
+    public ResponseEntity<?> deleteMember() {
+        memberService.deleteMember();
+        return new ResponseEntity<String>("회원탈퇴가 정상적으로 이루어졌습니다.", HttpStatus.OK);
+    }
 }
