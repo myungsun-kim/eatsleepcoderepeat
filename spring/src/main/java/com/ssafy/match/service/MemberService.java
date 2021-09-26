@@ -74,12 +74,19 @@ public class MemberService {
         return memberInfoDto;
     }
 
+    @Transactional
+    public void deleteMember() {
+        Member member = memberRepository.getById(SecurityUtil.getCurrentMemberId());
+        deleteMem(member);
+    }
+
     //    @Transactional(readOnly = true)
 //    public MemberInfoDto getMyPage() {
 //        return memberRepository.findById(SecurityUtil.getCurrentMemberId())
 //                .map(MemberInfoDto::new)
 //                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
 //    }
+
 
     @Transactional
     public MemberUpdateResponseDto updateMyInfo(MemberUpdateRequestDto memberUpdateRequestDto) {
@@ -104,6 +111,11 @@ public class MemberService {
 
         DBFile dbFile = dbFileRepository.getById(uuid);
         member.setDbFile(dbFile);
+    }
+
+    @Transactional
+    public void deleteMem(Member member) {
+        member.setIs_active(Boolean.FALSE);
     }
 
     @Transactional
