@@ -2,6 +2,7 @@ package com.ssafy.match.group.entity.study;
 
 import com.ssafy.match.db.entity.City;
 import com.ssafy.match.file.entity.DBFile;
+import com.ssafy.match.group.dto.study.request.StudyApplicationRequestDto;
 import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
@@ -52,19 +53,12 @@ public class StudyApplicationForm {
     private DBFile dbFile;
 
     @Builder
-    public StudyApplicationForm(
-        CompositeMemberStudy compositeMemberStudy, String nickname, City city, String git,
-        String twitter, String facebook, String backjoon, String bio,
-        LocalDateTime createDate, DBFile dbFile) {
-        this.compositeMemberStudy = compositeMemberStudy;
-        this.nickname = nickname;
-        this.city = city;
-        this.git = git;
-        this.twitter = twitter;
-        this.facebook = facebook;
-        this.backjoon = backjoon;
-        this.bio = bio;
-        this.createDate = createDate;
-        this.dbFile = dbFile;
+    public StudyApplicationForm(CompositeMemberStudy cmp, StudyApplicationRequestDto dto) {
+        this.compositeMemberStudy = cmp;
+        this.nickname = dto.getNickname();
+        this.city = City.from(dto.getCity());
+        this.git = dto.getGit();
+        this.bio = getBio();
+        this.createDate = LocalDateTime.now();
     }
 }

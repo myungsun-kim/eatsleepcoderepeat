@@ -1,7 +1,6 @@
-package com.ssafy.match.group.dto.project;
+package com.ssafy.match.group.dto.project.response;
 
 import com.ssafy.match.db.entity.City;
-import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.group.entity.club.Club;
 import io.swagger.annotations.ApiModelProperty;

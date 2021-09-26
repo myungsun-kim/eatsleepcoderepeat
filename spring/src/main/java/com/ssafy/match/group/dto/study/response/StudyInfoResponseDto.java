@@ -1,4 +1,4 @@
-package com.ssafy.match.group.dto.study.Response;
+package com.ssafy.match.group.dto.study.response;
 
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.dto.MemberDto;

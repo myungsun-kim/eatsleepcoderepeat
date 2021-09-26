@@ -1,19 +1,13 @@
 package com.ssafy.match.group.controller;
 
-import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
-import com.ssafy.match.group.dto.project.ProjectInfoForCreateResponseDto;
-import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
-import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
-import com.ssafy.match.group.dto.study.Request.StudyCreateRequestDto;
-import com.ssafy.match.group.dto.study.Request.StudyUpdateRequestDto;
-import com.ssafy.match.group.dto.study.Response.StudyInfoForCreateResponseDto;
-import com.ssafy.match.group.dto.study.Response.StudyInfoResponseDto;
-import com.ssafy.match.group.entity.project.Project;
+import com.ssafy.match.group.dto.study.request.StudyCreateRequestDto;
+import com.ssafy.match.group.dto.study.request.StudyUpdateRequestDto;
+import com.ssafy.match.group.dto.study.response.StudyInfoForCreateResponseDto;
+import com.ssafy.match.group.dto.study.response.StudyInfoResponseDto;
 import com.ssafy.match.group.service.StudyService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

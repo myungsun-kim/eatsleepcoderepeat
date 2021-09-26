@@ -1,4 +1,4 @@
-package com.ssafy.match.group.dto.project;
+package com.ssafy.match.group.dto.project.response;
 
 import com.ssafy.match.group.entity.club.Club;
 import io.swagger.annotations.ApiModelProperty;

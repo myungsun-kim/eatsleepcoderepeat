@@ -7,15 +7,15 @@ import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
-import com.ssafy.match.group.dto.project.FormRegisterRequestDto;
+import com.ssafy.match.group.dto.project.request.FormRegisterRequestDto;
 import com.ssafy.match.group.entity.project.CompositeMemberProject;
-import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
-import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
+import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
 import com.ssafy.match.group.entity.project.ProjectApplicationForm;
 import com.ssafy.match.group.repository.project.MemberProjectRepository;
 import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.db.repository.TechstackRepository;
-import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
+import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.MemberProject;
 import com.ssafy.match.group.entity.project.Project;
@@ -33,12 +33,9 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 @WebAppConfiguration
 @ExtendWith(SpringExtension.class)

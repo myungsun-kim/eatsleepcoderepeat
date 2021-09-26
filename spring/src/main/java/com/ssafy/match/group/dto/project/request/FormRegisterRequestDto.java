@@ -1,4 +1,4 @@
-package com.ssafy.match.group.dto.project;
+package com.ssafy.match.group.dto.project.request;
 
 import com.ssafy.match.file.entity.DBFile;
 import java.time.LocalDateTime;

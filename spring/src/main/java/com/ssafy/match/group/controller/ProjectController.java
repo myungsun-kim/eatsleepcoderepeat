@@ -1,13 +1,11 @@
 package com.ssafy.match.group.controller;
 
-import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
-import com.ssafy.match.group.dto.project.ProjectInfoForCreateResponseDto;
-import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
-import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
+import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoForCreateResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
+import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.service.ProjectService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
