@@ -1,9 +1,6 @@
 package com.ssafy.match.controller.dto;
 
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.entity.MemberExperiencedTechstack;
-import com.ssafy.match.db.entity.MemberSns;
-import com.ssafy.match.db.entity.Techstack;
+import com.ssafy.match.db.entity.*;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
@@ -59,6 +56,7 @@ public class MemberInfoDto {
     private List<String> expTechList = new ArrayList<>();
     private List<String> beginTechList = new ArrayList<>();
     private List<MemberSns> snsList = new ArrayList<>();
+    private List<Position> dpositionList = new ArrayList<>();
 
 //    public MemberInfoDto(Member member) {
 //        email = member.getEmail();

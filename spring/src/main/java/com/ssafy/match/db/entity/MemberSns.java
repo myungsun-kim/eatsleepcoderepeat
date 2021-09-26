@@ -10,8 +10,6 @@ import lombok.*;
 @Entity(name = "matching.member_sns")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberSns {
-
-    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

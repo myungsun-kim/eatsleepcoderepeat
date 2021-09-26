@@ -62,17 +62,37 @@ public class MemberUpdateRequestDto {
     @ApiParam(value = "포트폴리오 uri", required = false)
     private String portfolio_uri;
 
-    @ApiModelProperty(name = "expTechList", example = "[\"python\",\"java\"]")
-    @ApiParam(value = "experienced 기술 리스트", required = false)
-    private List<String> expTechList;
+//    @ApiModelProperty(name = "expTechList", example = "[\"python\",\"java\"]")
+//    @ApiParam(value = "experienced 기술 리스트", required = false)
+//    private List<String> expTechList;
 
-    @ApiModelProperty(name = "beginTechList", example = "[\"python\",\"java\"]")
-    @ApiParam(value = "beginner 기술 리스트", required = false)
-    private List<String> beginTechList;
+    @ApiModelProperty(name = "expDelTechList", example = "[\"python\",\"java\"]")
+    @ApiParam(value = "experienced 기술 리스트(del)", required = false)
+    private List<String> expDelTechList;
+
+    @ApiModelProperty(name = "expAddTechList", example = "[\"python\",\"java\"]")
+    @ApiParam(value = "experienced 기술 리스트(add)", required = false)
+    private List<String> expAddTechList;
+
+    @ApiModelProperty(name = "beginDelTechList", example = "[\"python\",\"java\"]")
+    @ApiParam(value = "beginner 기술 리스트(del)", required = false)
+    private List<String> beginDelTechList;
+
+    @ApiModelProperty(name = "beginAddTechList", example = "[\"python\",\"java\"]")
+    @ApiParam(value = "beginner 기술 리스트(add)", required = false)
+    private List<String> beginAddTechList;
 
     @ApiModelProperty(name = "snsHashMap", example = "{\"github\":\"github id\",\"twitter\":\"twitter id\"]")
     @ApiParam(value = "sns 종류/계정", required = false)
     private HashMap<String, String> snsHashMap;
+
+    @ApiModelProperty(name = "dpositionDelList", example = "[1,2]")
+    @ApiParam(value = "세부 포지션(삭제)", required = false)
+    private List<Integer> dpositionDelList;
+
+    @ApiModelProperty(name = "dpositionAddList", example = "[\"frontend\",\"devops\"]")
+    @ApiParam(value = "세부 포지션(추가)", required = false)
+    private List<String> dpositionAddList;
 
 //    public Member toMember(PasswordEncoder passwordEncoder) {
 //        return Member.builder()

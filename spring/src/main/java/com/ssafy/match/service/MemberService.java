@@ -1,8 +1,8 @@
 package com.ssafy.match.service;
 
 import com.ssafy.match.controller.dto.*;
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.entity.MemberSns;
+import com.ssafy.match.db.entity.*;
+import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
 import com.ssafy.match.db.repository.*;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
@@ -10,6 +10,7 @@ import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.repository.project.MemberProjectRepository;
 import com.ssafy.match.util.SecurityUtil;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,8 @@ public class MemberService {
     private final MemberClubRepository memberClubRepository;
     private final MemberProjectRepository memberProjectRepository;
     private final MemberSnsRepository memberSnsRepository;
+    private final PositionRepository positionRepository;
+    private final TechstackRepository techstackRepository;
     private final PasswordEncoder passwordEncoder;
 //    private final MemberService memberService;
 //    @Transactional(readOnly = true)
@@ -61,11 +64,13 @@ public class MemberService {
         List<String> expTechList = memberExperiencedTechstackRepository.findTechstackByMemberName(member);
         List<String> begTechList = memberBeginnerTechstackRepository.findTechstackByMemberName(member);
         List<MemberSns> snsList = memberSnsRepository.findAllByMember(member);
+        List<Position> dpositionList = positionRepository.findAllByMember(member);
         memberInfoDto.setMyProjectList(myProjectList);
         memberInfoDto.setMyClubList(myClubList);
         memberInfoDto.setExpTechList(expTechList);
         memberInfoDto.setBeginTechList(begTechList);
         memberInfoDto.setSnsList(snsList);
+        memberInfoDto.setDpositionList(dpositionList);
         return memberInfoDto;
     }
 
@@ -78,26 +83,18 @@ public class MemberService {
 
     @Transactional
     public MemberUpdateResponseDto updateMyInfo(MemberUpdateRequestDto memberUpdateRequestDto) {
+        Member member = memberRepository.getById(SecurityUtil.getCurrentMemberId());
+
         updateSns(memberUpdateRequestDto.getSnsHashMap());
+        addExpTechstack(member, memberUpdateRequestDto.getExpAddTechList());
+        delExpTechstack(member, memberUpdateRequestDto.getExpDelTechList());
+        addBegTechstack(member, memberUpdateRequestDto.getBeginAddTechList());
+        delBegTechstack(member, memberUpdateRequestDto.getBeginDelTechList());
+        addDposition(member, memberUpdateRequestDto.getDpositionAddList());
+        delDposition(memberUpdateRequestDto.getDpositionDelList());
         updateMember(memberUpdateRequestDto.getEmail(), memberUpdateRequestDto.getName(), memberUpdateRequestDto.getPassword(), memberUpdateRequestDto.getNickname(), memberUpdateRequestDto.getTel(), memberUpdateRequestDto.getBio(), memberUpdateRequestDto.getCity(), memberUpdateRequestDto.getPosition(), memberUpdateRequestDto.getPortfolio_uri());
         return MemberUpdateResponseDto.of(SecurityUtil.getCurrentMemberId());
     }
-
-
-
-//    public MemberResponseDto modifyMyInfo(@RequestBody @Valid MemberModifyRequestDto dto) {
-//        Long currentMemberId = SecurityUtil.getCurrentMemberId();
-//
-//        Member member = memberRepository.getById(currentMemberId);
-//
-//        member.setNickname(dto.getNickname());
-//        member.setBio(dto.getBio());
-//        member.setCity(dto.getCity());
-//
-//        setDBFile(member, dto.getUuid());
-//
-//        return MemberResponseDto.of(memberRepository.save(member));
-//    }
 
     public void setDBFile(Member member, String uuid){
         if(uuid == null) {
@@ -146,6 +143,91 @@ public class MemberService {
                     innerMemberSns.setSnsName(strKey);
                 }
             });
+        }
+    }
+
+    @Transactional
+    public void addDposition(Member member, List<String> dpositionAddList) {
+        if (dpositionAddList != null) {
+            for (String dposition : dpositionAddList) {
+                if (!positionRepository.existsByMemberAndName(member, dposition)) {
+                    Position innerDposition = Position
+                            .builder()
+                            .member(member)
+                            .name(dposition)
+                            .build();
+                    positionRepository.save(innerDposition);
+                }
+            }
+        }
+    }
+
+    @Transactional
+    public void delDposition(List<Integer> dpositionDelList) {
+        if (dpositionDelList != null) {
+            for (Integer dposition : dpositionDelList) {
+                if (positionRepository.existsById(dposition)) {
+                    positionRepository.delete(positionRepository.getById(dposition));
+                }
+            }
+        }
+    }
+
+    @Transactional
+    public void addExpTechstack(Member member, List<String> expAddTechList) {
+        if (expAddTechList != null) {
+            for (String techstack : expAddTechList) {
+                Techstack techstackExp = techstackRepository.findByName(techstack).orElseThrow(() -> new NullPointerException("기술 스택 정보가 없습니다."));
+                CompositeMemberTechstack compositeMemberTechstackExp = CompositeMemberTechstack
+                        .builder()
+                        .member(member)
+                        .techstack(techstackExp)
+                        .build();
+                MemberExperiencedTechstack memberExperiencedTechstack = MemberExperiencedTechstack.builder().compositeMemberTechstack(compositeMemberTechstackExp).build();
+                memberExperiencedTechstackRepository.save(memberExperiencedTechstack);
+            }
+        }
+    }
+
+    @Transactional
+    public void delExpTechstack(Member member, List<String> expDelTechList) {
+        if (expDelTechList != null) {
+            for (String techstack : expDelTechList) {
+                Techstack techstackExp = techstackRepository.findByName(techstack).orElseThrow(() -> new NullPointerException("기술 스택 정보가 없습니다."));
+                Optional<MemberExperiencedTechstack> met = memberExperiencedTechstackRepository.findByCompositeMemberTechstack_MemberAndCompositeMemberTechstack_Techstack(member, techstackExp);
+                if (met.isPresent()){
+                    memberExperiencedTechstackRepository.delete(met.get());
+                }
+            }
+        }
+    }
+
+    @Transactional
+    public void addBegTechstack(Member member, List<String> begAddTechList) {
+        if (begAddTechList != null) {
+            for (String techstack : begAddTechList) {
+                Techstack techstackBeg = techstackRepository.findByName(techstack).orElseThrow(() -> new NullPointerException("기술 스택 정보가 없습니다."));
+                CompositeMemberTechstack compositeMemberTechstackBeg = CompositeMemberTechstack
+                        .builder()
+                        .member(member)
+                        .techstack(techstackBeg)
+                        .build();
+                MemberBeginnerTechstack memberBeginnerTechstack = MemberBeginnerTechstack.builder().compositeMemberTechstack(compositeMemberTechstackBeg).build();
+                memberBeginnerTechstackRepository.save(memberBeginnerTechstack);
+            }
+        }
+    }
+
+    @Transactional
+    public void delBegTechstack(Member member, List<String> begDelTechList) {
+        if (begDelTechList != null) {
+            for (String techstack : begDelTechList) {
+                Techstack techstackBeg = techstackRepository.findByName(techstack).orElseThrow(() -> new NullPointerException("기술 스택 정보가 없습니다."));
+                Optional<MemberBeginnerTechstack> met = memberBeginnerTechstackRepository.findByCompositeMemberTechstack_MemberAndCompositeMemberTechstack_Techstack(member, techstackBeg);
+                if (met.isPresent()){
+                    memberBeginnerTechstackRepository.delete(met.get());
+                }
+            }
         }
     }
 }

@@ -34,6 +34,7 @@ public class AuthService {
     private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
     private final TechstackRepository techstackRepository;
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
+    private final PositionRepository positionRepository;
 
 
     @Transactional
@@ -71,6 +72,16 @@ public class AuthService {
                         .build();
                 MemberBeginnerTechstack memberBeginnerTechstack = MemberBeginnerTechstack.builder().compositeMemberTechstack(compositeMemberTechstackBegin).build();
                 memberBeginnerTechstackRepository.save(memberBeginnerTechstack);
+            }
+        }
+        if (memberRequestDto.getDpositionList() != null) {
+            for (String dposition : memberRequestDto.getDpositionList()) {
+                Position innerDposition = Position
+                        .builder()
+                        .member(ret)
+                        .name(dposition)
+                        .build();
+                positionRepository.save(innerDposition);
             }
         }
         return MemberResponseDto.of(ret);
