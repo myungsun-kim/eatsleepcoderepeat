@@ -1,13 +1,12 @@
 package com.ssafy.match.controller.dto;
 
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.entity.MemberExperiencedTechstack;
-import com.ssafy.match.db.entity.Techstack;
+import com.ssafy.match.db.entity.*;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import lombok.Builder;
@@ -56,6 +55,8 @@ public class MemberInfoDto {
     private List<Project> myProjectList = new ArrayList<>();
     private List<String> expTechList = new ArrayList<>();
     private List<String> beginTechList = new ArrayList<>();
+    private List<MemberSns> snsList = new ArrayList<>();
+    private List<Position> dpositionList = new ArrayList<>();
 
 //    public MemberInfoDto(Member member) {
 //        email = member.getEmail();

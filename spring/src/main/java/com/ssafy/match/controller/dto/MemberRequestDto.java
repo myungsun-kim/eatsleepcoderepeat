@@ -33,6 +33,7 @@ public class MemberRequestDto {
     private String portfolio_uri;
     private List<String> expTechList;
     private List<String> beginTechList;
+    private List<String> dpositionList;
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()

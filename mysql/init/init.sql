@@ -2,7 +2,7 @@
 
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
 -- Schema mydb
@@ -14,7 +14,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema matching
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `matching` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+CREATE SCHEMA IF NOT EXISTS `matching` DEFAULT CHARACTER SET utf8 ;
 USE `matching` ;
 
 -- -----------------------------------------------------
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`member` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `authority` VARCHAR(20) NOT NULL,
   `banned` BIT(1) NULL DEFAULT NULL,
-  `bio` VARCHAR(255) NULL DEFAULT NULL,
+  `bio` VARCHAR(1000) NULL DEFAULT NULL,
   `city` VARCHAR(10) NOT NULL,
   `create_date` DATETIME(6) NOT NULL,
   `email` VARCHAR(255) NOT NULL,
@@ -49,13 +49,14 @@ CREATE TABLE IF NOT EXISTS `matching`.`member` (
   `position` VARCHAR(20) NULL DEFAULT NULL,
   `tel` VARCHAR(255) NULL DEFAULT NULL,
   `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
+  `portfolio_uri` VARCHAR(1000) NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_member_files1_idx` (`cover_pic` ASC) VISIBLE,
+  INDEX `fk_member_files1_idx` (`cover_pic` ASC),
   CONSTRAINT `fk_member_files1`
     FOREIGN KEY (`cover_pic`)
     REFERENCES `matching`.`files` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 38
+AUTO_INCREMENT = 44
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -65,7 +66,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`club` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `bio` VARCHAR(255) NULL DEFAULT NULL,
+  `bio` VARCHAR(1000) NULL DEFAULT NULL,
   `city` VARCHAR(10) NOT NULL,
   `create_date` DATETIME(6) NOT NULL,
   `is_active` BIT(1) NOT NULL,
@@ -76,8 +77,8 @@ CREATE TABLE IF NOT EXISTS `matching`.`club` (
   `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
   `host_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_club_files1_idx` (`cover_pic` ASC) VISIBLE,
-  INDEX `fk_club_member1_idx` (`host_id` ASC) VISIBLE,
+  INDEX `fk_club_files1_idx` (`cover_pic` ASC),
+  INDEX `fk_club_member1_idx` (`host_id` ASC),
   CONSTRAINT `fk_club_files1`
     FOREIGN KEY (`cover_pic`)
     REFERENCES `matching`.`files` (`id`),
@@ -94,7 +95,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`study` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `bio` VARCHAR(255) NULL DEFAULT NULL,
+  `bio` VARCHAR(1000) NULL DEFAULT NULL,
   `city` VARCHAR(10) NOT NULL,
   `create_date` DATETIME(6) NOT NULL,
   `is_active` BIT(1) NOT NULL,
@@ -111,9 +112,9 @@ CREATE TABLE IF NOT EXISTS `matching`.`study` (
   `host_id` BIGINT NULL DEFAULT NULL,
   `club_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_study_member1_idx` (`host_id` ASC) VISIBLE,
-  INDEX `fk_study_files1_idx` (`cover_pic` ASC) VISIBLE,
-  INDEX `fk_study_club1_idx` (`club_id` ASC) VISIBLE,
+  INDEX `fk_study_member1_idx` (`host_id` ASC),
+  INDEX `fk_study_files1_idx` (`cover_pic` ASC),
+  INDEX `fk_study_club1_idx` (`club_id` ASC),
   CONSTRAINT `fk_study_club1`
     FOREIGN KEY (`club_id`)
     REFERENCES `matching`.`club` (`id`),
@@ -133,7 +134,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`project` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `bio` VARCHAR(255) NULL DEFAULT NULL,
+  `bio` VARCHAR(1000) NULL DEFAULT NULL,
   `city` VARCHAR(10) NOT NULL,
   `create_date` DATETIME(6) NOT NULL,
   `designer_count` INT NOT NULL,
@@ -155,9 +156,9 @@ CREATE TABLE IF NOT EXISTS `matching`.`project` (
   `club_id` BIGINT NULL DEFAULT NULL,
   `host_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_project_files1_idx` (`cover_pic` ASC) VISIBLE,
-  INDEX `fk_project_club1_idx` (`club_id` ASC) VISIBLE,
-  INDEX `fk_project_member1_idx` (`host_id` ASC) VISIBLE,
+  INDEX `fk_project_files1_idx` (`cover_pic` ASC),
+  INDEX `fk_project_club1_idx` (`club_id` ASC),
+  INDEX `fk_project_member1_idx` (`host_id` ASC),
   CONSTRAINT `fk_project_club1`
     FOREIGN KEY (`club_id`)
     REFERENCES `matching`.`club` (`id`),
@@ -168,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`project` (
     FOREIGN KEY (`host_id`)
     REFERENCES `matching`.`member` (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 12
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -184,9 +185,9 @@ CREATE TABLE IF NOT EXISTS `matching`.`board` (
   `project_id` BIGINT NULL DEFAULT NULL,
   `study_id` BIGINT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FK9qmen0qjsw6syjvqullfqk0uu` (`club_id` ASC) VISIBLE,
-  INDEX `FKskhv57eqns95wmqmu2lia00wr` (`project_id` ASC) VISIBLE,
-  INDEX `FK4tsm6m8vho6ww2kjc912htwb0` (`study_id` ASC) VISIBLE,
+  INDEX `FK9qmen0qjsw6syjvqullfqk0uu` (`club_id` ASC),
+  INDEX `FKskhv57eqns95wmqmu2lia00wr` (`project_id` ASC),
+  INDEX `FK4tsm6m8vho6ww2kjc912htwb0` (`study_id` ASC),
   CONSTRAINT `FK4tsm6m8vho6ww2kjc912htwb0`
     FOREIGN KEY (`study_id`)
     REFERENCES `matching`.`study` (`id`),
@@ -214,8 +215,8 @@ CREATE TABLE IF NOT EXISTS `matching`.`article` (
   `board_id` INT NULL DEFAULT NULL,
   `member_id` BIGINT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FKysw8y9pw0cwpknhlnyc6863i` (`board_id` ASC) VISIBLE,
-  INDEX `FK9yp2k553e4jjckg50k46jeapf` (`member_id` ASC) VISIBLE,
+  INDEX `FKysw8y9pw0cwpknhlnyc6863i` (`board_id` ASC),
+  INDEX `FK9yp2k553e4jjckg50k46jeapf` (`member_id` ASC),
   CONSTRAINT `FK9yp2k553e4jjckg50k46jeapf`
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`),
@@ -239,7 +240,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`career` (
   `start_date` DATETIME(6) NULL DEFAULT NULL,
   `member_id` BIGINT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FKj3sr8mqtm4j9hh3cdk9514iuy` (`member_id` ASC) VISIBLE,
+  INDEX `FKj3sr8mqtm4j9hh3cdk9514iuy` (`member_id` ASC),
   CONSTRAINT `FKj3sr8mqtm4j9hh3cdk9514iuy`
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`))
@@ -261,8 +262,40 @@ CREATE TABLE IF NOT EXISTS `matching`.`certification` (
   `organization` VARCHAR(255) NULL DEFAULT NULL,
   `member_id` BIGINT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FKean8y31fu1keq8505jsdy4ts7` (`member_id` ASC) VISIBLE,
+  INDEX `FKean8y31fu1keq8505jsdy4ts7` (`member_id` ASC),
   CONSTRAINT `FKean8y31fu1keq8505jsdy4ts7`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `matching`.`member` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `matching`.`club_application_form`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matching`.`club_application_form` (
+  `nickname` VARCHAR(10) NOT NULL,
+  `city` VARCHAR(10) NOT NULL,
+  `git` VARCHAR(145) NULL DEFAULT NULL,
+  `twitter` VARCHAR(145) NULL DEFAULT NULL,
+  `facebook` VARCHAR(145) NULL DEFAULT NULL,
+  `backjoon` VARCHAR(145) NULL DEFAULT NULL,
+  `bio` VARCHAR(145) NULL DEFAULT NULL,
+  `create_date` DATETIME(6) NOT NULL,
+  `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
+  `club_id` BIGINT NOT NULL,
+  `member_id` BIGINT NOT NULL,
+  PRIMARY KEY (`club_id`, `member_id`),
+  INDEX `fk_club_application_form_files1_idx` (`cover_pic` ASC),
+  INDEX `fk_club_application_form_member1_idx` (`member_id` ASC),
+  CONSTRAINT `fk_club_application_form_club1`
+    FOREIGN KEY (`club_id`)
+    REFERENCES `matching`.`club` (`id`),
+  CONSTRAINT `fk_club_application_form_files1`
+    FOREIGN KEY (`cover_pic`)
+    REFERENCES `matching`.`files` (`id`),
+  CONSTRAINT `fk_club_application_form_member1`
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`))
 ENGINE = InnoDB
@@ -282,8 +315,8 @@ CREATE TABLE IF NOT EXISTS `matching`.`comment` (
   `article_id` INT NULL DEFAULT NULL,
   `member_id` BIGINT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FKi3jkgld5n5s1aqxumenfrn0aj` (`article_id` ASC) VISIBLE,
-  INDEX `FKs934rabdfwky0hpumbcf1l9fj` (`member_id` ASC) VISIBLE,
+  INDEX `FKi3jkgld5n5s1aqxumenfrn0aj` (`article_id` ASC),
+  INDEX `FKs934rabdfwky0hpumbcf1l9fj` (`member_id` ASC),
   CONSTRAINT `FKi3jkgld5n5s1aqxumenfrn0aj`
     FOREIGN KEY (`article_id`)
     REFERENCES `matching`.`article` (`id`),
@@ -309,7 +342,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`education` (
   `start_date` DATETIME(6) NULL DEFAULT NULL,
   `member_id` BIGINT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FKcwpq7xrd9cidl8hxgepm1cju8` (`member_id` ASC) VISIBLE,
+  INDEX `FKcwpq7xrd9cidl8hxgepm1cju8` (`member_id` ASC),
   CONSTRAINT `FKcwpq7xrd9cidl8hxgepm1cju8`
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`))
@@ -340,8 +373,8 @@ CREATE TABLE IF NOT EXISTS `matching`.`member_article_reaction` (
   `member_id` BIGINT NOT NULL,
   `reaction_id` INT NOT NULL,
   PRIMARY KEY (`article_id`, `member_id`, `reaction_id`),
-  INDEX `FK1ts7vjdepvvplt7dpdtl87wnp` (`member_id` ASC) VISIBLE,
-  INDEX `FKlfx9w0e4mgvm1yi3gumsu53kn` (`reaction_id` ASC) VISIBLE,
+  INDEX `FK1ts7vjdepvvplt7dpdtl87wnp` (`member_id` ASC),
+  INDEX `FKlfx9w0e4mgvm1yi3gumsu53kn` (`reaction_id` ASC),
   CONSTRAINT `FK1ts7vjdepvvplt7dpdtl87wnp`
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`),
@@ -376,7 +409,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`member_beginner_techstack` (
   `member_id` BIGINT NOT NULL,
   `techstack_id` INT NOT NULL,
   PRIMARY KEY (`member_id`, `techstack_id`),
-  INDEX `FKhiwqgp87b3o133ipcrwvmtred` (`techstack_id` ASC) VISIBLE,
+  INDEX `FKhiwqgp87b3o133ipcrwvmtred` (`techstack_id` ASC),
   CONSTRAINT `FKhiwqgp87b3o133ipcrwvmtred`
     FOREIGN KEY (`techstack_id`)
     REFERENCES `matching`.`techstack` (`id`),
@@ -397,17 +430,13 @@ CREATE TABLE IF NOT EXISTS `matching`.`member_club` (
   `member_id` BIGINT NOT NULL,
   `club_id` BIGINT NOT NULL,
   PRIMARY KEY (`member_id`, `club_id`),
-  INDEX `fk_member_club_club1_idx` (`club_id` ASC) VISIBLE,
-  CONSTRAINT `fk_member_club_member1`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `matching`.`member` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_member_club_club1_idx` (`club_id` ASC),
   CONSTRAINT `fk_member_club_club1`
     FOREIGN KEY (`club_id`)
-    REFERENCES `matching`.`club` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `matching`.`club` (`id`),
+  CONSTRAINT `fk_member_club_member1`
+    FOREIGN KEY (`member_id`)
+    REFERENCES `matching`.`member` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -422,8 +451,8 @@ CREATE TABLE IF NOT EXISTS `matching`.`member_comment_reaction` (
   `member_id` BIGINT NOT NULL,
   `reaction_id` INT NOT NULL,
   PRIMARY KEY (`comment_id`, `member_id`, `reaction_id`),
-  INDEX `FKhgus23q0i1la2p8qvy37fqr43` (`member_id` ASC) VISIBLE,
-  INDEX `FK9lfq8v8qy628dds2ij0671ttv` (`reaction_id` ASC) VISIBLE,
+  INDEX `FKhgus23q0i1la2p8qvy37fqr43` (`member_id` ASC),
+  INDEX `FK9lfq8v8qy628dds2ij0671ttv` (`reaction_id` ASC),
   CONSTRAINT `FK9lfq8v8qy628dds2ij0671ttv`
     FOREIGN KEY (`reaction_id`)
     REFERENCES `matching`.`reaction` (`id`),
@@ -445,8 +474,8 @@ CREATE TABLE IF NOT EXISTS `matching`.`member_experienced_techstack` (
   `techstack_id` INT NOT NULL,
   `member_id` BIGINT NOT NULL,
   PRIMARY KEY (`techstack_id`, `member_id`),
-  INDEX `fk_member_experienced_techstack_techstack1_idx` (`techstack_id` ASC) VISIBLE,
-  INDEX `fk_member_experienced_techstack_member1_idx` (`member_id` ASC) VISIBLE,
+  INDEX `fk_member_experienced_techstack_techstack1_idx` (`techstack_id` ASC),
+  INDEX `fk_member_experienced_techstack_member1_idx` (`member_id` ASC),
   CONSTRAINT `fk_member_experienced_techstack_member1`
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`),
@@ -466,7 +495,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`member_portfolio` (
   `protfolio_path` VARCHAR(255) NOT NULL,
   `member_id` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FK1ixus8kdxd69acu641r3mt5y6` (`member_id` ASC) VISIBLE,
+  INDEX `FK1ixus8kdxd69acu641r3mt5y6` (`member_id` ASC),
   CONSTRAINT `FK1ixus8kdxd69acu641r3mt5y6`
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`))
@@ -485,35 +514,13 @@ CREATE TABLE IF NOT EXISTS `matching`.`member_project` (
   `member_id` BIGINT NOT NULL,
   `project_id` BIGINT NOT NULL,
   PRIMARY KEY (`member_id`, `project_id`),
-  INDEX `fk_member_project_project1_idx` (`project_id` ASC) VISIBLE,
+  INDEX `fk_member_project_project1_idx` (`project_id` ASC),
   CONSTRAINT `fk_member_project_member1`
     FOREIGN KEY (`member_id`)
-    REFERENCES `matching`.`member` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `matching`.`member` (`id`),
   CONSTRAINT `fk_member_project_project1`
     FOREIGN KEY (`project_id`)
-    REFERENCES `matching`.`project` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `matching`.`member_sns`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `matching`.`member_sns` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `sns_address` VARCHAR(255) NULL DEFAULT NULL,
-  `sns_type` VARCHAR(255) NULL DEFAULT NULL,
-  `member_id` BIGINT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `FK2t28c5q5sf97wf5bis3mrr6vk` (`member_id` ASC) VISIBLE,
-  CONSTRAINT `FK2t28c5q5sf97wf5bis3mrr6vk`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `matching`.`member` (`id`))
+    REFERENCES `matching`.`project` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -528,17 +535,13 @@ CREATE TABLE IF NOT EXISTS `matching`.`member_study` (
   `study_id` BIGINT NOT NULL,
   `member_id` BIGINT NOT NULL,
   PRIMARY KEY (`study_id`, `member_id`),
-  INDEX `fk_member_study_member1_idx` (`member_id` ASC) VISIBLE,
-  CONSTRAINT `fk_member_study_study1`
-    FOREIGN KEY (`study_id`)
-    REFERENCES `matching`.`study` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_member_study_member1_idx` (`member_id` ASC),
   CONSTRAINT `fk_member_study_member1`
     FOREIGN KEY (`member_id`)
-    REFERENCES `matching`.`member` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `matching`.`member` (`id`),
+  CONSTRAINT `fk_member_study_study1`
+    FOREIGN KEY (`study_id`)
+    REFERENCES `matching`.`study` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -551,7 +554,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`member_techstack` (
   `member_id` BIGINT NOT NULL,
   `techstack_id` INT NOT NULL,
   PRIMARY KEY (`member_id`, `techstack_id`),
-  INDEX `FKt9pc24oxcu8o9129k92jt7qg7` (`techstack_id` ASC) VISIBLE,
+  INDEX `FKt9pc24oxcu8o9129k92jt7qg7` (`techstack_id` ASC),
   CONSTRAINT `FK4e6643xhjlp6k401w5aac3itk`
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`),
@@ -575,8 +578,8 @@ CREATE TABLE IF NOT EXISTS `matching`.`message` (
   `content` TEXT NULL DEFAULT NULL,
   `type` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_message_member1_idx` (`sender_id` ASC) VISIBLE,
-  INDEX `fk_message_member2_idx` (`receiver_id` ASC) VISIBLE,
+  INDEX `fk_message_member1_idx` (`sender_id` ASC),
+  INDEX `fk_message_member2_idx` (`receiver_id` ASC),
   CONSTRAINT `fk_message_member1`
     FOREIGN KEY (`sender_id`)
     REFERENCES `matching`.`member` (`id`),
@@ -596,7 +599,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`position` (
   `name` VARCHAR(255) NULL DEFAULT NULL,
   `member_id` BIGINT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FKjcl2rsr8itxg4548wlcvxr5yo` (`member_id` ASC) VISIBLE,
+  INDEX `FKjcl2rsr8itxg4548wlcvxr5yo` (`member_id` ASC),
   CONSTRAINT `FKjcl2rsr8itxg4548wlcvxr5yo`
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`))
@@ -622,10 +625,12 @@ CREATE TABLE IF NOT EXISTS `matching`.`project_application_form` (
   `bio` VARCHAR(145) NULL DEFAULT NULL,
   `create_date` DATETIME(6) NOT NULL,
   `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
-  PRIMARY KEY (`project_id`, `member_id`),
-  INDEX `fk_project_application_form_project1_idx` (`project_id` ASC) VISIBLE,
-  INDEX `fk_project_application_form_member1_idx` (`member_id` ASC) VISIBLE,
-  INDEX `fk_project_application_form_files1_idx` (`cover_pic` ASC) VISIBLE,
+  `member_id1` BIGINT NOT NULL,
+  PRIMARY KEY (`project_id`, `member_id`, `member_id1`),
+  INDEX `fk_project_application_form_project1_idx` (`project_id` ASC),
+  INDEX `fk_project_application_form_member1_idx` (`member_id` ASC),
+  INDEX `fk_project_application_form_files1_idx` (`cover_pic` ASC),
+  INDEX `fk_project_application_form_member2_idx` (`member_id1` ASC),
   CONSTRAINT `fk_project_application_form_files1`
     FOREIGN KEY (`cover_pic`)
     REFERENCES `matching`.`files` (`id`),
@@ -634,7 +639,12 @@ CREATE TABLE IF NOT EXISTS `matching`.`project_application_form` (
     REFERENCES `matching`.`member` (`id`),
   CONSTRAINT `fk_project_application_form_project1`
     FOREIGN KEY (`project_id`)
-    REFERENCES `matching`.`project` (`id`))
+    REFERENCES `matching`.`project` (`id`),
+  CONSTRAINT `fk_project_application_form_member2`
+    FOREIGN KEY (`member_id1`)
+    REFERENCES `matching`.`member` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -647,7 +657,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`project_star` (
   `member_id` BIGINT NOT NULL,
   `project_id` BIGINT NOT NULL,
   PRIMARY KEY (`member_id`, `project_id`),
-  INDEX `FKqj9uaxbv33b8sibd5i7qip6cu` (`project_id` ASC) VISIBLE,
+  INDEX `FKqj9uaxbv33b8sibd5i7qip6cu` (`project_id` ASC),
   CONSTRAINT `FKfwf1kl9f4i613ohpgnu93uvxa`
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`),
@@ -664,21 +674,17 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`project_techstack` (
   `is_active` BIT(1) NOT NULL,
-  `project_id` BIGINT NOT NULL,
+  `project_id1` BIGINT NOT NULL,
   `techstack_id` INT NOT NULL,
-  PRIMARY KEY (`project_id`, `techstack_id`),
-  INDEX `fk_project_techstack_project1_idx` (`project_id` ASC) VISIBLE,
-  INDEX `fk_project_techstack_techstack1_idx` (`techstack_id` ASC) VISIBLE,
+  PRIMARY KEY (`project_id1`, `techstack_id`),
+  INDEX `fk_project_techstack_project1_idx` (`project_id1` ASC),
+  INDEX `fk_project_techstack_techstack1_idx` (`techstack_id` ASC),
   CONSTRAINT `fk_project_techstack_project1`
-    FOREIGN KEY (`project_id`)
-    REFERENCES `matching`.`project` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    FOREIGN KEY (`project_id1`)
+    REFERENCES `matching`.`project` (`id`),
   CONSTRAINT `fk_project_techstack_techstack1`
     FOREIGN KEY (`techstack_id`)
-    REFERENCES `matching`.`techstack` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `matching`.`techstack` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -697,29 +703,6 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `matching`.`study_techstack`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `matching`.`study_techstack` (
-  `study_id` BIGINT NOT NULL,
-  `techstack_id` INT NOT NULL,
-  PRIMARY KEY (`study_id`, `techstack_id`),
-  INDEX `fk_study_techstack_techstack1_idx` (`techstack_id` ASC) VISIBLE,
-  CONSTRAINT `fk_study_techstack_study1`
-    FOREIGN KEY (`study_id`)
-    REFERENCES `matching`.`study` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_study_techstack_techstack1`
-    FOREIGN KEY (`techstack_id`)
-    REFERENCES `matching`.`techstack` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
 -- Table `matching`.`study_application_form`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`study_application_form` (
@@ -731,68 +714,61 @@ CREATE TABLE IF NOT EXISTS `matching`.`study_application_form` (
   `backjoon` VARCHAR(145) NULL DEFAULT NULL,
   `bio` VARCHAR(145) NULL DEFAULT NULL,
   `create_date` DATETIME(6) NOT NULL,
-  `cover_pic` VARCHAR(255) NULL,
+  `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
   `study_id` BIGINT NOT NULL,
   `member_id` BIGINT NOT NULL,
-  INDEX `fk_study_application_form_files1_idx` (`cover_pic` ASC) VISIBLE,
   PRIMARY KEY (`study_id`, `member_id`),
-  INDEX `fk_study_application_form_member1_idx` (`member_id` ASC) VISIBLE,
+  INDEX `fk_study_application_form_files1_idx` (`cover_pic` ASC),
+  INDEX `fk_study_application_form_member1_idx` (`member_id` ASC),
   CONSTRAINT `fk_study_application_form_files1`
     FOREIGN KEY (`cover_pic`)
-    REFERENCES `matching`.`files` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_study_application_form_study1`
-    FOREIGN KEY (`study_id`)
-    REFERENCES `matching`.`study` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES `matching`.`files` (`id`),
   CONSTRAINT `fk_study_application_form_member1`
     FOREIGN KEY (`member_id`)
-    REFERENCES `matching`.`member` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    REFERENCES `matching`.`member` (`id`),
+  CONSTRAINT `fk_study_application_form_study1`
+    FOREIGN KEY (`study_id`)
+    REFERENCES `matching`.`study` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `matching`.`club_application_form`
+-- Table `matching`.`study_techstack`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `matching`.`club_application_form` (
-  `nickname` VARCHAR(10) NOT NULL,
-  `city` VARCHAR(10) NOT NULL,
-  `git` VARCHAR(145) NULL DEFAULT NULL,
-  `twitter` VARCHAR(145) NULL DEFAULT NULL,
-  `facebook` VARCHAR(145) NULL DEFAULT NULL,
-  `backjoon` VARCHAR(145) NULL DEFAULT NULL,
-  `bio` VARCHAR(145) NULL DEFAULT NULL,
-  `create_date` DATETIME(6) NOT NULL,
-  `cover_pic` VARCHAR(255) NULL,
-  `club_id` BIGINT NOT NULL,
+CREATE TABLE IF NOT EXISTS `matching`.`study_techstack` (
+  `study_id` BIGINT NOT NULL,
+  `techstack_id` INT NOT NULL,
+  PRIMARY KEY (`study_id`, `techstack_id`),
+  INDEX `fk_study_techstack_techstack1_idx` (`techstack_id` ASC),
+  CONSTRAINT `fk_study_techstack_study1`
+    FOREIGN KEY (`study_id`)
+    REFERENCES `matching`.`study` (`id`),
+  CONSTRAINT `fk_study_techstack_techstack1`
+    FOREIGN KEY (`techstack_id`)
+    REFERENCES `matching`.`techstack` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `matching`.`member_sns`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matching`.`member_sns` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
   `member_id` BIGINT NOT NULL,
-  INDEX `fk_club_application_form_files1_idx` (`cover_pic` ASC) VISIBLE,
-  PRIMARY KEY (`club_id`, `member_id`),
-  INDEX `fk_club_application_form_member1_idx` (`member_id` ASC) VISIBLE,
-  CONSTRAINT `fk_club_application_form_files1`
-    FOREIGN KEY (`cover_pic`)
-    REFERENCES `matching`.`files` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_club_application_form_club1`
-    FOREIGN KEY (`club_id`)
-    REFERENCES `matching`.`club` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_club_application_form_member1`
+  `sns_account` VARCHAR(255) NOT NULL,
+  `sns_name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_member_sns_member1_idx` (`member_id` ASC),
+  CONSTRAINT `fk_member_sns_member1`
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
