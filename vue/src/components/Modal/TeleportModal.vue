@@ -4,7 +4,7 @@
   </el-button>
   <teleport to="body">
     <div v-if="modalOpen" class="modal">
-      <div class="height40">
+      <div class="height40" style="width: 30%">
         <el-row class="height30"></el-row>
         <el-row class="height10">
           <el-col :span="24" class="font-noto-bold font-20">
@@ -70,6 +70,6 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: white;
-  width: 50%;
+  width: 100%;
 }
 </style>

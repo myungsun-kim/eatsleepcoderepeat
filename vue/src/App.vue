@@ -217,6 +217,20 @@ body {
   text-align: center;
   color: #1747c9;
 }
+.btn-ghost-round-red {
+  background: #ffffff;
+  border: 1px solid #f53030;
+  box-sizing: border-box;
+  border-radius: 30px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  color: #f53030;
+}
 .btn-ghost-red {
   font-size: 14pt;
   color: #f53030;
@@ -257,6 +271,12 @@ body {
   display: flex;
   justify-content: center;
 }
-
+/* 자식들을 세로 간격 동등하게 정렬함 */
+.flex-parent {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: space-evenly;
+}
 /* 정렬 끝 */
 </style>
