@@ -3,6 +3,7 @@ package com.ssafy.match.db.repository;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.MemberClub;
 import com.ssafy.match.db.entity.embedded.CompositeMemberClub;
+import com.ssafy.match.group.dto.club.ClubDto;
 import com.ssafy.match.group.entity.club.Club;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,9 @@ public interface MemberClubRepository extends JpaRepository<MemberClub, Composit
     @Query(value = "select mc.compositeMemberClub.club from matching.member_club mc "
         + "where mc.compositeMemberClub.member = :member and mc.is_active = true")
     List<Club> findClubByMember(@Param("member") Member member);
+
+    // 해당 멤버가 속한 클럽의 id, name 정보 리스트
+    @Query(value = "select mc.compositeMemberClub.club.id, mc.compositeMemberClub.club.name from matching.member_club mc "
+        + "where mc.compositeMemberClub.member = :member and mc.is_active = true")
+    List<ClubDto> findClubIdNameByMember(@Param("member") Member member);
 }

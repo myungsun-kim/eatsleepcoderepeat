@@ -54,6 +54,7 @@ public class ProjectCreateRequestDto {
     @ApiParam(value = "공개 비공개", required = true)
     private Boolean isPublic;
 
+
     @ApiModelProperty(name = "clubId", example = "3")
     @ApiParam(value = "소속된 클럽 id")
     private Long clubId;

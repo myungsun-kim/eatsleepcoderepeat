@@ -42,7 +42,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @WebAppConfiguration
 @ExtendWith(SpringExtension.class)
-@Transactional
 @SpringBootTest
 class ProjectServiceImplTest {
 
@@ -125,12 +124,12 @@ class ProjectServiceImplTest {
             .plannerMaxCount(3)
             .designerMaxCount(3)
             .city("부천")
-            .isPublic(false)
+            .isPublic(true)
             .clubId(null)
             .uuid(null)
             .hostRole("디자이너")
             .build();
-
+//        Member member1 = projectServiceImpl.findMember(40L);
         Project project = Project.builder()
             .name(dto.getName())
             .member(member1)
@@ -148,7 +147,7 @@ class ProjectServiceImplTest {
             .city(City.from(dto.getCity()))
             .status(Status.모집중)
             .isActive(true)
-            .isPublic(dto.isPublic())
+            .isPublic(dto.getIsPublic())
             .isParticipate(true)
             .build();
 
@@ -210,7 +209,7 @@ class ProjectServiceImplTest {
             .city(City.from(dto.getCity()))
             .status(Status.모집중)
             .isActive(true)
-            .isPublic(dto.isPublic())
+            .isPublic(dto.getIsPublic())
             .isParticipate(true)
             .build();
         projectServiceImpl.addMember(project, member1.getId(), dto.getHostRole());
@@ -289,8 +288,8 @@ class ProjectServiceImplTest {
         project.setPlannerMaxCount(dto.getPlannerMaxCount());
         project.setCity(City.from(dto.getCity()));
         project.setStatus(dto.getStatus());
-        project.setPublic(dto.isPublic());
-        project.setParticipate(dto.isParticipate());
+        project.setPublic(dto.getIsPublic());
+        project.setParticipate(dto.getIsParticipate());
         projectServiceImpl.changeRole(project, member1.getId(), dto.getHostRole());
         projectRepository.save(project);
 

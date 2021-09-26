@@ -1,9 +1,23 @@
 package com.ssafy.match.group.repository.study;
 
-import com.ssafy.match.group.entity.study.MemberStudy;
+import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.entity.study.CompositeMemberStudy;
+import com.ssafy.match.group.entity.study.MemberStudy;
+import com.ssafy.match.group.entity.study.Study;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface MemberStudyRepository extends JpaRepository<MemberStudy, CompositeMemberStudy> {
+    // 특정 스터디의 속한 멤버의 관계 정보
+    @Query(value = "select ms from matching.member_study ms "
+        + "where ms.compositeMemberStudy.study = :study and ms.isActive = true")
+    List<MemberStudy> findMemberRelationInStudy(@Param("study") Study study);
 
+    // 특정 프로젝트의 속한 멤버의 정보
+    @Query(value = "select ms.compositeMemberProject.member from matching.member_study ms "
+        + "where ms.compositeMemberStudy.study = :study and ms.isActive = true")
+    List<Member> findMemberInProject(@Param("study") Study study);
 }

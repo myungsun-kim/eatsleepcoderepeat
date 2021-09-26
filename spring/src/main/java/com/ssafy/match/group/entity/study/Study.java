@@ -4,8 +4,12 @@ import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.file.entity.DBFile;
+import com.ssafy.match.group.dto.study.Request.StudyCreateRequestDto;
+import com.ssafy.match.group.dto.study.Request.StudyUpdateRequestDto;
 import com.ssafy.match.group.entity.club.Club;
+import io.swagger.annotations.ApiModel;
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -28,32 +32,36 @@ import lombok.Setter;
 public class Study {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "host_id")
-    private Member member;
-
-    private LocalDateTime create_date;
-    private LocalDateTime modify_date;
-    private int period;
     private String schedule;
+    private int period;
     private String bio;
-    private int member_count;
-    private int max_count;
+    private int memberCount;
+    private int maxCount;
 
     @Enumerated(EnumType.STRING)
     private City city;
 
+    @Column(name = "create_Date")
+    private LocalDateTime createDate;
+    @Column(name = "create_Date")
+    private LocalDateTime modifyDate;
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private boolean is_active;
-    private boolean is_public;
-    private boolean is_participate;
+    @Column(name = "is_active")
+    private Boolean isActive;
+    @Column(name = "is_public")
+    private Boolean isPublic;
+    @Column(name = "is_participate")
+    private Boolean isParticipate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "host_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
@@ -62,29 +70,60 @@ public class Study {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cover_pic")
     private DBFile dbFile;
-//    private int activity_point;
-//    private String repository;
-//    private String team_chat;
 
-    public Study(String name, Member member, LocalDateTime create_date,
-        LocalDateTime modify_date, int period, String schedule, String bio, int member_count,
-        int max_count, City city, Status status, boolean is_active, boolean is_public,
-        boolean is_participate, Club club, DBFile dbFile) {
-        this.name = name;
+    public void addMember(){
+        this.memberCount++;
+    }
+
+    public void removeMember(){
+        this.memberCount--;
+    }
+
+    public void setMember(Member member){
         this.member = member;
-        this.create_date = create_date;
-        this.modify_date = modify_date;
-        this.period = period;
-        this.schedule = schedule;
-        this.bio = bio;
-        this.member_count = member_count;
-        this.max_count = max_count;
-        this.city = city;
-        this.status = status;
-        this.is_active = is_active;
-        this.is_public = is_public;
-        this.is_participate = is_participate;
+    }
+
+    public void setClub(Club club){
+        if(club == null) {
+            this.club = null;
+        }
         this.club = club;
+    }
+
+    public void setDBFile(DBFile dbFile){
+        if(dbFile == null) {
+            this.dbFile = null;
+        }
         this.dbFile = dbFile;
     }
+
+    public void update(StudyUpdateRequestDto dto) {
+        this.name = dto.getName();
+        this.schedule = dto.getSchedule();
+        this.period = dto.getPeriod();
+        this.bio = dto.getBio();
+        this.maxCount = dto.getMaxCount();
+        this.city = City.from(dto.getCity());
+        this.modifyDate = LocalDateTime.now();
+        this.status = Status.from(dto.getStatus());
+        this.isPublic = dto.getIsPublic();
+        this.isParticipate = dto.getIsParticipate();
+    }
+    public Study(StudyCreateRequestDto dto) {
+        this.name = dto.getName();
+        this.schedule = dto.getSchedule();
+        this.period = dto.getPeriod();
+        this.bio = dto.getBio();
+        this.memberCount = 0;
+        this.maxCount = dto.getMaxCount();
+        this.city = City.from(dto.getCity());
+        this.createDate = LocalDateTime.now();
+        this.modifyDate = LocalDateTime.now();
+        this.status = Status.모집중;
+        this.isActive = true;
+        this.isPublic = dto.getIsPublic();
+        this.isParticipate = true;
+    }
+
+
 }

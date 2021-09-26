@@ -1,6 +1,7 @@
 package com.ssafy.match.group.dto.project;
 
 import com.ssafy.match.db.entity.Status;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
@@ -80,14 +81,6 @@ public class ProjectUpdateRequestDto {
     @ApiModelProperty(name = "host_role", example = "디자이너")
     @ApiParam(value = "프로젝트장 역할", required = true)
     private String hostRole;
-
-//    public boolean getIsPublic(){
-//        return isPublic;
-//    }
-//
-//    public boolean getIsParticipate(){
-//        return isParticipate;
-//    }
 
     @Builder
     public ProjectUpdateRequestDto(List<String> addStackList,
