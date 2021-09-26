@@ -62,10 +62,6 @@ public class MemberUpdateRequestDto {
     @ApiParam(value = "포트폴리오 uri", required = false)
     private String portfolio_uri;
 
-//    @ApiModelProperty(name = "expTechList", example = "[\"python\",\"java\"]")
-//    @ApiParam(value = "experienced 기술 리스트", required = false)
-//    private List<String> expTechList;
-
     @ApiModelProperty(name = "expDelTechList", example = "[\"python\",\"java\"]")
     @ApiParam(value = "experienced 기술 리스트(del)", required = false)
     private List<String> expDelTechList;
