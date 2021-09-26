@@ -82,7 +82,7 @@ public class MemberUpdateRequestDto {
     @ApiParam(value = "beginner 기술 리스트(add)", required = false)
     private List<String> beginAddTechList;
 
-    @ApiModelProperty(name = "snsHashMap", example = "{\"github\":\"github id\",\"twitter\":\"twitter id\"]")
+    @ApiModelProperty(name = "snsHashMap", example = "{\"github\":\"github id\",\"twitter\":\"twitter id\"}")
     @ApiParam(value = "sns 종류/계정", required = false)
     private HashMap<String, String> snsHashMap;
 
