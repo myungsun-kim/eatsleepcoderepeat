@@ -92,9 +92,7 @@
           다양한 프로젝트를 하고 싶습니다.
         </el-col>
       </el-row>
-      <el-row class="test-border align-center">
-        <el-button class="btn-ghost-round">수정페이지로 이동 </el-button>
-      </el-row>
+      <el-row class="test-border align-center"> <PasswordCheckModal /> </el-row>
     </el-col>
     <!-- 우측 -->
     <el-col :span="12" :offset="1" class="test-border">
@@ -130,9 +128,11 @@
 </template>
 
 <script>
+import PasswordCheckModal from '../Modal/PasswordCheckModal.vue';
 import ServiceQuitModal from '../Modal/ServiceQuitModal.vue';
 export default {
   components: {
+    PasswordCheckModal,
     ServiceQuitModal,
   },
 };

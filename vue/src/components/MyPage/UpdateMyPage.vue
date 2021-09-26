@@ -95,16 +95,36 @@
         </el-col>
       </el-row>
       <el-row class="test-border align-center">
-        <el-button class="btn-ghost-round-blue">수정 </el-button>
-        <el-button class="btn-ghost-round">취소 </el-button>
+        <el-button class="btn-ghost-round-blue" @click="goReadMyPage"
+          >수정
+        </el-button>
+        <el-button class="btn-ghost-round" @click="goReadMyPage"
+          >취소
+        </el-button>
       </el-row>
     </el-col>
   </el-row>
 </template>
 
 <script>
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
 export default {
-  components: {},
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+
+    const goReadMyPage = function () {
+      router.push({ path: '/nosubheader/readmypage' });
+    };
+
+    return {
+      store,
+      router,
+      goReadMyPage,
+    };
+  },
 };
 </script>
 
