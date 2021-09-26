@@ -27,9 +27,9 @@ public class SwaggerConfig {
     List<RequestParameter> aParameters = new ArrayList<>();
 
     private final ApiInfo apiInfo = new ApiInfoBuilder()
-        .title("스터디 매칭 프로그램")
-        .description("프로젝트 메인 API입니다")
-        .contact(new Contact("SSAFY_5th_D105", "https://ssafy.com", "no@email.com"))
+        .title("Project/Study 매칭 website")
+        .description("프로젝트 메인 API")
+        .contact(new Contact("Name", "https://naver.com", "my@email.com"))
         .license("MIT License")
         .version("5.0")
         .build();
@@ -46,6 +46,17 @@ public class SwaggerConfig {
 //            .accepts(Collections.singleton(MediaType.APPLICATION_JSON));
 //        aParameters.add(tokenBuilder.build());
 //    }
+//    @Bean public Docket restApi() {
+//        return new Docket(DocumentationType.SWAGGER_2)
+//            .securitySchemes(singletonList(apiKey())) // 토큰을 읽기위한 정보를 넘겨준다
+//            .securityContexts(singletonList(securityContext())) // SecurityContext 를 넘겨준다
+//
+//            .consumes(singleton("application/json"))
+//            .useDefaultResponseMessages(false)
+//            .select()
+//            .apis(withMethodAnnotation(ApiOperation.class))
+//            .build();
+//        }
 
     @Bean
     public Docket mainApi() {
@@ -55,12 +66,10 @@ public class SwaggerConfig {
             .groupName("Member")
             .select()
             .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.controller"))
-            // api 필요한 클래스패스 추가하기
+            // api 필요한 class path 추가
             .paths(
                         PathSelectors.ant("/**/member/**")
                         .or(PathSelectors.ant("/**/auth/**"))
-
-//						.or(PathSelectors.ant("/**/chat/**"))
 //                PathSelectors.any()
             )
             .build()
