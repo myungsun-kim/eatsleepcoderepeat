@@ -12,7 +12,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @AllArgsConstructor
@@ -67,6 +69,10 @@ public class MemberUpdateRequestDto {
     @ApiModelProperty(name = "beginTechList", example = "[\"python\",\"java\"]")
     @ApiParam(value = "beginner 기술 리스트", required = false)
     private List<String> beginTechList;
+
+    @ApiModelProperty(name = "snsHashMap", example = "{\"github\":\"github id\",\"twitter\":\"twitter id\"]")
+    @ApiParam(value = "sns 종류/계정", required = false)
+    private HashMap<String, String> snsHashMap;
 
 //    public Member toMember(PasswordEncoder passwordEncoder) {
 //        return Member.builder()

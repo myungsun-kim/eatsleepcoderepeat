@@ -1,16 +1,9 @@
 package com.ssafy.match.db.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 @Getter
 @Setter
@@ -18,20 +11,26 @@ import lombok.Setter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberSns {
 
+    @JsonIgnore
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    private String sns_type;
-    private String sns_address;
+    @Column(name = "sns_name")
+    private String snsName;
 
-    public MemberSns(Member member, String sns_type, String sns_address) {
+    @Column(name = "sns_account")
+    private String snsAccount;
+
+    @Builder
+    public MemberSns(Member member, String snsName, String snsAccount) {
         this.member = member;
-        this.sns_type = sns_type;
-        this.sns_address = sns_address;
+        this.snsName = snsName;
+        this.snsAccount = snsAccount;
     }
 }

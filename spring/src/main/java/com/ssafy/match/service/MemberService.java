@@ -2,10 +2,8 @@ package com.ssafy.match.service;
 
 import com.ssafy.match.controller.dto.*;
 import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.repository.MemberBeginnerTechstackRepository;
-import com.ssafy.match.db.repository.MemberClubRepository;
-import com.ssafy.match.db.repository.MemberExperiencedTechstackRepository;
-import com.ssafy.match.db.repository.MemberRepository;
+import com.ssafy.match.db.entity.MemberSns;
+import com.ssafy.match.db.repository.*;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
 import com.ssafy.match.group.entity.club.Club;
@@ -19,7 +17,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,7 @@ public class MemberService {
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
     private final MemberClubRepository memberClubRepository;
     private final MemberProjectRepository memberProjectRepository;
+    private final MemberSnsRepository memberSnsRepository;
     private final PasswordEncoder passwordEncoder;
 //    private final MemberService memberService;
 //    @Transactional(readOnly = true)
@@ -58,10 +60,12 @@ public class MemberService {
         List<Project> myProjectList = memberProjectRepository.projectInMember(member);
         List<String> expTechList = memberExperiencedTechstackRepository.findTechstackByMemberName(member);
         List<String> begTechList = memberBeginnerTechstackRepository.findTechstackByMemberName(member);
+        List<MemberSns> snsList = memberSnsRepository.findAllByMember(member);
         memberInfoDto.setMyProjectList(myProjectList);
         memberInfoDto.setMyClubList(myClubList);
         memberInfoDto.setExpTechList(expTechList);
         memberInfoDto.setBeginTechList(begTechList);
+        memberInfoDto.setSnsList(snsList);
         return memberInfoDto;
     }
 
@@ -74,9 +78,12 @@ public class MemberService {
 
     @Transactional
     public MemberUpdateResponseDto updateMyInfo(MemberUpdateRequestDto memberUpdateRequestDto) {
-        update(memberUpdateRequestDto.getEmail(), memberUpdateRequestDto.getName(), memberUpdateRequestDto.getPassword(), memberUpdateRequestDto.getNickname(), memberUpdateRequestDto.getTel(), memberUpdateRequestDto.getBio(), memberUpdateRequestDto.getCity(), memberUpdateRequestDto.getPosition(), memberUpdateRequestDto.getPortfolio_uri());
+        updateSns(memberUpdateRequestDto.getSnsHashMap());
+        updateMember(memberUpdateRequestDto.getEmail(), memberUpdateRequestDto.getName(), memberUpdateRequestDto.getPassword(), memberUpdateRequestDto.getNickname(), memberUpdateRequestDto.getTel(), memberUpdateRequestDto.getBio(), memberUpdateRequestDto.getCity(), memberUpdateRequestDto.getPosition(), memberUpdateRequestDto.getPortfolio_uri());
         return MemberUpdateResponseDto.of(SecurityUtil.getCurrentMemberId());
     }
+
+
 
 //    public MemberResponseDto modifyMyInfo(@RequestBody @Valid MemberModifyRequestDto dto) {
 //        Long currentMemberId = SecurityUtil.getCurrentMemberId();
@@ -103,7 +110,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void update(String email, String name, String password, String nickname, String tel, String bio, String city, String position, String portfolio_uri) {
+    public void updateMember(String email, String name, String password, String nickname, String tel, String bio, String city, String position, String portfolio_uri) {
         Member member = memberRepository.getById(SecurityUtil.getCurrentMemberId());
 
         if (memberRepository.existsByNickname(nickname)) {
@@ -118,5 +125,27 @@ public class MemberService {
         member.setCity(city);
         member.setPosition(position);
         member.setPortfolio_uri(portfolio_uri);
+    }
+
+    @Transactional
+    public void updateSns(HashMap<String, String> snsList) {
+        Member member = memberRepository.getById(SecurityUtil.getCurrentMemberId());
+        if (snsList != null && !snsList.isEmpty()) {
+            snsList.forEach((strKey, strValue) -> {
+                Optional<MemberSns> memberSns = memberSnsRepository.findByMemberAndSnsName(member, strKey);
+                if (memberSns.isEmpty()) {
+                    MemberSns innerMemberSns = MemberSns.builder()
+                            .member(member)
+                            .snsAccount(strValue)
+                            .snsName(strKey)
+                            .build();
+                    memberSnsRepository.save(innerMemberSns);
+                } else {
+                    MemberSns innerMemberSns = memberSns.get();
+                    innerMemberSns.setSnsAccount(strValue);
+                    innerMemberSns.setSnsName(strKey);
+                }
+            });
+        }
     }
 }
