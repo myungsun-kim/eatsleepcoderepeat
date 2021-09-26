@@ -263,11 +263,13 @@
 <script>
 import { reactive } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 export default {
   name: 'SignUp',
 
   setup() {
     const store = useStore();
+    const router = useRouter();
     // 독립적인 반응형 값 생성 ref()
     // const signUp = ref(null);
     const state = reactive({
@@ -275,7 +277,12 @@ export default {
         step: '1',
       },
     });
-    return { store, state };
+
+    return {
+      store,
+      router,
+      state,
+    };
   },
 };
 </script>

@@ -179,6 +179,14 @@ body {
   color: black;
   border: 1px solid black;
   background-color: #f2f2f2;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 15px;
+  text-align: center;
+  color: #000000;
 }
 .btn-ghost-round {
   background: #ffffff;

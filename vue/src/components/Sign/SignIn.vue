@@ -27,7 +27,7 @@
           />
         </div>
         <div class="height5">
-          <el-button id="login">로그인</el-button>
+          <el-button id="login" @click="goMain">로그인</el-button>
         </div>
         <div class="height30">30</div>
       </div>
@@ -56,7 +56,25 @@
 </template>
 
 <script>
-export default {};
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
+export default {
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+
+    const goMain = function () {
+      router.push({ path: '/' });
+    };
+
+    return {
+      store,
+      router,
+      goMain,
+    };
+  },
+};
 </script>
 
 <style scoped>
