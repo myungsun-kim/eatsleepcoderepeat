@@ -65,6 +65,8 @@ public class MemberService {
         List<String> begTechList = memberBeginnerTechstackRepository.findTechstackByMemberName(member);
         List<MemberSns> snsList = memberSnsRepository.findAllByMember(member);
         List<Position> dpositionList = positionRepository.findAllByMember(member);
+        memberInfoDto.setCover_pic(member.getCover_pic());
+        memberInfoDto.setPortfolio(member.getPortfolio());
         memberInfoDto.setMyProjectList(myProjectList);
         memberInfoDto.setMyClubList(myClubList);
         memberInfoDto.setExpTechList(expTechList);
@@ -92,7 +94,9 @@ public class MemberService {
         delBegTechstack(member, memberUpdateRequestDto.getBeginDelTechList());
         addDposition(member, memberUpdateRequestDto.getDpositionAddList());
         delDposition(memberUpdateRequestDto.getDpositionDelList());
-        setDBFile(member, memberUpdateRequestDto.getCover_pic());
+        setCoverPic(member, memberUpdateRequestDto.getCover_pic());
+        setPortfolioUuid(member, memberUpdateRequestDto.getPortfolio_uuid());
+
         return MemberUpdateResponseDto.of(SecurityUtil.getCurrentMemberId());
     }
 
@@ -103,13 +107,23 @@ public class MemberService {
     }
 
     @Transactional
-    public void setDBFile(Member member, String uuid){
+    public void setCoverPic(Member member, String uuid){
         if(uuid == null) {
             member.setCover_pic(null);
             return;
         }
         DBFile dbFile = dbFileRepository.getById(uuid);
         member.setCover_pic(dbFile);
+    }
+
+    @Transactional
+    public void setPortfolioUuid(Member member, String uuid){
+        if(uuid == null) {
+            member.setPortfolio(null);
+            return;
+        }
+        DBFile dbFile = dbFileRepository.getById(uuid);
+        member.setPortfolio(dbFile);
     }
 
     @Transactional

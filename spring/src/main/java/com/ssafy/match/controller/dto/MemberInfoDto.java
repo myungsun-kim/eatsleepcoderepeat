@@ -35,8 +35,11 @@ public class MemberInfoDto {
     @ApiModelProperty(name = "position", example = "개발자")
     private String position;
 
-    @ApiModelProperty(name = "picture", example = "사진 데이터")
-    private DBFile dbFile;
+    @ApiModelProperty(name = "cover_pic", example = "사진 데이터")
+    private DBFile cover_pic;
+
+    @ApiModelProperty(name = "portfolio", example = "사진 데이터")
+    private DBFile portfolio;
 
     @ApiModelProperty(name = "portfolio_uri", example = "https://naver.com")
     private String portfolio_uri;
@@ -97,13 +100,14 @@ public class MemberInfoDto {
                 .bio(member.getBio())
                 .city(member.getCity())
                 .position(member.getPosition())
-                .dbFile(member.getDbFile())
+//                .cover_pic(member.getCover_pic())
+//                .portfolio(member.getPortfolio_uuid())
                 .portfolio_uri(member.getPortfolio_uri())
                 .build();
     }
 
     @Builder
-    public MemberInfoDto(String email, String name, String nickname, String tel, String bio, String city, String position, DBFile dbFile, String portfolio_uri) {
+    public MemberInfoDto(String email, String name, String nickname, String tel, String bio, String city, String position, DBFile cover_pic, DBFile portfolio, String portfolio_uri) {
         this.email = email;
         this.name = name;
         this.nickname = nickname;
@@ -111,7 +115,8 @@ public class MemberInfoDto {
         this.bio = bio;
         this.city = city;
         this.position = position;
-        this.dbFile = dbFile;
+        this.cover_pic = cover_pic;
+        this.portfolio = portfolio;
         this.portfolio_uri = portfolio_uri;
 //        this.myClubList = myClubList;
     }
