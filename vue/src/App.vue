@@ -26,7 +26,7 @@ export default {
     };
 
     const loginEvent = () => {
-      store.dispatch('login', payload);
+      store.dispatch('requestLogin', payload);
     };
     const getInfo = () => {
       console.log(types);
