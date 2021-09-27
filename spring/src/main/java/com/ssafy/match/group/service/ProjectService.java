@@ -1,15 +1,13 @@
 package com.ssafy.match.group.service;
 
-import com.ssafy.match.group.dto.project.FormRegisterRequestDto;
-import com.ssafy.match.group.dto.project.FormtInfoForRegisterResponseDto;
-import com.ssafy.match.group.dto.project.FormtInfoResponseDto;
-import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
-import com.ssafy.match.group.dto.project.ProjectInfoForCreateResponseDto;
-import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
-import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
-import com.ssafy.match.group.entity.project.CompositeMemberProject;
+import com.ssafy.match.group.dto.project.request.FormRegisterRequestDto;
+import com.ssafy.match.group.dto.project.response.FormtInfoForRegisterResponseDto;
+import com.ssafy.match.group.dto.project.response.FormtInfoResponseDto;
+import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoForCreateResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
+import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
 import com.ssafy.match.group.entity.project.Project;
-import com.ssafy.match.group.entity.project.ProjectApplicationForm;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 

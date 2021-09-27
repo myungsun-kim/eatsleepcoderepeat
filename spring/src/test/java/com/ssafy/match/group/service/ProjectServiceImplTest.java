@@ -7,15 +7,15 @@ import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
-import com.ssafy.match.group.dto.project.FormRegisterRequestDto;
+import com.ssafy.match.group.dto.project.request.FormRegisterRequestDto;
 import com.ssafy.match.group.entity.project.CompositeMemberProject;
-import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
-import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
+import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
 import com.ssafy.match.group.entity.project.ProjectApplicationForm;
 import com.ssafy.match.group.repository.project.MemberProjectRepository;
 import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.db.repository.TechstackRepository;
-import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
+import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.MemberProject;
 import com.ssafy.match.group.entity.project.Project;
@@ -33,16 +33,12 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 @WebAppConfiguration
 @ExtendWith(SpringExtension.class)
-@Transactional
 @SpringBootTest
 class ProjectServiceImplTest {
 
@@ -125,12 +121,12 @@ class ProjectServiceImplTest {
             .plannerMaxCount(3)
             .designerMaxCount(3)
             .city("부천")
-            .isPublic(false)
+            .isPublic(true)
             .clubId(null)
             .uuid(null)
             .hostRole("디자이너")
             .build();
-
+//        Member member1 = projectServiceImpl.findMember(40L);
         Project project = Project.builder()
             .name(dto.getName())
             .member(member1)
@@ -148,7 +144,7 @@ class ProjectServiceImplTest {
             .city(City.from(dto.getCity()))
             .status(Status.모집중)
             .isActive(true)
-            .isPublic(dto.isPublic())
+            .isPublic(dto.getIsPublic())
             .isParticipate(true)
             .build();
 
@@ -210,7 +206,7 @@ class ProjectServiceImplTest {
             .city(City.from(dto.getCity()))
             .status(Status.모집중)
             .isActive(true)
-            .isPublic(dto.isPublic())
+            .isPublic(dto.getIsPublic())
             .isParticipate(true)
             .build();
         projectServiceImpl.addMember(project, member1.getId(), dto.getHostRole());
@@ -289,8 +285,8 @@ class ProjectServiceImplTest {
         project.setPlannerMaxCount(dto.getPlannerMaxCount());
         project.setCity(City.from(dto.getCity()));
         project.setStatus(dto.getStatus());
-        project.setPublic(dto.isPublic());
-        project.setParticipate(dto.isParticipate());
+        project.setPublic(dto.getIsPublic());
+        project.setParticipate(dto.getIsParticipate());
         projectServiceImpl.changeRole(project, member1.getId(), dto.getHostRole());
         projectRepository.save(project);
 

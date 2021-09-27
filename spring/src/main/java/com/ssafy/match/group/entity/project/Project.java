@@ -41,7 +41,7 @@ public class Project {
 
     @Column(name = "host_role")
     private String hostRole;
-    @Column(name = "create_Date")
+    @Column(name = "create_date")
     private LocalDateTime createDate;
     @Column(name = "modify_date")
     private LocalDateTime modifyDate;
