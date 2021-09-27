@@ -19,10 +19,10 @@ spring:
 
   jpa:
     hibernate:
+#      ddl-auto: none
       generate-ddl: false
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    #      ddl-auto: create
     properties:
       hibernate:
         show_sql: true # JPA, 하이버네이트가 생성하는 SQL이 로그에 생성 (sysout)
@@ -48,6 +48,9 @@ spring:
           min-idle: 2
     host: localhost
     port: 6379
+  sql:
+    init:
+      mode: always
 #logging:
 #  level:
 #    org.hibernate.SQL: debug # JPA, 하이버네이트가 생성하는 SQL이 로그에 생성 (logger)
