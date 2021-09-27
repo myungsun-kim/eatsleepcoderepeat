@@ -3,7 +3,9 @@ import Header from '../views/Header.vue';
 
 // sub header 시작
 import SubHeader from '../components/SubHeader.vue';
-import Introduce from '../components/MenuBar1/Introduce.vue';
+import IntroduceStudy from '../components/MenuBar1/IntroduceStudy.vue';
+import IntroduceProject from '../components/MenuBar1/IntroduceProject.vue';
+import IntroduceClub from '../components/MenuBar1/IntroduceClub.vue';
 import CreateNotice from '../components/MenuBar1/Notice/CreateNotice.vue';
 import ReadNotice from '../components/MenuBar1/Notice/ReadNotice.vue';
 import ReadDetailNotice from '../components/MenuBar1/Notice/ReadDetailNotice.vue';
@@ -18,9 +20,14 @@ import Manage from '../components/MenuBar1/Manage.vue';
 // no sub header 시작
 import NoSubHeader from '../components/NoSubHeader.vue';
 import Main from '../components/Main.vue';
-import Home from '../components/MenuBar2/Home.vue';
-import Create from '../components/MenuBar2/Create.vue';
-import Update from '../components/MenuBar2/Update.vue';
+import StudyCreate from '../components/MenuBar2/StudyCreate.vue';
+import StudyUpdate from '../components/MenuBar2/StudyUpdate.vue';
+import ProjectCreate from '../components/MenuBar2/ProjectCreate.vue';
+import ProjectUpdate from '../components/MenuBar2/ProjectUpdate.vue';
+import HomeStudy from '../components/MenuBar2/HomeStudy.vue';
+import HomeProject from '../components/MenuBar2/HomeProject.vue';
+import HomeClub from '../components/MenuBar2/HomeClub.vue';
+import InfiniteScroll from '../components/MenuBar2/InfiniteScroll.vue';
 import GeneralSearch from '../components/Search/GeneralSearch.vue';
 import AdvancedSearch from '../components/Search/AdvancedSearch.vue';
 import Chat from '../components/Chat.vue';
@@ -33,6 +40,7 @@ import NoHeader from '../views/NoHeader.vue';
 import SignIn from '../components/Sign/SignIn.vue';
 import SignUp from '../components/Sign/SignUp.vue';
 
+import NotFound from '../views/NotFound.vue';
 const routes = [
   // 1-1. Top Nav Bar가 있는 경우: Header
   {
@@ -53,8 +61,16 @@ const routes = [
             component: Main,
           },
           {
-            path: '/subheader/introduce',
-            component: Introduce,
+            path: '/subheader/study/introduce',
+            component: IntroduceStudy,
+          },
+          {
+            path: '/subheader/club/introduce',
+            component: IntroduceClub,
+          },
+          {
+            path: '/subheader/project/introduce',
+            component: IntroduceProject,
           },
           {
             path: '/subheader/notice',
@@ -120,16 +136,36 @@ const routes = [
             component: Main,
           },
           {
-            path: '/nosubheader/home',
-            component: Home,
+            path: '/nosubheader/study/home',
+            component: HomeStudy,
           },
           {
-            path: '/nosubheader/create',
-            component: Create,
+            path: '/nosubheader/project/home',
+            component: HomeProject,
           },
           {
-            path: '/nosubheader/update',
-            component: Update,
+            path: '/nosubheader/club/home',
+            component: HomeClub,
+          },
+          {
+            path: '/nosubheader/study/create',
+            component: StudyCreate,
+          },
+          {
+            path: '/nosubheader/study/update',
+            component: StudyUpdate,
+          },
+          {
+            path: '/nosubheader/project/create',
+            component: ProjectCreate,
+          },
+          {
+            path: '/nosubheader/infinitescroll',
+            component: InfiniteScroll,
+          },
+          {
+            path: '/nosubheader/project/update',
+            component: ProjectUpdate,
           },
 
           {
@@ -179,6 +215,10 @@ const routes = [
         component: SignUp,
       },
     ],
+  },
+  {
+    path: '/:catchAll(.*)',
+    component: NotFound,
   },
 ];
 

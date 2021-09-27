@@ -27,7 +27,7 @@
           />
         </div>
         <div class="height5">
-          <button id="login">로그인</button>
+          <el-button id="login" @click="goMain">로그인</el-button>
         </div>
         <div class="height30">30</div>
       </div>
@@ -46,7 +46,7 @@
         </div>
         <div class="height5">5</div>
         <div class="height5">
-          <button id="signin">회원가입</button>
+          <el-button id="signin" @click="goSignUp">회원가입</el-button>
         </div>
         <div class="height5">5</div>
         <div class="height30">30</div>
@@ -56,9 +56,35 @@
 </template>
 
 <script>
-export default {};
-</script>
+import { useRouter } from 'vue-router';
+import { reactive } from 'vue';
+import { useStore } from 'vuex';
 
+export default {
+  name: 'signIn',
+  components: {},
+  setup() {
+    const router = useRouter();
+    const store = useStore();
+    // 독립적인 반응형 값 생성 ref()
+    // const signin = ref(null);
+    const state = reactive({
+      form: {},
+    });
+
+    const goSignUp = function () {
+      router.push({ path: '/noheader/signup' });
+    };
+
+    return {
+      goSignUp,
+      store,
+      state,
+      router,
+    };
+  },
+};
+</script>
 <style scoped>
 #right {
   background: linear-gradient(

@@ -4,26 +4,13 @@
     <router-link to="/about">Main</router-link>
   </div> -->
 
-  <div>
-    <TeleportModal></TeleportModal>
-  </div>
-
   <div class="bg-color">
     <router-view />
   </div>
 </template>
 <script>
-import TeleportModal from '../src/components/Modal/TeleportModal.vue';
-
 export default {
-  components: {
-    TeleportModal,
-  },
-  data() {
-    return {
-      modalOpen: false,
-    };
-  },
+  components: {},
 };
 </script>
 <style>
@@ -192,10 +179,66 @@ body {
   color: black;
   border: 1px solid black;
   background-color: #f2f2f2;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 15px;
+  text-align: center;
+  color: #000000;
+}
+.btn-ghost-round {
+  background: #ffffff;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 30px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  color: #000000;
+}
+
+.btn-ghost-round-blue {
+  background: #ffffff;
+  border: 1px solid #1747c9;
+  box-sizing: border-box;
+  border-radius: 30px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  color: #1747c9;
+}
+.btn-ghost-round-red {
+  background: #ffffff;
+  border: 1px solid #f53030;
+  box-sizing: border-box;
+  border-radius: 30px;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  color: #f53030;
 }
 .btn-ghost-red {
   font-size: 14pt;
   color: #f53030;
+  border: 1px solid #f53030;
+}
+.btn-ghost-red:hover {
+  font-size: 14pt;
+  color: #ffffff;
+  background-color: #f53030;
   border: 1px solid #f53030;
 }
 .btn-ghost-blue {
@@ -203,6 +246,53 @@ body {
   color: #1747c9;
   border: 1px solid #1747c9;
 }
+.btn-ghost-blue:hover {
+  font-size: 14pt;
+  color: #ffffff;
+  background-color: #1747c9;
+  border: 1px solid #1747c9;
+}
+.btn-create {
+  width: 76px;
+  height: 32px;
+  color: white;
+  background-color: #1747c9;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+}
+.btn-cancel {
+  width: 76px;
+  height: 32px;
+  color: #f53030;
+  border: 1px solid #f53030;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+}
 
 /* btns 끝 */
+/* 정렬 시작 */
+/* 정리하고자 하는 것의 부모에 넣어주면 된다. */
+.align-center {
+  display: flex;
+  justify-content: center;
+}
+/* 자식들을 세로 간격 동등하게 정렬함 */
+.flex-parent {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  justify-content: space-evenly;
+}
+/* 자식들이 가로 축 기준으로 동일한 높이에 오도록 */
+.flex-container {
+  display: flex;
+  align-content: center;
+}
+/* 정렬 끝 */
 </style>

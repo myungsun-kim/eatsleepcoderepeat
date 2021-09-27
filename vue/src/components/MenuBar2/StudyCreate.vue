@@ -8,7 +8,7 @@
         <div class="height100">
           <div id="h1">스터디 생성</div>
           <div id="box1">
-            <div id="h2">스터디 이름</div>
+            <label id="h2">스터디 이름</label>
             <input
               type="text"
               placeholder="이름을 입력하세요."
@@ -18,7 +18,7 @@
             />
           </div>
           <div id="box1">
-            <div id="h2">기술스택</div>
+            <label id="h2">기술스택</label>
             <input
               type="text"
               placeholder="사용하는 기술 스택을 입력하세요."
@@ -30,7 +30,7 @@
           <div id="box3">
             <div id="box2">
               <div id="box1">
-                <div id="h2">일정</div>
+                <label id="h2">일정</label>
                 <input
                   type="text"
                   placeholder="스터디 일정을 입력하세요"
@@ -40,28 +40,42 @@
                 />
               </div>
               <div id="box1">
-                <div id="h2">스터디 기간(단위: 주)</div>
+                <label id="h2">스터디 기간(단위: 주)</label>
                 <input
                   type="text"
-                  placeholder="숫자만 입력하세요"
+                  placeholder="숫자를 입력하세요"
                   id="input1"
                   onfocus="this.placeholder=''"
-                  onblur="this.placeholder='숫자만 입력하세요'"
+                  onblur="this.placeholder='숫자를 입력하세요'"
                 />
               </div>
               <div id="box1">
-                <div id="h2">인원</div>
+                <label id="h2">인원</label>
                 <input
                   type="text"
-                  placeholder="Dropdown 지역 목록 + 무관"
+                  placeholder="숫자를 입력하세요"
                   id="input1"
                   onfocus="this.placeholder=''"
-                  onblur="this.placeholder='Dropdown 지역 목록 + 무관'"
+                  onblur="this.placeholder='숫자를 입력하세요'"
                 />
+              </div>
+              <div id="box1">
+                <label id="h2">스터디 공개 여부</label>
+                <div id="radio">
+                  <!-- radio 타입은 name명이 같을 경우 하나만 선택된다. -->
+                  <label>
+                    <input type="radio" name="study" value="open" />
+                    공개
+                  </label>
+                  <label>
+                    <input type="radio" name="study" value="private" />
+                    비공개
+                  </label>
+                </div>
               </div>
             </div>
             <div id="box4">
-              <div id="h2">프로필 사진 등록</div>
+              <label id="h2">프로필 사진 등록</label>
               <el-upload
                 class="upload-demo"
                 drag
@@ -81,39 +95,39 @@
             </div>
           </div>
           <div id="box1">
-            <div id="h2">지역</div>
-            <input
-              type="text"
-              placeholder="Dropdown 지역 목록 + 무관"
-              id="input"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='Dropdown 지역 목록 + 무관'"
-            />
+            <label id="h2">지역</label>
+            <select id="region">
+              <option value="1">11</option>
+              <option value="2">22</option>
+              <option value="3">33</option>
+              <option value="4">44</option>
+            </select>
           </div>
 
           <div id="box1">
-            <div id="h2">소속 클럽</div>
-            <input
-              type="text"
-              placeholder="Dropdown 가입된 클럽들 + 클럽 없음"
-              id="input"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='Dropdown 가입된 클럽들 + 클럽 없음'"
-            />
+            <label id="h2">소속 클럽</label>
+            <select id="region">
+              <option value="none">없음</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+            </select>
           </div>
           <div id="box1">
-            <div id="h2">소개</div>
-            <input
-              type="text"
+            <label id="h2">소개</label>
+            <textarea
+              type="textarea"
               placeholder="해당 스터디에 대해 소개해주세요"
-              id="input"
+              id="input2"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='해당 스터디에 대해 소개해주세요'"
+              maxlength="300"
+              show-word-limit
             />
           </div>
-          <div>
-            <button>생성</button>
-            <button>취소</button>
+          <div id="btn">
+            <el-button class="btn-create" @click="goIntroduce">생성</el-button>
+            <el-button class="btn-cancel" @click="goHome">취소</el-button>
           </div>
         </div>
       </el-col>
@@ -121,24 +135,40 @@
         <div class="height100">3</div>
       </el-col>
     </el-row>
-
-    <!-- <p id="h1">스터디 생성</p>
-    <div>스터디이름</div>
-    <div>기술스택</div>
-    <div>
-      <div>
-        <div>일정</div>
-        <div>스터디 기간</div>
-        <div>인원</div>
-      </div>
-      <div>프로필 사진 등록</div>
-    </div>
-    <div>비공개 스터디</div>
-    <div>지역</div>
-    <div>소속 클럽</div>
-    <div>소개</div> -->
   </div>
 </template>
+<script>
+import { useRouter } from 'vue-router';
+import { reactive } from 'vue';
+import { useStore } from 'vuex';
+
+export default {
+  name: 'studyCreate',
+  setup() {
+    const router = useRouter();
+    const store = useStore();
+    // 독립적인 반응형 값 생성 ref()
+    // const create = ref(null);
+    const state = reactive({
+      form: {},
+    });
+
+    const goIntroduce = function () {
+      router.push({ path: '/subheader/introduce' });
+    };
+    const goHome = function () {
+      router.push({ path: '/nosubheader/home' });
+    };
+
+    return {
+      goIntroduce,
+      goHome,
+      store,
+      state,
+    };
+  },
+};
+</script>
 <style scoped>
 #h1 {
   width: 184px;
@@ -156,7 +186,7 @@
   color: #000000;
 }
 #h2 {
-  width: 200px;
+  width: 300px;
   height: 35px;
 
   font-family: Noto Sans KR;
@@ -213,6 +243,54 @@
 
   color: #919191;
 }
+#input2 {
+  width: 782px;
+  height: 200px;
+
+  background: #e8e8e8;
+  border-radius: 10px;
+  border: 0px;
+  margin-bottom: 10px;
+  margin-left: 2px;
+  padding-top: 15px;
+  padding-left: 10px;
+
+  /* 비밀번호확인 텍스트 */
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  text-align: left;
+  align-content: flex-start;
+  resize: none;
+
+  color: #919191;
+}
+#region {
+  cursor: pointer;
+  width: 794px;
+  height: 52px;
+
+  background: #e8e8e8;
+  border-radius: 10px;
+  border: 0px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  margin-left: 2px;
+
+  /* 텍스트 */
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  text-align: left;
+
+  color: #919191;
+}
 #box1 {
   display: flex;
   flex-flow: column;
@@ -228,5 +306,16 @@
   margin-left: 60px;
   display: flex;
   flex-flow: column;
+}
+#btn {
+  margin-top: 50px;
+}
+.btn-cancel {
+  margin-left: 10px;
+}
+#radio {
+  height: 40px;
+  display: flex;
+  vertical-align: middle;
 }
 </style>
