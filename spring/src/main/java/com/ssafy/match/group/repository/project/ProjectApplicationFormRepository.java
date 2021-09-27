@@ -13,7 +13,7 @@ public interface ProjectApplicationFormRepository extends
     JpaRepository<ProjectApplicationForm, CompositeMemberProject> {
 
     // 모든 신청서 날짜 내림차순 조회
-    @Query("select p from ProjectApplicationForm p where p.compositeMemberProject.project = :project order by p.createDate desc ")
+    @Query("select p from ProjectApplicationForm p where p.compositeMemberProject.project = :project order by p.createDate desc")
     List<ProjectApplicationForm> formByProjectId(@Param("project") Project project);
 
     // 닉네임으로 신청서 조회
