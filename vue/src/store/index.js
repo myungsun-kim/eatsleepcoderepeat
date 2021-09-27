@@ -10,22 +10,25 @@ export default createStore({
   },
   mutations: {
     login(state, payload) {
+      console.log(payload);
       state.data = payload;
+      console.log(state.data);
     },
     setCategory(state, value) {
       state.category = value;
     },
   },
   actions: {
-    async login({ state, commit }, payload) {
+    async login({ commit }, payload) {
       try {
         const res = await axios.post(
           'http://localhost:8080/api/auth/login',
           payload
         );
+        console.log('@@@@@@@@@@@@@@@@@');
         console.log(res);
         console.log(res.data);
-        console.log(res.email);
+        console.log(res.data.grantType);
         console.log(res.data.email);
         commit('login', res.data);
         // localStorage.setItem('jwt', state.token);
