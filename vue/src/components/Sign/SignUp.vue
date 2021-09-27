@@ -14,7 +14,7 @@
         </div>
         <div class="height5"></div>
         <div class="height5">
-          <el-button id="login">로그인</el-button>
+          <el-button id="login" @click="goSignIn">로그인</el-button>
         </div>
         <div class="height30">30</div>
         <div class="height5">5</div>
@@ -71,10 +71,10 @@
           />
           <input
             type="text"
-            placeholder="분야 선택"
+            placeholder="역할 선택"
             id="field"
             onfocus="this.placeholder=''"
-            onblur="this.placeholder='분야 선택'"
+            onblur="this.placeholder='역할 선택'"
           />
           <input
             type="text"
@@ -90,7 +90,7 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <el-button id="next0">다음</el-button>
+          <el-button id="next0" @click="nextStep">다음</el-button>
         </div>
         <div class="height10">10</div>
         <div class="height5">5</div>
@@ -164,9 +164,9 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <el-button id="previous">이전</el-button>
-          <el-button id="skip">건너뛰기</el-button>
-          <el-button id="next">다음</el-button>
+          <el-button id="previous" @click="previousStep">이전</el-button>
+          <el-button id="skip" @click="skipStep">건너뛰기</el-button>
+          <el-button id="next" @click="nextStep">다음</el-button>
         </div>
       </div>
     </el-col>
@@ -184,7 +184,7 @@
         <div class="height40" id="circle">
           <div id="H7">
             <div id="circle1">
-              Strong
+              Experienced
               <br />
               (이해가 깊음)
             </div>
@@ -202,7 +202,7 @@
           <hr style="border: dotted 1px; margin-left: 180px" />
           <div id="H7">
             <div id="circle1">
-              Knowledgeable
+              Beginner
               <br />
               (경험해본적 있음)
             </div>
@@ -224,9 +224,9 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <el-button id="previous">이전</el-button>
-          <el-button id="skip">건너뛰기</el-button>
-          <el-button id="next">다음</el-button>
+          <el-button id="previous" @click="previousStep">이전</el-button>
+          <el-button id="skip" @click="skipStep">건너뛰기</el-button>
+          <el-button id="next" @click="nextStep">다음</el-button>
         </div>
       </div>
     </el-col>
@@ -242,7 +242,7 @@
           <p id="h2">Step4-세부정보</p>
         </div>
         <div class="height40" id="H8">
-          <p id="h8">희망포지션 (최대 5개)</p>
+          <p id="h8">세부포지션 (최대 5개)</p>
           <div id="box2">box</div>
         </div>
         <div class="height10" id="button">
@@ -251,9 +251,9 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <el-button id="previous">이전</el-button>
-          <el-button id="skip">건너뛰기</el-button>
-          <el-button id="next">다음</el-button>
+          <el-button id="previous" @click="previousStep">이전</el-button>
+          <el-button id="skip" @click="skipStep">건너뛰기</el-button>
+          <el-button id="next">완료</el-button>
         </div>
       </div>
     </el-col>
@@ -261,21 +261,37 @@
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
 import { useStore } from 'vuex';
 export default {
   name: 'SignUp',
-
   setup() {
+    const router = useRouter();
     const store = useStore();
     // 독립적인 반응형 값 생성 ref()
     // const signUp = ref(null);
     const state = reactive({
       form: {
-        step: '1',
+        step: 1,
       },
     });
-    return { store, state };
+    const goSignIn = function () {
+      router.push({ path: '/noheader/signin' });
+    };
+    const previousStep = function () {
+      state.form.step = state.form.step - 1;
+      router.push({ path: '/noheader/signup' });
+    };
+    const nextStep = function () {
+      state.form.step = state.form.step + 1;
+      router.push({ path: '/noheader/signup' });
+    };
+    const skipStep = function () {
+      state.form.step = state.form.step + 1;
+      router.push({ path: '/noheader/signup' });
+    };
+    return { store, state, goSignIn, previousStep, nextStep, skipStep };
   },
 };
 </script>

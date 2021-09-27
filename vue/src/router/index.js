@@ -19,8 +19,10 @@ import Manage from '../components/MenuBar1/Manage.vue';
 import NoSubHeader from '../components/NoSubHeader.vue';
 import Main from '../components/Main.vue';
 import Home from '../components/MenuBar2/Home.vue';
-import Create from '../components/MenuBar2/Create.vue';
-import Update from '../components/MenuBar2/Update.vue';
+import StudyCreate from '../components/MenuBar2/StudyCreate.vue';
+import StudyUpdate from '../components/MenuBar2/StudyUpdate.vue';
+import ProjectCreate from '../components/MenuBar2/ProjectCreate.vue';
+import ProjectUpdate from '../components/MenuBar2/ProjectUpdate.vue';
 import GeneralSearch from '../components/Search/GeneralSearch.vue';
 import AdvancedSearch from '../components/Search/AdvancedSearch.vue';
 import Chat from '../components/Chat.vue';
@@ -125,12 +127,20 @@ const routes = [
             component: Home,
           },
           {
-            path: '/nosubheader/create',
-            component: Create,
+            path: '/nosubheader/study/create',
+            component: StudyCreate,
           },
           {
-            path: '/nosubheader/update',
-            component: Update,
+            path: '/nosubheader/study/update',
+            component: StudyUpdate,
+          },
+          {
+            path: '/nosubheader/project/create',
+            component: ProjectCreate,
+          },
+          {
+            path: '/nosubheader/project/update',
+            component: ProjectUpdate,
           },
 
           {
