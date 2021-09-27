@@ -27,7 +27,7 @@ public class StudyController {
 
     private final StudyService studyService;
 
-    @GetMapping("/infoforcreatestudy")
+    @GetMapping("/infoforcreate")
     @ApiOperation(value = "스터디 생성을 위한 정보", notes = "<strong>스터디를 생성하기 위한</strong> 전체 기술, 생성할 멤버의 클럽, 선택할 수 있는 지역 리스트를 받는다")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -75,7 +75,7 @@ public class StudyController {
         studyService.removeMember(studyId, memberId);
     }
 
-    @GetMapping("/datail/{studyId}")
+    @GetMapping("/detail/{studyId}")
     @ApiOperation(value = "스터디 상세정보 조회",
         notes = "<strong>받은 스터디 id</strong>로 해당 스터디 정보 + 수정을 위한 정보(사용자 클럽 리스트, 지역, 상태 리스트 등")
     @ApiResponses({
