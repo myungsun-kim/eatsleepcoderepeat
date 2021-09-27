@@ -7,6 +7,7 @@
       <el-col :span="13" :offset="0">
         <div class="height100">
           <div id="h1">스터디 생성</div>
+          <hr />
           <div id="box1">
             <label id="h2">스터디 이름</label>
             <input

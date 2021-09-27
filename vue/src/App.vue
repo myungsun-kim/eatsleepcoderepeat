@@ -3,7 +3,6 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">Main</router-link>
   </div> -->
-
   <div class="bg-color">
     <router-view />
   </div>
