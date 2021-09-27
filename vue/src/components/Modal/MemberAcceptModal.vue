@@ -1,7 +1,7 @@
 <template>
-  <button @click="modalOpen = true">
-    Open full screen modal! (With teleport!)
-  </button>
+  <el-button @click="modalOpen = true" class="btn-ghost-blue font-noto-bold"
+    >수락</el-button
+  >
   <teleport to="body">
     <div v-if="modalOpen" class="modal">
       <div class="height40">
@@ -51,7 +51,7 @@ export default {
   },
 };
 </script>
-<style scope>
+<style scoped>
 .modal {
   position: absolute;
   top: 0;

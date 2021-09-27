@@ -1,23 +1,18 @@
 <template>
-  <button @click="modalOpen = true">
-    Open full screen modal! (With teleport!)
-  </button>
+  <el-button @click="modalOpen = true" class="btn-ghost-red font-noto-bold"
+    >거절</el-button
+  >
   <teleport to="body">
     <div v-if="modalOpen" class="modal">
       <div class="height40">
         <!-- 참고:
         https://v3.ko.vuejs.org/guide/teleport.html#vue-%E1%84%8F%E1%85%A5%E1%86%B7%E1%84%91%E1%85%A9%E1%84%82%E1%85%A5%E1%86%AB%E1%84%90%E1%85%B3%E1%84%8B%E1%85%AA-%E1%84%92%E1%85%A1%E1%86%B7%E1%84%81%E1%85%A6-%E1%84%89%E1%85%A1%E1%84%8B%E1%85%AD%E1%86%BC
         I'm a teleported modal! (My parent is "body") -->
-        <el-row class="height8"></el-row>
+        <el-row class="height10"></el-row>
         <el-row class="height20">
           <el-col :span="24" class="font-noto-bold font-20"
-            >(지원자닉네임)님의 (스터디명) 가입을 수락하시겠습니까?
+            >(지원자닉네임)님의 (스터디명) 가입을 거절하시겠습니까?
           </el-col>
-        </el-row>
-        <el-row class="height8">
-          <el-col :span="24" class="font-noto-md font-14"
-            >가입 시 인원 수: 5/10</el-col
-          >
         </el-row>
         <el-row class="height10">
           <el-col :span="6" :offset="6">
@@ -51,7 +46,7 @@ export default {
   },
 };
 </script>
-<style scope>
+<style scoped>
 .modal {
   position: absolute;
   top: 0;

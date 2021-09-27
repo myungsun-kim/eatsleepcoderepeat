@@ -14,93 +14,91 @@
         </div>
         <div class="height5"></div>
         <div class="height5">
-          <button id="login">로그인</button>
+          <el-button id="login" @click="goSignIn">로그인</el-button>
         </div>
         <div class="height30">30</div>
         <div class="height5">5</div>
       </div>
     </el-col>
 
-    <div v-if="state.form.state === 1">
-      <!-- Step1 기본정보-->
-      <el-col :span="15" :offset="0" id="step1">
-        <div class="height100">
-          <div class="height20">20</div>
-          <div class="height5" id="H1">
-            <p id="h1">회원가입</p>
-          </div>
-          <div class="height10" id="H2">
-            <p id="h2">Step1-기본정보</p>
-          </div>
-          <div class="height40" id="input1">
-            <input
-              type="text"
-              placeholder="이메일"
-              id="email"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='이메일'"
-            />
-            <div id="H3">
-              <input
-                type="text"
-                placeholder="이름"
-                id="name"
-                onfocus="this.placeholder=''"
-                onblur="this.placeholder='이름'"
-              />
-              <input
-                type="text"
-                placeholder="닉네임"
-                id="nickname"
-                onfocus="this.placeholder=''"
-                onblur="this.placeholder='닉네임'"
-              />
-            </div>
-            <input
-              type="text"
-              placeholder="비밀번호"
-              id="password"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='비밀번호'"
-            />
-            <input
-              type="text"
-              placeholder="비밀번호 확인"
-              id="checkpassword"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='비밀번호 확인'"
-            />
-            <input
-              type="text"
-              placeholder="분야 선택"
-              id="field"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='분야 선택'"
-            />
-            <input
-              type="text"
-              placeholder="지역 선택"
-              id="region"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='지역 선택'"
-            />
-          </div>
-          <div class="height10" id="button0">
-            <el-row :gutter="0">
-              <el-col :span="12" :offset="0"></el-col>
-              <el-col :span="12" :offset="0"></el-col>
-            </el-row>
-
-            <button id="next0">다음</button>
-          </div>
-          <div class="height10">10</div>
-          <div class="height5">5</div>
+    <!-- Step1 기본정보-->
+    <el-col :span="15" :offset="0" id="step1" v-if="state.form.step == 1">
+      <div class="height100">
+        <div class="height20">20</div>
+        <div class="height5" id="H1">
+          <p id="h1">회원가입</p>
         </div>
-      </el-col>
-    </div>
+        <div class="height10" id="H2">
+          <p id="h2">Step1-기본정보</p>
+        </div>
+        <div class="height40" id="input1">
+          <input
+            type="text"
+            placeholder="이메일"
+            id="email"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='이메일'"
+          />
+          <div id="H3">
+            <input
+              type="text"
+              placeholder="이름"
+              id="name"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='이름'"
+            />
+            <input
+              type="text"
+              placeholder="닉네임"
+              id="nickname"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='닉네임'"
+            />
+          </div>
+          <input
+            type="text"
+            placeholder="비밀번호"
+            id="password"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='비밀번호'"
+          />
+          <input
+            type="text"
+            placeholder="비밀번호 확인"
+            id="checkpassword"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='비밀번호 확인'"
+          />
+          <input
+            type="text"
+            placeholder="역할 선택"
+            id="field"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='역할 선택'"
+          />
+          <input
+            type="text"
+            placeholder="지역 선택"
+            id="region"
+            onfocus="this.placeholder=''"
+            onblur="this.placeholder='지역 선택'"
+          />
+        </div>
+        <div class="height10" id="button0">
+          <el-row :gutter="0">
+            <el-col :span="12" :offset="0"></el-col>
+            <el-col :span="12" :offset="0"></el-col>
+          </el-row>
+
+          <el-button id="next0" @click="nextStep">다음</el-button>
+        </div>
+        <div class="height10">10</div>
+        <div class="height5">5</div>
+      </div>
+    </el-col>
 
     <!-- Step2 포트폴리오 -->
-    <!-- <el-col :span="15" :offset="0" id="step2">
+    <el-col :span="15" :offset="0" id="step2" v-else-if="state.form.step == 2">
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -166,15 +164,15 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <button id="previous">이전</button>
-          <button id="skip">건너뛰기</button>
-          <button id="next">다음</button>
+          <el-button id="previous" @click="previousStep">이전</el-button>
+          <el-button id="skip" @click="skipStep">건너뛰기</el-button>
+          <el-button id="next" @click="nextStep">다음</el-button>
         </div>
       </div>
-    </el-col> -->
+    </el-col>
 
     <!-- Step3 개발수준 -->
-    <!-- <el-col :span="15" :offset="0" id="step3">
+    <el-col :span="15" :offset="0" id="step3" v-else-if="state.form.step == 3">
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -186,7 +184,7 @@
         <div class="height40" id="circle">
           <div id="H7">
             <div id="circle1">
-              Strong
+              Experienced
               <br />
               (이해가 깊음)
             </div>
@@ -204,7 +202,7 @@
           <hr style="border: dotted 1px; margin-left: 180px" />
           <div id="H7">
             <div id="circle1">
-              Knowledgeable
+              Beginner
               <br />
               (경험해본적 있음)
             </div>
@@ -226,15 +224,15 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <button id="previous">이전</button>
-          <button id="skip">건너뛰기</button>
-          <button id="next">다음</button>
+          <el-button id="previous" @click="previousStep">이전</el-button>
+          <el-button id="skip" @click="skipStep">건너뛰기</el-button>
+          <el-button id="next" @click="nextStep">다음</el-button>
         </div>
       </div>
-    </el-col> -->
+    </el-col>
 
     <!-- Step4 세부정보 -->
-    <!-- <el-col :span="15" :offset="0" id="step4">
+    <el-col :span="15" :offset="0" id="step4" v-else>
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -244,7 +242,7 @@
           <p id="h2">Step4-세부정보</p>
         </div>
         <div class="height40" id="H8">
-          <p id="h8">희망포지션 (최대 5개)</p>
+          <p id="h8">세부포지션 (최대 5개)</p>
           <div id="box2">box</div>
         </div>
         <div class="height10" id="button">
@@ -253,32 +251,47 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <button id="previous">이전</button>
-          <button id="skip">건너뛰기</button>
-          <button id="next">다음</button>
+          <el-button id="previous" @click="previousStep">이전</el-button>
+          <el-button id="skip" @click="skipStep">건너뛰기</el-button>
+          <el-button id="next">완료</el-button>
         </div>
       </div>
-    </el-col> -->
+    </el-col>
   </el-row>
 </template>
 
 <script>
-import { reactive, ref } from 'vue';
-import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import { reactive } from 'vue';
+import { useStore } from 'vuex';
 export default {
   name: 'SignUp',
-
   setup() {
+    const router = useRouter();
     const store = useStore();
     // 독립적인 반응형 값 생성 ref()
-    const signUp = ref(null);
+    // const signUp = ref(null);
     const state = reactive({
       form: {
-        state: '1',
+        step: 1,
       },
     });
-    return { store, signUp, state };
+    const goSignIn = function () {
+      router.push({ path: '/noheader/signin' });
+    };
+    const previousStep = function () {
+      state.form.step = state.form.step - 1;
+      router.push({ path: '/noheader/signup' });
+    };
+    const nextStep = function () {
+      state.form.step = state.form.step + 1;
+      router.push({ path: '/noheader/signup' });
+    };
+    const skipStep = function () {
+      state.form.step = state.form.step + 1;
+      router.push({ path: '/noheader/signup' });
+    };
+    return { store, state, router, goSignIn, previousStep, nextStep, skipStep };
   },
 };
 </script>

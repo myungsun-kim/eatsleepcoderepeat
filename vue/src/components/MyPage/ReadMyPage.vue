@@ -9,10 +9,27 @@
   <!-- 좌측 | 우측 갈리는 부분 1:9:1: 12: 1-->
   <el-row class="height85">
     <!-- 좌측 -->
-    <el-col :span="9" :offset="1" class="test-border">
+    <el-col :span="9" :offset="1" class="test-border font-14 flex-parent">
       <el-row class="test-border">
-        <el-col :span="9" class="test-border"> File Upload </el-col>
-        <el-col :span="13" :offset="2" class="test-border">
+        <el-col :span="12" class="test-border">
+          <el-upload
+            class="upload-demo"
+            drag
+            action="https://jsonplaceholder.typicode.com/posts/"
+            :on-preview="handlePreview"
+            :on-remove="handleRemove"
+            :file-list="fileList"
+            multiple
+          >
+            <i class="el-icon-upload"></i>
+            <div class="el-upload__text">
+              파일을 드래그 하거나
+              <br />
+              <em>클릭해서 업로드 하세요</em>
+            </div>
+          </el-upload>
+        </el-col>
+        <el-col :span="10" :offset="2" class="test-border flex-parent">
           <el-row class="test-border">
             <el-col :span="5" class="test-border"> ID </el-col>
             <el-col :span="15" :offset="4" class="test-border">
@@ -31,13 +48,13 @@
             <el-col :span="5" class="test-border"> 역할 </el-col>
             <el-col :span="15" :offset="4" class="test-border"> 개발자</el-col>
           </el-row>
-          <el-row class="test-border">
-            <el-col :span="5" class="test-border"> 지역 </el-col>
-            <el-col :span="15" :offset="4" class="test-border"> 경북</el-col>
-          </el-row>
         </el-col>
       </el-row>
       <!-- 마이페이지 정보 깃~ -->
+      <el-row class="test-border">
+        <el-col :span="7" class="test-border"> 지역 </el-col>
+        <el-col :span="16" :offset="1" class="test-border"> 경북 </el-col>
+      </el-row>
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> 깃 </el-col>
         <el-col :span="16" :offset="1" class="test-border"> Github </el-col>
@@ -46,6 +63,7 @@
         <el-col :span="7" class="test-border"> 트위터 </el-col>
         <el-col :span="16" :offset="1" class="test-border"> Twitter </el-col>
       </el-row>
+
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> 페이스북 </el-col>
         <el-col :span="16" :offset="1" class="test-border"> Facebook </el-col>
@@ -53,6 +71,14 @@
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> 백준 </el-col>
         <el-col :span="16" :offset="1" class="test-border"> Baekjoon </el-col>
+      </el-row>
+      <el-row class="test-border">
+        <el-col :span="7" class="test-border"> 포트폴리오 </el-col>
+        <el-col :span="16" :offset="1" class="test-border"> port </el-col>
+      </el-row>
+      <el-row class="test-border">
+        <el-col :span="7" class="test-border"> 포트폴리오 url </el-col>
+        <el-col :span="16" :offset="1" class="test-border"> url </el-col>
       </el-row>
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> Strong </el-col>
@@ -75,7 +101,7 @@
           다양한 프로젝트를 하고 싶습니다.
         </el-col>
       </el-row>
-      <el-row class="test-border"> 수정페이지로 이동 </el-row>
+      <el-row class="test-border align-center"> <PasswordCheckModal /> </el-row>
     </el-col>
     <!-- 우측 -->
     <el-col :span="12" :offset="1" class="test-border">
@@ -105,13 +131,18 @@
         <el-col :span="6" class="test-border"> Item3 </el-col>
         <el-col :span="6" class="test-border"> Item4 </el-col>
       </el-row>
-      <el-row class="height5">회원 탈퇴</el-row>
+      <el-row class="height5"><ServiceQuitModal /></el-row>
     </el-col>
   </el-row>
 </template>
 
 <script>
+import PasswordCheckModal from '../Modal/PasswordCheckModal.vue';
+import ServiceQuitModal from '../Modal/ServiceQuitModal.vue';
 export default {
-  components: {},
+  components: {
+    PasswordCheckModal,
+    ServiceQuitModal,
+  },
 };
 </script>

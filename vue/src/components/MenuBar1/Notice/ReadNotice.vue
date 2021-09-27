@@ -1,11 +1,17 @@
 <template>
   <el-row style="maxheight: 85%">
-    <el-col :span="3"
-      >element-plus tablem 일정 개수를 넘어가면 다음 페이지로 넘어가는 알고리즘
-      필요</el-col
-    >
+    <el-col :span="3">
+      element-plus tablem 일정 개수를 넘어가면 다음 페이지로 넘어가는 알고리즘
+      필요
+    </el-col>
     <el-col :span="18">
-      <el-table :data="tableData" stripe style="width: 100%">
+      <el-table
+        :data="tableData"
+        stripe
+        style="width: 100%"
+        highlight-current-row
+        @current-change="handleCurrentChange"
+      >
         <el-table-column
           prop="tag"
           label="Tag"
@@ -19,6 +25,7 @@
           label="Author"
           width="100"
           align="center"
+          @click="event"
         >
         </el-table-column>
         <el-table-column prop="date" label="Date" width="100" align="center">
@@ -27,22 +34,28 @@
     </el-col>
     <el-col :span="3"></el-col>
   </el-row>
+
+  <!-- pagination -->
   <el-row style="height: 15%">
     <el-col :span="3"></el-col>
-    <el-col :span="18"
-      ><el-row style="height: 20%"> </el-row>
+    <el-col :span="18">
+      <el-row style="height: 20%"></el-row>
       <el-row style="height: 25%">
         <el-col :span="5"></el-col>
         <el-col :span="14">
           <el-pagination background layout="prev, pager, next" :total="1000">
           </el-pagination>
         </el-col>
-        <el-col :span="3"></el-col>
+        <el-col :span="3"> </el-col>
         <el-col :span="2">
-          <el-button class="btn-1747C9 font-noto-bold">글 쓰기</el-button>
+          <el-button class="btn-1747C9 font-noto-bold" @click="goCreateNotice">
+            글 쓰기
+          </el-button>
         </el-col>
       </el-row>
+
       <el-row class="height10">여백</el-row>
+      <!-- dropdown -->
       <el-row style="height: 35%">
         <el-col :span="2" :offset="4">
           <el-dropdown size="mini" split-button type="">
@@ -75,35 +88,61 @@
 </template>
 
 <script>
+// import { useStore } from 'vuex';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
 export default {
-  data() {
+  setup() {
+    // const store = useStore();
+    const router = useRouter();
+    const currentRow = ref('1');
+    const goCreateNotice = function () {
+      router.push({ path: '/subheader/notice/create' });
+    };
+
+    const handleCurrentChange = function (val) {
+      this.currentRow.value = val;
+      console.log('click one item@');
+    };
+    const event = function () {
+      // 게시글 클릭 이벤트 하려고 했으나 실패함.
+      console.log('click one item@');
+    };
+
+    const tableData = [
+      {
+        tag: '공지사항',
+        title: '안녕하세요',
+        author: '민수',
+        date: '2016-05-03',
+      },
+      {
+        tag: '공지사항',
+        title: '안녕하세요',
+        author: '민수',
+        date: '2016-05-03',
+      },
+      {
+        tag: '공지사항',
+        title: '안녕하세요',
+        author: '민수',
+        date: '2016-05-03',
+      },
+      {
+        tag: '공지사항',
+        title: '안녕하세요',
+        author: '민수',
+        date: '2016-05-03',
+      },
+    ];
     return {
-      tableData: [
-        {
-          tag: '공지사항',
-          title: '안녕하세요',
-          author: '민수',
-          date: '2016-05-03',
-        },
-        {
-          tag: '공지사항',
-          title: '안녕하세요',
-          author: '민수',
-          date: '2016-05-03',
-        },
-        {
-          tag: '공지사항',
-          title: '안녕하세요',
-          author: '민수',
-          date: '2016-05-03',
-        },
-        {
-          tag: '공지사항',
-          title: '안녕하세요',
-          author: '민수',
-          date: '2016-05-03',
-        },
-      ],
+      router,
+      goCreateNotice,
+      handleCurrentChange,
+      tableData,
+      currentRow,
+      event,
     };
   },
 };

@@ -10,16 +10,15 @@
       ><el-row style="height: 20%"> </el-row>
       <el-row style="height: 25%">
         <el-col :span="5"></el-col><el-col :span="14">페이지네이션</el-col
-        ><el-col :span="3"></el-col
-        ><el-col :span="2"><button>글 쓰기</button></el-col>
+        ><el-col :span="3"></el-col><el-col :span="2"></el-col>
       </el-row>
       <el-row class="height10"> </el-row>
       <el-row style="height: 35%">
         <el-col :span="4"></el-col>
         <el-col :span="2">리스트</el-col>
-        <el-col :span="12">검색창</el-col>
-        <el-col :span="1"><button>수락</button></el-col>
-        <el-col :span="1"><button>취소</button></el-col>
+        <el-col :span="10"><CheckApplicationModal /></el-col>
+        <el-col :span="2"><MemberAcceptModal /></el-col>
+        <el-col :span="2"><MemberRejectModal /></el-col>
         <el-col :span="4"></el-col>
       </el-row>
       <el-row class="height10"> </el-row>
@@ -29,8 +28,14 @@
 </template>
 
 <script>
+import CheckApplicationModal from '../Modal/CheckApplicationModal.vue';
 import MemberAcceptModal from '../Modal/MemberAcceptModal.vue';
+import MemberRejectModal from '../Modal/MemberRejectModal.vue';
 export default {
-  components: { MemberAcceptModal },
+  components: {
+    CheckApplicationModal,
+    MemberAcceptModal,
+    MemberRejectModal,
+  },
 };
 </script>
