@@ -6,7 +6,6 @@ import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import lombok.Builder;
@@ -52,33 +51,9 @@ public class MemberInfoDto {
     private List<String> expTechList = new ArrayList<>();
     @ApiModelProperty(name = "beginTechList", example = "[\"python\",\"java\"]")
     private List<String> beginTechList = new ArrayList<>();
-    @ApiModelProperty(name = "snsList", example = "[\n" +
-            "    {\n" +
-            "      \"id\": 1,\n" +
-            "      \"snsName\": \"github\",\n" +
-            "      \"snsAccount\": \"gitid\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"id\": 2,\n" +
-            "      \"snsName\": \"backjoon\",\n" +
-            "      \"snsAccount\": \"bjid\"\n" +
-            "    }\n" +
-            "  ]")
+    @ApiModelProperty(name = "snsList", example = "[{\"id\":1, \"snsName\":\"github\", \"snsAccount\":\"gitid\"},{\"id\":2, \"snsName\":\"twitter\", \"snsAccount\":\"twitterid\"}]")
     private List<MemberSns> snsList = new ArrayList<>();
-    @ApiModelProperty(name = "dpositionList", example = "[\n" +
-            "    {\n" +
-            "      \"id\": 1,\n" +
-            "      \"name\": \"frontend\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"id\": 2,\n" +
-            "      \"name\": \"devops\"\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"id\": 7,\n" +
-            "      \"name\": \"testpostion\"\n" +
-            "    }\n" +
-            "  ]")
+    @ApiModelProperty(name = "dpositionList", example = "[{\"id\":1, \"name\":\"frontend\"},{\"id\":2, \"name\":\"devops\"}]")
     private List<Position> dpositionList = new ArrayList<>();
 
 //    public MemberInfoDto(Member member) {
