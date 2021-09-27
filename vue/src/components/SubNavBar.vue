@@ -5,14 +5,23 @@
       ><el-row class="height100 sub-nav-bar">
         <el-col :span="6"
           ><el-button
+            v-if="store.state.category == 1"
             class="sub-nav-btn font-noto-md"
             type="text"
-            @click="clickIntroduce"
-            ><span v-if="store.state.category == 1">스터디 소개</span
-            ><span v-else-if="store.state.category == 2">프로젝트 소개</span
-            ><span v-else-if="store.state.category == 3"
-              >클럽 소개</span
-            ></el-button
+            @click="clickIntroduceStudy"
+            >스터디 소개</el-button
+          ><el-button
+            v-else-if="store.state.category == 2"
+            class="sub-nav-btn font-noto-md"
+            type="text"
+            @click="clickIntroduceProject"
+            >프로젝트 소개</el-button
+          ><el-button
+            v-else-if="store.state.category == 3"
+            class="sub-nav-btn font-noto-md"
+            type="text"
+            @click="clickIntroduceClub"
+            >클럽 소개</el-button
           ></el-col
         >
         <el-col :span="1"></el-col
@@ -36,13 +45,24 @@
         <el-col :span="1"></el-col
         ><el-col :span="6"
           ><el-button
+            v-if="store.state.category == 1"
             class="sub-nav-btn font-noto-md"
             type="text"
-            @click="clickManage"
-            ><span v-if="store.state.category == 1">스터디 관리</span
-            ><span v-if="store.state.category == 2">프로젝트 관리</span
-            ><span v-if="store.state.category == 3">클럽 관리</span></el-button
-          ></el-col
+            @click="clickManageStudy"
+            >스터디 관리 </el-button
+          ><el-button
+            v-else-if="store.state.category == 2"
+            class="sub-nav-btn font-noto-md"
+            type="text"
+            @click="clickManageProject"
+            >프로젝트 관리 </el-button
+          ><el-button
+            v-if="store.state.category == 3"
+            class="sub-nav-btn font-noto-md"
+            type="text"
+            @click="clickManageClub"
+            >클럽 관리
+          </el-button></el-col
         >
       </el-row></el-col
     >
@@ -63,17 +83,23 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    const clickIntroduce = function () {
-      router.push({ path: '/subheader/introduce' });
+    const clickIntroduceStudy = function () {
+      router.push({ path: '/subheader/study/introduce' });
+    };
+
+    const clickIntroduceProject = function () {
+      router.push({ path: '/subheader/project/introduce' });
+    };
+
+    const clickIntroduceClub = function () {
+      router.push({ path: '/subheader/club/introduce' });
     };
 
     const clickNotice = function () {
-      store.commit('setCategory', 2);
       router.push({ path: '/subheader/notice' });
     };
 
     const clickBoard = function () {
-      store.commit('setCategory', 3);
       router.push({ path: '/subheader/board' });
     };
 
@@ -84,7 +110,9 @@ export default {
     return {
       store,
       router,
-      clickIntroduce,
+      clickIntroduceStudy,
+      clickIntroduceProject,
+      clickIntroduceClub,
       clickNotice,
       clickBoard,
       clickManage,
