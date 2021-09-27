@@ -46,7 +46,7 @@ public class MemberRequestDto {
     @ApiParam(value = "자기소개", required = false)
     private String bio;
 
-    @ApiModelProperty(name = "cover_pic", example = "uuid")
+    @ApiModelProperty(name = "cover_pic", example = "3fads23-fdfd13-23d2")
     @ApiParam(value = "사진 데이터", required = false)
     private String cover_pic;
 

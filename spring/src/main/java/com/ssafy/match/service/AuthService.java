@@ -7,6 +7,8 @@ import com.ssafy.match.controller.dto.TokenDto;
 import com.ssafy.match.db.entity.*;
 import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
 import com.ssafy.match.db.repository.*;
+import com.ssafy.match.file.entity.DBFile;
+import com.ssafy.match.file.repository.DBFileRepository;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.jwt.TokenProvider;
 import com.ssafy.match.util.SecurityUtil;
@@ -35,6 +37,7 @@ public class AuthService {
     private final TechstackRepository techstackRepository;
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
     private final PositionRepository positionRepository;
+    private final DBFileRepository dbFileRepository;
 
 
     @Transactional
@@ -44,7 +47,7 @@ public class AuthService {
         }
         Member member = memberRequestDto.toMember(passwordEncoder);
         Member ret = memberRepository.save(member);
-
+        setDBFile(member, memberRequestDto.getCover_pic());
         if (memberRequestDto.getExpTechList() != null){
             for (String techExp : memberRequestDto.getExpTechList()) {
                 Techstack techstackExp = techstackRepository.findByName(techExp)
@@ -137,5 +140,14 @@ public class AuthService {
 
         // 토큰 발급
         return tokenDto;
+    }
+
+    public void setDBFile(Member member, String uuid){
+        if(uuid == null) {
+            member.setCover_pic(null);
+            return;
+        }
+        DBFile dbFile = dbFileRepository.getById(uuid);
+        member.setCover_pic(dbFile);
     }
 }
