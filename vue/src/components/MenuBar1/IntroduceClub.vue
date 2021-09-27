@@ -1,11 +1,11 @@
 <template>
-  <el-row class="font-20">
+  <el-row class="font-20 test-border">
     <el-col :span="3"></el-col>
-    <el-col :span="6"
-      ><el-row class="height1"> </el-row>
+    <el-col :span="6">
+      <el-row class="height1"> </el-row>
       <el-row style="height: 40%; background-color: red"> 사진 </el-row>
-      <el-row class="height8"
-        ><el-col :span="12">
+      <el-row class="height8">
+        <el-col :span="12">
           <i class="el-icon-postcard"></i>&nbsp;클럽 이름</el-col
         ><el-col :span="12">취뽀</el-col>
       </el-row>
@@ -61,7 +61,7 @@
     <el-col :span="12">
       <el-row class="height100">
         <el-col :span="24" :offset="1" class="test-border">
-          <el-row class="test-border">내가 속한 스터디</el-row>
+          <el-row class="test-border">클럽에 속한 스터디</el-row>
           <el-row class="height5"></el-row>
           <el-row class="test-border height40">
             <el-col :span="6" class="test-border"> Item1 </el-col>
@@ -70,7 +70,7 @@
             <el-col :span="6" class="test-border"> Item4 </el-col>
           </el-row>
           <el-row class="height5"></el-row>
-          <el-row class="test-border">내가 속한 프로젝트</el-row>
+          <el-row class="test-border">클럽에 속한 프로젝트</el-row>
           <el-row class="height5"></el-row>
           <el-row class="test-border height40">
             <el-col :span="6" class="test-border"> Item1 </el-col>
@@ -82,16 +82,13 @@
         </el-col>
       </el-row>
     </el-col>
-    <el-col :span="1"></el-col>
-    <el-col :span="8">
-      <el-row class="height5"></el-row>
-    </el-col>
-    <el-col :span="3"></el-col>
+    <el-col :span="2"></el-col>
   </el-row>
+  <el-row class="height5"> </el-row>
 
   <el-row class="font-20">
-    <el-col :span="3"></el-col>
-    <el-col :span="18">
+    <el-col :span="12"></el-col>
+    <el-col :span="12">
       <el-row>
         <el-col :span="7"></el-col>
         <el-col :span="2">
@@ -100,14 +97,10 @@
           </el-button>
         </el-col>
         <el-col :span="2">
-          <el-button class="btn-ghost-red" style="font-size: 14px">
-            <StudyDeleteModal />
-          </el-button>
+          <StudyDeleteModal />
         </el-col>
         <el-col :span="2">
-          <el-button class="btn-ghost-red" style="font-size: 14px">
-            <StudyQuitModal />
-          </el-button>
+          <StudyQuitModal />
         </el-col>
         <el-col :span="10"></el-col>
         <el-col :span="3"></el-col>
@@ -120,8 +113,9 @@
         <!-- <el-col :span="11"></el-col
         ><el-col :span="2"><el-button>탈퇴</el-button></el-col
         ><el-col :span="10"></el-col>  -->
-      </el-row> </el-col
-    ><el-col :span="3"></el-col>
+      </el-row>
+    </el-col>
+    <el-col :span="3"></el-col>
   </el-row>
 </template>
 <script>
@@ -153,7 +147,8 @@ export default {
 };
 </script>
 <style scoped>
-.position {
-  position: fixed;
+.flex-warp {
+  display: flex;
+  flex-wrap: wrap;
 }
 </style>
