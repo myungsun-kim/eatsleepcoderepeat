@@ -5,6 +5,7 @@ import com.ssafy.match.service.MemberService;
 import com.ssafy.match.util.SecurityUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,6 @@ public class MemberController {
     public ResponseEntity<MemberInfoDto> getMyPage() {
         return ResponseEntity.ok(memberService.getMyPage());
     }
-
 
     @PutMapping
     @ApiOperation(value = "내 계정 정보 Update")

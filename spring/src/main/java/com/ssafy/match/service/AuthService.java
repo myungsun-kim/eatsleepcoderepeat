@@ -1,9 +1,6 @@
 package com.ssafy.match.service;
 
-import com.ssafy.match.controller.dto.MemberRequestDto;
-import com.ssafy.match.controller.dto.MemberResponseDto;
-import com.ssafy.match.controller.dto.TokenRequestDto;
-import com.ssafy.match.controller.dto.TokenDto;
+import com.ssafy.match.controller.dto.*;
 import com.ssafy.match.db.entity.*;
 import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
 import com.ssafy.match.db.repository.*;
@@ -39,6 +36,21 @@ public class AuthService {
     private final PositionRepository positionRepository;
     private final DBFileRepository dbFileRepository;
 
+    @Transactional(readOnly = true)
+    public Boolean checkEmail(String email) {
+        if (memberRepository.existsByEmail(email)) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    @Transactional(readOnly = true)
+    public Boolean checkNickname(String nickname) {
+        if (memberRepository.existsByNickname(nickname)) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
 
     @Transactional
     public MemberResponseDto signup(MemberRequestDto memberRequestDto) throws Exception {
