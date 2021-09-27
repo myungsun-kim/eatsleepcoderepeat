@@ -38,7 +38,9 @@ public class Study {
     private String schedule;
     private int period;
     private String bio;
+    @Column(name = "member_count")
     private int memberCount;
+    @Column(name = "max_count")
     private int maxCount;
 
     @Enumerated(EnumType.STRING)
@@ -46,7 +48,7 @@ public class Study {
 
     @Column(name = "create_Date")
     private LocalDateTime createDate;
-    @Column(name = "create_Date")
+    @Column(name = "modify_Date")
     private LocalDateTime modifyDate;
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -123,6 +125,5 @@ public class Study {
         this.isPublic = dto.getIsPublic();
         this.isParticipate = true;
     }
-
 
 }

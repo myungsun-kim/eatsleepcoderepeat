@@ -50,13 +50,20 @@ CREATE TABLE IF NOT EXISTS `matching`.`member` (
   `tel` VARCHAR(255) NULL DEFAULT NULL,
   `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
   `portfolio_uri` VARCHAR(1000) NULL DEFAULT NULL,
+  `portfolio_uuid` VARCHAR(255) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_member_files1_idx` (`cover_pic` ASC) VISIBLE,
+  INDEX `fk_member_files2_idx` (`portfolio_uuid` ASC) VISIBLE,
   CONSTRAINT `fk_member_files1`
     FOREIGN KEY (`cover_pic`)
-    REFERENCES `matching`.`files` (`id`))
+    REFERENCES `matching`.`files` (`id`),
+  CONSTRAINT `fk_member_files2`
+    FOREIGN KEY (`portfolio_uuid`)
+    REFERENCES `matching`.`files` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 44
+AUTO_INCREMENT = 46
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -110,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`study` (
   `status` VARCHAR(15) NOT NULL,
   `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
   `host_id` BIGINT NULL DEFAULT NULL,
-  `club_id` BIGINT NOT NULL,
+  `club_id` BIGINT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_study_member1_idx` (`host_id` ASC) VISIBLE,
   INDEX `fk_study_files1_idx` (`cover_pic` ASC) VISIBLE,
@@ -125,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`study` (
     FOREIGN KEY (`host_id`)
     REFERENCES `matching`.`member` (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -397,7 +405,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`techstack` (
   `name` VARCHAR(255) NULL DEFAULT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 3
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -488,23 +496,6 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `matching`.`member_portfolio`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `matching`.`member_portfolio` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `protfolio_path` VARCHAR(255) NOT NULL,
-  `member_id` BIGINT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `FK1ixus8kdxd69acu641r3mt5y6` (`member_id` ASC) VISIBLE,
-  CONSTRAINT `FK1ixus8kdxd69acu641r3mt5y6`
-    FOREIGN KEY (`member_id`)
-    REFERENCES `matching`.`member` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
 -- Table `matching`.`member_project`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`member_project` (
@@ -540,6 +531,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`member_sns` (
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 17
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
@@ -622,6 +614,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`position` (
     FOREIGN KEY (`member_id`)
     REFERENCES `matching`.`member` (`id`))
 ENGINE = InnoDB
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 

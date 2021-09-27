@@ -18,7 +18,7 @@ import com.ssafy.match.group.dto.club.ClubDto;
 import com.ssafy.match.group.dto.study.request.StudyApplicationRequestDto;
 import com.ssafy.match.group.dto.study.request.StudyCreateRequestDto;
 import com.ssafy.match.group.dto.study.request.StudyUpdateRequestDto;
-import com.ssafy.match.group.dto.study.response.InfoForRegisterStudyFormResponseDto;
+import com.ssafy.match.group.dto.study.response.InfoForApplyStudyFormResponseDto;
 import com.ssafy.match.group.dto.study.response.StudyFormInfoResponseDto;
 import com.ssafy.match.group.dto.study.response.StudyInfoForCreateResponseDto;
 import com.ssafy.match.group.dto.study.response.StudyInfoResponseDto;
@@ -98,8 +98,7 @@ public class StudyServiceImpl implements StudyService {
     public HttpStatus update(Long studyId, StudyUpdateRequestDto dto) throws Exception {
         Study study = findStudy(studyId);
         Long memberId = SecurityUtil.getCurrentMemberId();
-
-        if (study.getMember().getId() != memberId) {
+        if (!study.getMember().getId().equals(memberId)) {
             throw new Exception("권한이 없습니다.");
         }
 
@@ -117,7 +116,7 @@ public class StudyServiceImpl implements StudyService {
     public HttpStatus delete(Long studyId) throws Exception {
         Study study = findStudy(studyId);
 
-        if (study.getMember().getId() != SecurityUtil.getCurrentMemberId()) {
+        if (!study.getMember().getId().equals(SecurityUtil.getCurrentMemberId())) {
             throw new Exception("권한이 없습니다.");
         }
 
@@ -125,7 +124,7 @@ public class StudyServiceImpl implements StudyService {
         for (MemberStudy mem : memberStudys) {
             mem.deActivation();
         }
-
+        // 스터디 기술 스택 삭제 기능 추가필요
         study.setIsActive(false);
 
         return HttpStatus.OK;
@@ -134,8 +133,8 @@ public class StudyServiceImpl implements StudyService {
     // 현재 프로젝트 정보 리턴
     public StudyInfoResponseDto getInfo(Long studyId) throws Exception {
         Study study = findStudy(studyId);
-        if (SecurityUtil.getCurrentMemberId() != study.getMember().getId()
-            && study.getIsPublic() == false) {
+        if (!SecurityUtil.getCurrentMemberId().equals(study.getMember().getId())
+            && !study.getIsPublic()) {
             throw new Exception("비공개된 프로젝트입니다.");
         }
 
@@ -225,7 +224,7 @@ public class StudyServiceImpl implements StudyService {
         Study study = findStudy(studyId);
         Member member = findMember(memberId);
 
-        if (study.getMember().getId() == memberId) {
+        if (study.getMember().getId().equals(memberId)) {
             throw new Exception("프로젝트장은 탈퇴할 수 없습니다.");
         }
 
@@ -261,6 +260,9 @@ public class StudyServiceImpl implements StudyService {
     }
 
     public Club findClub(Long clubId) {
+        if(clubId == null){
+            return null;
+        }
         return clubRepository.findById(clubId)
             .orElseThrow(() -> new NullPointerException("클럽 정보가 없습니다."));
     }
@@ -296,18 +298,21 @@ public class StudyServiceImpl implements StudyService {
     }
 
     public DBFile findDBFile(String uuid) {
+        if(uuid == null){
+            return null;
+        }
         return dbFileRepository.findById(uuid)
             .orElseThrow(() -> new NullPointerException("파일 정보가 없습니다."));
     }
 
     // 신청 버튼 클릭시 관련 정보 및 권한 체크
-    public InfoForRegisterStudyFormResponseDto getInfoForRegister(Long studyId) throws Exception {
+    public InfoForApplyStudyFormResponseDto getInfoForApply(Long studyId) throws Exception {
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         Study study = findStudy(studyId);
 
         List<Member> memberList = findMemberInStudy(study);
         for (Member mem : memberList) {
-            if (SecurityUtil.getCurrentMemberId() == mem.getId()) {
+            if (SecurityUtil.getCurrentMemberId().equals(mem.getId())) {
                 throw new Exception("이미 가입한 멤버입니다.");
             }
         }
@@ -316,7 +321,7 @@ public class StudyServiceImpl implements StudyService {
             throw new Exception("참여 불가능한 프로젝트입니다.");
         }
 
-        InfoForRegisterStudyFormResponseDto dto = InfoForRegisterStudyFormResponseDto.builder()
+        InfoForApplyStudyFormResponseDto dto = InfoForApplyStudyFormResponseDto.builder()
             .name(member.getName())
             .strong(memberExperiencedTechstackRepository.findTechstackByMemberName(member))
             .knowledgeable(memberBeginnerTechstackRepository.findTechstackByMemberName(member))
@@ -339,7 +344,7 @@ public class StudyServiceImpl implements StudyService {
     }
 
     @Transactional
-    public HttpStatus createForm(Long studyId, StudyApplicationRequestDto dto) throws Exception {
+    public HttpStatus applyStudy(Long studyId, StudyApplicationRequestDto dto) throws Exception {
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         Study study = findStudy(studyId);
 
@@ -374,7 +379,7 @@ public class StudyServiceImpl implements StudyService {
     public List<StudyFormInfoResponseDto> allStudyForm(Long studyId) throws Exception {
         Study study = findStudy(studyId);
 
-        if (SecurityUtil.getCurrentMemberId() != study.getMember().getId()) {
+        if (SecurityUtil.getCurrentMemberId().equals(study.getMember().getId())) {
             throw new Exception("조회 권한이 없습니다.");
         }
 
@@ -398,7 +403,7 @@ public class StudyServiceImpl implements StudyService {
     public List<StudyFormInfoResponseDto> allFormByStudyNickname(Long studyId, String nickname) throws Exception {
         Study study = findStudy(studyId);
 
-        if (SecurityUtil.getCurrentMemberId() != study.getMember().getId()) {
+        if (SecurityUtil.getCurrentMemberId().equals(study.getMember().getId())) {
             throw new Exception("조회 권한이 없습니다.");
         }
 
@@ -449,10 +454,6 @@ public class StudyServiceImpl implements StudyService {
                 throw new Exception("이미 가입되어있는 회원입니다.");
             }
         }
-
-        StudyApplicationForm form = studyApplicationFormRepository
-            .findById(new CompositeMemberStudy(member, study))
-            .orElseThrow(() -> new NullPointerException("존재하지 않는 신청서입니다."));
 
         addMember(study, member);
         reject(studyId, memberId);

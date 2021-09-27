@@ -4,7 +4,7 @@ import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.group.dto.study.request.StudyApplicationRequestDto;
 import com.ssafy.match.group.dto.study.request.StudyCreateRequestDto;
 import com.ssafy.match.group.dto.study.request.StudyUpdateRequestDto;
-import com.ssafy.match.group.dto.study.response.InfoForRegisterStudyFormResponseDto;
+import com.ssafy.match.group.dto.study.response.InfoForApplyStudyFormResponseDto;
 import com.ssafy.match.group.dto.study.response.StudyFormInfoResponseDto;
 import com.ssafy.match.group.dto.study.response.StudyInfoForCreateResponseDto;
 import com.ssafy.match.group.dto.study.response.StudyInfoResponseDto;
@@ -28,9 +28,9 @@ public interface StudyService {
 
     void removeMember(Long studyId, Long memberId) throws Exception;
 
-    InfoForRegisterStudyFormResponseDto getInfoForRegister(Long studyId) throws Exception;
+    InfoForApplyStudyFormResponseDto getInfoForApply(Long studyId) throws Exception;
 
-    HttpStatus createForm(Long studyId, StudyApplicationRequestDto dto) throws Exception;
+    HttpStatus applyStudy(Long studyId, StudyApplicationRequestDto dto) throws Exception;
 
     List<StudyFormInfoResponseDto> allStudyForm(Long studyId) throws Exception;
 

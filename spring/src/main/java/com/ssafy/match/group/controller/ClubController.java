@@ -32,7 +32,7 @@ public class ClubController {
     @Autowired
     MemberRepository memberRepository;
 
-    @PostMapping
+    @PostMapping("/")
     @ApiOperation(value = "클럽 생성", notes = "<strong>받은 클럽 정보</strong>를 사용해서 클럽을 생성한다.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),

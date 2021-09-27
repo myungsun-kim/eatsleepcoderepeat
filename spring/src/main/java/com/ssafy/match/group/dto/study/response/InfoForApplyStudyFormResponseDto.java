@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class InfoForRegisterStudyFormResponseDto {
+public class InfoForApplyStudyFormResponseDto {
 
     private String name;
 

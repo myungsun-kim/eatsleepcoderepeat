@@ -16,7 +16,6 @@ import lombok.Setter;
 @ApiModel(value = "스터디 수정, 조회 정보", description = "스터디의 상세 정보와 수정(status, city 등) Response Dto Class")
 @Getter
 @Setter
-@Builder
 public class StudyInfoResponseDto {
 
     @ApiModelProperty(name = "name", example = "알고리즘 스터디")
@@ -99,6 +98,7 @@ public class StudyInfoResponseDto {
     @ApiParam(value = "선택할 수 있는 상태 리스트", required = true)
     private List<String> statusList;
 
+    @Builder
     public StudyInfoResponseDto(Study study) {
         this.name = study.getName();
         this.schedule = study.getSchedule();
