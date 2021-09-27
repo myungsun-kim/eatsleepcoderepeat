@@ -3,11 +3,13 @@ package com.ssafy.match.group.controller;
 import com.ssafy.match.group.dto.study.request.StudyCreateRequestDto;
 import com.ssafy.match.group.dto.study.request.StudyUpdateRequestDto;
 import com.ssafy.match.group.dto.study.response.StudyInfoForCreateResponseDto;
+import com.ssafy.match.group.dto.study.response.StudyInfoForUpdateResponseDto;
 import com.ssafy.match.group.dto.study.response.StudyInfoResponseDto;
 import com.ssafy.match.group.service.StudyService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,17 @@ public class StudyController {
     })
     public ResponseEntity<StudyInfoForCreateResponseDto> getInfoForCreate() throws Exception {
         return ResponseEntity.ok(studyService.getInfoForCreate());
+    }
+
+    @GetMapping("/infoforupdate/{studyId}")
+    @ApiOperation(value = "스터디 업데이트를 위한 정보",
+        notes = "<strong>받은 스터디 id</strong>로 해당 스터디 정보 + 수정을 위한 정보(사용자 클럽 리스트, 지역, 상태 리스트 등")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<StudyInfoForUpdateResponseDto> getInfoForUpdate(@PathVariable("studyId") Long studyId)
+        throws Exception {
+        return ResponseEntity.ok(studyService.getInfoForUpdateStudy(studyId));
     }
 
     @PostMapping("/")
@@ -70,20 +83,31 @@ public class StudyController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public void delete(@PathVariable("studyId") Long studyId,
+    public ResponseEntity<HttpStatus> deleteMember(@PathVariable("studyId") Long studyId,
         @PathVariable("memberId") Long memberId) throws Exception {
-        studyService.removeMember(studyId, memberId);
+        return ResponseEntity.ok(studyService.removeMember(studyId, memberId));
     }
 
-    @GetMapping("/detail/{studyId}")
+    @GetMapping("/")
+    @ApiOperation(value = "모든 스터디 조회", notes = "모든 스터디를 작성일 기준 내림차순으로 받는다")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<List<StudyInfoResponseDto>> getAllStudy() throws Exception {
+        return ResponseEntity.ok(studyService.getAllStudy());
+    }
+
+    @GetMapping("/one/{studyId}")
     @ApiOperation(value = "스터디 상세정보 조회",
         notes = "<strong>받은 스터디 id</strong>로 해당 스터디 정보 + 수정을 위한 정보(사용자 클럽 리스트, 지역, 상태 리스트 등")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<StudyInfoResponseDto> getInfo(@PathVariable("studyId") Long studyId)
+    public ResponseEntity<StudyInfoResponseDto> getOneStudy(@PathVariable("studyId") Long studyId)
         throws Exception {
-        return ResponseEntity.ok(studyService.getInfo(studyId));
+        return ResponseEntity.ok(studyService.getOneStudy(studyId));
     }
+
+
 
 }
