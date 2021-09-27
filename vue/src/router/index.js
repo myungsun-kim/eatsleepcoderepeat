@@ -19,6 +19,7 @@ import Manage from '../components/MenuBar1/Manage.vue';
 import NoSubHeader from '../components/NoSubHeader.vue';
 import Main from '../components/Main.vue';
 import Home from '../components/MenuBar2/Home.vue';
+import InfiniteScroll from '../components/MenuBar2/InfiniteScroll.vue';
 import Create from '../components/MenuBar2/Create.vue';
 import Update from '../components/MenuBar2/Update.vue';
 import GeneralSearch from '../components/Search/GeneralSearch.vue';
@@ -123,6 +124,10 @@ const routes = [
           {
             path: '/nosubheader/home',
             component: Home,
+          },
+          {
+            path: '/nosubheader/infinitescroll',
+            component: InfiniteScroll,
           },
           {
             path: '/nosubheader/create',

@@ -222,7 +222,6 @@ body {
   border: 1px solid #f53030;
   box-sizing: border-box;
   border-radius: 30px;
-
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 500;
@@ -236,9 +235,21 @@ body {
   color: #f53030;
   border: 1px solid #f53030;
 }
+.btn-ghost-red:hover {
+  font-size: 14pt;
+  color: #ffffff;
+  background-color: #f53030;
+  border: 1px solid #f53030;
+}
 .btn-ghost-blue {
   font-size: 14pt;
   color: #1747c9;
+  border: 1px solid #1747c9;
+}
+.btn-ghost-blue:hover {
+  font-size: 14pt;
+  color: #ffffff;
+  background-color: #1747c9;
   border: 1px solid #1747c9;
 }
 .btn-create {
@@ -277,6 +288,11 @@ body {
   flex-direction: column;
   text-align: left;
   justify-content: space-evenly;
+}
+/* 자식들이 가로 축 기준으로 동일한 높이에 오도록 */
+.flex-container {
+  display: flex;
+  align-content: center;
 }
 /* 정렬 끝 */
 </style>
