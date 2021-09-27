@@ -27,6 +27,7 @@ import ProjectUpdate from '../components/MenuBar2/ProjectUpdate.vue';
 import HomeStudy from '../components/MenuBar2/HomeStudy.vue';
 import HomeProject from '../components/MenuBar2/HomeProject.vue';
 import HomeClub from '../components/MenuBar2/HomeClub.vue';
+import InfiniteScroll from '../components/MenuBar2/InfiniteScroll.vue';
 import GeneralSearch from '../components/Search/GeneralSearch.vue';
 import AdvancedSearch from '../components/Search/AdvancedSearch.vue';
 import Chat from '../components/Chat.vue';
@@ -157,6 +158,10 @@ const routes = [
           {
             path: '/nosubheader/project/create',
             component: ProjectCreate,
+          },
+          {
+            path: '/nosubheader/infinitescroll',
+            component: InfiniteScroll,
           },
           {
             path: '/nosubheader/project/update',

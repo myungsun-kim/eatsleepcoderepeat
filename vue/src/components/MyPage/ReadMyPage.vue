@@ -146,12 +146,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.flex-parent {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-  justify-content: space-evenly;
-}
-</style>
