@@ -77,24 +77,24 @@ public class ProjectController {
         projectService.removeMember(projectId, memberId);
     }
 
-//    @GetMapping("/detail/{projectId}")
-//    @ApiOperation(value = "프로젝트 상세정보 조회",
-//        notes = "<strong>받은 프로젝트 Id</strong>로 해당 프로젝트를 조회 + 전체 기술스택, 역할별 인원 닉네임, 전체 지역 정보, 포함 인원 등")
-//    @ApiResponses({
-//        @ApiResponse(code = 200, message = "성공"),
-//    })
-//    public ResponseEntity<ProjectInfoResponseDto> projectInfo(@PathVariable("projectId") Long projectId)
-//        throws Exception {
-//        return ResponseEntity.ok(projectService.projectInfo(projectId));
-//    }
-//
-//    @GetMapping("/info/{memberId}")
-//    @ApiOperation(value = "특정 멤버가 속한 프로젝트 조회", notes = "<strong>받은 멤버 Id</strong>로 해당 멤버가 속한 프로젝트 정보 조회")
-//    @ApiResponses({
-//        @ApiResponse(code = 200, message = "성공"),
-//    })
-//    public ResponseEntity<List<Project>> projectInMember(@PathVariable("memberId") Long memberId)
-//        throws Exception {
-//        return ResponseEntity.ok(projectService.projectInMember(memberId));
-//    }
+    @GetMapping("/detail/{projectId}")
+    @ApiOperation(value = "프로젝트 상세정보 조회",
+        notes = "<strong>받은 프로젝트 Id</strong>로 해당 프로젝트를 조회 + 전체 기술스택, 역할별 인원 닉네임, 전체 지역 정보, 포함 인원 등")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<ProjectInfoResponseDto> projectInfo(@PathVariable("projectId") Long projectId)
+        throws Exception {
+        return ResponseEntity.ok(projectService.projectInfo(projectId));
+    }
+
+    @GetMapping("/info/{memberId}")
+    @ApiOperation(value = "특정 멤버가 속한 프로젝트 조회", notes = "<strong>받은 멤버 Id</strong>로 해당 멤버가 속한 프로젝트 정보 조회")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<List<Project>> projectInMember(@PathVariable("memberId") Long memberId)
+        throws Exception {
+        return ResponseEntity.ok(projectService.projectInMember(memberId));
+    }
 }
