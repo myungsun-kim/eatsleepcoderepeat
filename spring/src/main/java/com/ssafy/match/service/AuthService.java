@@ -47,7 +47,9 @@ public class AuthService {
         }
         Member member = memberRequestDto.toMember(passwordEncoder);
         Member ret = memberRepository.save(member);
-        setDBFile(member, memberRequestDto.getCover_pic());
+        setCoverPic(member, memberRequestDto.getCover_pic());
+        setPortfolioUuid(member, memberRequestDto.getPortfolio_uuid());
+
         if (memberRequestDto.getExpTechList() != null){
             for (String techExp : memberRequestDto.getExpTechList()) {
                 Techstack techstackExp = techstackRepository.findByName(techExp)
@@ -142,12 +144,22 @@ public class AuthService {
         return tokenDto;
     }
 
-    public void setDBFile(Member member, String uuid){
+    public void setCoverPic(Member member, String uuid) {
         if(uuid == null) {
             member.setCover_pic(null);
             return;
         }
         DBFile dbFile = dbFileRepository.getById(uuid);
         member.setCover_pic(dbFile);
+    }
+
+    @Transactional
+    public void setPortfolioUuid(Member member, String uuid) {
+        if(uuid == null) {
+            member.setPortfolio(null);
+            return;
+        }
+        DBFile dbFile = dbFileRepository.getById(uuid);
+        member.setPortfolio(dbFile);
     }
 }

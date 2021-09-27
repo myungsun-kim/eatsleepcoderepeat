@@ -58,9 +58,9 @@ public class MemberUpdateRequestDto {
 //    private DBFile cover_pic;
     private String cover_pic;
 
-    @ApiModelProperty(name = "poltfolio", example = "uuid")
+    @ApiModelProperty(name = "poltfolio_uuid", example = "uuid")
     @ApiParam(value = "포트폴리오", required = false)
-    private String portfolio;
+    private String portfolio_uuid;
 
     @ApiModelProperty(name = "portfolio_uri", example = "https://naver.com")
     @ApiParam(value = "포트폴리오 uri", required = false)

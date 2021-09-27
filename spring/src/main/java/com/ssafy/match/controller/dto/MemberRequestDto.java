@@ -50,14 +50,20 @@ public class MemberRequestDto {
     @ApiParam(value = "사진 데이터", required = false)
     private String cover_pic;
 
+    @ApiModelProperty(name = "portfolio_uuid", example = "3fads23-fdfd13-23d2")
+    @ApiParam(value = "포트폴리오 데이터", required = false)
+    private String portfolio_uuid;
+
     @ApiModelProperty(name = "city", example = "부산")
     @ApiParam(value = "도시", required = false)
     private String city;
+
     private Boolean banned;
 
     @ApiModelProperty(name = "position", example = "개발자")
     @ApiParam(value = "역할", required = false)
     private String position;
+
     private Boolean is_active;
 
     @ApiModelProperty(name = "portfolio_uri", example = "https://naver.com")
