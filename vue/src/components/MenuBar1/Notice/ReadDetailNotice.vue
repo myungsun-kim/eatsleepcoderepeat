@@ -2,17 +2,18 @@
   <el-row>
     <el-col :span="5"></el-col>
     <el-col :span="13">
-      <el-row> 공지사항 </el-row>
-      <el-row> 금주 모임 시간 변경 안내 </el-row>
-      <el-row> Minsu </el-row>
+      <el-row class="author-font"> 공지사항 </el-row>
+      <el-row id="article-title"> 금주 모임 시간 변경 안내 </el-row>
+      <el-row class="author-font"> Minsu </el-row>
       <el-row>
-        <el-col :span="4">21.09.08 13:49</el-col>
-        <el-col :span="17"></el-col>
-        <el-col :span="1"><button>수정</button></el-col>
-        <el-col :span="1"><ArticleDeleteModal></ArticleDeleteModal></el-col>
-        <el-col :span="1"></el-col>
+        <el-col :span="4" class="gray-font">21.09.08 13:49</el-col>
+        <el-col :span="16"></el-col>
+        <el-col :span="2">
+          <a @click="goUpdateNotice" class="grayLittle">수정</a>
+        </el-col>
+        <el-col :span="2"> <ArticleDeleteModal /></el-col>
       </el-row>
-      <el-row style
+      <el-row class="gray-font"
         >본문 Section 1.10.32 of "de Finibus Bonorum et Malorum", written by
         Cicero in 45 BC "Sed ut perspiciatis unde omnis iste natus error sit
         voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque
@@ -45,7 +46,9 @@
       </el-row>
       <el-row>
         <el-col :span="21"></el-col>
-        <el-col :span="2"><button>목록</button></el-col>
+        <el-col :span="2">
+          <el-button class="btn-ghost" @click="goReadNotice">목록</el-button>
+        </el-col>
         <el-col :span="1"></el-col>
       </el-row>
       <el-row>
@@ -80,7 +83,58 @@
 </template>
 <script>
 import ArticleDeleteModal from '../../Modal/ArticleDeleteModal.vue';
+// import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
 export default {
   components: { ArticleDeleteModal },
+  setup() {
+    // const store = useStore();
+    const router = useRouter();
+
+    const goUpdateNotice = function () {
+      router.push({ path: '/subheader/notice/update' });
+    };
+    const goReadNotice = function () {
+      router.push({ path: '/subheader/notice/read' });
+    };
+
+    return {
+      goUpdateNotice,
+      goReadNotice,
+    };
+  },
 };
 </script>
+<style scoped>
+.grayLittle {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  color: #999999;
+}
+#article-title {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 45px;
+}
+.author-font {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+}
+.gray-font {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  color: #718096;
+}
+</style>

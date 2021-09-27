@@ -6,7 +6,7 @@
   <el-row class="test-border height95">
     <el-col :span="2" class="test-border"></el-col>
     <el-col :span="19" class="test-border">
-      <el-row class="test-border height5">
+      <el-row class="test-border height5 flex-container">
         <el-col :span="18" :offset="2" class="test-border">
           <el-input
             placeholder="검색어를 입력하세요"
@@ -15,9 +15,9 @@
           ></el-input>
         </el-col>
         <el-col :span="2" class="test-border">
-          <el-button class="btn-ghost font-noto-bold">상세</el-button>
+          <el-button class="btn-ghost font-noto-bold flex-item">상세</el-button>
         </el-col>
-        <el-col :span="2" class="test-border">
+        <el-col :span="2" class="test-border flex-item">
           <el-button class="btn-ghost font-noto-bold">검색</el-button>
         </el-col>
       </el-row>
@@ -251,4 +251,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+</style>
