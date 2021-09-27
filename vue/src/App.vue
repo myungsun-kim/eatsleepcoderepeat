@@ -17,18 +17,8 @@ export default {
   setup() {
     const store = useStore();
     let payload = {
-      banned: true,
-      bio: 'string',
-      city: 'string',
-      cover_pic: 'string',
-      create_date: '2021-09-27T02:04:50.250Z',
       email: 'minsu@naver.com',
-      is_active: true,
-      name: 'string',
-      nickname: 'string',
       password: 'minsu',
-      position: 'string',
-      tel: 'string',
     };
 
     const loginEvent = () => {
