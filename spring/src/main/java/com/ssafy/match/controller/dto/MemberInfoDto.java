@@ -97,7 +97,7 @@ public class MemberInfoDto {
                 .bio(member.getBio())
                 .city(member.getCity())
                 .position(member.getPosition())
-                .dbFile(member.getDbFile())
+                .dbFile(member.getCover_pic())
                 .portfolio_uri(member.getPortfolio_uri())
                 .build();
     }

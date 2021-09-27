@@ -2,6 +2,7 @@ package com.ssafy.match.group.service;
 
 import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.db.entity.MemberExperiencedTechstack;
 import com.ssafy.match.db.entity.MemberSns;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
@@ -130,7 +131,7 @@ public class StudyServiceImpl implements StudyService {
         return HttpStatus.OK;
     }
 
-    // 현재 프로젝트 정보 리턴
+    // 현재 스터디 정보 리턴
     public StudyInfoResponseDto getInfo(Long studyId) throws Exception {
         Study study = findStudy(studyId);
         if (!SecurityUtil.getCurrentMemberId().equals(study.getMember().getId())
@@ -309,7 +310,7 @@ public class StudyServiceImpl implements StudyService {
     public InfoForApplyStudyFormResponseDto getInfoForApply(Long studyId) throws Exception {
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         Study study = findStudy(studyId);
-
+        System.out.println("여기?");
         List<Member> memberList = findMemberInStudy(study);
         for (Member mem : memberList) {
             if (SecurityUtil.getCurrentMemberId().equals(mem.getId())) {
@@ -320,6 +321,10 @@ public class StudyServiceImpl implements StudyService {
         if (!study.getIsParticipate()) {
             throw new Exception("참여 불가능한 프로젝트입니다.");
         }
+        System.out.println("여긴가?");
+        System.out.println(member);
+        List<String> a = memberExperiencedTechstackRepository.findTechstackByMemberName(member);
+        System.out.println(a);
 
         InfoForApplyStudyFormResponseDto dto = InfoForApplyStudyFormResponseDto.builder()
             .name(member.getName())
@@ -330,7 +335,7 @@ public class StudyServiceImpl implements StudyService {
                 .collect(Collectors.toList()))
             .build();
 
-        Optional<MemberSns> git = memberSnsRepository.findByMemberAndSnsName(member, "git");
+        Optional<MemberSns> git = memberSnsRepository.findByMemberAndSnsName(member, "github");
         Optional<MemberSns> twitter = memberSnsRepository.findByMemberAndSnsName(member, "twitter");
         Optional<MemberSns> facebook = memberSnsRepository.findByMemberAndSnsName(member, "facebook");
         Optional<MemberSns> backjoon = memberSnsRepository.findByMemberAndSnsName(member, "backjoon");

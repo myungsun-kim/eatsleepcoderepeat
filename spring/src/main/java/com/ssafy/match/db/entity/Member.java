@@ -53,7 +53,7 @@ public class Member {
     private DBFile cover_pic;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "portfolio")
+    @JoinColumn(name = "portfolio_uuid")
     private DBFile portfolio;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
