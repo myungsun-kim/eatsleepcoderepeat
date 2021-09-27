@@ -74,6 +74,17 @@
         <el-col :span="16" :offset="1" class="test-border"> Baekjoon </el-col>
       </el-row>
       <el-row class="test-border">
+        <el-col :span="7" class="test-border"> 포트폴리오 </el-col>
+        <el-col :span="12" :offset="1" class="test-border"> port </el-col>
+        <el-col :span="4" class="test-border"
+          ><el-upload>업로드</el-upload>
+        </el-col>
+      </el-row>
+      <el-row class="test-border">
+        <el-col :span="7" class="test-border"> 포트폴리오 url </el-col>
+        <el-col :span="16" :offset="1" class="test-border"> url </el-col>
+      </el-row>
+      <el-row class="test-border">
         <el-col :span="7" class="test-border"> Strong </el-col>
         <el-col :span="16" :offset="1" class="test-border">
           C++, Python
@@ -95,16 +106,36 @@
         </el-col>
       </el-row>
       <el-row class="test-border align-center">
-        <el-button class="btn-ghost-round-blue">수정 </el-button>
-        <el-button class="btn-ghost-round">취소 </el-button>
+        <el-button class="btn-ghost-round-blue" @click="goReadMyPage"
+          >수정
+        </el-button>
+        <el-button class="btn-ghost-round" @click="goReadMyPage"
+          >취소
+        </el-button>
       </el-row>
     </el-col>
   </el-row>
 </template>
 
 <script>
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
 export default {
-  components: {},
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+
+    const goReadMyPage = function () {
+      router.push({ path: '/nosubheader/readmypage' });
+    };
+
+    return {
+      store,
+      router,
+      goReadMyPage,
+    };
+  },
 };
 </script>
 

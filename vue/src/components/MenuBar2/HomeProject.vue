@@ -5,14 +5,14 @@
     </el-col>
     <el-col :span="3" class="test-border">
       <el-button class="btn-1747C9 font-noto-bold" @click="goCreate"
-        >스터디 생성</el-button
+        >프로젝트 생성</el-button
       >
     </el-col>
   </el-row>
 
   <el-row class="height5">
     <el-col :span="22" :offset="2" class="test-border">
-      <p class="itemlist-title-left">내 스터디 목록</p>
+      <p class="itemlist-title-left">내 프로젝트 목록</p>
     </el-col>
   </el-row>
 
@@ -36,7 +36,7 @@
 
   <el-row class="height5">
     <el-col :span="22" :offset="2" class="test-border">
-      <p class="itemlist-title-left">추천 스터디 목록</p>
+      <p class="itemlist-title-left">추천 프로젝트 목록</p>
     </el-col>
   </el-row>
 
@@ -45,7 +45,7 @@
     <el-col :span="2" class="test-border"></el-col>
 
     <!-- item 한개 -->
-    <el-col :span="4" class="test-border" @click="goIntroduce">
+    <el-col :span="4" class="test-border item" @click="goIntroduce">
       <el-row class="height40 item-img"></el-row>
       <el-row class="height10 item-head-title">백준 알고 스터디 하실 분</el-row>
       <el-row class="height10 item-content">기술 스택: Java, Kotlin</el-row>
@@ -107,7 +107,7 @@
 
   <el-row class="height5">
     <el-col :span="22" :offset="2" class="test-border">
-      <p class="itemlist-title-left">전체 스터디 목록</p>
+      <p class="itemlist-title-left">전체 프로젝트 목록</p>
     </el-col>
   </el-row>
 
@@ -179,23 +179,25 @@
   </el-row>
 </template>
 <script>
-// import { useStore } from 'vuex';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
 export default {
-  components: {},
   setup() {
-    // const store = useStore();
+    const store = useStore();
     const router = useRouter();
 
     const goCreate = function () {
       router.push({ path: '/nosubheader/create' });
     };
+
     const goIntroduce = function () {
-      router.push({ path: '/subheader/introduce' });
+      router.push({ path: '/subheader/project/introduce' });
     };
 
     return {
+      store,
+      router,
       goCreate,
       goIntroduce,
     };
@@ -271,5 +273,9 @@ export default {
 .icon-size {
   font-size: 20px;
   font-weight: bold;
+}
+
+.item {
+  cursor: pointer;
 }
 </style>

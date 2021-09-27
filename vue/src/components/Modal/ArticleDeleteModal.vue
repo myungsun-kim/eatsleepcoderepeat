@@ -1,6 +1,6 @@
 <template>
   <!-- 글 삭제  03-5-2 -->
-  <button @click="modalOpen = true">삭제</button>
+  <a @click="modalOpen = true" class="grayLittle">삭제</a>
   <teleport to="body">
     <div v-if="modalOpen" class="modal">
       <div class="height40">
@@ -14,9 +14,9 @@
           >
         </el-row>
         <el-row class="height10">
-          <el-col :span="24" class="font-noto-md font-20"
-            >정말로 삭제하시겠습니까?</el-col
-          >
+          <el-col :span="24" class="font-noto-md font-20">
+            정말로 삭제하시겠습니까?
+          </el-col>
         </el-row>
         <el-row class="height10">
           <el-col :span="6" :offset="6">
@@ -71,5 +71,15 @@ export default {
   justify-content: center;
   background-color: white;
   width: 50%;
+}
+
+.grayLittle {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  color: #999999;
 }
 </style>

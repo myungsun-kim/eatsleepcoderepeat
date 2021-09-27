@@ -264,11 +264,13 @@
 import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 export default {
   name: 'SignUp',
   setup() {
     const router = useRouter();
     const store = useStore();
+    const router = useRouter();
     // 독립적인 반응형 값 생성 ref()
     // const signUp = ref(null);
     const state = reactive({
@@ -291,7 +293,7 @@ export default {
       state.form.step = state.form.step + 1;
       router.push({ path: '/noheader/signup' });
     };
-    return { store, state, goSignIn, previousStep, nextStep, skipStep };
+    return { store, state, router, goSignIn, previousStep, nextStep, skipStep };
   },
 };
 </script>

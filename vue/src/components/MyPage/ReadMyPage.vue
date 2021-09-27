@@ -63,6 +63,7 @@
         <el-col :span="7" class="test-border"> 트위터 </el-col>
         <el-col :span="16" :offset="1" class="test-border"> Twitter </el-col>
       </el-row>
+
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> 페이스북 </el-col>
         <el-col :span="16" :offset="1" class="test-border"> Facebook </el-col>
@@ -70,6 +71,14 @@
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> 백준 </el-col>
         <el-col :span="16" :offset="1" class="test-border"> Baekjoon </el-col>
+      </el-row>
+      <el-row class="test-border">
+        <el-col :span="7" class="test-border"> 포트폴리오 </el-col>
+        <el-col :span="16" :offset="1" class="test-border"> port </el-col>
+      </el-row>
+      <el-row class="test-border">
+        <el-col :span="7" class="test-border"> 포트폴리오 url </el-col>
+        <el-col :span="16" :offset="1" class="test-border"> url </el-col>
       </el-row>
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> Strong </el-col>
@@ -92,9 +101,7 @@
           다양한 프로젝트를 하고 싶습니다.
         </el-col>
       </el-row>
-      <el-row class="test-border align-center">
-        <el-button class="btn-ghost-round">수정페이지로 이동 </el-button>
-      </el-row>
+      <el-row class="test-border align-center"> <PasswordCheckModal /> </el-row>
     </el-col>
     <!-- 우측 -->
     <el-col :span="12" :offset="1" class="test-border">
@@ -130,9 +137,11 @@
 </template>
 
 <script>
+import PasswordCheckModal from '../Modal/PasswordCheckModal.vue';
 import ServiceQuitModal from '../Modal/ServiceQuitModal.vue';
 export default {
   components: {
+    PasswordCheckModal,
     ServiceQuitModal,
   },
 };

@@ -3,12 +3,12 @@
     <el-col :span="3"></el-col>
     <el-col :span="3"
       ><el-row class="height1"> </el-row>
-      <el-row class="height8">
+      <el-row class="height8" v-if="store.state.category == 1">
         <i class="el-icon-postcard"></i>&nbsp;스터디 이름
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
-        <i class="el-icon-setting"></i>&nbsp; 주요 기술 스택
+        <i class="el-icon-setting"></i>&nbsp;주요 기술 스택
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
@@ -135,28 +135,30 @@
   </el-row>
 </template>
 <script>
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import MemberListModal from '../Modal/MemberListModal.vue';
 import StudyDeleteModal from '../Modal/StudyDeleteModal.vue';
 import StudyQuitModal from '../Modal/StudyQuitModal.vue';
-import { useRouter } from 'vue-router';
 
 export default {
-  components: {
-    MemberListModal,
-    StudyQuitModal,
-    StudyDeleteModal,
-  },
   setup() {
-    // const store = useStore();
+    const store = useStore();
     const router = useRouter();
 
     const goUpdate = function () {
       router.push({ path: '/nosubheader/update' });
     };
-
     return {
+      store,
+      router,
       goUpdate,
     };
+  },
+  components: {
+    MemberListModal,
+    StudyQuitModal,
+    StudyDeleteModal,
   },
 };
 </script>

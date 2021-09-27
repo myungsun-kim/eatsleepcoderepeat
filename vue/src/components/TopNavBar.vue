@@ -83,17 +83,17 @@ export default {
 
     const clickStudy = function () {
       store.commit('setCategory', 1);
-      router.push({ path: '/nosubheader/home' });
+      router.push({ path: '/nosubheader/study/home' });
     };
 
     const clickProject = function () {
       store.commit('setCategory', 2);
-      router.push({ path: '/nosubheader/home' });
+      router.push({ path: '/nosubheader/project/home' });
     };
 
     const clickClub = function () {
       store.commit('setCategory', 3);
-      router.push({ path: '/nosubheader/home' });
+      router.push({ path: '/nosubheader/club/home' });
       // console.log(store.state.category);
     };
 
