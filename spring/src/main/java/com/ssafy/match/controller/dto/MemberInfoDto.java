@@ -15,47 +15,67 @@ import lombok.Data;
 @Data
 public class MemberInfoDto {
     @ApiModelProperty(name = "email", example = "my_email@gmail.com")
-//    @ApiParam(value = "이메일", required = true)
     private String email;
 
     @ApiModelProperty(name = "name", example = "문일민")
-//    @ApiParam(value = "이름", required = true)
     private String name;
 
     @ApiModelProperty(name = "nickname", example = "별명")
-//    @ApiParam(value = "별명", required = true)
     private String nickname;
 
     @ApiModelProperty(name = "tel", example = "010-1234-4567")
-//    @ApiParam(value = "전화번호", required = false)
     private String tel;
 
     @ApiModelProperty(name = "bio", example = "let me introduce")
-//    @ApiParam(value = "자기소개", required = false)
     private String bio;
 
     @ApiModelProperty(name = "city", example = "부산")
-//    @ApiParam(value = "도시", required = false)
     private String city;
 
     @ApiModelProperty(name = "position", example = "개발자")
-//    @ApiParam(value = "역할", required = true)
     private String position;
 
     @ApiModelProperty(name = "picture", example = "사진 데이터")
-//    @ApiParam(value = "사진", required = false)
     private DBFile dbFile;
 
-    @ApiModelProperty(name = "portfolio_uri", example = "포트폴리오 uri")
+    @ApiModelProperty(name = "portfolio_uri", example = "https://naver.com")
     private String portfolio_uri;
 
-//    @ApiModelProperty(name = "myClubList", example = "{{clubId: 1, clubName: '클럽 A', ...}, {clubId: 2, clubName: '클럽 B', ...}}")
-//    @ApiParam(value = "내가 속한 클럽 목록", required = true)
+//    @ApiModelProperty(name = "myClubList", example = "[\"\",\"java\"]")
     private List<Club> myClubList = new ArrayList<>();
+    @ApiModelProperty(name = "myProjectList", example = "[\"python\",\"java\"]")
     private List<Project> myProjectList = new ArrayList<>();
+    @ApiModelProperty(name = "expTechList", example = "[\"python\",\"java\"]")
     private List<String> expTechList = new ArrayList<>();
+    @ApiModelProperty(name = "beginTechList", example = "[\"python\",\"java\"]")
     private List<String> beginTechList = new ArrayList<>();
+    @ApiModelProperty(name = "snsList", example = "[\n" +
+            "    {\n" +
+            "      \"id\": 1,\n" +
+            "      \"snsName\": \"github\",\n" +
+            "      \"snsAccount\": \"gitid\"\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"id\": 2,\n" +
+            "      \"snsName\": \"backjoon\",\n" +
+            "      \"snsAccount\": \"bjid\"\n" +
+            "    }\n" +
+            "  ]")
     private List<MemberSns> snsList = new ArrayList<>();
+    @ApiModelProperty(name = "dpositionList", example = "[\n" +
+            "    {\n" +
+            "      \"id\": 1,\n" +
+            "      \"name\": \"frontend\"\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"id\": 2,\n" +
+            "      \"name\": \"devops\"\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"id\": 7,\n" +
+            "      \"name\": \"testpostion\"\n" +
+            "    }\n" +
+            "  ]")
     private List<Position> dpositionList = new ArrayList<>();
 
 //    public MemberInfoDto(Member member) {
