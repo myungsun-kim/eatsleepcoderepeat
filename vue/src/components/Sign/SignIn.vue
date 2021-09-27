@@ -57,7 +57,7 @@
 
 <script>
 import { useRouter } from 'vue-router';
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
