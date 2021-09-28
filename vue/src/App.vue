@@ -4,44 +4,22 @@
     <router-link to="/about">Main</router-link>
   </div> -->
 
-  <el-button @click="loginEvent">LOGIN</el-button>
-  <el-button @click="getInfo">INFO</el-button>
-
   <div class="bg-color">
     <router-view />
   </div>
 </template>
 <script>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
-export default {
-  components: {},
-  setup() {
-    const store = useStore();
-    const types = computed(() => store.state.data);
+// import { useStore } from 'vuex';
+// export default {
+//   components: {},
+//   setup() {
+//     const store = useStore();
 
-    let payload = {
-      email: 'minsu@naver.com',
-      password: 'minsu',
-    };
-
-    const loginEvent = () => {
-      store.dispatch('login', payload);
-    };
-    const getInfo = () => {
-      console.log(types);
-      console.log(types.value);
-      console.log(types.value.grantType);
-    };
-
-    return {
-      store,
-      types,
-      getInfo,
-      loginEvent,
-    };
-  },
-};
+//     return {
+//       store,
+//     };
+//   },
+// };
 </script>
 <style>
 body {
