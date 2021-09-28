@@ -37,11 +37,8 @@ public class MemberProject {
 
     @Builder
     public MemberProject(
-        CompositeMemberProject compositeMemberProject, String role, boolean isActive,
-        LocalDateTime registerDate) {
+        CompositeMemberProject compositeMemberProject, LocalDateTime registerDate) {
         this.compositeMemberProject = compositeMemberProject;
-        this.role = role;
-        this.isActive = isActive;
         this.registerDate = registerDate;
     }
 }

@@ -1,9 +1,7 @@
 package com.ssafy.match.controller;
 
 import com.ssafy.match.controller.dto.*;
-import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
 import com.ssafy.match.service.AuthService;
-import com.ssafy.match.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;

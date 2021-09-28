@@ -1,4 +1,4 @@
-package com.ssafy.match.group.dto.study.response;
+package com.ssafy.match.group.dto.project.response;
 
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.dto.MemberDto;
@@ -16,7 +16,7 @@ import lombok.Setter;
 @ApiModel(value = "스터디 수정, 조회 정보", description = "스터디의 상세 정보와 수정(status, city 등) Response Dto Class")
 @Getter
 @Setter
-public class StudyInfoForUpdateResponseDto {
+public class ProjectInfoForUpdateResponseDto {
 
     @ApiModelProperty(name = "name", example = "알고리즘 스터디")
     @ApiParam(value = "스터디명", required = true)
@@ -74,9 +74,9 @@ public class StudyInfoForUpdateResponseDto {
     @ApiParam(value = "프로젝트 소개", required = true)
     private String bio;
 
-//    @ApiModelProperty(name = "allTechstack", example = "{'Java', 'Python', 'Spring'}")
-//    @ApiParam(value = "모든 기술스택 목록", required = true)
-//    private List<String> allTechstack;
+    @ApiModelProperty(name = "allTechstack", example = "{'Java', 'Python', 'Spring'}")
+    @ApiParam(value = "모든 기술스택 목록", required = true)
+    private List<String> allTechstack;
 
     @ApiModelProperty(name = "studyTechstack", example = "{'Java', 'Python'}")
     @ApiParam(value = "해당 스터디가 가지고 있는 기술 스택 리스트", required = true)
@@ -90,16 +90,16 @@ public class StudyInfoForUpdateResponseDto {
     @ApiParam(value = "해당 스터디에 속한 멤버 조회", required = true)
     private List<MemberDto> memberDtos;
 
-//    @ApiModelProperty(name = "projectCity", example = "{'광주', '구미'}")
-//    @ApiParam(value = "선택할 수 있는 지역 리스트", required = true)
-//    private List<String> cityList;
+    @ApiModelProperty(name = "projectCity", example = "{'광주', '구미'}")
+    @ApiParam(value = "선택할 수 있는 지역 리스트", required = true)
+    private List<String> cityList;
 
-//    @ApiModelProperty(name = "projectCity", example = "{'모집', '진행', '종료'}")
-//    @ApiParam(value = "선택할 수 있는 상태 리스트", required = true)
-//    private List<String> statusList;
+    @ApiModelProperty(name = "projectCity", example = "{'모집중', '진행중', '마감'}")
+    @ApiParam(value = "선택할 수 있는 상태 리스트", required = true)
+    private List<String> statusList;
 
     @Builder
-    public StudyInfoForUpdateResponseDto(Study study) {
+    public ProjectInfoForUpdateResponseDto(Study study) {
         this.name = study.getName();
         this.schedule = study.getSchedule();
         this.period = study.getPeriod();
