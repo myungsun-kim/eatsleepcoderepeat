@@ -4,9 +4,12 @@ import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
-import com.ssafy.match.group.dto.project.request.FormRegisterRequestDto;
-import com.ssafy.match.group.dto.project.response.FormtInfoForRegisterResponseDto;
-import com.ssafy.match.group.dto.project.response.FormtInfoResponseDto;
+import com.ssafy.match.db.repository.MemberBeginnerTechstackRepository;
+import com.ssafy.match.db.repository.MemberExperiencedTechstackRepository;
+import com.ssafy.match.db.repository.MemberSnsRepository;
+import com.ssafy.match.group.dto.project.request.ProjectApplicationRequestDto;
+import com.ssafy.match.group.dto.project.response.InfoForApplyProjectFormResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectFormtInfoResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectMemberRoleResponseDto;
 import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import com.ssafy.match.group.entity.project.CompositeProjectTechstack;
@@ -42,33 +45,30 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional(readOnly = true, rollbackFor = Exception.class)
 @RequiredArgsConstructor
 public class ProjectServiceImpl implements ProjectService {
 
     private final MemberRepository memberRepository;
     private final ProjectRepository projectRepository;
+    private final ClubRepository clubRepository;
+    private final MemberClubRepository memberClubRepository;
+    private final MemberProjectRepository memberProjectRepository;
+    private final ProjectApplicationFormRepository projectApplicationFormRepository;
     private final TechstackRepository techstackRepository;
     private final ProjectTechstackRepository projectTechstackRepository;
     private final DBFileRepository dbFileRepository;
-    private final ClubRepository clubRepository;
-    private final MemberProjectRepository memberProjectRepository;
-    private final MemberClubRepository memberClubRepository;
-    private final ProjectApplicationFormRepository projectApplicationFormRepository;
+    private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
+    private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
+    private final MemberSnsRepository memberSnsRepository;
 
     public ProjectInfoForCreateResponseDto infoForCreate() throws Exception {
-        Member member = findMember(SecurityUtil.getCurrentMemberId());
-
-        List<String> allTechstack = allTechstackName();
-        List<Club> hostClub = memberClubRepository.findClubByMember(member);
-        List<String> projectCity = Stream.of(City.values())
-            .map(Enum::name)
-            .collect(Collectors.toList());
-
         return ProjectInfoForCreateResponseDto.builder()
-            .allTechstack(allTechstack)
-            .hostClub(hostClub)
-            .projectCity(projectCity)
+            .hostClub(memberClubRepository
+                .findClubIdNameByMember(findMember(SecurityUtil.getCurrentMemberId())))
+            .city(Stream.of(City.values())
+                .map(Enum::name)
+                .collect(Collectors.toList()))
             .build();
     }
     @Transactional
@@ -479,7 +479,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     // 신청 버튼 클릭시 관련 정보 및 권한 체크
-    public FormtInfoForRegisterResponseDto checkForRegister(Long projectId) throws Exception {
+    public InfoForApplyProjectFormResponseDto checkForRegister(Long projectId) throws Exception {
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         Project project = findProject(projectId);
 
@@ -499,7 +499,7 @@ public class ProjectServiceImpl implements ProjectService {
             .map(Enum::name)
             .collect(Collectors.toList());
 
-        return FormtInfoForRegisterResponseDto.builder()
+        return InfoForApplyProjectFormResponseDto.builder()
             .name(member.getName())
             .position(member.getPosition())
             .allTechstack(allTechstack)
@@ -508,7 +508,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Transactional
-    public HttpStatus createForm(Long projectId, FormRegisterRequestDto dto) throws Exception {
+    public HttpStatus createForm(Long projectId, ProjectApplicationRequestDto dto) throws Exception {
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         Project project = findProject(projectId);
 
@@ -554,7 +554,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     // 모든 신청서 작성일 기준 내림차순 조회
-    public List<FormtInfoResponseDto> allProjectForm(Long projectId) throws Exception {
+    public List<ProjectFormtInfoResponseDto> allProjectForm(Long projectId) throws Exception {
         Project project = findProject(projectId);
 
         if(SecurityUtil.getCurrentMemberId() != project.getMember().getId()){
@@ -562,17 +562,17 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         List<ProjectApplicationForm> forms = projectApplicationFormRepository.formByProjectId(project);
-        List<FormtInfoResponseDto> formtInfoResponseDtos = new ArrayList<>();
+        List<ProjectFormtInfoResponseDto> projectFormtInfoResponseDtos = new ArrayList<>();
 
         for (ProjectApplicationForm form: forms) {
-            formtInfoResponseDtos.add(new FormtInfoResponseDto(form));
+            projectFormtInfoResponseDtos.add(new ProjectFormtInfoResponseDto(form));
         }
 
-        return formtInfoResponseDtos;
+        return projectFormtInfoResponseDtos;
     }
 
     // 닉네임으로 신청서 검색
-    public List<FormtInfoResponseDto> allFormByProjectNickname(Long projectId, String nickname) throws Exception{
+    public List<ProjectFormtInfoResponseDto> allFormByProjectNickname(Long projectId, String nickname) throws Exception{
         Project project = findProject(projectId);
 
         if(SecurityUtil.getCurrentMemberId() != project.getMember().getId()){
@@ -580,21 +580,21 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         List<ProjectApplicationForm> forms = projectApplicationFormRepository.allFormByProjectNickname(project, nickname);
-        List<FormtInfoResponseDto> formtInfoResponseDtos = new ArrayList<>();
+        List<ProjectFormtInfoResponseDto> projectFormtInfoResponseDtos = new ArrayList<>();
 
         for (ProjectApplicationForm form: forms) {
-            formtInfoResponseDtos.add(new FormtInfoResponseDto(form));
+            projectFormtInfoResponseDtos.add(new ProjectFormtInfoResponseDto(form));
         }
 
-        return formtInfoResponseDtos;
+        return projectFormtInfoResponseDtos;
     }
 
     // 신청서 목록의 복합 기본키를 가져와 해당 신청서 상세조회 (프론트 방식에 따라 불필요할 수 있음)
-    public FormtInfoResponseDto oneProjectForm(Long projectId, Long memberId) throws Exception {
+    public ProjectFormtInfoResponseDto oneProjectForm(Long projectId, Long memberId) throws Exception {
         CompositeMemberProject cmp = new CompositeMemberProject(findMember(memberId), findProject(projectId));
 
         return projectApplicationFormRepository.oneFormById(cmp)
-            .map(FormtInfoResponseDto::new)
+            .map(ProjectFormtInfoResponseDto::new)
             .orElseThrow(()-> new NullPointerException("존재하지 않는 신청서입니다"));
     }
 

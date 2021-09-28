@@ -3,7 +3,6 @@ package com.ssafy.match.group.entity.study;
 import com.ssafy.match.db.entity.City;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.dto.study.request.StudyApplicationRequestDto;
-import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;

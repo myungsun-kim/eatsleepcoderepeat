@@ -14,7 +14,7 @@ import lombok.Getter;
 public class StudyInfoForCreateResponseDto {
 
     @ApiModelProperty(name = "allTechstack", example = "['Java', 'Python', 'Spring', ...]")
-    @ApiParam(value = "모든 기술스택 목록", required = true)
+    @ApiParam(value = "모든 기술스택 목록", required = true) // 불필요
     private List<String> allTechstack;
 
     @ApiModelProperty(name = "hostClub", example = "{[id: 1, name: '클럽1'], [id: 2, name: '클럽2']}")

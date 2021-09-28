@@ -102,10 +102,10 @@ public class SwaggerConfig {
             .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.controller"))
             // api 필요한 클래스패스 추가하기
             .paths(
-                PathSelectors.ant("/**/project/**")
-                    .or(PathSelectors.ant("/**/projectform/**"))
-                    .or(PathSelectors.ant("/**/study/**"))
-                    .or(PathSelectors.ant("/**/club/**"))
+                PathSelectors.ant("/**/study/**")
+//                    .or(PathSelectors.ant("/**/projectform/**"))
+//                    .or(PathSelectors.ant("/**/project/**"))
+//                    .or(PathSelectors.ant("/**/club/**"))
 //                PathSelectors.any()
             )
             .build()
@@ -123,7 +123,7 @@ public class SwaggerConfig {
             // api 필요한 클래스패스 추가하기
             .paths(
                 PathSelectors.ant("/**/file/**")
-//                    .or(PathSelectors.ant("/**/projectform/**"))
+//                    .or(PathSelectors.ant("/**/study/**"))
 //                PathSelectors.any()
             )
             .build()

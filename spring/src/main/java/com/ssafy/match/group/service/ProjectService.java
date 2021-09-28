@@ -1,8 +1,8 @@
 package com.ssafy.match.group.service;
 
-import com.ssafy.match.group.dto.project.request.FormRegisterRequestDto;
-import com.ssafy.match.group.dto.project.response.FormtInfoForRegisterResponseDto;
-import com.ssafy.match.group.dto.project.response.FormtInfoResponseDto;
+import com.ssafy.match.group.dto.project.request.ProjectApplicationRequestDto;
+import com.ssafy.match.group.dto.project.response.InfoForApplyProjectFormResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectFormtInfoResponseDto;
 import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
 import com.ssafy.match.group.dto.project.response.ProjectInfoForCreateResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
@@ -35,15 +35,15 @@ public interface ProjectService {
 
     void changeRole(Project project, Long memberId, String role) throws Exception;
 
-    FormtInfoForRegisterResponseDto checkForRegister(Long projectId) throws Exception;
+    InfoForApplyProjectFormResponseDto checkForRegister(Long projectId) throws Exception;
 
-    HttpStatus createForm(Long projectId, FormRegisterRequestDto dto) throws Exception;
+    HttpStatus createForm(Long projectId, ProjectApplicationRequestDto dto) throws Exception;
 
-    List<FormtInfoResponseDto> allProjectForm(Long projectId) throws Exception;
+    List<ProjectFormtInfoResponseDto> allProjectForm(Long projectId) throws Exception;
 
-    List<FormtInfoResponseDto> allFormByProjectNickname(Long projectId, String nickname) throws Exception;
+    List<ProjectFormtInfoResponseDto> allFormByProjectNickname(Long projectId, String nickname) throws Exception;
 
-    FormtInfoResponseDto oneProjectForm(Long projectId, Long memberId) throws Exception;
+    ProjectFormtInfoResponseDto oneProjectForm(Long projectId, Long memberId) throws Exception;
 
     HttpStatus approval(Long projectId, Long memberId) throws Exception;
 

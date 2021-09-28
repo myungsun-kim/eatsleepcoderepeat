@@ -1,7 +1,6 @@
 package com.ssafy.match.group.dto.project.request;
 
 import com.ssafy.match.db.entity.Status;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.util.List;

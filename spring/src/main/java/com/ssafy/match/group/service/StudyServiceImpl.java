@@ -64,7 +64,6 @@ public class StudyServiceImpl implements StudyService {
     private final DBFileRepository dbFileRepository;
     private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
-
     private final MemberSnsRepository memberSnsRepository;
 
     // 스터디 생성을 위한 정보(기술 스택 리스트, 호스트의 클럽 정보, 지역 리스트)
