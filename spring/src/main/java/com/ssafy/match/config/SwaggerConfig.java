@@ -17,7 +17,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
     //3.0.0 http://localhost:8088/api/swagger-ui/index.html
 
@@ -93,6 +92,27 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public Docket groupApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+//            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
+            .apiInfo(apiInfo)
+            .groupName("Group")
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.controller"))
+
+            // api 필요한 클래스패스 추가하기
+            .paths(
+                PathSelectors.ant("/**/study/**")
+//                    .or(PathSelectors.ant("/**/projectform/**"))
+//                    .or(PathSelectors.ant("/**/study/**"))
+//                    .or(PathSelectors.ant("/**/club/**"))
+//                PathSelectors.any()
+            )
+            .build()
+            .useDefaultResponseMessages(false);
+    }
+
+    @Bean
     public Docket fileApi() {
         return new Docket(DocumentationType.SWAGGER_2)
 //            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
@@ -103,27 +123,7 @@ public class SwaggerConfig {
             // api 필요한 클래스패스 추가하기
             .paths(
                 PathSelectors.ant("/**/file/**")
-//                    .or(PathSelectors.ant("/**/study/**"))
-//                PathSelectors.any()
-            )
-            .build()
-            .useDefaultResponseMessages(false);
-    }
-
-    @Bean
-    public Docket dfApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-//            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
-            .apiInfo(apiInfo)
-            .groupName("fsd")
-            .select()
-            .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.study2.controller"))
-            // api 필요한 클래스패스 추가하기
-            .paths(
-                PathSelectors.ant("/**/study/**")
 //                    .or(PathSelectors.ant("/**/projectform/**"))
-//                    .or(PathSelectors.ant("/**/project/**"))
-//                    .or(PathSelectors.ant("/**/club/**"))
 //                PathSelectors.any()
             )
             .build()
