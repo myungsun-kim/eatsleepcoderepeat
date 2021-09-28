@@ -43,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // CSRF 설정 Disable
         http.csrf().disable()
-            .cors().disable()
+            .cors().configurationSource(corsConfigurationSource())
+            .and()
             .formLogin().disable()
 
 
