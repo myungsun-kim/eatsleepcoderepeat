@@ -7,7 +7,7 @@ export const member = {
   actions: {
     readMyPage({ commit }, form) {
       console.log('?');
-      const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0NCIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1NTc2NTZ9.cRRoL_a4JSkEeUS3DsPUsq6R2XyeOlYpPW9yYzW83Y_gKyajhrdYcIC5sZ3pLWXoYg1sTiSx1pYJ8l8ppG_ZzA`;
+      const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0NiIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1OTA4OTV9.Ahg3zPGMPIdB8qHERI8W3_fOi3P6aq6df0hGhmeFTZOW-caVv980V2Jc8buS2V0_WBjlgXtsEt4eFzXeJq7ZjQ`;
       console.log(token);
       const res = axios.get(BASE_URL + '/api/member/mypage', {
         headers: {

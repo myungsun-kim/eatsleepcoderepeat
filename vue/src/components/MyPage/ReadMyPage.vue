@@ -65,7 +65,20 @@
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 깃 </el-col>
-        <el-col :span="16" :offset="1" class="info"> 깃 </el-col>
+        <el-col :span="16" :offset="1" class="info">
+          {{ typeof user.snsList }}{{ user.snsList.length }}
+          <!-- {{ user.snsList }} -->
+          <!-- <span
+            v-if="
+              user.snsList === undefined || user.snsList[0].snsName != 'github'
+            "
+            >없음</span
+          > -->
+          <!-- <span v-if="user.snsList">{{ user.snsList[0].snsAccount }}</span>
+          <span v-else-if="user.snsList[0].snsName != 'github'">깃x
+          </span>
+          <span v-else>없음</span> -->
+        </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 트위터 </el-col>
@@ -74,7 +87,10 @@
 
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 페이스북 </el-col>
-        <el-col :span="16" :offset="1" class="info"> Facebook </el-col>
+        <el-col :span="16" :offset="1" class="info">
+          <!-- <span v-if="!user.snsList">없음</span>
+          <span v-else>{{ user.snsList[2].snsAccount }}</span> -->
+        </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 백준 </el-col>
@@ -91,15 +107,19 @@
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
-        <el-col :span="7" class="test-border"> Strong </el-col>
+        <el-col :span="7" class="test-border"> Experienced </el-col>
         <el-col :span="16" :offset="1" class="info">
-          {{ user.expTechList }}
+          <span v-for="item in user.expTechList" :key="item"
+            >{{ item }}&nbsp;</span
+          >
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
-        <el-col :span="7" class="test-border"> Knowledgeable </el-col>
+        <el-col :span="7" class="test-border"> Beginner </el-col>
         <el-col :span="16" :offset="1" class="info">
-          {{ user.beginTechList }}
+          <span v-for="item in user.beginTechList" :key="item"
+            >{{ item }}&nbsp;</span
+          >
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
@@ -113,7 +133,7 @@
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> 자기소개 </el-col>
         <el-col :span="16" :offset="1" class="info">
-          {{ user.bio }}
+          <span v-if="user.bio">{{ user.bio }}</span>
         </el-col>
       </el-row>
       <el-row class="test-border align-center"> <PasswordCheckModal /> </el-row>
@@ -176,6 +196,8 @@ export default {
     });
     const user = computed(() => store.state.user);
     console.log(user);
+    // console.log('snsList Type ' + typeof user.snsList);
+    // console.log(user.snsList[0]);
     return { user };
   },
 };
