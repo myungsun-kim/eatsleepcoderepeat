@@ -66,7 +66,7 @@
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 깃 </el-col>
         <el-col :span="16" :offset="1" class="info">
-          {{ typeof user.snsList }}{{ user.snsList.length }}
+          <!-- {{ typeof user.snsList }}{{ user.snsList.length }} -->
           <!-- {{ user.snsList }} -->
           <!-- <span
             v-if="
@@ -189,8 +189,8 @@ export default {
   },
   setup() {
     const store = useStore();
-    const state = { token: {} };
-    const res = store.dispatch('member/readMyPage', state.token);
+
+    const res = store.dispatch('member/readMyPage');
     res.then((res) => {
       store.state.user = res.data;
     });
