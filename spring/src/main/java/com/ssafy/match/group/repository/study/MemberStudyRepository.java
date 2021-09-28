@@ -10,12 +10,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface MemberStudyRepository extends JpaRepository<MemberStudy, CompositeMemberStudy> {
-    // 특정 스터디의 속한 멤버의 관계 정보
+    // 특정 스터디에 속한 멤버의 관계 정보
     @Query(value = "select ms from matching.member_study ms "
         + "where ms.compositeMemberStudy.study = :study and ms.isActive = true")
     List<MemberStudy> findMemberRelationInStudy(@Param("study") Study study);
 
-    // 특정 프로젝트의 속한 멤버의 정보
+    // 특정 스터디에 속한 멤버의 정보
     @Query(value = "select ms.compositeMemberStudy.member from matching.member_study ms "
         + "where ms.compositeMemberStudy.study = :study and ms.isActive = true")
     List<Member> findMemberInStudy(@Param("study") Study study);

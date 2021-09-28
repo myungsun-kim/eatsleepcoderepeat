@@ -2,13 +2,15 @@ package com.ssafy.match.group.dto.project.response;
 
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.entity.project.ProjectApplicationForm;
+import java.util.List;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 // 신청서 정보 조회
-public class ProjectFormtInfoResponseDto {
+public class ProjectFormInfoResponseDto {
 
     private Long projectId;
 
@@ -29,19 +31,16 @@ public class ProjectFormtInfoResponseDto {
 
     private String backjoon;
 
-//    private List<Techstack> strong;
+    private List<String> strong;
 
-//    private List<Techstack> knowledgeable;
+    private List<String> knowledgeable;
 
     private String bio;
 
-//    @ApiModelProperty(name = "picData")
-//    @ApiParam(value = "사진 데이터")
-//    @Lob
-//    private byte[] picData;
     private DBFile dbFile;
 
-    public ProjectFormtInfoResponseDto(ProjectApplicationForm form){
+    @Builder
+    public ProjectFormInfoResponseDto(ProjectApplicationForm form, List<String> strong, List<String> knowledgeable){
         this.projectId = form.getCompositeMemberProject().getProject().getId();
         this.memberId = form.getCompositeMemberProject().getMember().getId();
         this.nickname = form.getNickname();
@@ -51,6 +50,8 @@ public class ProjectFormtInfoResponseDto {
         this.twitter = form.getTwitter();
         this.facebook = form.getFacebook();
         this.backjoon = form.getBackjoon();
+        this.strong = strong;
+        this.knowledgeable = knowledgeable;
         this.bio = form.getBio();
         this.dbFile = form.getDbFile();
     }

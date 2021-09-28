@@ -2,6 +2,7 @@ package com.ssafy.match.group.entity.project;
 
 import com.ssafy.match.db.entity.City;
 import com.ssafy.match.file.entity.DBFile;
+import com.ssafy.match.group.dto.project.request.ProjectApplicationRequestDto;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -55,21 +56,15 @@ public class ProjectApplicationForm {
     private DBFile dbFile;
 
     @Builder
-    public ProjectApplicationForm(
-        CompositeMemberProject compositeMemberProject, String nickname, City city, String role,
-        String position, String git, String twitter, String facebook, String backjoon,
-        String bio, LocalDateTime createDate, DBFile dbFile) {
-        this.compositeMemberProject = compositeMemberProject;
-        this.nickname = nickname;
-        this.city = city;
-        this.role = role;
-        this.position = position;
-        this.git = git;
-        this.twitter = twitter;
-        this.facebook = facebook;
-        this.backjoon = backjoon;
-        this.bio = bio;
-        this.createDate = createDate;
-        this.dbFile = dbFile;
+    public ProjectApplicationForm(CompositeMemberProject cmp, ProjectApplicationRequestDto dto) {
+        this.compositeMemberProject = cmp;
+        this.nickname = dto.getNickname();
+        this.city = City.from(dto.getCity());
+        this.git = dto.getGit();
+        this.twitter = dto.getTwitter();
+        this.facebook = dto.getFacebook();
+        this.backjoon = dto.getBackjoon();
+        this.bio = dto.getBio();
+        this.createDate = LocalDateTime.now();
     }
 }

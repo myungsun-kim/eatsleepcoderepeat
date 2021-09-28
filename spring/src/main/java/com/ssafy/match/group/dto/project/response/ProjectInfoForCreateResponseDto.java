@@ -15,7 +15,7 @@ import lombok.Setter;
 @Builder
 public class ProjectInfoForCreateResponseDto {
 
-    @ApiModelProperty(name = "hostClub", example = "{[\"id\": 1, \"name\": \"클럽1\"], [\"id\": 2, \"name\": \"클럽2\"]}")
+    @ApiModelProperty(name = "hostClub", example = "[{\"id\": 1, \"name\": \"클럽1\"}, {\"id\": 2, \"name\": \"클럽2\"}]")
     @ApiParam(value = "프로젝트를 생성하려는 멤버의 클럽 id, name 정보 리스트", required = true)
     private List<ClubDto> hostClub;
 
