@@ -5,7 +5,6 @@ import com.ssafy.match.service.MemberService;
 import com.ssafy.match.util.SecurityUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
-@CrossOrigin("*")
+//@CrossOrigin("*")
 @RestController
 @RequestMapping("/member")
 public class MemberController {

@@ -17,7 +17,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
     //3.0.0 http://localhost:8088/api/swagger-ui/index.html
 
@@ -102,10 +101,10 @@ public class SwaggerConfig {
             .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.controller"))
             // api 필요한 클래스패스 추가하기
             .paths(
-                PathSelectors.ant("/**/project/**")
-                    .or(PathSelectors.ant("/**/projectform/**"))
-                    .or(PathSelectors.ant("/**/study/**"))
-                    .or(PathSelectors.ant("/**/club/**"))
+                PathSelectors.ant("/**/club/**")
+//                    .or(PathSelectors.ant("/**/projectform/**"))
+//                    .or(PathSelectors.ant("/**/study/**"))
+//                    .or(PathSelectors.ant("/**/club/**"))
 //                PathSelectors.any()
             )
             .build()
