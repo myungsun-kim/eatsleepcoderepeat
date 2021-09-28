@@ -1,6 +1,5 @@
 package com.ssafy.match.group.entity.club;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.file.entity.DBFile;
