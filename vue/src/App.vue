@@ -3,23 +3,68 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">Main</router-link>
   </div> -->
+  <el-form enctype="multipart/form-data">
+    <el-upload
+      ref="upload"
+      class="upload-demo"
+      action="/api/file/uploadFile"
+      :before-upload="beforeUpload"
+      :auto-upload="false"
+    >
+      <!-- :headers="{
+        Authorization:
+          'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0OSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1ODE1NDZ9.ay-cGsZzQq3CYqonZsczoS5qcLicW8p58D17P6JrmjD6NNesk6_b-usDhpeKLqiIkSJ4dSsBQJv2POl95v-KnQ',
+      }" -->
+      <template #trigger>
+        <el-button size="small" type="primary">select file</el-button>
+      </template>
+      <el-button
+        style="margin-left: 10px"
+        size="small"
+        type="success"
+        @click="submitUpload"
+        >upload to server</el-button
+      >
+      <template #tip>
+        <div class="el-upload__tip">
+          jpg/png files with a size less than 500kb
+        </div>
+      </template>
+    </el-upload>
+  </el-form>
 
   <div class="bg-color">
     <router-view />
   </div>
 </template>
-<script>
-// import { useStore } from 'vuex';
-// export default {
-//   components: {},
-//   setup() {
-//     const store = useStore();
-
-//     return {
-//       store,
-//     };
-//   },
-// };
+<script lang="ts">
+import axios from 'axios';
+export default {
+  methods: {
+    submitUpload() {
+      this.$refs.upload.submit();
+    },
+    beforeUpload: function (file) {
+      console.log('!');
+      console.log(file);
+      const token =
+        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0OSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1ODI1MjB9._UhMZJ1ifGtZq7cAalLlIhpRx8a1DHXvbeNwdzS4liHtOQu_545IcXrmE48FpMRhytP0ZU7I08lLlpafIp_d_Q';
+      var fd = new window.FormData();
+      fd.append('file', file);
+      console.log('@21@');
+      axios
+        .post('/api/file/uploadFile', fd, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        })
+        .then(function (res) {
+          console.log('@@');
+          console.log(res);
+        });
+    },
+  },
+};
 </script>
 <style>
 body {
