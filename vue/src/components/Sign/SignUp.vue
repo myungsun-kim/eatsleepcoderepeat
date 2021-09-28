@@ -61,6 +61,7 @@
               id="nickname"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='닉네임'"
+              @blur="checkNickName()"
               autocomplete="off"
             />
           </div>
@@ -86,30 +87,30 @@
           />
           <select id="position" v-model="state.form.position">
             <option value="">포지션을 선택하세요</option>
-            <option value="p1">기획자</option>
-            <option value="p2">개발자</option>
-            <option value="p3">디자이너</option>
+            <option value="기획자">기획자</option>
+            <option value="개발자">개발자</option>
+            <option value="디자이너">디자이너</option>
           </select>
 
           <select id="city" v-model="state.form.city">
             <option value="">지역을 선택하세요</option>
-            <option value="r1">서울</option>
-            <option value="r2">부산</option>
-            <option value="r3">대구</option>
-            <option value="r4">인천</option>
-            <option value="r5">광주</option>
-            <option value="r6">대전</option>
-            <option value="r7">울산</option>
-            <option value="r8">세종</option>
-            <option value="r9">경기</option>
-            <option value="r10">강원</option>
-            <option value="r11">충북</option>
-            <option value="r12">충남</option>
-            <option value="r13">전북</option>
-            <option value="r14">전남</option>
-            <option value="r15">경북</option>
-            <option value="r16">경남</option>
-            <option value="r17">제주</option>
+            <option value="서울">서울</option>
+            <option value="부산">부산</option>
+            <option value="대구">대구</option>
+            <option value="인천">인천</option>
+            <option value="광주">광주</option>
+            <option value="대전">대전</option>
+            <option value="울산">울산</option>
+            <option value="세종">세종</option>
+            <option value="경기">경기</option>
+            <option value="강원">강원</option>
+            <option value="충북">충북</option>
+            <option value="충남">충남</option>
+            <option value="전북">전북</option>
+            <option value="전남">전남</option>
+            <option value="경북">경북</option>
+            <option value="경남">경남</option>
+            <option value="제주">제주</option>
           </select>
         </div>
         <div class="height10" id="button0">
@@ -118,7 +119,7 @@
             <el-col :span="12" :offset="0"></el-col>
           </el-row>
 
-          <el-button id="next0" @click="nextStep">다음</el-button>
+          <el-button id="next0" @click="nextStep1">다음</el-button>
         </div>
         <div class="height10">10</div>
         <div class="height5">5</div>
@@ -311,6 +312,7 @@ export default {
         position: '',
         city: '',
       },
+      tmp: '',
     });
     // Step1~4 간의 이동시 이동하는 페이지에 기존에 입력해놨던 값이 하나라도 있었다면 모조리 불러온다.(=값을 입력했으나 unMounted 된 적이 없는 경우)
     // router.push로 해당 페이지로 이동했을 때 store.auth.state.form에 저장되어 있는 내용이 있다면 해당 내용을 불러온다.
@@ -360,7 +362,53 @@ export default {
       router.push({ path: '/noheader/signup' });
     };
     // 현제 페이지에서 입력했던 내용들을 vuex-persistedstate가 적용되는 store에 저장시켜놓고
-    // 이전 회원가입 Step으로 이동
+    // 회원가입 Step1에서 Step2으로 이동하기전에 유효성 검사
+    const nextStep1 = function () {
+      console.log('다음 Step으로 이동!');
+      console.log(state.form);
+      if (state.form.email == '') {
+        alert('이메일을 입력하세요.');
+        state.step = 1;
+        router.push({ path: '/noheader/signup' });
+      } else if (state.form.name == '') {
+        alert('이름을 입력하세요.');
+        state.step = 1;
+        router.push({ path: '/noheader/signup' });
+      } else if (state.form.nickname == '') {
+        alert('닉네임을 입력하세요.');
+        state.step = 1;
+        router.push({ path: '/noheader/signup' });
+      } else if (state.form.password == '') {
+        alert('비밀번호를 입력하세요.');
+        state.step = 1;
+        router.push({ path: '/noheader/signup' });
+      } else if (state.form.affirmPassword == '') {
+        alert('비밀번호 확인을 입력하세요.');
+        state.step = 1;
+        router.push({ path: '/noheader/signup' });
+      } else if (state.form.position == '') {
+        alert('포지션을 선택하세요');
+        state.step = 1;
+        router.push({ path: '/noheader/signup' });
+      } else if (state.form.city == '') {
+        alert('지역을 선택하세요');
+        state.step = 1;
+        router.push({ path: '/noheader/signup' });
+      } else {
+        store.state.auth.form.email = state.form.email;
+        store.state.auth.form.name = state.form.name;
+        store.state.auth.form.nickname = state.form.nickname;
+        store.state.auth.form.password = state.form.password;
+        store.state.auth.form.affirmPassword = state.form.affirmPassword;
+        store.state.auth.form.position = state.form.position;
+        store.state.auth.form.city = state.form.city;
+        state.step = state.step + 1;
+        // window.location.reload();
+        router.push({ path: '/noheader/signup' });
+      }
+    };
+    // 현제 페이지에서 입력했던 내용들을 vuex-persistedstate가 적용되는 store에 저장시켜놓고
+    // 회원가입 다음 Step으로 이동
     const nextStep = function () {
       console.log('다음 Step으로 이동!');
       console.log(state.form);
@@ -375,6 +423,7 @@ export default {
       // window.location.reload();
       router.push({ path: '/noheader/signup' });
     };
+    // 회원가입 Step 입력안하고 다음 Step으로 이동 (필수 입력이 아닌 Step들만 건너뛰기 가능)
     const skipStep = function () {
       store.state.auth.form.email = state.form.email;
       store.state.auth.form.name = state.form.name;
@@ -386,11 +435,12 @@ export default {
       state.step = state.step + 1;
       router.push({ path: '/noheader/signup' });
     };
+    // 회원가입 요청
     const signUp = function () {
       // modules의 auth.js에서 signUp 액션을 dispatch함
       store.dispatch('auth/signUp', state.form);
       alert('회원가입이 성공적으로 완료되었습니다!');
-      window.location = '/noheader/signIn';
+      window.location = '/noheader/signin';
     };
     // 이메일 유효성 검사
     const checkEmail = function () {
@@ -400,9 +450,20 @@ export default {
         /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
       if (emailVal.match(reg) == null) {
         alert('올바른 이메일 형식이 아닙니다.');
+        state.form.email = '';
+      } else {
+        store.dispatch('auth/checkEmail', state.form.email).then((res) => {
+          console.log(res.data);
+          if (res.data == false) {
+            alert('사용가능한 이메일 입니다!');
+          } else {
+            alert('이미 존재하는 이메일 입니다!');
+            state.form.email = '';
+          }
+        });
       }
-      state.form.email = '';
     };
+    // 이름 유효성 검사
     const checkName = function () {
       console.log('이름 포커싱 벗어남!!!');
       let nameVal = state.form.name;
@@ -415,9 +476,32 @@ export default {
         state.form.name = '';
       }
     };
-    const checkNickname = function () {
+    // 닉네임 유효성 검사
+    const checkNickName = function () {
       console.log('닉네임 포커싱 벗어남!!!');
+      let nickNameVal = state.form.nickname;
+      let reg = /^[(가-힣a-zA-Z0-9)]{2,7}$/;
+
+      if (nickNameVal.match(reg) == null) {
+        alert(
+          '올바른 형식이 아닙니다.\n한글, 영문, 숫자만 가능합니다.\n닉네임 길이는 2~7자 이내여야 합니다.'
+        );
+        state.form.nickname = '';
+      } else {
+        store
+          .dispatch('auth/checkNickName', state.form.nickname)
+          .then((res) => {
+            console.log(res.data);
+            if (res.data == false) {
+              alert('사용가능한 닉네임 입니다!');
+            } else {
+              alert('이미 존재하는 닉네임 입니다!');
+              state.form.nickname = '';
+            }
+          });
+      }
     };
+    // 비밀번호 유효성 검사
     const checkPassword = function () {
       console.log('비밀번호 포커싱 벗어남!!!');
       let passwordVal = state.form.password;
@@ -431,6 +515,7 @@ export default {
         state.form.password = '';
       }
     };
+    // 비밀번호 확인 유효성 검사
     const checkAffirmPassword = function () {
       console.log('비밀번호확인 포커싱 벗어남!!!');
       let affirmPasswordVal = state.form.affirmPassword;
@@ -446,12 +531,13 @@ export default {
       router,
       goSignIn,
       previousStep,
+      nextStep1,
       nextStep,
       skipStep,
       signUp,
       checkEmail,
       checkName,
-      checkNickname,
+      checkNickName,
       checkPassword,
       checkAffirmPassword,
     };
