@@ -36,8 +36,9 @@ public class MessageSocketController {
 
 //    //// "url/app/message"로 들어오는 메시지를 "/topic/public"을 구독하고있는 사람들에게 송신
 //    @MessageMapping("/pub/{toUserPk}")//@MessageMapping works for WebSocket protocol communication. This defines the URL mapping.
-//    public void pubMessage(@Payload ChatMessage message, @DestinationVariable String toUserPk) throws Exception {
-////        System.out.println(message.getRead_time());
+//    public void pubMessage1(@Payload ChatMessage message, @DestinationVariable String toUserPk) throws Exception {
+//        System.out.println(message);
+        ////        System.out.println(message.getRead_time());
 ////        int destPk = 0;
 ////        try{
 ////            destPk = Integer.parseInt(toUserPk);
@@ -52,7 +53,7 @@ public class MessageSocketController {
 //    }
 
     //// "url/app/message"로 들어오는 메시지를 "/topic/public"을 구독하고있는 사람들에게 송신
-    @MessageMapping("/pub")//@MessageMapping works for WebSocket protocol communication. This defines the URL mapping.
+    @MessageMapping("/pub/dm")//@MessageMapping works for WebSocket protocol communication. This defines the URL mapping.
     public void pubMessage(@Payload ChatMessage message) throws Exception {
         message.setId(SecurityUtil.getCurrentMemberId());
         sender.send(/*BOOT_TOPIC,*/ message);

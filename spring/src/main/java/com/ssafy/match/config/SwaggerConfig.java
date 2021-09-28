@@ -2,9 +2,11 @@ package com.ssafy.match.config;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -22,7 +24,7 @@ public class SwaggerConfig {
     //3.0.0 http://localhost:8088/api/swagger-ui/index.html
 
     RequestParameterBuilder tokenBuilder = new RequestParameterBuilder();
-    List<RequestParameter> aParameters = new ArrayList<>();
+    List<RequestParameter> headers = new ArrayList<>();
 
     private final ApiInfo apiInfo = new ApiInfoBuilder()
         .title("Project/Study 매칭 website")
@@ -35,15 +37,15 @@ public class SwaggerConfig {
     // 하단의 코드는 글로벌한 설정이 필요할 때 주석해제하시고 추가하시면 되겠습니다.
     //swagger 내에서 글로벌하게 적용되어야 하는 헤더가 필요하다면 RequestParameterBuilder 하나 더 만들어서
     //aParameters에 추가하기.
-//    public SwaggerConfig() {
-//        tokenBuilder
-//            .name("auth-token")
-//            .description("auth-t2oken")
-//            .required(false)
-//            .in("header")
-//            .accepts(Collections.singleton(MediaType.APPLICATION_JSON));
-//        aParameters.add(tokenBuilder.build());
-//    }
+    public SwaggerConfig() {
+        tokenBuilder
+            .name("Authorization")
+            .description("jwtToken here")
+            .required(false)
+            .in("header")
+            .accepts(Collections.singleton(MediaType.APPLICATION_JSON));
+        headers.add(tokenBuilder.build());
+    }
 //    @Bean public Docket restApi() {
 //        return new Docket(DocumentationType.SWAGGER_2)
 //            .securitySchemes(singletonList(apiKey())) // 토큰을 읽기위한 정보를 넘겨준다
@@ -77,7 +79,7 @@ public class SwaggerConfig {
     @Bean
     public Docket chatApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-//            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
+            .globalRequestParameters(headers) // 글로벌 파라미터 필요시 추가하기
             .apiInfo(apiInfo)
             .groupName("All controller")
             .select()
@@ -96,6 +98,7 @@ public class SwaggerConfig {
     public Docket groupApi() {
         return new Docket(DocumentationType.SWAGGER_2)
 //            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
+            .globalRequestParameters(headers)
             .apiInfo(apiInfo)
             .groupName("Group")
             .select()
@@ -116,6 +119,7 @@ public class SwaggerConfig {
     public Docket fileApi() {
         return new Docket(DocumentationType.SWAGGER_2)
 //            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
+            .globalRequestParameters(headers)
             .apiInfo(apiInfo)
             .groupName("File")
             .select()
