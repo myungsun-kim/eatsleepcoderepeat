@@ -281,6 +281,7 @@
 <script>
 import { onBeforeMount, onUnmounted, reactive } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 export default {
   name: 'SignUp',
   setup() {
