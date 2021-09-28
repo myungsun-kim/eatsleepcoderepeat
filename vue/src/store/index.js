@@ -2,8 +2,6 @@ import { createStore } from 'vuex';
 import axios from 'axios';
 import createPersistedState from 'vuex-persistedstate';
 
-import { auth } from '@/store/modules/auth';
-
 export default createStore({
   state: {
     category: null,
@@ -59,7 +57,7 @@ export default createStore({
       console.log('?');
       try {
         // const token = localStorage.getItem('jwt');
-        const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0NCIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1MTIzMjh9.OMcJ-UHnaO8MU2nrJUYX48xhzy4_WzYz4WjEN6YlxO2BqvJkkZY5LL_3nFwB4SS2mIeGrSZ2phXlKufAsFsh9g`;
+        const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MCIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1NTAwMTZ9.iX_48JiUkRsrQB8NrvVOuGO29qil142VhaPxRzOnx8-pulnFUw-DPPXXMS4dOwc9RFei19bUB7xLMc-8zGosLQ`;
         console.log(token);
         // https://cors-anywhere.herokuapp.com/ 사용시 cors 에러 해결 가능
         const res = await axios.get('http://localhost:8080/api/member/mypage', {
@@ -77,6 +75,6 @@ export default createStore({
       }
     },
   },
-  modules: { auth },
+  modules: {},
   plugins: [createPersistedState()],
 });
