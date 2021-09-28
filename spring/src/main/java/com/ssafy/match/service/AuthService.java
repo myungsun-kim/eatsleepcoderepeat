@@ -1,12 +1,11 @@
 package com.ssafy.match.service;
 
-import com.ssafy.match.controller.dto.MemberRequestDto;
-import com.ssafy.match.controller.dto.MemberResponseDto;
-import com.ssafy.match.controller.dto.TokenRequestDto;
-import com.ssafy.match.controller.dto.TokenDto;
+import com.ssafy.match.controller.dto.*;
 import com.ssafy.match.db.entity.*;
 import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
 import com.ssafy.match.db.repository.*;
+import com.ssafy.match.file.entity.DBFile;
+import com.ssafy.match.file.repository.DBFileRepository;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.jwt.TokenProvider;
 import com.ssafy.match.util.SecurityUtil;
@@ -35,7 +34,23 @@ public class AuthService {
     private final TechstackRepository techstackRepository;
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
     private final PositionRepository positionRepository;
+    private final DBFileRepository dbFileRepository;
 
+    @Transactional(readOnly = true)
+    public Boolean checkEmail(String email) {
+        if (memberRepository.existsByEmail(email)) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
+
+    @Transactional(readOnly = true)
+    public Boolean checkNickname(String nickname) {
+        if (memberRepository.existsByNickname(nickname)) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+    }
 
     @Transactional
     public MemberResponseDto signup(MemberRequestDto memberRequestDto) throws Exception {
@@ -44,6 +59,8 @@ public class AuthService {
         }
         Member member = memberRequestDto.toMember(passwordEncoder);
         Member ret = memberRepository.save(member);
+        setCoverPic(member, memberRequestDto.getCover_pic());
+        setPortfolioUuid(member, memberRequestDto.getPortfolio_uuid());
 
         if (memberRequestDto.getExpTechList() != null){
             for (String techExp : memberRequestDto.getExpTechList()) {
@@ -137,5 +154,24 @@ public class AuthService {
 
         // 토큰 발급
         return tokenDto;
+    }
+
+    public void setCoverPic(Member member, String uuid) {
+        if(uuid == null) {
+            member.setCover_pic(null);
+            return;
+        }
+        DBFile dbFile = dbFileRepository.getById(uuid);
+        member.setCover_pic(dbFile);
+    }
+
+    @Transactional
+    public void setPortfolioUuid(Member member, String uuid) {
+        if(uuid == null) {
+            member.setPortfolio(null);
+            return;
+        }
+        DBFile dbFile = dbFileRepository.getById(uuid);
+        member.setPortfolio(dbFile);
     }
 }

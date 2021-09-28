@@ -1,4 +1,4 @@
-package com.ssafy.match.group.dto.project;
+package com.ssafy.match.group.dto.project.response;
 
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.entity.project.ProjectApplicationForm;

@@ -20,13 +20,10 @@ public class MemberClub {
 
     private boolean is_active;
     private LocalDateTime register_date;
-    private boolean authority;
 
-    public MemberClub(CompositeMemberClub compositeMemberClub, boolean is_active,
-        LocalDateTime register_date, boolean authority) {
+    public MemberClub(CompositeMemberClub compositeMemberClub, boolean is_active, LocalDateTime register_date) {
         this.compositeMemberClub = compositeMemberClub;
         this.is_active = is_active;
         this.register_date = register_date;
-        this.authority = authority;
     }
 }

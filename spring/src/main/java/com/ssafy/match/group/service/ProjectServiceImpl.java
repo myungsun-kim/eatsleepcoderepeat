@@ -4,10 +4,10 @@ import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
-import com.ssafy.match.group.dto.project.FormRegisterRequestDto;
-import com.ssafy.match.group.dto.project.FormtInfoForRegisterResponseDto;
-import com.ssafy.match.group.dto.project.FormtInfoResponseDto;
-import com.ssafy.match.group.dto.project.ProjectMemberRoleResponseDto;
+import com.ssafy.match.group.dto.project.request.FormRegisterRequestDto;
+import com.ssafy.match.group.dto.project.response.FormtInfoForRegisterResponseDto;
+import com.ssafy.match.group.dto.project.response.FormtInfoResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectMemberRoleResponseDto;
 import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import com.ssafy.match.group.entity.project.CompositeProjectTechstack;
 import com.ssafy.match.db.repository.MemberClubRepository;
@@ -15,10 +15,10 @@ import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.db.repository.TechstackRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
-import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
-import com.ssafy.match.group.dto.project.ProjectInfoForCreateResponseDto;
-import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
-import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
+import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoForCreateResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
+import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.MemberProject;
 import com.ssafy.match.group.entity.project.Project;
@@ -93,7 +93,7 @@ public class ProjectServiceImpl implements ProjectService {
             .city(City.from(dto.getCity()))
             .status(Status.모집중)
             .isActive(true)
-            .isPublic(dto.isPublic())
+            .isPublic(dto.getIsPublic())
             .isParticipate(true)
             .build();
 
@@ -129,8 +129,8 @@ public class ProjectServiceImpl implements ProjectService {
         project.setPlannerMaxCount(dto.getPlannerMaxCount());
         project.setCity(City.from(dto.getCity()));
         project.setStatus(dto.getStatus());
-        project.setPublic(dto.isPublic());
-        project.setParticipate(dto.isParticipate());
+        project.setPublic(dto.getIsPublic());
+        project.setParticipate(dto.getIsParticipate());
         changeRole(project, currentMemberId, dto.getHostRole());
         setDBFile(projectId, dto.getUuid());
         setClub(projectId, dto.getClubId());
