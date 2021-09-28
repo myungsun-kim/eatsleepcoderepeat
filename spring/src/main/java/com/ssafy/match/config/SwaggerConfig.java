@@ -105,7 +105,7 @@ public class SwaggerConfig {
                 PathSelectors.ant("/**/study/**")
 //                    .or(PathSelectors.ant("/**/projectform/**"))
 //                    .or(PathSelectors.ant("/**/study/**"))
-//                    .or(PathSelectors.ant("/**/club/**"))
+                    .or(PathSelectors.ant("/**/club/**"))
 //                PathSelectors.any()
             )
             .build()
