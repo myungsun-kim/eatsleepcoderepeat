@@ -9,7 +9,9 @@
   <!-- 좌측 | 우측 갈리는 부분 1:9:1: 12: 1-->
   <el-row class="height85">
     <!-- 좌측 -->
-    <el-col :span="9" :offset="1" class="test-border font-14 flex-parent">
+    <el-col :span="1"></el-col>
+
+    <el-col :span="8" :offset="1" class="test-border font-14 flex-parent">
       <el-row class="test-border">
         <el-col :span="12" class="test-border">
           <el-upload
@@ -30,73 +32,69 @@
           </el-upload>
         </el-col>
         <el-col :span="10" :offset="2" class="test-border flex-parent">
-          <el-row class="test-border">
+          <el-row class="test-border info-size">
             <el-col :span="5" class="test-border"> ID </el-col>
-            <el-col :span="15" :offset="4" class="test-border">
-              ssafy@ssafy</el-col
-            >
+            <el-col :span="15" :offset="4" class="info"> ssafy@ssafy</el-col>
           </el-row>
-          <el-row class="test-border">
+          <el-row class="test-border info-size">
             <el-col :span="5" class="test-border"> 이름 </el-col>
-            <el-col :span="15" :offset="4" class="test-border"> 김싸피</el-col>
+            <el-col :span="15" :offset="4" class="info"> 김싸피</el-col>
           </el-row>
-          <el-row class="test-border">
+          <el-row class="test-border info-size">
             <el-col :span="5" class="test-border"> 닉넴 </el-col>
-            <el-col :span="15" :offset="4" class="test-border"> ssAfy</el-col>
+            <el-col :span="15" :offset="4" class="info"> ssAfy</el-col>
           </el-row>
-          <el-row class="test-border">
+          <el-row class="test-border info-size">
             <el-col :span="5" class="test-border"> 역할 </el-col>
-            <el-col :span="15" :offset="4" class="test-border"> 개발자</el-col>
+            <el-col :span="15" :offset="4" class="info"> 개발자</el-col>
           </el-row>
         </el-col>
       </el-row>
       <!-- 마이페이지 정보 깃~ -->
-      <el-row class="test-border">
+      <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 지역 </el-col>
-        <el-col :span="16" :offset="1" class="test-border"> 경북 </el-col>
+        <el-col :span="16" :offset="1" class="info"> 경북 </el-col>
       </el-row>
-      <el-row class="test-border">
+      <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 깃 </el-col>
-        <el-col :span="16" :offset="1" class="test-border"> Github </el-col>
+        <el-col :span="16" :offset="1" class="info"> Github </el-col>
       </el-row>
-      <el-row class="test-border">
+      <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 트위터 </el-col>
-        <el-col :span="16" :offset="1" class="test-border"> Twitter </el-col>
+        <el-col :span="16" :offset="1" class="info"> Twitter </el-col>
       </el-row>
 
-      <el-row class="test-border">
+      <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 페이스북 </el-col>
-        <el-col :span="16" :offset="1" class="test-border"> Facebook </el-col>
+        <el-col :span="16" :offset="1" class="info"> Facebook </el-col>
       </el-row>
-      <el-row class="test-border">
+      <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 백준 </el-col>
-        <el-col :span="16" :offset="1" class="test-border"> Baekjoon </el-col>
+        <el-col :span="16" :offset="1" class="info"> Baekjoon </el-col>
       </el-row>
-      <el-row class="test-border">
+      <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 포트폴리오 </el-col>
-        <el-col :span="16" :offset="1" class="test-border"> port </el-col>
+        <el-col :span="16" :offset="1" class="info"> port </el-col>
       </el-row>
-      <el-row class="test-border">
+      <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 포트폴리오 url </el-col>
-        <el-col :span="16" :offset="1" class="test-border"> url </el-col>
+        <el-col :span="16" :offset="1" class="info"> url </el-col>
       </el-row>
-      <el-row class="test-border">
+      <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> Strong </el-col>
-        <el-col :span="16" :offset="1" class="test-border">
-          C++, Python
-        </el-col>
+        <el-col :span="16" :offset="1" class="info"> C++, Python </el-col>
       </el-row>
-      <el-row class="test-border">
+      <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> Knowledgeable </el-col>
-        <el-col :span="16" :offset="1" class="test-border"> Java </el-col>
+        <el-col :span="16" :offset="1" class="info"> Java </el-col>
       </el-row>
-      <el-row class="test-border">
+      <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 희망 포지션 </el-col>
-        <el-col :span="16" :offset="1" class="test-border"> FE </el-col>
+        <el-col :span="16" :offset="1" class="info"> FE </el-col>
       </el-row>
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> 자기소개 </el-col>
-        <el-col :span="16" :offset="1" class="test-border">
+        <el-col :span="16" :offset="1" class="info">
           다양한 프로젝트를 하고 싶습니다. 다양한 프로젝트를 하고 싶습니다.
           다양한 프로젝트를 하고 싶습니다.
         </el-col>
@@ -105,7 +103,7 @@
     </el-col>
     <!-- 우측 -->
     <el-col :span="12" :offset="1" class="test-border">
-      <el-row class="test-border">내가 속한 클럽</el-row>
+      <el-row class="test-border title">내가 속한 클럽</el-row>
       <el-row class="height5"></el-row>
       <el-row class="test-border height20">
         <el-col :span="6" class="test-border"> Item1 </el-col>
@@ -114,7 +112,7 @@
         <el-col :span="6" class="test-border"> Item4 </el-col>
       </el-row>
       <el-row class="height5"></el-row>
-      <el-row class="test-border">내가 속한 스터디</el-row>
+      <el-row class="test-border title">내가 속한 스터디</el-row>
       <el-row class="height5"></el-row>
       <el-row class="test-border height20">
         <el-col :span="6" class="test-border"> Item1 </el-col>
@@ -123,7 +121,7 @@
         <el-col :span="6" class="test-border"> Item4 </el-col>
       </el-row>
       <el-row class="height5"></el-row>
-      <el-row class="test-border">내가 속한 프로젝트</el-row>
+      <el-row class="test-border title">내가 속한 프로젝트</el-row>
       <el-row class="height5"></el-row>
       <el-row class="test-border height20">
         <el-col :span="6" class="test-border"> Item1 </el-col>
@@ -131,18 +129,57 @@
         <el-col :span="6" class="test-border"> Item3 </el-col>
         <el-col :span="6" class="test-border"> Item4 </el-col>
       </el-row>
-      <el-row class="height5"><ServiceQuitModal /></el-row>
+      <el-row class="height5"
+        ><el-col :span="22"></el-col>
+        <el-col :span="2"><ServiceQuitModal /></el-col
+      ></el-row>
     </el-col>
   </el-row>
+  <el-button @click="read">읽기</el-button>
 </template>
 
 <script>
 import PasswordCheckModal from '../Modal/PasswordCheckModal.vue';
 import ServiceQuitModal from '../Modal/ServiceQuitModal.vue';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+
 export default {
   components: {
     PasswordCheckModal,
     ServiceQuitModal,
   },
+  mounted() {
+    const store = useStore();
+    store.dispatch('readMyPage');
+  },
+  setup() {
+    const store = useStore();
+    const payload = {};
+    const read = () => {
+      store.dispatch('readMyPage', payload);
+    };
+    // const store = useStore();
+    // const types = computed(() => store.state.user);
+    // console.log(types.value + ' setup');
+    return {
+      store,
+      read,
+    };
+  },
 };
 </script>
+<style scoped>
+.title {
+  font-size: 24px;
+}
+.info {
+  border-radius: 4px;
+  border: 0px;
+  background-color: white;
+  color: black;
+}
+.info-size {
+  height: 32px;
+}
+</style>
