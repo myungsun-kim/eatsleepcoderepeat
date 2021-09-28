@@ -13,7 +13,7 @@ import lombok.Getter;
 @Builder
 public class StudyInfoForCreateResponseDto {
 
-    @ApiModelProperty(name = "allTechstack", example = "[\"Java\", \"Python\", \"Spring\"]")
+    @ApiModelProperty(name = "allTechstack", example = "[\"java\", \"python\", \"spring\"]")
     @ApiParam(value = "모든 기술스택 목록", required = true)
     private List<String> allTechstack;
 
