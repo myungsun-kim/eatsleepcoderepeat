@@ -1,6 +1,5 @@
 <template>
-  <el-button @click="modalOpen = true" class="btn-ghost-round">
-    {{ modalOpen }}
+  <el-button @click="changemodalOpen" class="btn-ghost-round">
     수정페이지로 이동
   </el-button>
   <teleport to="body">
@@ -8,10 +7,8 @@
       <div class="height40">
         <el-row class="height10"></el-row>
         <el-row class="height10">
-          {{ modalOpen }}
           <el-col :span="24" class="font-noto-bold font-20">
-            {{ modalOpen }}비밀번호를 입력해주세요 (현재 수정하고 돌아올 때
-            모달창이 남아있는 문제가 있음.)
+            비밀번호를 입력해주세요
           </el-col>
         </el-row>
         <el-row class="height10">
@@ -32,7 +29,7 @@
           <el-col :span="6">
             <el-button
               class="btn-ghost-blue font-noto-bold"
-              @click="modalOpen = false"
+              @click="changemodalOpen"
               style="font-size: 14px"
               >취소</el-button
             >
@@ -44,26 +41,21 @@
   </teleport>
 </template>
 <script>
-import { onMounted, ref } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 export default {
-
   setup() {
     const store = useStore();
     const router = useRouter();
-    // const modalOpen = false;
-    const modalOpen = ref('false');
+    const modalOpen = computed(() => store.getters['scrollGetter']);
 
-    onMounted(() => {
-      console.log('ON MOUNT');
-      console.log(modalOpen.value);
-      console.log('라이프 사이클에 대한 공부를 제대로 한 이후에 해결할 것');
-    });
+    const changemodalOpen = function () {
+      store.dispatch('changeScrollModal', !modalOpen.value);
+    };
 
-    console.log(modalOpen.value);
     const goUpdateMyPage = function () {
-      modalOpen.value = false;
+      store.dispatch('changeScrollModal', false);
       console.log(modalOpen.value);
       router.push({ path: '/nosubheader/updatemypage' });
     };
@@ -72,6 +64,7 @@ export default {
       store,
       router,
       modalOpen,
+      changemodalOpen,
       goUpdateMyPage,
     };
   },
