@@ -13,38 +13,11 @@ export default createStore({
     setCategory(state, value) {
       state.category = value;
     },
-    readMyPage(state, payload) {
-      console.log('얘는조회');
-      console.log('muto' + payload);
-      state.user = payload;
-      console.log(state.user + ' m');
-    },
     setScrollModal(state, value) {
       state.scrollModal = value;
     },
   },
   actions: {
-    async readMyPage({ commit }, payload) {
-      console.log('?');
-      try {
-        // const token = localStorage.getItem('jwt');
-        const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI1MCIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1NTAwMTZ9.iX_48JiUkRsrQB8NrvVOuGO29qil142VhaPxRzOnx8-pulnFUw-DPPXXMS4dOwc9RFei19bUB7xLMc-8zGosLQ`;
-        console.log(token);
-        // https://cors-anywhere.herokuapp.com/ 사용시 cors 에러 해결 가능
-        const res = await axios.get('http://localhost:8080/api/member/mypage', {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        });
-        console.log('마이페이지');
-        console.log(res);
-        console.log(res.data);
-        console.log(res.data.email);
-        commit('readMyPage', payload);
-      } catch (err) {
-        console.log(err);
-      }
-    },
     changeScrollModal({ commit }, payload) {
       commit('setScrollModal', payload);
     },

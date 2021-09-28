@@ -141,7 +141,7 @@
 <script>
 import PasswordCheckModal from '../Modal/PasswordCheckModal.vue';
 import ServiceQuitModal from '../Modal/ServiceQuitModal.vue';
-import { computed } from 'vue';
+import { reactive } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -151,20 +151,25 @@ export default {
   },
   mounted() {
     const store = useStore();
-    store.dispatch('readMyPage');
+    const state = reactive({
+      form: {
+        token: '',
+      },
+    });
+    store.dispatch('member/readMyPage', state.form);
   },
   setup() {
     const store = useStore();
     const payload = {};
-    const read = () => {
-      store.dispatch('readMyPage', payload);
-    };
+    // const read = () => {
+    //   store.dispatch('readMyPage', payload);
+    // };
     // const store = useStore();
     // const types = computed(() => store.state.user);
     // console.log(types.value + ' setup');
     return {
       store,
-      read,
+      // read,
     };
   },
 };
