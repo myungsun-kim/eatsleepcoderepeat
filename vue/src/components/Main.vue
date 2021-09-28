@@ -16,8 +16,8 @@
           <el-col :span="12">
             좋은 사람<br />
             좋은 스터디<br />
-            좋은 프로젝트</el-col
-          >
+            좋은 프로젝트
+          </el-col>
           <el-col :span="6"></el-col>
         </el-row>
         <el-row :gutter="0" style="height: 20%"></el-row>
