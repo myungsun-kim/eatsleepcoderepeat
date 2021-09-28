@@ -1,12 +1,13 @@
 import axios from 'axios';
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = '';
+const header = { headers: { 'Content-Type': 'application/json' } };
 
 export const auth = {
   // 모듈별로 구분이 가능하게 하기 위해(독립적이기 위해) vuex namespaced: true
   namespaced: true,
   state: {
-    category: null,
     // category 1:스터디 2:프로젝트 3:클럽
+    category: null,
     form: {
       email: '',
       name: '',
@@ -28,8 +29,16 @@ export const auth = {
     // 여기서의 form은 SignIn.vue의 signIn 함수에서 dispatch로 보내는 state.form임.
     signIn({ commit }, form) {
       // swagger url경로
-      axios.post(BASE_URL + '/api/auth/login');
+      const res = axios.post(
+        BASE_URL + '/api/auth/login',
+        JSON.stringify(form),
+        header
+      );
+      console.log('바로 밑이 res!');
+      console.log(res);
+      console.log(JSON.stringify(form));
       console.log(form, '나... 로그인 된 걸지도?');
+      return res;
     },
     // 여기서의 form은 SignUp.vue의 signUp 함수에서 dispatch로 보내는 state.form임.
     signUp({ commit }, form) {

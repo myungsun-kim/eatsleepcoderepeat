@@ -30,7 +30,6 @@ export default createStore({
       state.user = value;
     },
   },
-
   actions: {
     changeScrollModal({ commit }, payload) {
       commit('setScrollModal', payload);
