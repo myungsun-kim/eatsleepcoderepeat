@@ -30,7 +30,7 @@ public class StudyInfoResponseDto {
     @ApiParam(value = "기간(주 단위)", required = true)
     private int period;
 
-    @ApiModelProperty(name = "hostNickname", example = "[id: 3, name: '박범진', nickname: 'BJP']")
+    @ApiModelProperty(name = "hostNickname", example = "[\"id\": 3, \"name\": \"문일민\", \"nickname\": \"장난꾸러기\"]")
     @ApiParam(value = "스터디장 정보(id, name, nickname)", required = true)
     private MemberDto host;
 
@@ -58,7 +58,7 @@ public class StudyInfoResponseDto {
     @ApiParam(value = "프로젝트 상태", required = true)
     private String status;
 
-    @ApiModelProperty(name = "clubId", example = "[id: 3, name: 'SSAFY']")
+    @ApiModelProperty(name = "clubId", example = "[\"id\": 3, \"name\": \"SSAFY\"]")
     @ApiParam(value = "소속된 클럽 정보")
     private ClubDto club;
 
@@ -74,7 +74,7 @@ public class StudyInfoResponseDto {
     @ApiParam(value = "프로젝트 소개", required = true)
     private String bio;
 
-    @ApiModelProperty(name = "projectMember", example = "{[id: 3, name: '박범진', nickname: 'BJP'], [id: 4, name: '김아무개', nickname: '호롤로']}")
+    @ApiModelProperty(name = "projectMember", example = "[{\"id\": 3, \"name\": \"문일민\", \"nickname\": \"별명\"}, {\"id\": 4, \"name\": \"박범진\", \"nickname\": \"내별명\"}]")
     @ApiParam(value = "해당 스터디에 속한 멤버 조회", required = true)
     private List<MemberDto> memberDtos;
 

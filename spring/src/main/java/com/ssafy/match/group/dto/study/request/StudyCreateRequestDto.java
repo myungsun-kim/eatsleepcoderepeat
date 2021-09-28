@@ -17,7 +17,8 @@ public class StudyCreateRequestDto {
     @ApiParam(value = "스터디명", required = true)
     private String name;
 
-    @ApiModelProperty(name = "techList", example = "{'자바', '파이썬', '스프링', '쿠버네티스'}")
+    @ApiModelProperty(name = "techList", example = "[\"java\", \"python\"]")
+
     @ApiParam(value = "기술 스택 리스트", required = true)
     private List<String> techList;
 
