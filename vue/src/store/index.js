@@ -6,11 +6,8 @@ import { auth } from '@/store/modules/auth';
 export default createStore({
   state: {
     category: null,
-<<<<<<< HEAD
-=======
     user: {},
     scrollModal: 'false',
->>>>>>> c2a641b7c8744915dd15afaacb1c6b5b9f04f1a8
     // category 1:스터디 2:프로젝트 3:클럽
     form: {
       email: '',
@@ -36,10 +33,6 @@ export default createStore({
       state.scrollModal = value;
     },
   },
-<<<<<<< HEAD
-  actions: {},
-  modules: {},
-=======
   actions: {
     async readMyPage({ commit }, payload) {
       console.log('?');
@@ -72,6 +65,5 @@ export default createStore({
     },
   },
   modules: { auth },
->>>>>>> c2a641b7c8744915dd15afaacb1c6b5b9f04f1a8
   plugins: [createPersistedState()],
 });

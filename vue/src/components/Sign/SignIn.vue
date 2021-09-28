@@ -21,7 +21,7 @@
         <div class="height10">
           <input
             v-model="state.form.password"
-            type="text"
+            type="password"
             placeholder="비밀번호"
             id="password"
             onfocus="this.placeholder=''"
@@ -81,7 +81,24 @@ export default {
     };
     const signIn = function () {
       // modules의 auth.js에서 signIn 액션을 dispatch함
-      store.dispatch('auth/signIn', state.form);
+      store
+        .dispatch('auth/signIn', state.form)
+        .then((res) => {
+          if (res.status == 200) {
+            localStorage.setItem('accessToken', res.data.accessToken);
+            console.log('바로밑이 토큰 저장!!!!!!!!!');
+            console.log(localStorage.getItem('accessToken'));
+            window.location = '/';
+          } else if (res.status == 404) {
+            alert('해당 아이디가 존재하지 않습니다.');
+          }
+          state.form.email = '';
+          state.form.password = '';
+        })
+        .catch((err) => {
+          console.log(err);
+          alert('아이디 또는 비밀번호가 틀렸습니다!');
+        });
     };
     return {
       goSignUp,

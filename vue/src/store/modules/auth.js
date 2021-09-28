@@ -29,9 +29,16 @@ export const auth = {
     // 여기서의 form은 SignIn.vue의 signIn 함수에서 dispatch로 보내는 state.form임.
     signIn({ commit }, form) {
       // swagger url경로
-      axios.post(BASE_URL + '/api/auth/login', JSON.stringify(form), header);
-      console.log(JSON.stringify(form))
+      const res = axios.post(
+        BASE_URL + '/api/auth/login',
+        JSON.stringify(form),
+        header
+      );
+      console.log('바로 밑이 res!');
+      console.log(res);
+      console.log(JSON.stringify(form));
       console.log(form, '나... 로그인 된 걸지도?');
+      return res;
     },
     // 여기서의 form은 SignUp.vue의 signUp 함수에서 dispatch로 보내는 state.form임.
     signUp({ commit }, form) {
