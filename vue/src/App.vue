@@ -5,38 +5,39 @@
   </div> -->
 
   <el-button @click="loginEvent">LOGIN</el-button>
+  <el-button @click="getInfo">INFO</el-button>
 
   <div class="bg-color">
     <router-view />
   </div>
 </template>
 <script>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 export default {
   components: {},
   setup() {
     const store = useStore();
+    const types = computed(() => store.state.data);
+
     let payload = {
-      banned: true,
-      bio: 'string',
-      city: 'string',
-      cover_pic: 'string',
-      create_date: '2021-09-27T02:04:50.250Z',
       email: 'minsu@naver.com',
-      is_active: true,
-      name: 'string',
-      nickname: 'string',
       password: 'minsu',
-      position: 'string',
-      tel: 'string',
     };
 
     const loginEvent = () => {
       store.dispatch('login', payload);
     };
+    const getInfo = () => {
+      console.log(types);
+      console.log(types.value);
+      console.log(types.value.grantType);
+    };
 
     return {
       store,
+      types,
+      getInfo,
       loginEvent,
     };
   },

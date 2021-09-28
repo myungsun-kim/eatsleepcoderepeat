@@ -7,6 +7,7 @@
       <el-col :span="13" :offset="0">
         <div class="height100">
           <div id="h1">프로젝트 생성</div>
+          <hr />
           <div id="box1">
             <label id="h2">프로젝트 이름</label>
             <input
@@ -88,7 +89,7 @@
 
           <div id="box1">
             <label id="h2">팀장 역할</label>
-            <select id="region">
+            <select id="city">
               <option value="1">11</option>
               <option value="2">22</option>
               <option value="3">33</option>
@@ -131,7 +132,7 @@
 
           <div id="box1">
             <label id="h2">지역</label>
-            <select id="region">
+            <select id="city">
               <option value="1">11</option>
               <option value="2">22</option>
               <option value="3">33</option>
@@ -141,7 +142,7 @@
 
           <div id="box1">
             <label id="h2">소속 클럽</label>
-            <select id="region">
+            <select id="city">
               <option value="none">없음</option>
               <option value="B">B</option>
               <option value="C">C</option>
@@ -175,7 +176,7 @@
 <script>
 // import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -358,7 +359,7 @@ export default {
 
   color: #919191;
 }
-#region {
+#city {
   cursor: pointer;
   width: 794px;
   height: 52px;

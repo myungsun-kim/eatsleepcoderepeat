@@ -300,7 +300,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .item-img {
   background-image: url('../../assets/Item/Cat.png');
   background-repeat: no-repeat;
