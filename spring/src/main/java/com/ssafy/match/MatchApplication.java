@@ -28,7 +28,8 @@ public class MatchApplication {
                 registry.addMapping("/**")
                         .allowedMethods("*")
                         .allowedOrigins("*")
-                        .allowedHeaders("*");
+                        .allowedHeaders("*")
+                        .allowedOriginPatterns("*");
 //                        .allowedOrigins("http://localhost:8081");
             }
         };

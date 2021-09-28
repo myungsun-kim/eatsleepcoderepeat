@@ -86,6 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration configuration = new CorsConfiguration();
         // - (3)
         configuration.addAllowedOrigin("*");
+        configuration.addAllowedOriginPattern("*");
 //        configuration.addAllowedOrigin("http://localhost");
 //        configuration.addAllowedOrigin("https://59.151.220.195:5501");
         // above origin is for the test @ daebalprime local.
