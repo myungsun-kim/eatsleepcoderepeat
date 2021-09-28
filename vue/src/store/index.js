@@ -1,6 +1,8 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
 import createPersistedState from 'vuex-persistedstate';
+import { auth } from '@/store/modules/auth';
+import { member } from '@/store/modules/member';
 
 export default createStore({
   state: {
@@ -16,6 +18,9 @@ export default createStore({
     setScrollModal(state, value) {
       state.scrollModal = value;
     },
+    setMember(state, value) {
+      state.user = value;
+    },
   },
   actions: {
     changeScrollModal({ commit }, payload) {
@@ -26,7 +31,13 @@ export default createStore({
     scrollGetter: (state) => {
       return state.scrollModal;
     },
+    getUserInfo: (state) => {
+      return state.user;
+    },
   },
-  modules: {},
+  modules: {
+    auth,
+    member,
+  },
   plugins: [createPersistedState()],
 });

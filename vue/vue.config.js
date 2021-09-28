@@ -1,12 +1,13 @@
 module.exports = {
   lintOnSave: false,
   devServer: {
-    disableHostCheck: true,
+    // disableHostCheck: true,
     proxy: {
       '/api': {
-        target: 'https://api.evan.com',
+        target: 'http://localhost:8080',
         changeOrigin: true,
-        pathRewrite: { '^/api': '' },
+        logLevel: 'debug',
+        // pathRewrite: { 'http://localhost:8080/api': '' },
       },
     },
   },
