@@ -1,15 +1,17 @@
 <template>
-  <el-button @click="modalOpen = true" class="btn-ghost-round"
-    >수정페이지로 이동
+  <el-button @click="modalOpen = true" class="btn-ghost-round">
+    {{ modalOpen }}
+    수정페이지로 이동
   </el-button>
   <teleport to="body">
     <div v-if="modalOpen" class="modal">
       <div class="height40">
         <el-row class="height10"></el-row>
         <el-row class="height10">
+          {{ modalOpen }}
           <el-col :span="24" class="font-noto-bold font-20">
-            비밀번호를 입력해주세요 (현재 수정하고 돌아올 때 모달창이 남아있는
-            문제가 있음.)
+            {{ modalOpen }}비밀번호를 입력해주세요 (현재 수정하고 돌아올 때
+            모달창이 남아있는 문제가 있음.)
           </el-col>
         </el-row>
         <el-row class="height10">
@@ -46,12 +48,15 @@ import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 export default {
+
   setup() {
     const store = useStore();
     const router = useRouter();
+    // const modalOpen = false;
     const modalOpen = ref('false');
 
     onMounted(() => {
+      console.log('ON MOUNT');
       console.log(modalOpen.value);
       console.log('라이프 사이클에 대한 공부를 제대로 한 이후에 해결할 것');
     });
