@@ -1,26 +1,9 @@
 import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 
+import { auth } from '@/store/modules/auth';
+
 export default createStore({
-  state: {
-    category: null,
-    // category 1:스터디 2:프로젝트 3:클럽
-    form: {
-      email: '',
-      name: '',
-      nickname: '',
-      password: '',
-      affirmPassword: '',
-      position: '',
-      city: '',
-    },
-  },
-  mutations: {
-    setCategory(state, value) {
-      state.category = value;
-    },
-  },
-  actions: {},
-  modules: {},
+  modules: { auth },
   plugins: [createPersistedState()],
 });

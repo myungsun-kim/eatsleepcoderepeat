@@ -44,6 +44,7 @@
           />
           <div id="H3">
             <input
+              v-model="state.form.name"
               type="text"
               placeholder="이름"
               id="name"
@@ -53,6 +54,7 @@
               maxlength="10"
             />
             <input
+              v-model="state.form.nickname"
               type="text"
               placeholder="닉네임"
               id="nickname"
@@ -62,6 +64,7 @@
             />
           </div>
           <input
+            v-model="state.form.password"
             type="text"
             placeholder="비밀번호"
             id="password"
@@ -70,6 +73,7 @@
             autocomplete="off"
           />
           <input
+            v-model="state.form.affirmPassword"
             type="text"
             placeholder="비밀번호 확인"
             id="checkpassword"
@@ -77,14 +81,14 @@
             onblur="this.placeholder='비밀번호 확인'"
             autocomplete="off"
           />
-          <select id="position">
+          <select id="position" v-model="state.form.position">
             <option value="">역할을 선택하세요</option>
             <option value="p1">기획자</option>
             <option value="p2">개발자</option>
             <option value="p3">디자이너</option>
           </select>
 
-          <select id="city">
+          <select id="city" v-model="state.form.city">
             <option value="">지역을 선택하세요</option>
             <option value="r1">서울</option>
             <option value="r2">인천</option>
@@ -267,7 +271,7 @@
 
           <el-button id="previous" @click="previousStep">이전</el-button>
           <el-button id="skip" @click="skipStep">건너뛰기</el-button>
-          <el-button id="next">완료</el-button>
+          <el-button id="next" @click="signUp">완료</el-button>
         </div>
       </div>
     </el-col>
@@ -282,6 +286,7 @@ export default {
   name: 'SignUp',
   setup() {
     const router = useRouter();
+    // store/index.js를 쓰겠다는 이야기
     const store = useStore();
     // 독립적인 반응형 값 생성 ref()
     // const signUp = ref(null);
@@ -298,28 +303,30 @@ export default {
       },
     });
     // Step1~4 간의 이동시 이동하는 페이지에 기존에 입력해놨던 값이 하나라도 있었다면 모조리 불러온다.(=값을 입력했으나 unMounted 된 적이 없는 경우)
-    // router.push로 해당 페이지로 이동했을 때 store.state.form에 저장되어 있는 내용이 있다면 해당 내용을 불러온다.
+    // router.push로 해당 페이지로 이동했을 때 store.auth.state.form에 저장되어 있는 내용이 있다면 해당 내용을 불러온다.
     onBeforeMount(() => {
-      if (store.state.form) {
-        state.form.email = store.state.form.email;
-        state.form.name = store.state.form.name;
-        state.form.nickname = store.state.form.nickname;
-        state.form.password = store.state.form.password;
-        state.form.affirmPassword = store.state.form.affirmPassword;
-        state.form.position = store.state.form.position;
-        state.form.city = store.state.form.city;
+      // 'state 중 auth 모둘의 값을 쓸 것이다.' 라는 문법
+      if (store.state.auth.form) {
+        console.log(store.state.form);
+        state.form.email = store.state.auth.form.email;
+        state.form.name = store.state.auth.form.name;
+        state.form.nickname = store.state.auth.form.nickname;
+        state.form.password = store.state.auth.form.password;
+        state.form.affirmPassword = store.state.auth.form.affirmPassword;
+        state.form.position = store.state.auth.form.position;
+        state.form.city = store.state.auth.form.city;
       }
     });
 
     // 회원가입 페이지를 벗어나면 자동으로 store.state.form에 임시로 저장해놨던 내용들을 초기화 시킨다.
     onUnmounted(() => {
-      store.state.form.email = '';
-      store.state.form.name = '';
-      store.state.form.nickname = '';
-      store.state.form.password = '';
-      store.state.form.affirmPassword = '';
-      store.state.form.position = '';
-      store.state.form.city = '';
+      store.state.auth.form.email = '';
+      store.state.auth.form.name = '';
+      store.state.auth.form.nickname = '';
+      store.state.auth.form.password = '';
+      store.state.auth.form.affirmPassword = '';
+      store.state.auth.form.position = '';
+      store.state.auth.form.city = '';
     });
 
     // 로그인 페이지로 이동
@@ -330,14 +337,30 @@ export default {
     // 현제 페이지에서 입력했던 내용들을 vuex-persistedstate가 적용되는 store에 저장시켜놓고
     // 이전 회원가입 Step으로 이동
     const previousStep = function () {
+      console.log('이전 Step으로 이동!');
+      console.log(state.form);
+      store.state.auth.form.email = state.form.email;
+      store.state.auth.form.name = state.form.name;
+      store.state.auth.form.nickname = state.form.nickname;
+      store.state.auth.form.password = state.form.password;
+      store.state.auth.form.affirmPassword = state.form.affirmPassword;
+      store.state.auth.form.position = state.form.position;
+      store.state.auth.form.city = state.form.city;
       state.step = state.step - 1;
       router.push({ path: '/noheader/signup' });
     };
     // 현제 페이지에서 입력했던 내용들을 vuex-persistedstate가 적용되는 store에 저장시켜놓고
     // 이전 회원가입 Step으로 이동
     const nextStep = function () {
-      store.state.form.email = state.form.email;
-      console.log(state.form.email);
+      console.log('다음 Step으로 이동!');
+      console.log(state.form);
+      store.state.auth.form.email = state.form.email;
+      store.state.auth.form.name = state.form.name;
+      store.state.auth.form.nickname = state.form.nickname;
+      store.state.auth.form.password = state.form.password;
+      store.state.auth.form.affirmPassword = state.form.affirmPassword;
+      store.state.auth.form.position = state.form.position;
+      store.state.auth.form.city = state.form.city;
       state.step = state.step + 1;
       // window.location.reload();
       router.push({ path: '/noheader/signup' });
@@ -345,6 +368,10 @@ export default {
     const skipStep = function () {
       state.step = state.step + 1;
       router.push({ path: '/noheader/signup' });
+    };
+    const signUp = function () {
+      // modules의 auth.js에서 signUp 액션을 dispatch함
+      store.dispatch('auth/signUp', state.form);
     };
     return {
       store,
@@ -354,6 +381,7 @@ export default {
       previousStep,
       nextStep,
       skipStep,
+      signUp,
     };
   },
 };
