@@ -24,6 +24,8 @@ import StudyCreate from '../components/MenuBar2/StudyCreate.vue';
 import StudyUpdate from '../components/MenuBar2/StudyUpdate.vue';
 import ProjectCreate from '../components/MenuBar2/ProjectCreate.vue';
 import ProjectUpdate from '../components/MenuBar2/ProjectUpdate.vue';
+import ClubCreate from '../components/MenuBar2/ClubCreate.vue';
+import ClubUpdate from '../components/MenuBar2/ClubUpdate.vue';
 import HomeStudy from '../components/MenuBar2/HomeStudy.vue';
 import HomeProject from '../components/MenuBar2/HomeProject.vue';
 import HomeClub from '../components/MenuBar2/HomeClub.vue';
@@ -167,7 +169,14 @@ const routes = [
             path: '/nosubheader/project/update',
             component: ProjectUpdate,
           },
-
+          {
+            path: '/nosubheader/club/create',
+            component: ClubCreate,
+          },
+          {
+            path: '/nosubheader/club/update',
+            component: ClubUpdate,
+          },
           {
             path: '/nosubheader/generalsearch',
             component: GeneralSearch,

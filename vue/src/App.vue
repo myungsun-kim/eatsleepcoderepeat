@@ -4,9 +4,6 @@
     <router-link to="/about">Main</router-link>
   </div> -->
 
-  <el-button @click="loginEvent">LOGIN</el-button>
-  <el-button @click="getInfo">INFO</el-button>
-
   <div class="bg-color">
     <router-view />
   </div>
@@ -33,12 +30,17 @@ export default {
       console.log(types.value);
       console.log(types.value.grantType);
     };
+    // import { useStore } from 'vuex';
+    // export default {
+    //   components: {},
+    //   setup() {
+    //     const store = useStore();
 
     return {
       store,
       types,
-      getInfo,
       loginEvent,
+      getInfo,
     };
   },
 };

@@ -1,15 +1,15 @@
 package com.ssafy.match.group.entity.study;
 
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-@Setter
 @Entity(name = "matching.member_study")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberStudy {
@@ -17,15 +17,22 @@ public class MemberStudy {
     @EmbeddedId
     private CompositeMemberStudy compositeMemberStudy;
 
-    private boolean is_active;
-    private LocalDateTime register_date;
-    private boolean authority;
+    @Column(name = "is_active")
+    private Boolean isActive;
+    @Column(name = "register_date")
+    private LocalDateTime registerDate;
 
-    public MemberStudy(CompositeMemberStudy compositeMemberStudy, boolean is_active,
-        LocalDateTime register_date, boolean authority) {
+    public void activation() {
+        this.isActive = true;
+    }
+
+    public void deActivation() {
+        this.isActive = false;
+    }
+
+    @Builder
+    public MemberStudy(CompositeMemberStudy compositeMemberStudy, LocalDateTime registerDate) {
         this.compositeMemberStudy = compositeMemberStudy;
-        this.is_active = is_active;
-        this.register_date = register_date;
-        this.authority = authority;
+        this.registerDate = registerDate;
     }
 }

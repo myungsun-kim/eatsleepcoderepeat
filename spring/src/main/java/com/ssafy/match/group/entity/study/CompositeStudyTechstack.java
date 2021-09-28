@@ -1,6 +1,5 @@
 package com.ssafy.match.group.entity.study;
 
-import com.ssafy.match.group.entity.study.Study;
 import com.ssafy.match.db.entity.Techstack;
 import java.io.Serializable;
 import javax.persistence.Embeddable;

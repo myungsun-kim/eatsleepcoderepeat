@@ -65,6 +65,8 @@ public class MemberService {
         List<String> begTechList = memberBeginnerTechstackRepository.findTechstackByMemberName(member);
         List<MemberSns> snsList = memberSnsRepository.findAllByMember(member);
         List<Position> dpositionList = positionRepository.findAllByMember(member);
+        memberInfoDto.setCover_pic(member.getCover_pic());
+        memberInfoDto.setPortfolio(member.getPortfolio());
         memberInfoDto.setMyProjectList(myProjectList);
         memberInfoDto.setMyClubList(myClubList);
         memberInfoDto.setExpTechList(expTechList);
@@ -74,24 +76,17 @@ public class MemberService {
         return memberInfoDto;
     }
 
-    @Transactional
-    public void deleteMember() {
-        Member member = memberRepository.getById(SecurityUtil.getCurrentMemberId());
-        deleteMem(member);
-    }
-
     //    @Transactional(readOnly = true)
 //    public MemberInfoDto getMyPage() {
 //        return memberRepository.findById(SecurityUtil.getCurrentMemberId())
 //                .map(MemberInfoDto::new)
 //                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
 //    }
-
-
     @Transactional
     public MemberUpdateResponseDto updateMyInfo(MemberUpdateRequestDto memberUpdateRequestDto) {
         Member member = memberRepository.getById(SecurityUtil.getCurrentMemberId());
 
+        updateMember(memberUpdateRequestDto.getEmail(), memberUpdateRequestDto.getName(), memberUpdateRequestDto.getPassword(), memberUpdateRequestDto.getNickname(), memberUpdateRequestDto.getTel(), memberUpdateRequestDto.getBio(), memberUpdateRequestDto.getCity(), memberUpdateRequestDto.getPosition(), memberUpdateRequestDto.getPortfolio_uri());
         updateSns(memberUpdateRequestDto.getSnsHashMap());
         addExpTechstack(member, memberUpdateRequestDto.getExpAddTechList());
         delExpTechstack(member, memberUpdateRequestDto.getExpDelTechList());
@@ -99,18 +94,36 @@ public class MemberService {
         delBegTechstack(member, memberUpdateRequestDto.getBeginDelTechList());
         addDposition(member, memberUpdateRequestDto.getDpositionAddList());
         delDposition(memberUpdateRequestDto.getDpositionDelList());
-        updateMember(memberUpdateRequestDto.getEmail(), memberUpdateRequestDto.getName(), memberUpdateRequestDto.getPassword(), memberUpdateRequestDto.getNickname(), memberUpdateRequestDto.getTel(), memberUpdateRequestDto.getBio(), memberUpdateRequestDto.getCity(), memberUpdateRequestDto.getPosition(), memberUpdateRequestDto.getPortfolio_uri());
+        setCoverPic(member, memberUpdateRequestDto.getCover_pic());
+        setPortfolioUuid(member, memberUpdateRequestDto.getPortfolio_uuid());
+
         return MemberUpdateResponseDto.of(SecurityUtil.getCurrentMemberId());
     }
 
-    public void setDBFile(Member member, String uuid){
+    @Transactional
+    public void deleteMember() {
+        Member member = memberRepository.getById(SecurityUtil.getCurrentMemberId());
+        deleteMem(member);
+    }
+
+    @Transactional
+    public void setCoverPic(Member member, String uuid){
         if(uuid == null) {
-            member.setDbFile(null);
+            member.setCover_pic(null);
             return;
         }
-
         DBFile dbFile = dbFileRepository.getById(uuid);
-        member.setDbFile(dbFile);
+        member.setCover_pic(dbFile);
+    }
+
+    @Transactional
+    public void setPortfolioUuid(Member member, String uuid){
+        if(uuid == null) {
+            member.setPortfolio(null);
+            return;
+        }
+        DBFile dbFile = dbFileRepository.getById(uuid);
+        member.setPortfolio(dbFile);
     }
 
     @Transactional

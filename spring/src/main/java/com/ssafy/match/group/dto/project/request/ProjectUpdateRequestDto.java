@@ -1,6 +1,7 @@
-package com.ssafy.match.group.dto.project;
+package com.ssafy.match.group.dto.project.request;
 
 import com.ssafy.match.db.entity.Status;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
@@ -63,11 +64,11 @@ public class ProjectUpdateRequestDto {
 
     @ApiModelProperty(name = "is_public", example = "false")
     @ApiParam(value = "공개 비공개", required = true)
-    private boolean isPublic;
+    private Boolean isPublic;
 
     @ApiModelProperty(name = "is_participate", example = "false")
     @ApiParam(value = "참여 가능 여부", required = true)
-    private boolean isParticipate;
+    private Boolean isParticipate;
 
     @ApiModelProperty(name = "club_id", example = "3")
     @ApiParam(value = "소속된 클럽 id")

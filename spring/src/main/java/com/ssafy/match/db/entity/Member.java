@@ -50,7 +50,11 @@ public class Member {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cover_pic")
-    private DBFile dbFile;
+    private DBFile cover_pic;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "portfolio_uuid")
+    private DBFile portfolio;
 
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "club_id")
@@ -59,7 +63,7 @@ public class Member {
     @Builder
     public Member(LocalDateTime create_date, String email, String name, String password,
         String nickname, String tel, String bio, String city, Boolean banned, String position,
-        Boolean is_active, Authority authority, DBFile dbFile, String portfolio_uri) {
+        Boolean is_active, Authority authority, DBFile cover_pic, DBFile portfolio, String portfolio_uri) {
         this.create_date = create_date;
         this.email = email;
         this.name = name;
@@ -72,7 +76,8 @@ public class Member {
         this.position = position;
         this.is_active = is_active;
         this.authority = authority;
-        this.dbFile = dbFile;
+        this.cover_pic = cover_pic;
+        this.portfolio = portfolio;
         this.portfolio_uri = portfolio_uri;
     }
 }

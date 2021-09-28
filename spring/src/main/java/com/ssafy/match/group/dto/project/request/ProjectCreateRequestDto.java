@@ -1,4 +1,4 @@
-package com.ssafy.match.group.dto.project;
+package com.ssafy.match.group.dto.project.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
@@ -52,7 +52,8 @@ public class ProjectCreateRequestDto {
 
     @ApiModelProperty(name = "isPublic", example = "false")
     @ApiParam(value = "공개 비공개", required = true)
-    private boolean isPublic;
+    private Boolean isPublic;
+
 
     @ApiModelProperty(name = "clubId", example = "3")
     @ApiParam(value = "소속된 클럽 id")
@@ -65,6 +66,10 @@ public class ProjectCreateRequestDto {
     @ApiModelProperty(name = "hostRole", example = "디자이너")
     @ApiParam(value = "프로젝트장 역할", required = true)
     private String hostRole;
+
+//    public boolean getIsPublic(){
+//        return isPublic;
+//    }
 
     @Builder
     public ProjectCreateRequestDto(List<String> techList, String name,

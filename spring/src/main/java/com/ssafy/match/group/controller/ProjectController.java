@@ -1,13 +1,11 @@
 package com.ssafy.match.group.controller;
 
-import com.ssafy.match.group.dto.project.ProjectCreateRequestDto;
-import com.ssafy.match.group.dto.project.ProjectInfoForCreateResponseDto;
-import com.ssafy.match.group.dto.project.ProjectInfoResponseDto;
-import com.ssafy.match.group.dto.project.ProjectUpdateRequestDto;
+import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoForCreateResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
+import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.service.ProjectService;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -31,8 +29,7 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-    @GetMapping
-    @ApiImplicitParam(name = "dto", value = "프로젝트 생성을 위한 Dto", required = true, dataType = "ProjectInfoForCreateResponseDto", paramType = "json")
+    @GetMapping("/")
     @ApiOperation(value = "프로젝트 생성을 위한 정보", notes = "<strong>프로젝트를 생성하기 위한</strong> 전체 기술, 생성할 멤버의 클럽, 선택할 수 있는 지역 리스트를 받는다")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -41,8 +38,7 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.infoForCreate());
     }
 
-    @PostMapping
-    @ApiImplicitParam(name = "dto", value = "프로젝트 생성 dto", required = true, dataType = "ProjectCreateRequestDto", paramType = "json")
+    @PostMapping("/")
     @ApiOperation(value = "프로젝트 생성", notes = "<strong>받은 프로젝트 정보</strong>를 사용해서 프로젝트을 생성한다.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -52,10 +48,6 @@ public class ProjectController {
     }
 
     @PatchMapping("/{projectId}")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "dto", value = "프로젝트 수정 dto", required = true, dataType = "ProjectUpdateRequestDto", paramType = "json"),
-        @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
-    })
     @ApiOperation(value = "프로젝트 수정", notes = "<strong>받은 프로젝트 정보</strong>를 사용해서 프로젝트를 수정한다.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -66,7 +58,6 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{projectId}")
-    @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
     @ApiOperation(value = "프로젝트 삭제", notes = "<strong>받은 프로젝트 Id</strong>로 프로젝트와 포함된 멤버관계를 삭제한다.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -76,8 +67,17 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.delete(projectId));
     }
 
+    @DeleteMapping("/{projectId}/{memberId}")
+    @ApiOperation(value = "프로젝트 탈퇴", notes = "<strong>받은 프로젝트 id, 멤버 id</strong>로 프로젝트에서 탈퇴한다.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+    })
+    public void withdrawProject(@PathVariable("projectId") Long projectId, @PathVariable("memberId") Long memberId)
+        throws Exception {
+        projectService.removeMember(projectId, memberId);
+    }
+
     @GetMapping("/detail/{projectId}")
-    @ApiImplicitParam(name = "projectId", value = "프로젝트 ID", required = true, dataType = "Long", paramType = "path")
     @ApiOperation(value = "프로젝트 상세정보 조회",
         notes = "<strong>받은 프로젝트 Id</strong>로 해당 프로젝트를 조회 + 전체 기술스택, 역할별 인원 닉네임, 전체 지역 정보, 포함 인원 등")
     @ApiResponses({
@@ -89,9 +89,7 @@ public class ProjectController {
     }
 
     @GetMapping("/info/{memberId}")
-    @ApiImplicitParam(name = "memberId", value = "멤버 Id", required = true, dataType = "Long", paramType = "path")
-    @ApiOperation(value = "특정 멤버가 속한 프로젝트 조회",
-        notes = "<strong>받은 멤버 Id</strong>로 해당 멤버가 속한 프로젝트 정보 조회")
+    @ApiOperation(value = "특정 멤버가 속한 프로젝트 조회", notes = "<strong>받은 멤버 Id</strong>로 해당 멤버가 속한 프로젝트 정보 조회")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
@@ -99,6 +97,4 @@ public class ProjectController {
         throws Exception {
         return ResponseEntity.ok(projectService.projectInMember(memberId));
     }
-
-
 }
