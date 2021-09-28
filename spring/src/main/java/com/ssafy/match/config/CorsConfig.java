@@ -11,7 +11,11 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-            .allowedOrigins("http://jxy.me") // http://jxy.me/websocket-debug-tool/
-            .allowCredentials(false);
+//            .allowedOrigins("http://jxy.me") // http://jxy.me/websocket-debug-tool/
+//            .allowCredentials(false);
+                .allowedMethods("*")
+                .allowedOrigins("*")
+                .allowedHeaders("*")
+                .maxAge(3600);
     }
 }

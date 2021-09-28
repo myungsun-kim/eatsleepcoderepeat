@@ -10,6 +10,7 @@
         <div class="height5">5</div>
         <div class="height5">
           <input
+            v-model="state.form.email"
             type="text"
             placeholder="이메일"
             id="email"
@@ -19,6 +20,7 @@
         </div>
         <div class="height10">
           <input
+            v-model="state.form.password"
             type="text"
             placeholder="비밀번호"
             id="password"
@@ -27,7 +29,7 @@
           />
         </div>
         <div class="height5">
-          <el-button id="login" @click="goMain">로그인</el-button>
+          <el-button id="login" @click="signIn">로그인</el-button>
         </div>
         <div class="height30">30</div>
       </div>
@@ -69,18 +71,25 @@ export default {
     // 독립적인 반응형 값 생성 ref()
     // const signin = ref(null);
     const state = reactive({
-      form: {},
+      form: {
+        email: '',
+        password: '',
+      },
     });
 
     const goSignUp = function () {
       router.push({ path: '/noheader/signup' });
     };
-
+    const signIn = function () {
+      // modules의 auth.js에서 signIn 액션을 dispatch함
+      store.dispatch('auth/signIn', state.form);
+    };
     return {
       goSignUp,
       store,
       state,
       router,
+      signIn,
     };
   },
 };

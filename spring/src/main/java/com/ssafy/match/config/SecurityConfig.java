@@ -43,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // CSRF 설정 Disable
         http.csrf().disable()
-            .cors().disable()
+            .cors().configurationSource(corsConfigurationSource())
+            .and()
             .formLogin().disable()
 
 
@@ -84,13 +85,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // - (3)
-        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedOrigin("*");
+        configuration.addAllowedOriginPattern("*");
 //        configuration.addAllowedOrigin("http://localhost");
 //        configuration.addAllowedOrigin("https://59.151.220.195:5501");
         // above origin is for the test @ daebalprime local.
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
-        configuration.setAllowCredentials(false);
+        configuration.setAllowCredentials(true);
 
 //        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
         configuration.setMaxAge(3600L);

@@ -4,43 +4,22 @@
     <router-link to="/about">Main</router-link>
   </div> -->
 
-  <el-button @click="loginEvent">LOGIN</el-button>
-
   <div class="bg-color">
     <router-view />
   </div>
 </template>
 <script>
-import { useStore } from 'vuex';
-export default {
-  components: {},
-  setup() {
-    const store = useStore();
-    let payload = {
-      banned: true,
-      bio: 'string',
-      city: 'string',
-      cover_pic: 'string',
-      create_date: '2021-09-27T02:04:50.250Z',
-      email: 'minsu@naver.com',
-      is_active: true,
-      name: 'string',
-      nickname: 'string',
-      password: 'minsu',
-      position: 'string',
-      tel: 'string',
-    };
+// import { useStore } from 'vuex';
+// export default {
+//   components: {},
+//   setup() {
+//     const store = useStore();
 
-    const loginEvent = () => {
-      store.dispatch('login', payload);
-    };
-
-    return {
-      store,
-      loginEvent,
-    };
-  },
-};
+//     return {
+//       store,
+//     };
+//   },
+// };
 </script>
 <style>
 body {

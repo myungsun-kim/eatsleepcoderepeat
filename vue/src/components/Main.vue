@@ -7,13 +7,17 @@
         <el-row style="height: 25%"></el-row>
         <el-row style="height: 13%; font-size: 64px">
           <el-col :span="6"></el-col>
-          <el-col :span="12">상징하는 멘트</el-col>
+          <el-col :span="12">Eat Sleep Code Repeat</el-col>
           <el-col :span="6"></el-col>
         </el-row>
         <el-row style="height: 7%"></el-row>
         <el-row style="height: 10%; font-size: 48px">
           <el-col :span="6"></el-col>
-          <el-col :span="12">서브 멘트</el-col>
+          <el-col :span="12">
+            좋은 사람<br />
+            좋은 스터디<br />
+            좋은 프로젝트
+          </el-col>
           <el-col :span="6"></el-col>
         </el-row>
         <el-row :gutter="0" style="height: 20%"></el-row>

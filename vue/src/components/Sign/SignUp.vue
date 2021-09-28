@@ -22,7 +22,7 @@
     </el-col>
 
     <!-- Step1 기본정보-->
-    <el-col :span="15" :offset="0" id="step1" v-if="state.form.step == 1">
+    <el-col :span="15" :offset="0" id="step1" v-if="state.step == 1">
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -33,56 +33,74 @@
         </div>
         <div class="height40" id="input1">
           <input
+            v-model="state.form.email"
             type="text"
             placeholder="이메일"
             id="email"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='이메일'"
+            autocomplete="off"
+            maxlength="40"
           />
           <div id="H3">
             <input
+              v-model="state.form.name"
               type="text"
               placeholder="이름"
               id="name"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='이름'"
+              autocomplete="off"
+              maxlength="10"
             />
             <input
+              v-model="state.form.nickname"
               type="text"
               placeholder="닉네임"
               id="nickname"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='닉네임'"
+              autocomplete="off"
             />
           </div>
           <input
+            v-model="state.form.password"
             type="text"
             placeholder="비밀번호"
             id="password"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='비밀번호'"
+            autocomplete="off"
           />
           <input
+            v-model="state.form.affirmPassword"
             type="text"
             placeholder="비밀번호 확인"
             id="checkpassword"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='비밀번호 확인'"
+            autocomplete="off"
           />
-          <input
-            type="text"
-            placeholder="역할 선택"
-            id="field"
-            onfocus="this.placeholder=''"
-            onblur="this.placeholder='역할 선택'"
-          />
-          <input
-            type="text"
-            placeholder="지역 선택"
-            id="region"
-            onfocus="this.placeholder=''"
-            onblur="this.placeholder='지역 선택'"
-          />
+          <select id="position" v-model="state.form.position">
+            <option value="">역할을 선택하세요</option>
+            <option value="p1">기획자</option>
+            <option value="p2">개발자</option>
+            <option value="p3">디자이너</option>
+          </select>
+
+          <select id="city" v-model="state.form.city">
+            <option value="">지역을 선택하세요</option>
+            <option value="r1">서울</option>
+            <option value="r2">인천</option>
+            <option value="r3">경기</option>
+            <option value="r4">대구</option>
+            <option value="r5">부산</option>
+            <option value="r6">강원</option>
+            <option value="r7">광주</option>
+            <option value="r8">울산</option>
+            <option value="r9">경남</option>
+            <option value="r10">경북</option>
+          </select>
         </div>
         <div class="height10" id="button0">
           <el-row :gutter="0">
@@ -98,7 +116,7 @@
     </el-col>
 
     <!-- Step2 포트폴리오 -->
-    <el-col :span="15" :offset="0" id="step2" v-else-if="state.form.step == 2">
+    <el-col :span="15" :offset="0" id="step2" v-else-if="state.step == 2">
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -172,7 +190,7 @@
     </el-col>
 
     <!-- Step3 개발수준 -->
-    <el-col :span="15" :offset="0" id="step3" v-else-if="state.form.step == 3">
+    <el-col :span="15" :offset="0" id="step3" v-else-if="state.step == 3">
       <div class="height100">
         <div class="height20">20</div>
         <div class="height5" id="H1">
@@ -253,7 +271,7 @@
 
           <el-button id="previous" @click="previousStep">이전</el-button>
           <el-button id="skip" @click="skipStep">건너뛰기</el-button>
-          <el-button id="next">완료</el-button>
+          <el-button id="next" @click="signUp">완료</el-button>
         </div>
       </div>
     </el-col>
@@ -261,37 +279,109 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router';
-import { reactive } from 'vue';
+import { onBeforeMount, onUnmounted, reactive } from 'vue';
 import { useStore } from 'vuex';
 export default {
   name: 'SignUp',
   setup() {
     const router = useRouter();
+    // store/index.js를 쓰겠다는 이야기
     const store = useStore();
     // 독립적인 반응형 값 생성 ref()
     // const signUp = ref(null);
     const state = reactive({
+      step: 1,
       form: {
-        step: 1,
+        email: '',
+        name: '',
+        nickname: '',
+        password: '',
+        affirmPassword: '',
+        position: '',
+        city: '',
       },
     });
+    // Step1~4 간의 이동시 이동하는 페이지에 기존에 입력해놨던 값이 하나라도 있었다면 모조리 불러온다.(=값을 입력했으나 unMounted 된 적이 없는 경우)
+    // router.push로 해당 페이지로 이동했을 때 store.auth.state.form에 저장되어 있는 내용이 있다면 해당 내용을 불러온다.
+    onBeforeMount(() => {
+      // 'state 중 auth 모둘의 값을 쓸 것이다.' 라는 문법
+      if (store.state.auth.form) {
+        console.log(store.state.form);
+        state.form.email = store.state.auth.form.email;
+        state.form.name = store.state.auth.form.name;
+        state.form.nickname = store.state.auth.form.nickname;
+        state.form.password = store.state.auth.form.password;
+        state.form.affirmPassword = store.state.auth.form.affirmPassword;
+        state.form.position = store.state.auth.form.position;
+        state.form.city = store.state.auth.form.city;
+      }
+    });
+
+    // 회원가입 페이지를 벗어나면 자동으로 store.state.form에 임시로 저장해놨던 내용들을 초기화 시킨다.
+    onUnmounted(() => {
+      store.state.auth.form.email = '';
+      store.state.auth.form.name = '';
+      store.state.auth.form.nickname = '';
+      store.state.auth.form.password = '';
+      store.state.auth.form.affirmPassword = '';
+      store.state.auth.form.position = '';
+      store.state.auth.form.city = '';
+    });
+
+    // 로그인 페이지로 이동
     const goSignIn = function () {
       router.push({ path: '/noheader/signin' });
     };
+
+    // 현제 페이지에서 입력했던 내용들을 vuex-persistedstate가 적용되는 store에 저장시켜놓고
+    // 이전 회원가입 Step으로 이동
     const previousStep = function () {
-      state.form.step = state.form.step - 1;
+      console.log('이전 Step으로 이동!');
+      console.log(state.form);
+      store.state.auth.form.email = state.form.email;
+      store.state.auth.form.name = state.form.name;
+      store.state.auth.form.nickname = state.form.nickname;
+      store.state.auth.form.password = state.form.password;
+      store.state.auth.form.affirmPassword = state.form.affirmPassword;
+      store.state.auth.form.position = state.form.position;
+      store.state.auth.form.city = state.form.city;
+      state.step = state.step - 1;
       router.push({ path: '/noheader/signup' });
     };
+    // 현제 페이지에서 입력했던 내용들을 vuex-persistedstate가 적용되는 store에 저장시켜놓고
+    // 이전 회원가입 Step으로 이동
     const nextStep = function () {
-      state.form.step = state.form.step + 1;
+      console.log('다음 Step으로 이동!');
+      console.log(state.form);
+      store.state.auth.form.email = state.form.email;
+      store.state.auth.form.name = state.form.name;
+      store.state.auth.form.nickname = state.form.nickname;
+      store.state.auth.form.password = state.form.password;
+      store.state.auth.form.affirmPassword = state.form.affirmPassword;
+      store.state.auth.form.position = state.form.position;
+      store.state.auth.form.city = state.form.city;
+      state.step = state.step + 1;
+      // window.location.reload();
       router.push({ path: '/noheader/signup' });
     };
     const skipStep = function () {
-      state.form.step = state.form.step + 1;
+      state.step = state.step + 1;
       router.push({ path: '/noheader/signup' });
     };
-    return { store, state, router, goSignIn, previousStep, nextStep, skipStep };
+    const signUp = function () {
+      // modules의 auth.js에서 signUp 액션을 dispatch함
+      store.dispatch('auth/signUp', state.form);
+    };
+    return {
+      store,
+      state,
+      router,
+      goSignIn,
+      previousStep,
+      nextStep,
+      skipStep,
+      signUp,
+    };
   },
 };
 </script>
@@ -677,14 +767,37 @@ export default {
 
   color: #919191;
 }
-#region {
-  width: 400px;
-  height: 48px;
+#position {
+  width: 412px;
+  height: 50px;
 
   background: #e8e8e8;
   border-radius: 10px;
   border: 0px;
   padding-left: 10px;
+  margin-bottom: 10px;
+  margin-left: 180px;
+
+  /* 지역 선택 텍스트 */
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  text-align: left;
+
+  color: #919191;
+}
+#city {
+  width: 412px;
+  height: 50px;
+
+  background: #e8e8e8;
+  border-radius: 10px;
+  border: 0px;
+  padding-left: 10px;
+  margin-bottom: 10px;
   margin-left: 180px;
 
   /* 지역 선택 텍스트 */
@@ -733,6 +846,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 360px;
 }
 #H5 {
   display: flex;
