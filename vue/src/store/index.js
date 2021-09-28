@@ -33,7 +33,7 @@ export default createStore({
         const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0NCIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1MTIzMjh9.OMcJ-UHnaO8MU2nrJUYX48xhzy4_WzYz4WjEN6YlxO2BqvJkkZY5LL_3nFwB4SS2mIeGrSZ2phXlKufAsFsh9g`;
         console.log(token);
         // https://cors-anywhere.herokuapp.com/ 사용시 cors 에러 해결 가능
-        const res = await axios.get('http://localhost:8080/api/member/mypage', {
+        const res = await axios.get('/api/member/mypage', {
           headers: {
             Authorization: 'Bearer ' + token,
           },
