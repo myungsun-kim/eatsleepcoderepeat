@@ -58,7 +58,10 @@ public class StudyApplicationForm {
         this.nickname = dto.getNickname();
         this.city = City.from(dto.getCity());
         this.git = dto.getGit();
-        this.bio = getBio();
+        this.twitter = dto.getTwitter();
+        this.facebook = dto.getFacebook();
+        this.backjoon = dto.getBackjoon();
+        this.bio = dto.getBio();
         this.createDate = LocalDateTime.now();
     }
 }

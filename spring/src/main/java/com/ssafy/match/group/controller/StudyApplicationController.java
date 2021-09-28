@@ -40,7 +40,7 @@ public class StudyApplicationController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<HttpStatus> applyStudy(@PathVariable("projectId") Long studyId, @RequestBody StudyApplicationRequestDto dto) throws Exception {
+    public ResponseEntity<HttpStatus> applyStudy(@PathVariable("studyId") Long studyId, @RequestBody StudyApplicationRequestDto dto) throws Exception {
         return ResponseEntity.ok(studyService.applyStudy(studyId, dto));
     }
 
@@ -63,22 +63,22 @@ public class StudyApplicationController {
     }
 
     @GetMapping("/all/{studyId}/{nickname}")
-    @ApiOperation(value = "특정 스터디 닉네임 포함 모든 신청서 조회", notes = "특정 스터디의 닉네임 포함 모든 신청서 리스트를 작성일 기준 내림차순으로 받는다")
+    @ApiOperation(value = "특정 스터디 신청서 닉네임 포함 모든 신청서 조회", notes = "특정 스터디의 닉네임 포함 모든 신청서 리스트를 작성일 기준 내림차순으로 받는다")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<List<StudyFormInfoResponseDto>> allFormByStudyNickname(@PathVariable("studyId") Long studyId,
+    public ResponseEntity<List<StudyFormInfoResponseDto>> getAllFormByStudyNickname(@PathVariable("studyId") Long studyId,
         @PathVariable("nickname") String nickname) throws Exception {
-        return ResponseEntity.ok(studyService.allFormByStudyNickname(studyId, nickname));
+        return ResponseEntity.ok(studyService.getAllFormByStudyNickname(studyId, nickname));
     }
 
     @GetMapping("/all/{studyId}")
-    @ApiOperation(value = "특정 프로젝트 모든 신청서 조회", notes = "특정 프로젝트의 모든 신청서 리스트를 작성일 기준 내림차순으로 받는다")
+    @ApiOperation(value = "특정 스터디 모든 신청서 조회", notes = "특정 스터디의 모든 신청서 리스트를 작성일 기준 내림차순으로 받는다")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<List<StudyFormInfoResponseDto>> allStudyForm(@PathVariable("studyId") Long studyId) throws Exception {
-        return ResponseEntity.ok(studyService.allStudyForm(studyId));
+    public ResponseEntity<List<StudyFormInfoResponseDto>> getAllStudyForm(@PathVariable("studyId") Long studyId) throws Exception {
+        return ResponseEntity.ok(studyService.getAllStudyForm(studyId));
     }
 
     @GetMapping("/one/{studyId}/{memberId}")
@@ -86,8 +86,8 @@ public class StudyApplicationController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<StudyFormInfoResponseDto> oneProjectForm(@PathVariable("projectId") Long studyId, @PathVariable("memberId") Long memberId) throws Exception {
-        return ResponseEntity.ok(studyService.oneStudyForm(studyId, memberId));
+    public ResponseEntity<StudyFormInfoResponseDto> getOneStudyForm(@PathVariable("studyId") Long studyId, @PathVariable("memberId") Long memberId) throws Exception {
+        return ResponseEntity.ok(studyService.getOneStudyForm(studyId, memberId));
     }
 
 }

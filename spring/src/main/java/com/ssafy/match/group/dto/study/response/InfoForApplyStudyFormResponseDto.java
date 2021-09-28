@@ -1,7 +1,5 @@
 package com.ssafy.match.group.dto.study.response;
 
-import com.ssafy.match.db.entity.MemberBeginnerTechstack;
-import com.ssafy.match.db.entity.MemberExperiencedTechstack;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
@@ -14,7 +12,9 @@ import lombok.Setter;
 @Builder
 public class InfoForApplyStudyFormResponseDto {
 
-    private String name;
+//    private String name;
+
+    private String nickname;
 
     private String git;
 

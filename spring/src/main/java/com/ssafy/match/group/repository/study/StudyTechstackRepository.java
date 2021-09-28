@@ -16,4 +16,7 @@ public interface StudyTechstackRepository extends
         + "where st.compositeStudyTechstack.study = :study")
     List<String> findByStudyTechstackName(@Param("study") Study study);
 
+    @Query("select st from matching.study_techstack st where st.compositeStudyTechstack.study = :study")
+    List<StudyTechstack> findStudyTechstackByStudy(@Param("study") Study study);
+
 }
