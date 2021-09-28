@@ -13,6 +13,8 @@ public class CorsConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
 //            .allowedOrigins("http://jxy.me") // http://jxy.me/websocket-debug-tool/
 //            .allowCredentials(false);
-                .allowedMethods("*");
+                .allowedMethods("*")
+                .allowedOrigins("*")
+                .allowedHeaders("*");
     }
 }
