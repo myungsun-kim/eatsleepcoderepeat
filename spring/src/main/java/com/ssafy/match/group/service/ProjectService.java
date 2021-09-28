@@ -1,5 +1,6 @@
 package com.ssafy.match.group.service;
 
+import com.ssafy.match.db.entity.Member;
 import com.ssafy.match.group.dto.project.request.ProjectApplicationRequestDto;
 import com.ssafy.match.group.dto.project.response.InfoForApplyProjectFormResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectFormtInfoResponseDto;
@@ -25,15 +26,11 @@ public interface ProjectService {
 
     List<Project> projectInMember(Long memberId) throws Exception;
 
-    void addMember(Project project, Long memberId, String role) throws Exception;
+    void addMember(Project project, Member member, String role) throws Exception;
 
     void removeMember(Long projectId, Long memberId) throws Exception;
 
-    void setDBFile(Long projectId, String uuid) throws Exception;
-
-    void setClub(Long projectId, Long clubId) throws Exception;
-
-    void changeRole(Project project, Long memberId, String role) throws Exception;
+    void changeRole(Project project, Member member, String role) throws Exception;
 
     InfoForApplyProjectFormResponseDto checkForRegister(Long projectId) throws Exception;
 

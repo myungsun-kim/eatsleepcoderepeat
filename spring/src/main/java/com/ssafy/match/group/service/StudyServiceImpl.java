@@ -66,15 +66,14 @@ public class StudyServiceImpl implements StudyService {
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
     private final MemberSnsRepository memberSnsRepository;
 
-    // 스터디 생성을 위한 정보(기술 스택 리스트, 호스트의 클럽 정보, 지역 리스트)
+    public final List<String> cityList = List.of("서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기",
+        "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주");
+
+    // 스터디 생성을 위한 정보(호스트의 클럽 정보)
     public StudyInfoForCreateResponseDto getInfoForCreate() throws Exception {
         return StudyInfoForCreateResponseDto.builder()
-            .allTechstack(allTechstackName())
             .hostClub(memberClubRepository
                 .findClubIdNameByMember(findMember(SecurityUtil.getCurrentMemberId())))
-            .city(Stream.of(City.values())
-                .map(Enum::name)
-                .collect(Collectors.toList()))
             .build();
 
     }
@@ -301,6 +300,14 @@ public class StudyServiceImpl implements StudyService {
             .orElseThrow(() -> new NullPointerException("클럽 정보가 없습니다."));
     }
 
+    public DBFile findDBFile(String uuid) {
+        if (uuid == null) {
+            return null;
+        }
+        return dbFileRepository.findById(uuid)
+            .orElseThrow(() -> new NullPointerException("파일 정보가 없습니다."));
+    }
+
     // 현재 스터디에 속한 멤버 리스트
     public List<Member> findMemberInStudy(Study study) {
         return memberStudyRepository.findMemberInStudy(study);
@@ -329,14 +336,6 @@ public class StudyServiceImpl implements StudyService {
         }
 
         return memberDtos;
-    }
-
-    public DBFile findDBFile(String uuid) {
-        if (uuid == null) {
-            return null;
-        }
-        return dbFileRepository.findById(uuid)
-            .orElseThrow(() -> new NullPointerException("파일 정보가 없습니다."));
     }
 
     // 신청 버튼 클릭시 관련 정보 및 권한 체크

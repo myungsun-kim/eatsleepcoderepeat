@@ -682,14 +682,13 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `matching`.`project_techstack`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`project_techstack` (
-  `is_active` BIT(1) NOT NULL,
-  `project_id1` BIGINT NOT NULL,
+  `project_id` BIGINT NOT NULL,
   `techstack_id` INT NOT NULL,
-  PRIMARY KEY (`project_id1`, `techstack_id`),
-  INDEX `fk_project_techstack_project1_idx` (`project_id1` ASC) VISIBLE,
+  PRIMARY KEY (`project_id`, `techstack_id`),
+  INDEX `fk_project_techstack_project1_idx` (`project_id` ASC) VISIBLE,
   INDEX `fk_project_techstack_techstack1_idx` (`techstack_id` ASC) VISIBLE,
   CONSTRAINT `fk_project_techstack_project1`
-    FOREIGN KEY (`project_id1`)
+    FOREIGN KEY (`project_id`)
     REFERENCES `matching`.`project` (`id`),
   CONSTRAINT `fk_project_techstack_techstack1`
     FOREIGN KEY (`techstack_id`)
@@ -765,6 +764,3 @@ COLLATE = utf8mb4_0900_ai_ci;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-INSERT INTO `matching`.`techstack` (`id`, `name`) VALUES (1, "python");
-INSERT INTO `matching`.`techstack` (`id`, `name`) VALUES (2, "java");

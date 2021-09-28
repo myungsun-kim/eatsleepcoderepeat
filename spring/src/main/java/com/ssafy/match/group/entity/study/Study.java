@@ -45,13 +45,12 @@ public class Study {
 
     @Enumerated(EnumType.STRING)
     private City city;
-
+    @Enumerated(EnumType.STRING)
+    private Status status;
     @Column(name = "create_Date")
     private LocalDateTime createDate;
     @Column(name = "modify_Date")
     private LocalDateTime modifyDate;
-    @Enumerated(EnumType.STRING)
-    private Status status;
 
     @Column(name = "is_active")
     private Boolean isActive;
@@ -110,6 +109,7 @@ public class Study {
         this.isPublic = dto.getIsPublic();
         this.isParticipate = dto.getIsParticipate();
     }
+
     public Study(StudyCreateRequestDto dto) {
         this.name = dto.getName();
         this.schedule = dto.getSchedule();
