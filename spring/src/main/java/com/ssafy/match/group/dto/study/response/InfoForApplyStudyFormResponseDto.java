@@ -30,4 +30,7 @@ public class InfoForApplyStudyFormResponseDto {
 
     private String bio;
 
+    @ApiModelProperty(name = "projectCity", example = "[\"광주\", \"구미\"]")
+    @ApiParam(value = "선택할 수 있는 지역 리스트", required = true)
+    private List<String> projectCity;
 }
