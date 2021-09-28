@@ -76,7 +76,6 @@ export default {
         password: '',
       },
     });
-
     const goSignUp = function () {
       router.push({ path: '/noheader/signup' });
     };
