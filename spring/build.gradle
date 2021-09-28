@@ -69,6 +69,8 @@ dependencies {
     testImplementation ('org.springframework.boot:spring-boot-starter-test'){
         exclude module : 'org.junit.vintage:junit-vintage-engine'
     }
+    // https://mvnrepository.com/artifact/junit/junit
+    testImplementation 'junit:junit:4.13.2'
 
     /*
         github api 로드를 위한 클라이언트 패키지들
