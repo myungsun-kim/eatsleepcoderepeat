@@ -6,10 +6,10 @@
       </el-col>
       <el-col :span="13" :offset="0">
         <div class="height100">
-          <div id="h1">스터디 생성</div>
+          <div id="h1">클럽 생성</div>
           <hr />
           <div id="box1">
-            <label id="h2">스터디 이름</label>
+            <label id="h2">클럽 이름</label>
             <input
               type="text"
               placeholder="이름을 입력하세요."
@@ -19,37 +19,17 @@
             />
           </div>
           <div id="box1">
-            <label id="h2">기술스택</label>
+            <label id="h2">주제</label>
             <input
               type="text"
-              placeholder="사용하는 기술 스택을 입력하세요."
+              placeholder="주로 다룰 주제를 입력하세요."
               id="input"
               onfocus="this.placeholder=''"
-              onblur="this.placeholder='사용하는 기술 스택을 입력하세요'"
+              onblur="this.placeholder='주로 다룰 주제를 입력하세요'"
             />
           </div>
           <div id="box3">
             <div id="box2">
-              <div id="box1">
-                <label id="h2">일정</label>
-                <input
-                  type="text"
-                  placeholder="스터디 일정을 입력하세요"
-                  id="input1"
-                  onfocus="this.placeholder=''"
-                  onblur="this.placeholder='스터디 일정을 입력하세요'"
-                />
-              </div>
-              <div id="box1">
-                <label id="h2">스터디 기간(단위: 주)</label>
-                <input
-                  type="text"
-                  placeholder="숫자를 입력하세요"
-                  id="input1"
-                  onfocus="this.placeholder=''"
-                  onblur="this.placeholder='숫자를 입력하세요'"
-                />
-              </div>
               <div id="box1">
                 <label id="h2">인원</label>
                 <input
@@ -61,7 +41,7 @@
                 />
               </div>
               <div id="box1">
-                <label id="h2">스터디 공개 여부</label>
+                <label id="h2">클럽 공개 여부</label>
                 <div id="radio">
                   <!-- radio 타입은 name명이 같을 경우 하나만 선택된다. -->
                   <label>
@@ -73,6 +53,15 @@
                     비공개
                   </label>
                 </div>
+              </div>
+              <div id="box1">
+                <label id="h2">지역</label>
+                <select id="region">
+                  <option value="1">11</option>
+                  <option value="2">22</option>
+                  <option value="3">33</option>
+                  <option value="4">44</option>
+                </select>
               </div>
             </div>
             <div id="box4">
@@ -95,33 +84,15 @@
               </el-upload>
             </div>
           </div>
-          <div id="box1">
-            <label id="h2">지역</label>
-            <select id="region">
-              <option value="1">11</option>
-              <option value="2">22</option>
-              <option value="3">33</option>
-              <option value="4">44</option>
-            </select>
-          </div>
 
-          <div id="box1">
-            <label id="h2">소속 클럽</label>
-            <select id="region">
-              <option value="none">없음</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-              <option value="D">D</option>
-            </select>
-          </div>
           <div id="box1">
             <label id="h2">소개</label>
             <textarea
               type="textarea"
-              placeholder="해당 스터디에 대해 소개해주세요"
+              placeholder="해당 클럽에 대해 소개해주세요"
               id="input2"
               onfocus="this.placeholder=''"
-              onblur="this.placeholder='해당 스터디에 대해 소개해주세요'"
+              onblur="this.placeholder='해당 클럽에 대해 소개해주세요'"
               maxlength="300"
               show-word-limit
             />
@@ -271,7 +242,7 @@ export default {
 }
 #region {
   cursor: pointer;
-  width: 794px;
+  width: 375px;
   height: 52px;
 
   background: #e8e8e8;

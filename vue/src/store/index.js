@@ -2,6 +2,8 @@ import { createStore } from 'vuex';
 import axios from 'axios';
 import createPersistedState from 'vuex-persistedstate';
 
+import { auth } from '@/store/modules/auth';
+
 export default createStore({
   state: {
     category: null,
@@ -75,6 +77,6 @@ export default createStore({
       }
     },
   },
-  modules: {},
+  modules: { auth },
   plugins: [createPersistedState()],
 });
