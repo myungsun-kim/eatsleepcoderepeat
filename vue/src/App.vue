@@ -11,10 +11,6 @@
       :before-upload="beforeUpload"
       :auto-upload="false"
     >
-      <!-- :headers="{
-        Authorization:
-          'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0OSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1ODE1NDZ9.ay-cGsZzQq3CYqonZsczoS5qcLicW8p58D17P6JrmjD6NNesk6_b-usDhpeKLqiIkSJ4dSsBQJv2POl95v-KnQ',
-      }" -->
       <template #trigger>
         <el-button size="small" type="primary">select file</el-button>
       </template>
@@ -42,26 +38,29 @@ import axios from 'axios';
 export default {
   methods: {
     submitUpload() {
+      console.log('7');
       this.$refs.upload.submit();
     },
     beforeUpload: function (file) {
-      console.log('!');
+      console.log('1');
       console.log(file);
       const token =
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0OSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1ODI1MjB9._UhMZJ1ifGtZq7cAalLlIhpRx8a1DHXvbeNwdzS4liHtOQu_545IcXrmE48FpMRhytP0ZU7I08lLlpafIp_d_Q';
-      var fd = new window.FormData();
-      fd.append('file', file);
-      console.log('@21@');
-      axios
-        .post('/api/file/uploadFile', fd, {
+        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0OSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1ODYzNzR9.LHUNEgslWjvUmRdwW59vCnMwEJ64euA9k7-QZ1ffgP70F7XTiU2ilQhcqhfYxw4WL7v3BaTKPZuonG5nR_KI1w';
+      let formData = new FormData();
+      formData.append('file', file);
+      console.log('2');
+
+      const res = axios.post(
+        'http://localhost:8080/api/file/uploadFile',
+        formData,
+        {
           headers: {
             Authorization: 'Bearer ' + token,
           },
-        })
-        .then(function (res) {
-          console.log('@@');
-          console.log(res);
-        });
+        }
+      );
+      console.log(res);
+      console.log('3');
     },
   },
 };
