@@ -280,7 +280,7 @@
 
 <script>
 import { onBeforeMount, onUnmounted, reactive } from 'vue';
-import { useStore } from 'vuex';
+import { useStore, useRouter } from 'vuex';
 export default {
   name: 'SignUp',
   setup() {
