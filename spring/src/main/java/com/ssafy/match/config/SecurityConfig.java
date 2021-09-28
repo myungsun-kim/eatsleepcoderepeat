@@ -90,7 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // above origin is for the test @ daebalprime local.
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
-        configuration.setAllowCredentials(false);
+        configuration.setAllowCredentials(true);
 
 //        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
         configuration.setMaxAge(3600L);
