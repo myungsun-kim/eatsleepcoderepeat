@@ -40,7 +40,7 @@ public class StudyController {
         return ResponseEntity.ok(studyService.getInfoForUpdateStudy(studyId));
     }
 
-    @PostMapping("/")
+    @PostMapping
     @ApiOperation(value = "스터디 생성", notes = "<strong>받은 스터디 정보</strong>를 사용해서 스터디을 생성한다.")
     public ResponseEntity<Long> create(@RequestBody StudyCreateRequestDto dto) throws Exception {
         return ResponseEntity.ok(studyService.create(dto));
@@ -67,7 +67,7 @@ public class StudyController {
         return ResponseEntity.ok(studyService.removeMember(studyId, memberId));
     }
 
-    @GetMapping("/")
+    @GetMapping
     @ApiOperation(value = "모든 스터디 조회", notes = "모든 스터디를 작성일 기준 내림차순으로 받는다")
     public ResponseEntity<List<StudyInfoResponseDto>> getAllStudy() throws Exception {
         return ResponseEntity.ok(studyService.getAllStudy());

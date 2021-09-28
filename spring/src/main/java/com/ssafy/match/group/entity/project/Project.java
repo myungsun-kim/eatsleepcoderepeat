@@ -150,7 +150,7 @@ public class Project {
         this.designerCount = 0;
         this.designerMaxCount = dto.getDesignerMaxCount();
         this.city = City.from(dto.getCity());
-        this.status = Status.모집중;
+        this.status = Status.모집;
         this.createDate = LocalDateTime.now();
         this.modifyDate = LocalDateTime.now();
         this.isActive = true;

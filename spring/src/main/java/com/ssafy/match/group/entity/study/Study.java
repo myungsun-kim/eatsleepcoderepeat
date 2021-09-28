@@ -120,7 +120,7 @@ public class Study {
         this.city = City.from(dto.getCity());
         this.createDate = LocalDateTime.now();
         this.modifyDate = LocalDateTime.now();
-        this.status = Status.모집중;
+        this.status = Status.모집;
         this.isActive = true;
         this.isPublic = dto.getIsPublic();
         this.isParticipate = true;
