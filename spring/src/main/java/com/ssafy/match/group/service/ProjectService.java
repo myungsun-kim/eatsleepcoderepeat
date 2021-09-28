@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 
 public interface ProjectService {
 
-    ProjectInfoForCreateResponseDto infoForCreate() throws Exception;
+    ProjectInfoForCreateResponseDto getInfoForCreate() throws Exception;
 
     Long create(ProjectCreateRequestDto dto) throws Exception;
 

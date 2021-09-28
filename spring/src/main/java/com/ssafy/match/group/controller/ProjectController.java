@@ -29,13 +29,13 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-    @GetMapping("/")
-    @ApiOperation(value = "프로젝트 생성을 위한 정보", notes = "<strong>프로젝트를 생성하기 위한</strong> 전체 기술, 생성할 멤버의 클럽, 선택할 수 있는 지역 리스트를 받는다")
+    @GetMapping
+    @ApiOperation(value = "프로젝트 생성을 위한 정보", notes = "<strong>프로젝트를 생성하기 위한</strong> 생성할 멤버의 클럽을 받는다")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<ProjectInfoForCreateResponseDto> infoForCreate() throws Exception {
-        return ResponseEntity.ok(projectService.infoForCreate());
+    public ResponseEntity<ProjectInfoForCreateResponseDto> getInfoForCreate() throws Exception {
+        return ResponseEntity.ok(projectService.getInfoForCreate());
     }
 
     @PostMapping("/")

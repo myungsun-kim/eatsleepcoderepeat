@@ -2,6 +2,7 @@ package com.ssafy.match.group.dto.project.response;
 
 import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Status;
+import com.ssafy.match.group.dto.MemberDto;
 import com.ssafy.match.group.entity.club.Club;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
@@ -29,9 +30,9 @@ public class ProjectInfoResponseDto {
     @ApiParam(value = "프로젝트 기간(주 단위)", required = true)
     private int period;
 
-    @ApiModelProperty(name = "hostNickname", example = "MinMin")
-    @ApiParam(value = "프로젝트장 닉네임", required = true)
-    private String hostNickname;
+    @ApiModelProperty(name = "host", example = "[id: 3, name: '박범진', nickname: 'BJP']")
+    @ApiParam(value = "스터디장 정보(id, name, nickname)", required = true)
+    private MemberDto host;
 
     @ApiModelProperty(name = "developerCount", example = "3")
     @ApiParam(value = "개발자 현재 인원", required = true)

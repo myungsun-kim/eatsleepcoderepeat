@@ -2,6 +2,7 @@ package com.ssafy.match.group.service;
 
 import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.db.repository.MemberBeginnerTechstackRepository;
 import com.ssafy.match.db.repository.MemberClubRepository;
@@ -11,6 +12,8 @@ import com.ssafy.match.db.repository.MemberSnsRepository;
 import com.ssafy.match.db.repository.TechstackRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
+import com.ssafy.match.group.dto.MemberDto;
+import com.ssafy.match.group.dto.club.ClubDto;
 import com.ssafy.match.group.dto.project.request.ProjectApplicationRequestDto;
 import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
 import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
@@ -19,6 +22,7 @@ import com.ssafy.match.group.dto.project.response.ProjectFormtInfoResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectInfoForCreateResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectMemberRoleResponseDto;
+import com.ssafy.match.group.dto.study.response.StudyInfoResponseDto;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import com.ssafy.match.group.entity.project.CompositeProjectTechstack;
@@ -26,6 +30,7 @@ import com.ssafy.match.group.entity.project.MemberProject;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.entity.project.ProjectApplicationForm;
 import com.ssafy.match.group.entity.project.ProjectTechstack;
+import com.ssafy.match.group.entity.study.Study;
 import com.ssafy.match.group.repository.club.ClubRepository;
 import com.ssafy.match.group.repository.project.MemberProjectRepository;
 import com.ssafy.match.group.repository.project.ProjectApplicationFormRepository;
@@ -61,17 +66,17 @@ public class ProjectServiceImpl implements ProjectService {
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
     private final MemberSnsRepository memberSnsRepository;
 
-    public ProjectInfoForCreateResponseDto infoForCreate() throws Exception {
+    public ProjectInfoForCreateResponseDto getInfoForCreate() throws Exception {
         return ProjectInfoForCreateResponseDto.builder()
             .hostClub(memberClubRepository
                 .findClubIdNameByMember(findMember(SecurityUtil.getCurrentMemberId())))
-            .city(Stream.of(City.values())
-                .map(Enum::name)
-                .collect(Collectors.toList()))
             .build();
     }
     @Transactional
     public Long create(ProjectCreateRequestDto dto) throws Exception {
+        validCity(dto.getCity());
+        validTechstack(dto.getTechList());
+
         Project project = new Project(dto);
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         project.setMember(member);
@@ -88,6 +93,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Transactional
     public HttpStatus update(Long projectId, ProjectUpdateRequestDto dto) throws Exception {
+        validCity(dto.getCity());
+        validTechstack(dto.getAddStackList());
+        validTechstack(dto.getRemoveStackList());
+        validStatus(dto.getStatus());
+
         Project project = findProject(projectId);
         Long currentMemberId = SecurityUtil.getCurrentMemberId();
 
@@ -118,14 +128,28 @@ public class ProjectServiceImpl implements ProjectService {
             mem.deactivation();
         }
 
-//        List<ProjectTechstack> pts = projectTechstackRepository.findProejctTechstackByProject(project);
-//        for (ProjectTechstack pt: pts) {
-//            studyTechstackRepository.delete(st);
-//        }
+        List<ProjectTechstack> pts = projectTechstackRepository.findProjectTechstackByProject(project);
+        for (ProjectTechstack pt: pts) {
+            projectTechstackRepository.delete(pt);
+        }
 
         project.setIsActive(false);
 
         return HttpStatus.OK;
+    }
+
+    public List<StudyInfoResponseDto> getAllStudy() {
+        List<Study> studies = studyRepository.findAllStudy();
+        List<StudyInfoResponseDto> studyInfoResponseDtos = new ArrayList<>();
+
+        for (Study study: studies) {
+            if(study.getStatus().equals(Status.종료)) continue;
+            StudyInfoResponseDto dto = new StudyInfoResponseDto(study);
+            dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
+            studyInfoResponseDtos.add(dto);
+        }
+
+        return studyInfoResponseDtos;
     }
 
     // 현재 프로젝트 정보 리턴
@@ -320,6 +344,46 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return dbFileRepository.findById(uuid)
             .orElseThrow(() -> new NullPointerException("파일 정보가 없습니다."));
+    }
+
+    public void validCity(String city) throws Exception {
+        if(!Stream.of(City.values()).map(Enum::name)
+            .collect(Collectors.toList()).contains(city)){
+            throw new Exception("존재하지 않는 지역입니다");
+        }
+    }
+    public void validStatus(String status) throws Exception {
+        if(!Stream.of(Status.values()).map(Enum::name)
+            .collect(Collectors.toList()).contains(status)){
+            throw new Exception("존재하지 않는 지역입니다");
+        }
+    }
+    public void validTechstack(List<String> techstacks) throws Exception {
+        for (String inTech: techstacks) {
+            if(!techstackRepository.findAllName().contains(inTech)){
+                throw new Exception("존재하지 않는 기술 스택입니다");
+            }
+        }
+    }
+
+    public List<ClubDto> makeClubDtos(List<Club> hostClub) {
+        List<ClubDto> clubDtos = new ArrayList<>();
+
+        for (Club club : hostClub) {
+            clubDtos.add(new ClubDto(club));
+        }
+
+        return clubDtos;
+    }
+
+    public List<MemberDto> makeMemberDtos(List<Member> members) {
+        List<MemberDto> memberDtos = new ArrayList<>();
+
+        for (Member member : members) {
+            memberDtos.add(new MemberDto(member));
+        }
+
+        return memberDtos;
     }
 
     // (아이디어가 생각이 안나서 임시로 If문 사용 조언 구함)
