@@ -2,8 +2,8 @@
   <el-row :gutter="0" class="height100" id="signup">
     <el-col :span="9" :offset="0" id="left">
       <div class="height100">
-        <div class="height30">30</div>
-        <div class="height5">5</div>
+        <div class="height30"></div>
+        <div class="height5"></div>
         <div class="height10" id="P1">
           <p id="p1">회원이신가요?</p>
         </div>
@@ -16,15 +16,15 @@
         <div class="height5">
           <el-button id="login" @click="goSignIn">로그인</el-button>
         </div>
-        <div class="height30">30</div>
-        <div class="height5">5</div>
+        <div class="height30"></div>
+        <div class="height5"></div>
       </div>
     </el-col>
 
     <!-- Step1 기본정보-->
     <el-col :span="15" :offset="0" id="step1" v-if="state.step == 1">
       <form class="height100">
-        <div class="height20">20</div>
+        <div class="height20"></div>
         <div class="height5" id="H1">
           <p id="h1">회원가입</p>
         </div>
@@ -121,8 +121,8 @@
 
           <el-button id="next0" @click="nextStep1">다음</el-button>
         </div>
-        <div class="height10">10</div>
-        <div class="height5">5</div>
+        <div class="height10"></div>
+        <div class="height5"></div>
       </form>
     </el-col>
 
@@ -186,7 +186,7 @@
             </el-col>
           </el-row>
         </div>
-        <div class="height5">5</div>
+        <div class="height5"></div>
         <div class="height10" id="button">
           <el-row :gutter="0">
             <el-col :span="12" :offset="0"></el-col>

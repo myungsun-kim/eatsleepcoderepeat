@@ -2,12 +2,12 @@
   <el-row :gutter="0" class="height100">
     <el-col :span="15" :offset="0">
       <div class="height100">
-        <div class="height30">30</div>
-        <div class="height5">5</div>
+        <div class="height30"></div>
+        <div class="height5"></div>
         <div class="height10" id="H1">
           <p id="h1">환영합니다!</p>
         </div>
-        <div class="height5">5</div>
+        <div class="height5"></div>
         <div class="height5">
           <input
             v-model="state.form.email"
@@ -31,13 +31,13 @@
         <div class="height5">
           <el-button id="login" @click="signIn">로그인</el-button>
         </div>
-        <div class="height30">30</div>
+        <div class="height30"></div>
       </div>
     </el-col>
     <el-col :span="9" :offset="0" id="right">
       <div class="height100">
-        <div class="height30">30</div>
-        <div class="height5">5</div>
+        <div class="height30"></div>
+        <div class="height5"></div>
         <div class="height10" id="P1">
           <p id="p1">아직 회원이 아니신가요?</p>
         </div>
@@ -46,12 +46,12 @@
             회원가입을 하고 여러분이 원하는 스터디와 프로젝트를 찾아보세요!
           </p>
         </div>
-        <div class="height5">5</div>
+        <div class="height5"></div>
         <div class="height5">
           <el-button id="signin" @click="goSignUp">회원가입</el-button>
         </div>
-        <div class="height5">5</div>
-        <div class="height30">30</div>
+        <div class="height5"></div>
+        <div class="height30"></div>
       </div>
     </el-col>
   </el-row>
