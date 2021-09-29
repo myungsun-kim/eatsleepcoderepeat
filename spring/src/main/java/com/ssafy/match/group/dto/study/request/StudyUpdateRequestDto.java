@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StudyUpdateRequestDto {
 
-    @ApiModelProperty(name = "techstack", example = "['자바', '파이썬', '스프링', '쿠버네티스']")
+    @ApiModelProperty(name = "techstack", example = "[\"java\", \"python\"]")
     @ApiParam(value = "추가된 기술 스택 리스트", required = true)
     private List<String> addStackList;
 
-    @ApiModelProperty(name = "techstack", example = "['자바', '파이썬']")
+    @ApiModelProperty(name = "techstack", example = "[\"java\", \"python\"]")
     @ApiParam(value = "제거된 기술 스택 리스트", required = true)
     private List<String> removeStackList;
 

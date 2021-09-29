@@ -1,15 +1,15 @@
 package com.ssafy.match.group.service;
 
 import com.ssafy.match.db.entity.City;
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.entity.MemberSns;
+import com.ssafy.match.member.entity.Member;
+import com.ssafy.match.member.entity.MemberSns;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
-import com.ssafy.match.db.repository.MemberBeginnerTechstackRepository;
+import com.ssafy.match.member.repository.MemberBeginnerTechstackRepository;
 import com.ssafy.match.db.repository.MemberClubRepository;
-import com.ssafy.match.db.repository.MemberExperiencedTechstackRepository;
-import com.ssafy.match.db.repository.MemberRepository;
-import com.ssafy.match.db.repository.MemberSnsRepository;
+import com.ssafy.match.member.repository.MemberExperiencedTechstackRepository;
+import com.ssafy.match.member.repository.MemberRepository;
+import com.ssafy.match.member.repository.MemberSnsRepository;
 import com.ssafy.match.db.repository.TechstackRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
@@ -64,24 +64,21 @@ public class StudyServiceImpl implements StudyService {
     private final DBFileRepository dbFileRepository;
     private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
-
     private final MemberSnsRepository memberSnsRepository;
 
-    // 스터디 생성을 위한 정보(기술 스택 리스트, 호스트의 클럽 정보, 지역 리스트)
+    // 스터디 생성을 위한 정보(호스트의 클럽 정보)
     public StudyInfoForCreateResponseDto getInfoForCreate() throws Exception {
         return StudyInfoForCreateResponseDto.builder()
-            .allTechstack(allTechstackName())
             .hostClub(memberClubRepository
                 .findClubIdNameByMember(findMember(SecurityUtil.getCurrentMemberId())))
-            .city(Stream.of(City.values())
-                .map(Enum::name)
-                .collect(Collectors.toList()))
             .build();
-
     }
 
     @Transactional
     public Long create(StudyCreateRequestDto dto) throws Exception {
+        validCity(dto.getCity());
+        validTechstack(dto.getTechList());
+
         Study study = new Study(dto);
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         study.setMember(member);
@@ -97,6 +94,11 @@ public class StudyServiceImpl implements StudyService {
 
     @Transactional
     public HttpStatus update(Long studyId, StudyUpdateRequestDto dto) throws Exception {
+        validCity(dto.getCity());
+        validTechstack(dto.getAddStackList());
+        validTechstack(dto.getRemoveStackList());
+        validStatus(dto.getStatus());
+
         Study study = findStudy(studyId);
         Long memberId = SecurityUtil.getCurrentMemberId();
         if (!study.getMember().getId().equals(memberId)) {
@@ -141,9 +143,10 @@ public class StudyServiceImpl implements StudyService {
         List<StudyInfoResponseDto> studyInfoResponseDtos = new ArrayList<>();
 
         for (Study study: studies) {
-            if(study.getStatus().equals(Status.종료됨)) continue;
+            if(study.getStatus().equals(Status.종료)) continue;
             StudyInfoResponseDto dto = new StudyInfoResponseDto(study);
             dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
+            dto.setTechList(studyTechstackName(study));
             studyInfoResponseDtos.add(dto);
         }
 
@@ -156,11 +159,15 @@ public class StudyServiceImpl implements StudyService {
 
         if (!SecurityUtil.getCurrentMemberId().equals(study.getMember().getId())
             && !study.getIsPublic()) {
-            throw new Exception("비공개된 프로젝트입니다.");
+            throw new Exception("비공개된 스터디입니다.");
         }
 
         StudyInfoResponseDto dto = new StudyInfoResponseDto(study);
         dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
+        if(study.getClub() != null){
+            dto.setClub(new ClubDto(study.getClub()));
+        }
+        dto.setTechList(studyTechstackName(study));
 
         return dto;
     }
@@ -173,16 +180,9 @@ public class StudyServiceImpl implements StudyService {
         }
 
         StudyInfoForUpdateResponseDto dto = new StudyInfoForUpdateResponseDto(study);
-        dto.setAllTechstack(allTechstackName());
         dto.setStudyTechstack(studyTechstackName(study));
         dto.setClubList(makeClubDtos(memberClubRepository.findClubByMember(study.getMember())));
         dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
-        dto.setCityList(Stream.of(City.values())
-            .map(Enum::name)
-            .collect(Collectors.toList()));
-        dto.setStatusList(Stream.of(Status.values())
-            .map(Enum::name)
-            .collect(Collectors.toList()));
 
         if (study.getClub() != null) {
             dto.setClub(new ClubDto(study.getClub()));
@@ -259,7 +259,7 @@ public class StudyServiceImpl implements StudyService {
         Member member = findMember(memberId);
 
         if (study.getMember().getId().equals(memberId)) {
-            throw new Exception("프로젝트장은 탈퇴할 수 없습니다.");
+            throw new Exception("스터디장은 탈퇴할 수 없습니다.");
         }
 
         CompositeMemberStudy compositeMemberStudy = new CompositeMemberStudy(member, study);
@@ -274,10 +274,10 @@ public class StudyServiceImpl implements StudyService {
 
     public Study findStudy(Long studyId) throws Exception {
         Study study = studyRepository.findById(studyId)
-            .orElseThrow(() -> new NullPointerException("프로젝트 정보가 없습니다."));
+            .orElseThrow(() -> new NullPointerException("스터디 정보가 없습니다."));
 
-        if (study.getIsActive() == false) {
-            throw new Exception("삭제된 프로젝트입니다.");
+        if (!study.getIsActive()) {
+            throw new Exception("삭제된 스터디입니다.");
         }
 
         return study;
@@ -287,7 +287,7 @@ public class StudyServiceImpl implements StudyService {
         Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new NullPointerException("회원 정보가 없습니다."));
 
-        if (member.getIs_active() == false) {
+        if (!member.getIs_active()) {
             throw new Exception("삭제된 멤버입니다.");
         }
 
@@ -302,6 +302,14 @@ public class StudyServiceImpl implements StudyService {
             .orElseThrow(() -> new NullPointerException("클럽 정보가 없습니다."));
     }
 
+    public DBFile findDBFile(String uuid) {
+        if (uuid == null) {
+            return null;
+        }
+        return dbFileRepository.findById(uuid)
+            .orElseThrow(() -> new NullPointerException("파일 정보가 없습니다."));
+    }
+
     // 현재 스터디에 속한 멤버 리스트
     public List<Member> findMemberInStudy(Study study) {
         return memberStudyRepository.findMemberInStudy(study);
@@ -310,6 +318,26 @@ public class StudyServiceImpl implements StudyService {
     // 특정 멤버의 활성화 스터디 리스트
     public List<Study> studyInMember(Member member) {
         return memberStudyRepository.studyInMember(member);
+    }
+
+    public void validCity(String city) throws Exception {
+        if(!Stream.of(City.values()).map(Enum::name)
+            .collect(Collectors.toList()).contains(city)){
+            throw new Exception("존재하지 않는 지역입니다");
+        }
+    }
+    public void validStatus(String status) throws Exception {
+        if(!Stream.of(Status.values()).map(Enum::name)
+            .collect(Collectors.toList()).contains(status)){
+            throw new Exception("존재하지 않는 지역입니다");
+        }
+    }
+    public void validTechstack(List<String> techstacks) throws Exception {
+        for (String inTech: techstacks) {
+            if(!techstackRepository.findAllName().contains(inTech)){
+                throw new Exception("존재하지 않는 기술 스택입니다");
+            }
+        }
     }
 
     public List<ClubDto> makeClubDtos(List<Club> hostClub) {
@@ -332,14 +360,6 @@ public class StudyServiceImpl implements StudyService {
         return memberDtos;
     }
 
-    public DBFile findDBFile(String uuid) {
-        if (uuid == null) {
-            return null;
-        }
-        return dbFileRepository.findById(uuid)
-            .orElseThrow(() -> new NullPointerException("파일 정보가 없습니다."));
-    }
-
     // 신청 버튼 클릭시 관련 정보 및 권한 체크
     public InfoForApplyStudyFormResponseDto getInfoForApply(Long studyId) throws Exception {
         Member member = findMember(SecurityUtil.getCurrentMemberId());
@@ -353,16 +373,13 @@ public class StudyServiceImpl implements StudyService {
         }
 
         if (!study.getIsParticipate()) {
-            throw new Exception("참여 불가능한 프로젝트입니다.");
+            throw new Exception("참여 불가능한 스터디입니다.");
         }
 
         InfoForApplyStudyFormResponseDto dto = InfoForApplyStudyFormResponseDto.builder()
             .nickname(member.getNickname())
             .strong(memberExperiencedTechstackRepository.findTechstackByMemberName(member))
             .knowledgeable(memberBeginnerTechstackRepository.findTechstackByMemberName(member))
-            .projectCity(Stream.of(City.values())
-                .map(Enum::name)
-                .collect(Collectors.toList()))
             .build();
 
         Optional<MemberSns> git = memberSnsRepository.findByMemberAndSnsName(member, "github");
@@ -410,6 +427,9 @@ public class StudyServiceImpl implements StudyService {
         }
         if (dto.getFacebook() != null) {
             studyApplicationForm.setFacebook(dto.getFacebook());
+        }
+        if(dto.getBackjoon() != null){
+            studyApplicationForm.setBackjoon(dto.getBackjoon());
         }
 
         studyApplicationForm.setDbFile(findDBFile(dto.getUuid()));
@@ -468,7 +488,7 @@ public class StudyServiceImpl implements StudyService {
         return studyFormInfoResponseDtos;
     }
 
-    // 신청서 목록의 복합 기본키를 가져와 해당 신청서 상세조회 (프론트 방식에 따라 불필요할 수 있음)
+    // 신청서 목록의 복합 기본키를 가져와 해당 신청서 상세조회
     public StudyFormInfoResponseDto getOneStudyForm(Long studyId, Long memberId) throws Exception {
         CompositeMemberStudy cms = new CompositeMemberStudy(findMember(memberId),
             findStudy(studyId));

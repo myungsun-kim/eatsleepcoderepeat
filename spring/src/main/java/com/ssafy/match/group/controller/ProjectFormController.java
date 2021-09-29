@@ -1,8 +1,8 @@
 package com.ssafy.match.group.controller;
 
-import com.ssafy.match.group.dto.project.request.FormRegisterRequestDto;
-import com.ssafy.match.group.dto.project.response.FormtInfoForRegisterResponseDto;
-import com.ssafy.match.group.dto.project.response.FormtInfoResponseDto;
+import com.ssafy.match.group.dto.project.request.ProjectApplicationRequestDto;
+import com.ssafy.match.group.dto.project.response.InfoForApplyProjectFormResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectFormInfoResponseDto;
 import com.ssafy.match.group.service.ProjectService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/projectform")
+@RequestMapping("/projectapplication")
 public class ProjectFormController {
 
     private final ProjectService projectService;
@@ -31,8 +31,8 @@ public class ProjectFormController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<FormtInfoForRegisterResponseDto> checkForRegister(@PathVariable("projectId") Long projectId) throws Exception {
-        return ResponseEntity.ok(projectService.checkForRegister(projectId));
+    public ResponseEntity<InfoForApplyProjectFormResponseDto> checkForRegister(@PathVariable("projectId") Long projectId) throws Exception {
+        return ResponseEntity.ok(projectService.getInfoForApply(projectId));
     }
 
     @PostMapping("/{projectId}")
@@ -40,8 +40,8 @@ public class ProjectFormController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<HttpStatus> createForm(@PathVariable("projectId") Long projectId, @RequestBody FormRegisterRequestDto dto) throws Exception {
-        return ResponseEntity.ok(projectService.createForm(projectId, dto));
+    public ResponseEntity<HttpStatus> createForm(@PathVariable("projectId") Long projectId, @RequestBody ProjectApplicationRequestDto dto) throws Exception {
+        return ResponseEntity.ok(projectService.applyProject(projectId, dto));
     }
 
     @PostMapping("/approval/{projectId}/{memberId}")
@@ -67,7 +67,7 @@ public class ProjectFormController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<List<FormtInfoResponseDto>> allFormByProjectNickname(@PathVariable("projectId") Long projectId,
+    public ResponseEntity<List<ProjectFormInfoResponseDto>> allFormByProjectNickname(@PathVariable("projectId") Long projectId,
         @PathVariable("nickname") String nickname) throws Exception {
         return ResponseEntity.ok(projectService.allFormByProjectNickname(projectId, nickname));
     }
@@ -77,7 +77,7 @@ public class ProjectFormController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<List<FormtInfoResponseDto>> allProjectForm(@PathVariable("projectId") Long projectId) throws Exception {
+    public ResponseEntity<List<ProjectFormInfoResponseDto>> allProjectForm(@PathVariable("projectId") Long projectId) throws Exception {
         return ResponseEntity.ok(projectService.allProjectForm(projectId));
     }
 
@@ -86,7 +86,7 @@ public class ProjectFormController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<FormtInfoResponseDto> oneProjectForm(@PathVariable("projectId") Long projectId, @PathVariable("memberId") Long memberId) throws Exception {
+    public ResponseEntity<ProjectFormInfoResponseDto> oneProjectForm(@PathVariable("projectId") Long projectId, @PathVariable("memberId") Long memberId) throws Exception {
         return ResponseEntity.ok(projectService.oneProjectForm(projectId, memberId));
     }
 

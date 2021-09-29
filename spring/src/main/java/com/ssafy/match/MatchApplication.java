@@ -27,8 +27,9 @@ public class MatchApplication {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedMethods("*")
-                        .allowedOrigins("*")
-                        .allowedHeaders("*");
+//                        .allowedOrigins("*")
+                        .allowedHeaders("*")
+                        .allowedOriginPatterns("*");
 //                        .allowedOrigins("http://localhost:8081");
             }
         };

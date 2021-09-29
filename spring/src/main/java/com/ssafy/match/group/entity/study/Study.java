@@ -1,7 +1,7 @@
 package com.ssafy.match.group.entity.study;
 
 import com.ssafy.match.db.entity.City;
-import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.dto.study.request.StudyCreateRequestDto;
@@ -45,13 +45,12 @@ public class Study {
 
     @Enumerated(EnumType.STRING)
     private City city;
-
+    @Enumerated(EnumType.STRING)
+    private Status status;
     @Column(name = "create_Date")
     private LocalDateTime createDate;
     @Column(name = "modify_Date")
     private LocalDateTime modifyDate;
-    @Enumerated(EnumType.STRING)
-    private Status status;
 
     @Column(name = "is_active")
     private Boolean isActive;
@@ -110,6 +109,7 @@ public class Study {
         this.isPublic = dto.getIsPublic();
         this.isParticipate = dto.getIsParticipate();
     }
+
     public Study(StudyCreateRequestDto dto) {
         this.name = dto.getName();
         this.schedule = dto.getSchedule();
@@ -120,7 +120,7 @@ public class Study {
         this.city = City.from(dto.getCity());
         this.createDate = LocalDateTime.now();
         this.modifyDate = LocalDateTime.now();
-        this.status = Status.모집중;
+        this.status = Status.모집;
         this.isActive = true;
         this.isPublic = dto.getIsPublic();
         this.isParticipate = true;

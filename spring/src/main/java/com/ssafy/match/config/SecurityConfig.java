@@ -42,7 +42,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // CSRF 설정 Disable
         http.csrf().disable()
-            .cors().disable()
+            .cors().configurationSource(corsConfigurationSource())
+            .and()
             .formLogin().disable()
 
                 // exception handling 할 때 우리가 만든 클래스를 추가
@@ -82,7 +83,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // - (3)
-        configuration.addAllowedOrigin("*");
+//        configuration.addAllowedOrigin("*");
+        configuration.addAllowedOriginPattern("*");
 //        configuration.addAllowedOrigin("http://localhost");
 //        configuration.addAllowedOrigin("https://59.151.220.195:5501");
         // above origin is for the test @ daebalprime local.

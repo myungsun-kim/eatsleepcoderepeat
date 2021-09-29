@@ -19,7 +19,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
     //3.0.0 http://localhost:8088/api/swagger-ui/index.html
 
@@ -65,7 +64,7 @@ public class SwaggerConfig {
             .apiInfo(apiInfo)
             .groupName("Member")
             .select()
-            .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.controller"))
+            .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.member.controller"))
             // api 필요한 class path 추가
             .paths(
                         PathSelectors.ant("/**/member/**")
@@ -81,7 +80,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
             .globalRequestParameters(headers) // 글로벌 파라미터 필요시 추가하기
             .apiInfo(apiInfo)
-            .groupName("All controller")
+            .groupName("Chat")
             .select()
             .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.chat.controller"))
             // api 필요한 클래스패스 추가하기
@@ -103,12 +102,15 @@ public class SwaggerConfig {
             .groupName("Group")
             .select()
             .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.controller"))
+
             // api 필요한 클래스패스 추가하기
             .paths(
-                PathSelectors.ant("/**/project/**")
-                    .or(PathSelectors.ant("/**/projectform/**"))
-                    .or(PathSelectors.ant("/**/study/**"))
-                    .or(PathSelectors.ant("/**/club/**"))
+                PathSelectors.ant("/**/study/**")
+                    .or(PathSelectors.ant("/**/studyapplication/**"))
+                    .or(PathSelectors.ant("/**/project/**"))
+                    .or(PathSelectors.ant("/**/projectapplication/**"))
+//                    .or(PathSelectors.ant("/**/club/**"))
+//                    .or(PathSelectors.ant("/**/clubapplication/**"))
 //                PathSelectors.any()
             )
             .build()
