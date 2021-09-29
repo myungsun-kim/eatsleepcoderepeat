@@ -35,16 +35,18 @@
           <el-row class="test-border">
             <el-col :span="5" class="test-border"> ID </el-col>
             <el-col :span="15" :offset="4" class="test-border">
-              <el-input
-                type="text"
-                v-model="inputId"
-                placeholder="ssafy@ssafy.com"
-              ></el-input>
+              ssafy@ssafy.com
             </el-col>
           </el-row>
           <el-row class="test-border">
             <el-col :span="5" class="test-border"> 이름 </el-col>
-            <el-col :span="15" :offset="4" class="test-border"> 김싸피</el-col>
+            <el-col :span="15" :offset="4" class="test-border">
+              <el-input
+                type="text"
+                v-model="inputName"
+                placeholder="김싸피"
+              ></el-input>
+            </el-col>
           </el-row>
           <el-row class="test-border">
             <el-col :span="5" class="test-border"> 닉넴 </el-col>
@@ -156,7 +158,7 @@ export default {
       store,
       router,
       goReadMyPage,
-      inputId: ref(''),
+      inputName: ref(''),
     };
   },
 };
