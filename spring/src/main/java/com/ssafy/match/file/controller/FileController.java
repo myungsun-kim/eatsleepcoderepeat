@@ -1,11 +1,8 @@
 package com.ssafy.match.file.controller;
 
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.file.dto.UploadFileResponse;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.service.DBFileStorageService;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,12 +34,12 @@ public class FileController {
 
         DBFile dbFile = dbFileStorageService.storeFile(file);
 
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-            .path("/file/downloadFile/")
-            .path(dbFile.getId())
-            .toUriString();
+//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+//            .path("/file/downloadFile/")
+//            .path(dbFile.getId())
+//            .toUriString();
 
-        return new UploadFileResponse(dbFile.getId(), dbFile.getFile_name(), fileDownloadUri,
+        return new UploadFileResponse(dbFile.getId(), dbFile.getFile_name(), dbFile.getDownload_uri(),
             file.getContentType(), file.getSize());
 
     }
