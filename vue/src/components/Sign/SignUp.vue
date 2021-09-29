@@ -441,10 +441,11 @@ export default {
       store.dispatch('auth/signUp', state.form);
       alert('회원가입이 성공적으로 완료되었습니다!');
       window.location = '/noheader/signin';
+      console.log(state.form);
     };
     // 이메일 유효성 검사
     const checkEmail = function () {
-      console.log('이메일 포커싱 벗어남!!!');
+      console.log('이메일 유효성 체크!!!!');
       let emailVal = state.form.email;
       let reg =
         /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
