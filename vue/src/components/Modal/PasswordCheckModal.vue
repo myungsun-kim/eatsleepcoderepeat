@@ -14,7 +14,7 @@
         <el-row class="height10">
           <el-col :span="8" class="font-noto-bold font-20"> 비밀번호 </el-col>
           <el-col :span="16" class="font-noto-bold font-20">
-            <el-input v-model="temp" size=""></el-input>
+            <el-input v-model="state.form.password"></el-input>
           </el-col>
         </el-row>
         <el-row class="height10">
@@ -41,7 +41,7 @@
   </teleport>
 </template>
 <script>
-import { computed } from 'vue';
+import { computed, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 export default {
@@ -49,6 +49,11 @@ export default {
     const store = useStore();
     const router = useRouter();
     const modalOpen = computed(() => store.getters['scrollGetter']);
+    const state = reactive({
+      form: {
+        passowrd: '',
+      },
+    });
 
     const changemodalOpen = function () {
       store.dispatch('changeScrollModal', !modalOpen.value);
@@ -57,6 +62,7 @@ export default {
     const goUpdateMyPage = function () {
       store.dispatch('changeScrollModal', false);
       console.log(modalOpen.value);
+      console.log('인풋값' + state.form.password);
       router.push({ path: '/nosubheader/updatemypage' });
     };
 
@@ -66,6 +72,7 @@ export default {
       modalOpen,
       changemodalOpen,
       goUpdateMyPage,
+      state,
     };
   },
 };
