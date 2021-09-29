@@ -91,9 +91,9 @@ export default {
             window.location = '/';
           } else if (res.status == 404) {
             alert('해당 아이디가 존재하지 않습니다.');
+            state.form.email = '';
+            state.form.password = '';
           }
-          state.form.email = '';
-          state.form.password = '';
         })
         .catch((err) => {
           console.log(err);
