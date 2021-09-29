@@ -1,15 +1,15 @@
 package com.ssafy.match.controller;
 
 import com.ssafy.match.controller.dto.*;
-import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
 import com.ssafy.match.service.AuthService;
-import com.ssafy.match.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/auth")
@@ -19,7 +19,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     @ApiOperation(value = "회원가입")
-    public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberRequestDto memberRequestDto) throws Exception {
+    public ResponseEntity<MemberResponseDto> signup(@RequestBody @Valid MemberRequestDto memberRequestDto) throws Exception {
         return ResponseEntity.ok(authService.signup(memberRequestDto));
     }
 

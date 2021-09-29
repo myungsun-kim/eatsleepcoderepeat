@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 // 신청서 정보 조회
-public class FormtInfoResponseDto {
+public class ProjectFormtInfoResponseDto {
 
     private Long projectId;
 
@@ -41,7 +41,7 @@ public class FormtInfoResponseDto {
 //    private byte[] picData;
     private DBFile dbFile;
 
-    public FormtInfoResponseDto(ProjectApplicationForm form){
+    public ProjectFormtInfoResponseDto(ProjectApplicationForm form){
         this.projectId = form.getCompositeMemberProject().getProject().getId();
         this.memberId = form.getCompositeMemberProject().getMember().getId();
         this.nickname = form.getNickname();

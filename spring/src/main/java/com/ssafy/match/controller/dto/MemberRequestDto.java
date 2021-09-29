@@ -8,9 +8,14 @@ import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,24 +27,34 @@ public class MemberRequestDto {
 
     @ApiModelProperty(name = "email", example = "my_email@gmail.com")
     @ApiParam(value = "이메일", required = true)
+    @Email
+    @NotEmpty
     private String email;
 
     @ApiModelProperty(name = "password", example = "mypassword")
     @ApiParam(value = "비밀번호", required = true)
+    @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,}$",
+            message = "비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.")
+    @NotEmpty
     private String password;
 
     private LocalDateTime create_date;
 
     @ApiModelProperty(name = "name", example = "문일민")
     @ApiParam(value = "이름", required = true)
+    @Pattern(regexp = "^[가-힣]{1,8}|[a-zA-Z]{2,8}$")
+    @NotEmpty
     private String name;
 
     @ApiModelProperty(name = "nickname", example = "별명")
     @ApiParam(value = "별명", required = true)
+    @Length(min = 2, max=10)
+    @NotEmpty
     private String nickname;
 
     @ApiModelProperty(name = "tel", example = "010-1234-4567")
     @ApiParam(value = "전화번호", required = false)
+    @Pattern(regexp = "^01(?:0|1|[6-9])[.-]?(\\d{3}|\\d{4})[.-]?(\\d{4})$", message = "10 ~ 11 자리의 숫자만 입력 가능합니다.")
     private String tel;
 
     @ApiModelProperty(name = "bio", example = "let me introduce")

@@ -1,7 +1,6 @@
 package com.ssafy.match.group.dto.project.request;
 
 import com.ssafy.match.db.entity.Status;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
@@ -60,7 +59,7 @@ public class ProjectUpdateRequestDto {
 
     @ApiModelProperty(name = "status", example = "모집중, 진행중, 종료됨")
     @ApiParam(value = "프로젝트 상태", required = true)
-    private Status status;
+    private String status;
 
     @ApiModelProperty(name = "is_public", example = "false")
     @ApiParam(value = "공개 비공개", required = true)
@@ -82,28 +81,4 @@ public class ProjectUpdateRequestDto {
     @ApiParam(value = "프로젝트장 역할", required = true)
     private String hostRole;
 
-    @Builder
-    public ProjectUpdateRequestDto(List<String> addStackList,
-        List<String> removeStackList, String name, Long hostId, String schedule,
-        String bio, int period, int developerMaxCount, int designerMaxCount, int plannerMaxCount,
-        String city, Status status, boolean isPublic, boolean isParticipate, Long clubId,
-        String uuid, String hostRole) {
-        this.addStackList = addStackList;
-        this.removeStackList = removeStackList;
-        this.name = name;
-        this.hostId = hostId;
-        this.schedule = schedule;
-        this.bio = bio;
-        this.period = period;
-        this.developerMaxCount = developerMaxCount;
-        this.designerMaxCount = designerMaxCount;
-        this.plannerMaxCount = plannerMaxCount;
-        this.city = city;
-        this.status = status;
-        this.isPublic = isPublic;
-        this.isParticipate = isParticipate;
-        this.clubId = clubId;
-        this.uuid = uuid;
-        this.hostRole = hostRole;
-    }
 }

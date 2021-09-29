@@ -99,12 +99,13 @@ public class SwaggerConfig {
             .groupName("Group")
             .select()
             .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.controller"))
+
             // api 필요한 클래스패스 추가하기
             .paths(
-                PathSelectors.ant("/**/club/**")
+                PathSelectors.ant("/**/study/**")
 //                    .or(PathSelectors.ant("/**/projectform/**"))
 //                    .or(PathSelectors.ant("/**/study/**"))
-//                    .or(PathSelectors.ant("/**/club/**"))
+                    .or(PathSelectors.ant("/**/club/**"))
 //                PathSelectors.any()
             )
             .build()

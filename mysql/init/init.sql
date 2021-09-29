@@ -636,20 +636,15 @@ CREATE TABLE IF NOT EXISTS `matching`.`project_application_form` (
   `bio` VARCHAR(145) NULL DEFAULT NULL,
   `create_date` DATETIME(6) NOT NULL,
   `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
-  `member_id1` BIGINT NOT NULL,
-  PRIMARY KEY (`project_id`, `member_id`, `member_id1`),
+  PRIMARY KEY (`project_id`, `member_id`),
   INDEX `fk_project_application_form_project1_idx` (`project_id` ASC) VISIBLE,
   INDEX `fk_project_application_form_member1_idx` (`member_id` ASC) VISIBLE,
   INDEX `fk_project_application_form_files1_idx` (`cover_pic` ASC) VISIBLE,
-  INDEX `fk_project_application_form_member2_idx` (`member_id1` ASC) VISIBLE,
   CONSTRAINT `fk_project_application_form_files1`
     FOREIGN KEY (`cover_pic`)
     REFERENCES `matching`.`files` (`id`),
   CONSTRAINT `fk_project_application_form_member1`
     FOREIGN KEY (`member_id`)
-    REFERENCES `matching`.`member` (`id`),
-  CONSTRAINT `fk_project_application_form_member2`
-    FOREIGN KEY (`member_id1`)
     REFERENCES `matching`.`member` (`id`),
   CONSTRAINT `fk_project_application_form_project1`
     FOREIGN KEY (`project_id`)
@@ -682,14 +677,13 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `matching`.`project_techstack`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`project_techstack` (
-  `is_active` BIT(1) NOT NULL,
-  `project_id1` BIGINT NOT NULL,
+  `project_id` BIGINT NOT NULL,
   `techstack_id` INT NOT NULL,
-  PRIMARY KEY (`project_id1`, `techstack_id`),
-  INDEX `fk_project_techstack_project1_idx` (`project_id1` ASC) VISIBLE,
+  PRIMARY KEY (`project_id`, `techstack_id`),
+  INDEX `fk_project_techstack_project1_idx` (`project_id` ASC) VISIBLE,
   INDEX `fk_project_techstack_techstack1_idx` (`techstack_id` ASC) VISIBLE,
   CONSTRAINT `fk_project_techstack_project1`
-    FOREIGN KEY (`project_id1`)
+    FOREIGN KEY (`project_id`)
     REFERENCES `matching`.`project` (`id`),
   CONSTRAINT `fk_project_techstack_techstack1`
     FOREIGN KEY (`techstack_id`)
