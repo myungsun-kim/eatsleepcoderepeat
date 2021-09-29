@@ -34,7 +34,7 @@
   </div>
 </template>
 <script lang="ts">
-import axios from 'axios';
+// import axios from 'axios';
 export default {
   // methods: {
   //   submitUpload() {
