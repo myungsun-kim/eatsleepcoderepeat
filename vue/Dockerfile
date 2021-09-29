@@ -1,0 +1,20 @@
+FROM node:14.17.3 as frontend
+RUN mkdir -p /homepage
+WORKDIR /homepage
+
+COPY package.json .
+COPY yarn.lock .
+
+RUN yarn install
+COPY . .
+RUN yarn run build
+
+FROM nginx
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx/ /usr/share/nginx/cert/
+COPY nginx/conf/default.conf /etc/nginx/conf.d/
+COPY --from=frontend ./homepage/dist /usr/share/nginx/html/homepage
+
+EXPOSE 80
+EXPOSE 443
+CMD ["nginx", "-g", "daemon off;"]
