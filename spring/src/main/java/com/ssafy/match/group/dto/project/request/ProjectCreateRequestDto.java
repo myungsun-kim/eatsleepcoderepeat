@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProjectCreateRequestDto {
 
-    @ApiModelProperty(name = "techList", example = "{'자바', '파이썬', '스프링', '쿠버네티스'}")
+    @ApiModelProperty(name = "techList", example = "[\"java\", \"python\"]")
     @ApiParam(value = "기술 스택 리스트", required = true)
     private List<String> techList;
 
@@ -67,27 +66,4 @@ public class ProjectCreateRequestDto {
     @ApiParam(value = "프로젝트장 역할", required = true)
     private String hostRole;
 
-//    public boolean getIsPublic(){
-//        return isPublic;
-//    }
-
-    @Builder
-    public ProjectCreateRequestDto(List<String> techList, String name,
-        String schedule, String bio, int period, int developerMaxCount, int designerMaxCount,
-        int plannerMaxCount, String city, boolean isPublic, Long clubId, String uuid,
-        String hostRole) {
-        this.techList = techList;
-        this.name = name;
-        this.schedule = schedule;
-        this.bio = bio;
-        this.period = period;
-        this.developerMaxCount = developerMaxCount;
-        this.designerMaxCount = designerMaxCount;
-        this.plannerMaxCount = plannerMaxCount;
-        this.city = city;
-        this.isPublic = isPublic;
-        this.clubId = clubId;
-        this.uuid = uuid;
-        this.hostRole = hostRole;
-    }
 }

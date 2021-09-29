@@ -1,7 +1,7 @@
 package com.ssafy.match.group.entity.study;
 
 import com.ssafy.match.db.entity.City;
-import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.dto.study.request.StudyCreateRequestDto;

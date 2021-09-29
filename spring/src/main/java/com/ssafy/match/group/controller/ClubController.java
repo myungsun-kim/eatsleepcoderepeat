@@ -1,7 +1,7 @@
 package com.ssafy.match.group.controller;
 
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.repository.MemberRepository;
+import com.ssafy.match.member.entity.Member;
+import com.ssafy.match.member.repository.MemberRepository;
 import com.ssafy.match.file.repository.DBFileRepository;
 import com.ssafy.match.group.dto.club.ClubRequestDto;
 import com.ssafy.match.group.entity.club.Club;

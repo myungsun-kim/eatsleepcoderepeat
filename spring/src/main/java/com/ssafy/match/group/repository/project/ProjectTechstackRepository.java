@@ -12,7 +12,7 @@ public interface ProjectTechstackRepository extends JpaRepository<ProjectTechsta
     // 현재 프로젝트의 기술 스택 조회
     @Query("select pt from matching.project_techstack pt "
         + "where pt.compositeProjectTechstack.project = :project")
-    List<ProjectTechstack> findByProjectTechstack(@Param("project") Project project);
+    List<ProjectTechstack> findProjectTechstackByProject(@Param("project") Project project);
 
     // 현재 프로젝트의 기술 스택명 조회
     @Query("select pt.compositeProjectTechstack.techstack.name from matching.project_techstack pt "
