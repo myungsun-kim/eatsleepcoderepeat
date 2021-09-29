@@ -131,14 +131,14 @@
     <!-- Step2 포트폴리오 -->
     <el-col :span="15" :offset="0" id="step2" v-else-if="state.step == 2">
       <div class="height100">
-        <div class="height20">20</div>
+        <div class="height20"></div>
         <div class="height5" id="H1">
           <p id="h1">회원가입</p>
         </div>
         <div class="height10" id="H2">
           <p id="h2">Step2-포트폴리오</p>
         </div>
-        <div class="height5">5</div>
+        <div class="height5"></div>
         <div class="height30">
           <el-row :gutter="0" class="height100">
             <el-col :span="11" :offset="0">
@@ -205,7 +205,7 @@
     <!-- Step3 개발수준 -->
     <el-col :span="15" :offset="0" id="step3" v-else-if="state.step == 3">
       <div class="height100">
-        <div class="height20">20</div>
+        <div class="height20"></div>
         <div class="height5" id="H1">
           <p id="h1">회원가입</p>
         </div>
@@ -265,7 +265,7 @@
     <!-- Step4 세부정보 -->
     <el-col :span="15" :offset="0" id="step4" v-else>
       <div class="height100">
-        <div class="height20">20</div>
+        <div class="height20"></div>
         <div class="height5" id="H1">
           <p id="h1">회원가입</p>
         </div>
