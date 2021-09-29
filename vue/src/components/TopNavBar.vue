@@ -65,8 +65,8 @@
             type="text"
             @click="clickLogOut"
             >로그아웃</el-button
-          ></el-col
-        >
+          >
+        </el-col>
       </el-row> </el-col
     ><el-col :span="1"></el-col>
   </el-row>
@@ -108,6 +108,10 @@ export default {
     const clickMyPage = function () {
       router.push({ path: '/nosubheader/readmypage' });
     };
+    const clickLogOut = function () {
+      localStorage.removeItem('accessToken');
+      window.location = '/';
+    };
 
     return {
       store,
@@ -118,6 +122,7 @@ export default {
       clickMain,
       clickChat,
       clickMyPage,
+      clickLogOut,
     };
   },
 };
