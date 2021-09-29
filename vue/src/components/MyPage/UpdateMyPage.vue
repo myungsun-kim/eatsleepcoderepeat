@@ -35,7 +35,11 @@
           <el-row class="test-border">
             <el-col :span="5" class="test-border"> ID </el-col>
             <el-col :span="15" :offset="4" class="test-border">
-              <el-input type="text" placeholder="ssafy@ssafy.com"></el-input>
+              <el-input
+                type="text"
+                v-model="inputId"
+                placeholder="ssafy@ssafy.com"
+              ></el-input>
             </el-col>
           </el-row>
           <el-row class="test-border">
@@ -118,6 +122,7 @@
 </template>
 
 <script>
+import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
@@ -151,6 +156,7 @@ export default {
       store,
       router,
       goReadMyPage,
+      inputId: ref(''),
     };
   },
 };
