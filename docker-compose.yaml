@@ -32,17 +32,17 @@ services:
     volumes: 
       - ./mysql/init/:/docker-entrypoint-initdb.d/
   frontend:
-      container_name: frontend
-      build: ./vue
-      ports:
-        - "80:80"
-        - "443:443"
-      networks:
-        - match-network
-      restart: always
-      user: root
-      depends_on:
-        - spring
+    container_name: frontend
+    build: ./vue
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - match-network
+    restart: always
+    user: root
+    depends_on:
+      - spring
 
   redis:
     container_name: redis
