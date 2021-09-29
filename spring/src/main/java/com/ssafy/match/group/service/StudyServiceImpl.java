@@ -146,6 +146,7 @@ public class StudyServiceImpl implements StudyService {
             if(study.getStatus().equals(Status.종료)) continue;
             StudyInfoResponseDto dto = new StudyInfoResponseDto(study);
             dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
+            dto.setTechList(studyTechstackName(study));
             studyInfoResponseDtos.add(dto);
         }
 
@@ -163,6 +164,10 @@ public class StudyServiceImpl implements StudyService {
 
         StudyInfoResponseDto dto = new StudyInfoResponseDto(study);
         dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
+        if(study.getClub() != null){
+            dto.setClub(new ClubDto(study.getClub()));
+        }
+        dto.setTechList(studyTechstackName(study));
 
         return dto;
     }
@@ -422,6 +427,9 @@ public class StudyServiceImpl implements StudyService {
         }
         if (dto.getFacebook() != null) {
             studyApplicationForm.setFacebook(dto.getFacebook());
+        }
+        if(dto.getBackjoon() != null){
+            studyApplicationForm.setBackjoon(dto.getBackjoon());
         }
 
         studyApplicationForm.setDbFile(findDBFile(dto.getUuid()));

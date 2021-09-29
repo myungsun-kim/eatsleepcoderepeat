@@ -3,6 +3,7 @@ package com.ssafy.match.group.dto.project.response;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.dto.MemberDto;
 import com.ssafy.match.group.dto.club.ClubDto;
+import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.entity.study.Study;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,13 +14,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@ApiModel(value = "스터디 수정, 조회 정보", description = "스터디의 상세 정보와 수정(status, city 등) Response Dto Class")
+@ApiModel(value = "프로젝트 수정  정보", description = "프로젝트 수정을 위한 정보 Response Dto Class")
 @Getter
 @Setter
 public class ProjectInfoForUpdateResponseDto {
 
-    @ApiModelProperty(name = "name", example = "알고리즘 스터디")
-    @ApiParam(value = "스터디명", required = true)
+    @ApiModelProperty(name = "name", example = "알고리즘 프로젝트")
+    @ApiParam(value = "프로젝트명", required = true)
     private String name;
 
     @ApiModelProperty(name = "schedule", example = "매주 화, 수 6시")
@@ -30,17 +31,33 @@ public class ProjectInfoForUpdateResponseDto {
     @ApiParam(value = "기간(주 단위)", required = true)
     private int period;
 
-    @ApiModelProperty(name = "hostNickname", example = "[id: 3, name: '박범진', nickname: 'BJP']")
+    @ApiModelProperty(name = "host", example = "{\"id\": 3, \"name\": \"박범진\", \"nickname\": \"BJP\"}")
     @ApiParam(value = "스터디장 정보(id, name, nickname)", required = true)
     private MemberDto host;
 
-    @ApiModelProperty(name = "memberCount", example = "3")
-    @ApiParam(value = "현재 인원", required = true)
-    private int memberCount;
+    @ApiModelProperty(name = "developerCount", example = "3")
+    @ApiParam(value = "개발자 현재 인원", required = true)
+    private int developerCount;
 
-    @ApiModelProperty(name = "maxCount", example = "3")
-    @ApiParam(value = "최대 인원", required = true)
-    private int maxCount;
+    @ApiModelProperty(name = "developerMaxCount", example = "3")
+    @ApiParam(value = "개발자 모집 인원", required = true)
+    private int developerMaxCount;
+
+    @ApiModelProperty(name = "designerCount", example = "3")
+    @ApiParam(value = "디자이너 현재 인원", required = true)
+    private int designerCount;
+
+    @ApiModelProperty(name = "designerMaxCount", example = "3")
+    @ApiParam(value = "디자이너 모집 인원", required = true)
+    private int designerMaxCount;
+
+    @ApiModelProperty(name = "plannerCount", example = "3")
+    @ApiParam(value = "기획자 현재 인원", required = true)
+    private int plannerCount;
+
+    @ApiModelProperty(name = "plannerMaxCount", example = "3")
+    @ApiParam(value = "기획자 모집 인원", required = true)
+    private int plannerMaxCount;
 
     @ApiModelProperty(name = "isPublic", example = "false")
     @ApiParam(value = "공개 비공개", required = true)
@@ -54,11 +71,11 @@ public class ProjectInfoForUpdateResponseDto {
     @ApiParam(value = "지역", required = true)
     private String city;
 
-    @ApiModelProperty(name = "status", example = "모집중, 진행중, 종료됨")
+    @ApiModelProperty(name = "status", example = "모집, 진행, 종료")
     @ApiParam(value = "프로젝트 상태", required = true)
     private String status;
 
-    @ApiModelProperty(name = "clubId", example = "[id: 3, name: 'SSAFY']")
+    @ApiModelProperty(name = "clubId", example = "{\"id\": 3, \"name\": \"SSAFY\"}")
     @ApiParam(value = "소속된 클럽 정보")
     private ClubDto club;
 
@@ -74,42 +91,35 @@ public class ProjectInfoForUpdateResponseDto {
     @ApiParam(value = "프로젝트 소개", required = true)
     private String bio;
 
-    @ApiModelProperty(name = "allTechstack", example = "{'Java', 'Python', 'Spring'}")
-    @ApiParam(value = "모든 기술스택 목록", required = true)
-    private List<String> allTechstack;
+    @ApiModelProperty(name = "projectTechstack", example = "[\"java\", \"python\"]")
+    @ApiParam(value = "해당 프로젝트가 가지고 있는 기술 스택 리스트", required = true)
+    private List<String> projectTechstack;
 
-    @ApiModelProperty(name = "studyTechstack", example = "{'Java', 'Python'}")
-    @ApiParam(value = "해당 스터디가 가지고 있는 기술 스택 리스트", required = true)
-    private List<String> studyTechstack;
-
-    @ApiModelProperty(name = "hostClub", example = "{{clubId: 1, clubName: '첫번째', ...}, {clubId: 2, clubName: '두번째', ...}}")
+    @ApiModelProperty(name = "hostClub", example = "[{\"clubId\": 1, \"clubName\": \"첫 클럽\"}, {\"clubId\": 2, \"clubName\": \"두번째 클럽\"}]")
     @ApiParam(value = "해당 호스트가 포함되어있는 클럽 목록 (수정시 클럽 수정을 위한)", required = true)
     private List<ClubDto> clubList;
 
-    @ApiModelProperty(name = "projectMember", example = "{[id: 3, name: '박범진', nickname: 'BJP'], [id: 4, name: '김아무개', nickname: '호롤로']}")
-    @ApiParam(value = "해당 스터디에 속한 멤버 조회", required = true)
+    @ApiModelProperty(name = "projectMember", example = "[{\"id\": 3, \"name\": \"문일민\", \"nickname\": \"별명\"}, {\"id\": 4, \"name\": \"박범진\", \"nickname\": \"내별명\"}]")
+    @ApiParam(value = "해당 프로젝트에 속한 멤버 조회", required = true)
     private List<MemberDto> memberDtos;
 
-    @ApiModelProperty(name = "projectCity", example = "{'광주', '구미'}")
-    @ApiParam(value = "선택할 수 있는 지역 리스트", required = true)
-    private List<String> cityList;
-
-    @ApiModelProperty(name = "projectCity", example = "{'모집중', '진행중', '마감'}")
-    @ApiParam(value = "선택할 수 있는 상태 리스트", required = true)
-    private List<String> statusList;
-
     @Builder
-    public ProjectInfoForUpdateResponseDto(Study study) {
-        this.name = study.getName();
-        this.schedule = study.getSchedule();
-        this.period = study.getPeriod();
-        this.maxCount = study.getMaxCount();
-        this.isPublic = study.getIsPublic();
-        this.isParticipate = study.getIsParticipate();
-        this.city = study.getCity().name();
-        this.status = study.getStatus().name();
-        this.dbFile = study.getDbFile();
-        this.modifyDate = study.getModifyDate();
-        this.bio = study.getBio();
+    public ProjectInfoForUpdateResponseDto(Project project) {
+        this.name = project.getName();
+        this.schedule = project.getSchedule();
+        this.period = project.getPeriod();
+        this.designerCount = project.getDesignerCount();
+        this.designerMaxCount = project.getDesignerMaxCount();
+        this.developerCount = project.getDeveloperCount();
+        this.developerMaxCount = project.getDeveloperMaxCount();
+        this.plannerCount = project.getPlannerCount();
+        this.plannerMaxCount = project.getPlannerMaxCount();
+        this.isPublic = project.getIsPublic();
+        this.isParticipate = project.getIsParticipate();
+        this.city = project.getCity().name();
+        this.status = project.getStatus().name();
+        this.dbFile = project.getDbFile();
+        this.modifyDate = project.getModifyDate();
+        this.bio = project.getBio();
     }
 }
