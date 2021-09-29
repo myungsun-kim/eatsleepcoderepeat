@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UserGitStatus {
+    public UserGitStatus(String language){
+        this.language = language;
+    }
     private String language;
     long code;
     long files;

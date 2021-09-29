@@ -29,19 +29,22 @@ public class JsonParseServiceImpl {
 //        List<UserGitRepository> ret = null;
         try {
             JSONParser parser = new JSONParser();
+            System.out.println(parser.parse(json).getClass());
             JSONArray all = (JSONArray) parser.parse(json);
             repos = new ArrayList<>();
-            for(int i = 0; i < all.size(); i++){
+            for (int i = 0; i < all.size(); i++) {
                 JSONObject obj = (JSONObject) all.get(i);
                 UserGitRepository repo = new UserGitRepository();
-                repo.setId((Long)obj.get("id"));
+                repo.setId((Long) obj.get("id"));
                 repo.setForks_count((Long) obj.get("forks_count"));
                 repo.setFull_name((String) obj.get("full_name"));
                 repo.setDescription((String) obj.get("description"));
                 repo.setStargazers_count((Long) obj.get("stargazers_count"));
                 repo.setWatchers_count((Long) obj.get("watchers_count"));
+//                System.out.println(repo);
                 repos.add(repo);
             }
+            return repos;
 //            UserGitRepository repo = new UserGitRepository();
 //            repo.setId((Long)repos.get("id"));
 //            repo.setForks_count((Long) repos.get("forks_count"));
@@ -63,11 +66,9 @@ public class JsonParseServiceImpl {
 ////            return repos;
 //        } catch (IOException e) {
 //            e.printStackTrace();
-        } catch (Exception e){
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return repos;
-
     }
-
 }

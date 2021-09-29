@@ -85,4 +85,22 @@ public class SwaggerConfig {
             .build()
             .useDefaultResponseMessages(false);
     }
+    @Bean
+    public Docket extApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+//            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
+            .apiInfo(apiInfo)
+            .groupName("external apis")
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.apiclient.controller"))
+            // api 필요한 클래스패스 추가하기
+            .paths(
+
+                PathSelectors.ant("/**/ext/**")
+//						.or(PathSelectors.ant("/**/**"))
+//                PathSelectors.any()
+            )
+            .build()
+            .useDefaultResponseMessages(false);
+    }
 }

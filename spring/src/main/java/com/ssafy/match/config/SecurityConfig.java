@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     "/chat/**", // chat api
                     "/socket/chat/**", // chat socket
                     "/chat/sessions/**",
-                    "/external/**"
+                    "/ext/**"
                 );
     }
 

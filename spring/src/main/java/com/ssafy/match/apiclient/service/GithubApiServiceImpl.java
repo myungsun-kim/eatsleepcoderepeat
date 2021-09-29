@@ -43,7 +43,7 @@ public class GithubApiServiceImpl {
             header.add("Accept", "application/vnd.github.v3+json");
             HttpEntity<?> entity = new HttpEntity<>(header);
 
-            String url = "https://api.github.com/users/" + "daebalprime"+ "/repos";
+            String url = "https://api.github.com/users/" + userId + "/repos";
 
             UriComponents uri = UriComponentsBuilder
 //                .queryParam("t_key", trackingKey)

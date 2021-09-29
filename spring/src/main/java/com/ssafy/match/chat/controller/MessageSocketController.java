@@ -57,9 +57,5 @@ public class MessageSocketController {
 //        return new ChattingMessage(message.getFileName(), message.getRawData(), message.getUser());
 //    }
 
-
-
 //    private final SimpMessagingTemplate simpMessagingTemplate;
-
-
 }
