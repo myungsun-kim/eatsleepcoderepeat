@@ -34,30 +34,29 @@ public class MessageSocketController {
 
     private static String BOOT_TOPIC = "test1";
 
-//    //// "url/app/message"로 들어오는 메시지를 "/topic/public"을 구독하고있는 사람들에게 송신
-//    @MessageMapping("/pub/{toUserPk}")//@MessageMapping works for WebSocket protocol communication. This defines the URL mapping.
-//    public void pubMessage1(@Payload ChatMessage message, @DestinationVariable String toUserPk) throws Exception {
-//        System.out.println(message);
-        ////        System.out.println(message.getRead_time());
-////        int destPk = 0;
-////        try{
-////            destPk = Integer.parseInt(toUserPk);
-////        }catch (Exception e){
-////            LOGGER.error("Destination Variable toUserPk is not int");
-////            // 메세지 전송에 문제가 있습니다.
-////            return;
-////        }
-////        message.setId(destPk);
+    //// "url/app/message"로 들어오는 메시지를 "/topic/public"을 구독하고있는 사람들에게 송신
+    @MessageMapping("/pub/{toUserPk}")//@MessageMapping works for WebSocket protocol communication. This defines the URL mapping.
+    public void pubMessage1(@Payload ChatMessage message, @DestinationVariable String toUserPk) throws Exception {
+        System.out.println(message);
+        //        System.out.println(message.getRead_time());
+        int destPk = 0;
+        try{
+            destPk = Integer.parseInt(toUserPk);
+        }catch (Exception e){
+            LOGGER.error("Destination Variable toUserPk is not int");
+            return;
+        }
+        message.setId(destPk);
+//        message.setId(SecurityUtil.getCurrentMemberId());
+        sender.send(/*BOOT_TOPIC,*/ message);
+    }
+
+    //// "url/app/message"로 들어오는 메시지를 "/topic/public"을 구독하고있는 사람들에게 송신
+//    @MessageMapping("/pub/dm")//@MessageMapping works for WebSocket protocol communication. This defines the URL mapping.
+//    public void pubMessage(@Payload ChatMessage message) throws Exception {
 //        message.setId(SecurityUtil.getCurrentMemberId());
 //        sender.send(/*BOOT_TOPIC,*/ message);
 //    }
-
-    //// "url/app/message"로 들어오는 메시지를 "/topic/public"을 구독하고있는 사람들에게 송신
-    @MessageMapping("/pub/dm")//@MessageMapping works for WebSocket protocol communication. This defines the URL mapping.
-    public void pubMessage(@Payload ChatMessage message) throws Exception {
-        message.setId(SecurityUtil.getCurrentMemberId());
-        sender.send(/*BOOT_TOPIC,*/ message);
-    }
 
 //    @MessageMapping("/file")
 //    @SendTo("/topic/chatting")
