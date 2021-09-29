@@ -67,7 +67,7 @@ public class MessageRestController {
         }
     }
 
-    @GetMapping("/sessions/{userId1}")
+    @GetMapping("/sessions/{userId}")
     public ResponseEntity<?> findSessions(@PathVariable("userId") long userId){
 //        long userId = SecurityUtil.getCurrentMemberId();
         List<ChatMessage> ret = chatPersistentService.findSessions(userId);

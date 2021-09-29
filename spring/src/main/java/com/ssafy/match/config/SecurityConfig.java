@@ -32,10 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers("/swagger-ui/**", "/swagger-resources/**","/v2/**", "/favicon.ico",
-                    "/chat/**", // chat api
-                    "/socket/chat/**", // chat socket
-                    "/chat/sessions/**"
+            .antMatchers("/swagger-ui/**", "/swagger-resources/**","/v2/**", "/favicon.ico",
+                    "/**/chat/**", // chat api
+                    "/socket/chat/**" // chat socket
                 );
     }
 
