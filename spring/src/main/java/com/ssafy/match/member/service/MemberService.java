@@ -16,6 +16,9 @@ import com.ssafy.match.member.repository.MemberRepository;
 import com.ssafy.match.member.repository.MemberSnsRepository;
 import com.ssafy.match.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +30,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MemberService {
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberRepository memberRepository;
     private final DBFileRepository dbFileRepository;
     private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
@@ -52,6 +56,22 @@ public class MemberService {
 //                .map(MemberResponseDto::of)
 //                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
 //    }
+
+    @Transactional(readOnly = true)
+    public Boolean checkPassword(MemberCheckPasswordDto memberCheckPasswordDto) {
+        UsernamePasswordAuthenticationToken authenticationToken = memberCheckPasswordDto.toAuthentication();
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        if (authentication.isAuthenticated()) {
+            return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
+//        System.out.println(authentication);
+//        if (memberRepository.existsMemberByIdAndPassword(SecurityUtil.getCurrentMemberId(), passwordEncoder.encode(password))) {
+//            return Boolean.TRUE;
+//        }
+//        return Boolean.FALSE;
+//        return Boolean.TRUE;
+    }
 
     @Transactional(readOnly = true)
     public MemberInfoDto getMyPage() {

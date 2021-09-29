@@ -18,6 +18,15 @@ import javax.validation.Valid;
 public class MemberController {
     private final MemberService memberService;
 
+    @PostMapping("/check/password")
+    @ApiOperation(value = "비밀번호 체크")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+    })
+    public ResponseEntity<Boolean> checkPassword(@RequestBody MemberCheckPasswordDto memberCheckPasswordDto) {
+        return ResponseEntity.ok(memberService.checkPassword(memberCheckPasswordDto));
+    }
+
     @GetMapping("/mypage")
     @ApiOperation(value = "마이 페이지")
     public ResponseEntity<MemberInfoDto> getMyPage() {
