@@ -33,6 +33,12 @@ public class MemberController {
         return ResponseEntity.ok(memberService.getMyPage(email));
     }
 
+    @GetMapping("/mypage")
+    @ApiOperation(value = "마이 페이지")
+    public ResponseEntity<MemberInfoDto> getMyPage() {
+        return ResponseEntity.ok(memberService.getMyPage());
+    }
+
     @PutMapping
     @ApiOperation(value = "내 계정 정보 Update")
     @ApiResponses(value = {
