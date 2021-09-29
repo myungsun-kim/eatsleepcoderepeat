@@ -2,6 +2,9 @@ package com.ssafy.match.group.dto.club.response;
 
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.entity.club.ClubApplicationForm;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,16 +12,32 @@ import lombok.Setter;
 
 @Getter
 @Setter
-// 신청서 정보 조회
+@ApiModel(value = "클럽 신청서 조회 정보", description = "클럽 신청서 조회 정보 Response Dto Class")
 public class ClubFormInfoResponseDto {
 
+    @ApiModelProperty(name = "clubId", example = "4")
+    @ApiParam(value = "클럽 id (가입 승인 요청을 위해)", required = true)
     private Long clubId;
+    @ApiModelProperty(name = "memberId", example = "4")
+    @ApiParam(value = "멤버 id (가입 승인 요청을 위해)", required = true)
     private Long memberId;
+    @ApiModelProperty(name = "nickname", example = "4")
+    @ApiParam(value = "신청 유저의 닉네임", required = true)
     private String nickname;
+    @ApiModelProperty(name = "city", example = "구미")
+    @ApiParam(value = "지역", required = true)
     private String city;
+    @ApiModelProperty(name = "git", example = "github")
+    @ApiParam(value = "Git 닉네임", required = true)
     private String git;
+    @ApiModelProperty(name = "twitter", example = "twitter.com")
+    @ApiParam(value = "Twitter 주소", required = true)
     private String twitter;
+    @ApiModelProperty(name = "facebook", example = "facebook.com")
+    @ApiParam(value = "Facebook 주소", required = true)
     private String facebook;
+    @ApiModelProperty(name = "backjoon", example = "BEOMKING")
+    @ApiParam(value = "백준 닉네임", required = true)
     private String backjoon;
     private List<String> experiencedTechstack;
 

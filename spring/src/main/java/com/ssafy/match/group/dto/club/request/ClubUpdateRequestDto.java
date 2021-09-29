@@ -28,10 +28,6 @@ public class ClubUpdateRequestDto {
     @ApiParam(value = "활동지역", required = true)
     private String city;
 
-    @ApiModelProperty(name = "status", example = "모집, 진행, 종료")
-    @ApiParam(value = "클럽 상태", required = true)
-    private String status;
-
     @ApiModelProperty(name = "isPublic", example = "false")
     @ApiParam(value = "공개 비공개", required = true)
     private Boolean isPublic;

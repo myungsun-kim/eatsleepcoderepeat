@@ -1,9 +1,11 @@
 package com.ssafy.match.group.entity.club;
 
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,12 +19,22 @@ public class MemberClub {
     @EmbeddedId
     private CompositeMemberClub compositeMemberClub;
 
-    private boolean is_active;
-    private LocalDateTime register_date;
+    @Column(name = "is_active")
+    private Boolean isActive;
+    @Column(name = "register_date")
+    private LocalDateTime registerDate;
 
-    public MemberClub(CompositeMemberClub compositeMemberClub, boolean is_active, LocalDateTime register_date) {
+    public void activation() {
+        this.isActive = true;
+    }
+
+    public void deActivation() {
+        this.isActive = false;
+    }
+
+    @Builder
+    public MemberClub(CompositeMemberClub compositeMemberClub) {
         this.compositeMemberClub = compositeMemberClub;
-        this.is_active = is_active;
-        this.register_date = register_date;
+        this.registerDate = LocalDateTime.now();
     }
 }

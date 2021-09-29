@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `matching`.`files` (
   `data` LONGBLOB NULL DEFAULT NULL,
   `file_name` VARCHAR(255) NULL DEFAULT NULL,
   `file_type` VARCHAR(255) NULL DEFAULT NULL,
+  `download_uri` VARCHAR(255) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -69,117 +70,13 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `matching`.`club`
+-- Table `matching`.`category`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `matching`.`club` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `bio` VARCHAR(1000) NULL DEFAULT NULL,
-  `city` VARCHAR(10) NOT NULL,
-  `create_date` DATETIME(6) NOT NULL,
-  `is_active` BIT(1) NOT NULL,
-  `is_public` BIT(1) NOT NULL,
-  `max_count` INT NOT NULL,
-  `member_count` INT NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
-  `host_id` BIGINT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_club_files1_idx` (`cover_pic` ASC) VISIBLE,
-  INDEX `fk_club_member1_idx` (`host_id` ASC) VISIBLE,
-  CONSTRAINT `fk_club_files1`
-    FOREIGN KEY (`cover_pic`)
-    REFERENCES `matching`.`files` (`id`),
-  CONSTRAINT `fk_club_member1`
-    FOREIGN KEY (`host_id`)
-    REFERENCES `matching`.`member` (`id`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `matching`.`study`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `matching`.`study` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `bio` VARCHAR(1000) NULL DEFAULT NULL,
-  `city` VARCHAR(10) NOT NULL,
-  `create_date` DATETIME(6) NOT NULL,
-  `is_active` BIT(1) NOT NULL,
-  `is_participate` BIT(1) NOT NULL,
-  `is_public` BIT(1) NOT NULL,
-  `max_count` INT NOT NULL,
-  `member_count` INT NOT NULL,
-  `modify_date` DATETIME(6) NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  `period` INT NULL DEFAULT NULL,
-  `schedule` VARCHAR(45) NULL DEFAULT NULL,
-  `status` VARCHAR(15) NOT NULL,
-  `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
-  `host_id` BIGINT NULL DEFAULT NULL,
-  `club_id` BIGINT NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_study_member1_idx` (`host_id` ASC) VISIBLE,
-  INDEX `fk_study_files1_idx` (`cover_pic` ASC) VISIBLE,
-  INDEX `fk_study_club1_idx` (`club_id` ASC) VISIBLE,
-  CONSTRAINT `fk_study_club1`
-    FOREIGN KEY (`club_id`)
-    REFERENCES `matching`.`club` (`id`),
-  CONSTRAINT `fk_study_files1`
-    FOREIGN KEY (`cover_pic`)
-    REFERENCES `matching`.`files` (`id`),
-  CONSTRAINT `fk_study_member1`
-    FOREIGN KEY (`host_id`)
-    REFERENCES `matching`.`member` (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 3
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
--- Table `matching`.`project`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `matching`.`project` (
-  `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `bio` VARCHAR(1000) NULL DEFAULT NULL,
-  `city` VARCHAR(10) NOT NULL,
-  `create_date` DATETIME(6) NOT NULL,
-  `designer_count` INT NOT NULL,
-  `designer_max_count` INT NOT NULL,
-  `developer_count` INT NOT NULL,
-  `developer_max_count` INT NOT NULL,
-  `host_role` VARCHAR(20) NULL DEFAULT NULL,
-  `is_active` BIT(1) NOT NULL,
-  `is_participate` BIT(1) NOT NULL,
-  `is_public` BIT(1) NOT NULL,
-  `modify_date` DATETIME(6) NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  `period` INT NULL DEFAULT NULL,
-  `planner_count` INT NOT NULL,
-  `planner_max_count` INT NOT NULL,
-  `schedule` VARCHAR(45) NULL DEFAULT NULL,
-  `status` VARCHAR(10) NOT NULL,
-  `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
-  `club_id` BIGINT NULL DEFAULT NULL,
-  `host_id` BIGINT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_project_files1_idx` (`cover_pic` ASC) VISIBLE,
-  INDEX `fk_project_club1_idx` (`club_id` ASC) VISIBLE,
-  INDEX `fk_project_member1_idx` (`host_id` ASC) VISIBLE,
-  CONSTRAINT `fk_project_club1`
-    FOREIGN KEY (`club_id`)
-    REFERENCES `matching`.`club` (`id`),
-  CONSTRAINT `fk_project_files1`
-    FOREIGN KEY (`cover_pic`)
-    REFERENCES `matching`.`files` (`id`),
-  CONSTRAINT `fk_project_member1`
-    FOREIGN KEY (`host_id`)
-    REFERENCES `matching`.`member` (`id`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 12
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+CREATE TABLE IF NOT EXISTS `matching`.`category` (
+  `idcategory` INT NOT NULL,
+  `name` VARCHAR(45) NULL,
+  PRIMARY KEY (`idcategory`))
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -189,22 +86,16 @@ CREATE TABLE IF NOT EXISTS `matching`.`board` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `create_date` DATETIME(6) NULL DEFAULT NULL,
   `name` VARCHAR(255) NULL DEFAULT NULL,
-  `club_id` BIGINT NULL DEFAULT NULL,
-  `project_id` BIGINT NULL DEFAULT NULL,
-  `study_id` BIGINT NULL DEFAULT NULL,
+  `boardcol` VARCHAR(45) NULL,
+  `category` VARCHAR(45) NULL,
+  `category_idcategory` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `FK9qmen0qjsw6syjvqullfqk0uu` (`club_id` ASC) VISIBLE,
-  INDEX `FKskhv57eqns95wmqmu2lia00wr` (`project_id` ASC) VISIBLE,
-  INDEX `FK4tsm6m8vho6ww2kjc912htwb0` (`study_id` ASC) VISIBLE,
-  CONSTRAINT `FK4tsm6m8vho6ww2kjc912htwb0`
-    FOREIGN KEY (`study_id`)
-    REFERENCES `matching`.`study` (`id`),
-  CONSTRAINT `FK9qmen0qjsw6syjvqullfqk0uu`
-    FOREIGN KEY (`club_id`)
-    REFERENCES `matching`.`club` (`id`),
-  CONSTRAINT `FKskhv57eqns95wmqmu2lia00wr`
-    FOREIGN KEY (`project_id`)
-    REFERENCES `matching`.`project` (`id`))
+  INDEX `fk_board_category1_idx` (`category_idcategory` ASC) VISIBLE,
+  CONSTRAINT `fk_board_category1`
+    FOREIGN KEY (`category_idcategory`)
+    REFERENCES `matching`.`category` (`idcategory`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -273,6 +164,36 @@ CREATE TABLE IF NOT EXISTS `matching`.`certification` (
   INDEX `FKean8y31fu1keq8505jsdy4ts7` (`member_id` ASC) VISIBLE,
   CONSTRAINT `FKean8y31fu1keq8505jsdy4ts7`
     FOREIGN KEY (`member_id`)
+    REFERENCES `matching`.`member` (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `matching`.`club`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matching`.`club` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `bio` VARCHAR(1000) NULL DEFAULT NULL,
+  `city` VARCHAR(10) NOT NULL,
+  `create_date` DATETIME(6) NOT NULL,
+  `is_active` BIT(1) NOT NULL,
+  `is_public` BIT(1) NOT NULL,
+  `max_count` INT NOT NULL,
+  `member_count` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `topic` VARCHAR(45) NOT NULL,
+  `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
+  `host_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_club_files1_idx` (`cover_pic` ASC) VISIBLE,
+  INDEX `fk_club_member1_idx` (`host_id` ASC) VISIBLE,
+  CONSTRAINT `fk_club_files1`
+    FOREIGN KEY (`cover_pic`)
+    REFERENCES `matching`.`files` (`id`),
+  CONSTRAINT `fk_club_member1`
+    FOREIGN KEY (`host_id`)
     REFERENCES `matching`.`member` (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -496,6 +417,51 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
+-- Table `matching`.`project`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matching`.`project` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `bio` VARCHAR(1000) NULL DEFAULT NULL,
+  `city` VARCHAR(10) NOT NULL,
+  `create_date` DATETIME(6) NOT NULL,
+  `designer_count` INT NOT NULL,
+  `designer_max_count` INT NOT NULL,
+  `developer_count` INT NOT NULL,
+  `developer_max_count` INT NOT NULL,
+  `host_role` VARCHAR(20) NULL DEFAULT NULL,
+  `is_active` BIT(1) NOT NULL,
+  `is_participate` BIT(1) NOT NULL,
+  `is_public` BIT(1) NOT NULL,
+  `modify_date` DATETIME(6) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `period` INT NULL DEFAULT NULL,
+  `planner_count` INT NOT NULL,
+  `planner_max_count` INT NOT NULL,
+  `schedule` VARCHAR(45) NULL DEFAULT NULL,
+  `status` VARCHAR(10) NOT NULL,
+  `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
+  `club_id` BIGINT NULL DEFAULT NULL,
+  `host_id` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_project_files1_idx` (`cover_pic` ASC) VISIBLE,
+  INDEX `fk_project_club1_idx` (`club_id` ASC) VISIBLE,
+  INDEX `fk_project_member1_idx` (`host_id` ASC) VISIBLE,
+  CONSTRAINT `fk_project_club1`
+    FOREIGN KEY (`club_id`)
+    REFERENCES `matching`.`club` (`id`),
+  CONSTRAINT `fk_project_files1`
+    FOREIGN KEY (`cover_pic`)
+    REFERENCES `matching`.`files` (`id`),
+  CONSTRAINT `fk_project_member1`
+    FOREIGN KEY (`host_id`)
+    REFERENCES `matching`.`member` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 12
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
 -- Table `matching`.`member_project`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`member_project` (
@@ -532,6 +498,46 @@ CREATE TABLE IF NOT EXISTS `matching`.`member_sns` (
     REFERENCES `matching`.`member` (`id`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 17
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `matching`.`study`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `matching`.`study` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `bio` VARCHAR(1000) NULL DEFAULT NULL,
+  `city` VARCHAR(10) NOT NULL,
+  `create_date` DATETIME(6) NOT NULL,
+  `is_active` BIT(1) NOT NULL,
+  `is_participate` BIT(1) NOT NULL,
+  `is_public` BIT(1) NOT NULL,
+  `max_count` INT NOT NULL,
+  `member_count` INT NOT NULL,
+  `modify_date` DATETIME(6) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `period` INT NULL DEFAULT NULL,
+  `schedule` VARCHAR(45) NULL DEFAULT NULL,
+  `status` VARCHAR(15) NOT NULL,
+  `cover_pic` VARCHAR(255) NULL DEFAULT NULL,
+  `host_id` BIGINT NULL DEFAULT NULL,
+  `club_id` BIGINT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_study_member1_idx` (`host_id` ASC) VISIBLE,
+  INDEX `fk_study_files1_idx` (`cover_pic` ASC) VISIBLE,
+  INDEX `fk_study_club1_idx` (`club_id` ASC) VISIBLE,
+  CONSTRAINT `fk_study_club1`
+    FOREIGN KEY (`club_id`)
+    REFERENCES `matching`.`club` (`id`),
+  CONSTRAINT `fk_study_files1`
+    FOREIGN KEY (`cover_pic`)
+    REFERENCES `matching`.`files` (`id`),
+  CONSTRAINT `fk_study_member1`
+    FOREIGN KEY (`host_id`)
+    REFERENCES `matching`.`member` (`id`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 

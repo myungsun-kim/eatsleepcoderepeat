@@ -66,7 +66,7 @@ public class Club {
         this.memberCount--;
     }
 
-    public void setMember(Member member) throws Exception {
+    public void changeMember(Member member) throws Exception {
         if(member == null){
             throw new Exception("프로젝트장은 존재해야합니다.");
         }
