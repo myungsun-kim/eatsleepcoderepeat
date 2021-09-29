@@ -32,10 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers("/swagger-ui/**", "/swagger-resources/**","/v2/**", "/favicon.ico",
-                    "/chat/**", // chat api
-                    "/socket/chat/**", // chat socket
-                    "/chat/sessions/**"
+            .antMatchers("/swagger-ui/**", "/swagger-resources/**","/v2/**", "/favicon.ico",
+                    "/**/chat/**", // chat api
+                    "/socket/chat/**" // chat socket
                 );
     }
 
@@ -46,7 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .cors().configurationSource(corsConfigurationSource())
             .and()
             .formLogin().disable()
-
 
                 // exception handling 할 때 우리가 만든 클래스를 추가
                 .exceptionHandling()

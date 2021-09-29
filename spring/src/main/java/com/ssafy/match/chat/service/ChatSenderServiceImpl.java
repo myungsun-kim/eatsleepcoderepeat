@@ -22,6 +22,7 @@ public class ChatSenderServiceImpl {
     public void send(ChatMessage data) {
 //        LOGGER.info("sending data='{}' to topic='{}'", data, topic);
         chatPersistentService.setMessage(data);
+        System.out.println(data);
         try{
             chatReceiverService.receive(data);
         }

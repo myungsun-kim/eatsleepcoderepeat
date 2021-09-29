@@ -1,6 +1,6 @@
 package com.ssafy.match.group.service;
 
-import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.group.dto.project.request.ProjectApplicationRequestDto;
 import com.ssafy.match.group.dto.project.response.InfoForApplyProjectFormResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectFormInfoResponseDto;
