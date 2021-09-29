@@ -2,7 +2,6 @@ package com.ssafy.match.group.dto.project.request;
 
 import com.ssafy.match.file.entity.DBFile;
 import java.time.LocalDateTime;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -16,7 +15,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FormRegisterRequestDto {
+public class ProjectApplicationRequestDto {
 
     private String nickname;
 
@@ -48,7 +47,7 @@ public class FormRegisterRequestDto {
     private DBFile dbFile;
 
     @Builder
-    public FormRegisterRequestDto(String nickname, String city, String role, String position,
+    public ProjectApplicationRequestDto(String nickname, String city, String role, String position,
         String git, String twitter, String facebook, String backjoon, String bio,
         LocalDateTime createDate, DBFile dbFile) {
         this.nickname = nickname;

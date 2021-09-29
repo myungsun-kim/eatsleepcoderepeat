@@ -4,45 +4,65 @@
     <router-link to="/about">Main</router-link>
   </div> -->
 
+  <!-- <el-form enctype="multipart/form-data">
+    <el-upload
+      ref="upload"
+      class="upload-demo"
+      :before-upload="beforeUpload"
+      :auto-upload="false"
+    >
+      <template #trigger>
+        <el-button size="small" type="primary">select file</el-button>
+      </template>
+      <el-button
+        style="margin-left: 10px"
+        size="small"
+        type="success"
+        @click="submitUpload"
+        >upload to server</el-button
+      >
+      <template #tip>
+        <div class="el-upload__tip">
+          jpg/png files with a size less than 500kb
+        </div>
+      </template>
+    </el-upload>
+  </el-form> -->
+
   <div class="bg-color">
     <router-view />
   </div>
 </template>
-<script>
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+<script lang="ts">
+import axios from 'axios';
 export default {
-  components: {},
-  setup() {
-    const store = useStore();
-    const types = computed(() => store.state.data);
-
-    let payload = {
-      email: 'minsu@naver.com',
-      password: 'minsu',
-    };
-
-    const loginEvent = () => {
-      store.dispatch('requestLogin', payload);
-    };
-    const getInfo = () => {
-      console.log(types);
-      console.log(types.value);
-      console.log(types.value.grantType);
-    };
-    // import { useStore } from 'vuex';
-    // export default {
-    //   components: {},
-    //   setup() {
-    //     const store = useStore();
-
-    return {
-      store,
-      types,
-      loginEvent,
-      getInfo,
-    };
-  },
+  // methods: {
+  //   submitUpload() {
+  //     console.log('7');
+  //     this.$refs.upload.submit();
+  //     // this.$refs.upload.submit();
+  //   },
+  //   beforeUpload: function (file) {
+  //     console.log('1');
+  //     console.log(file);
+  //     let formData = new FormData();
+  //     formData.append('file', file);
+  //     console.log('2');
+  //     console.log(localStorage.getItem('accessToken'));
+  //     console.log("'Bearer ' + localStorage.getItem('accessToken')");
+  //     console.log('3');
+  //     const res = axios.post('/api/file/uploadFile', formData, {
+  //       headers: {
+  //         // auth가 제대로 안넘어가면 401 error 발생
+  //         // 이해가 안되면 최민수에게 문의
+  //         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     });
+  //     console.log(res);
+  //     console.log('4');
+  //   },
+  // },
 };
 </script>
 <style>

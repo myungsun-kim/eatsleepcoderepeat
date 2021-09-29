@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class FormtInfoForRegisterResponseDto {
+public class InfoForApplyProjectFormResponseDto {
 
     private String name;
 

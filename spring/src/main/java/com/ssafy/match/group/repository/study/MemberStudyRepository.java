@@ -1,7 +1,6 @@
 package com.ssafy.match.group.repository.study;
 
 import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.entity.study.CompositeMemberStudy;
 import com.ssafy.match.group.entity.study.MemberStudy;
 import com.ssafy.match.group.entity.study.Study;

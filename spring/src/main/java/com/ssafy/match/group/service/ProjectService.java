@@ -1,8 +1,9 @@
 package com.ssafy.match.group.service;
 
-import com.ssafy.match.group.dto.project.request.FormRegisterRequestDto;
-import com.ssafy.match.group.dto.project.response.FormtInfoForRegisterResponseDto;
-import com.ssafy.match.group.dto.project.response.FormtInfoResponseDto;
+import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.group.dto.project.request.ProjectApplicationRequestDto;
+import com.ssafy.match.group.dto.project.response.InfoForApplyProjectFormResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectFormtInfoResponseDto;
 import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
 import com.ssafy.match.group.dto.project.response.ProjectInfoForCreateResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
@@ -25,25 +26,21 @@ public interface ProjectService {
 
     List<Project> projectInMember(Long memberId) throws Exception;
 
-    void addMember(Project project, Long memberId, String role) throws Exception;
+    void addMember(Project project, Member member, String role) throws Exception;
 
     void removeMember(Long projectId, Long memberId) throws Exception;
 
-    void setDBFile(Long projectId, String uuid) throws Exception;
+    void changeRole(Project project, Member member, String role) throws Exception;
 
-    void setClub(Long projectId, Long clubId) throws Exception;
+    InfoForApplyProjectFormResponseDto checkForRegister(Long projectId) throws Exception;
 
-    void changeRole(Project project, Long memberId, String role) throws Exception;
+    HttpStatus createForm(Long projectId, ProjectApplicationRequestDto dto) throws Exception;
 
-    FormtInfoForRegisterResponseDto checkForRegister(Long projectId) throws Exception;
+    List<ProjectFormtInfoResponseDto> allProjectForm(Long projectId) throws Exception;
 
-    HttpStatus createForm(Long projectId, FormRegisterRequestDto dto) throws Exception;
+    List<ProjectFormtInfoResponseDto> allFormByProjectNickname(Long projectId, String nickname) throws Exception;
 
-    List<FormtInfoResponseDto> allProjectForm(Long projectId) throws Exception;
-
-    List<FormtInfoResponseDto> allFormByProjectNickname(Long projectId, String nickname) throws Exception;
-
-    FormtInfoResponseDto oneProjectForm(Long projectId, Long memberId) throws Exception;
+    ProjectFormtInfoResponseDto oneProjectForm(Long projectId, Long memberId) throws Exception;
 
     HttpStatus approval(Long projectId, Long memberId) throws Exception;
 

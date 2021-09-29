@@ -1,8 +1,5 @@
 package com.ssafy.match.group.repository.study;
 
-import com.ssafy.match.group.entity.project.CompositeMemberProject;
-import com.ssafy.match.group.entity.project.Project;
-import com.ssafy.match.group.entity.project.ProjectApplicationForm;
 import com.ssafy.match.group.entity.study.CompositeMemberStudy;
 import com.ssafy.match.group.entity.study.Study;
 import com.ssafy.match.group.entity.study.StudyApplicationForm;
