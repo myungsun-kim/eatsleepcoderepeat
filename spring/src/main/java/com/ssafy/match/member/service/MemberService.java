@@ -103,6 +103,30 @@ public class MemberService {
         return memberInfoDto;
     }
 
+    @Transactional(readOnly = true)
+    public MemberInfoDto getMyPage() {
+        MemberInfoDto memberInfoDto = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .map(MemberInfoDto::of)
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new NullPointerException("유저가 없습니다."));
+        List<Club> myClubList = memberClubRepository.findClubByMember(member);
+        List<Project> myProjectList = memberProjectRepository.projectInMember(member);
+        List<String> expTechList = memberExperiencedTechstackRepository.findTechstackByMemberName(member);
+        List<String> begTechList = memberBeginnerTechstackRepository.findTechstackByMemberName(member);
+        List<MemberSns> snsList = memberSnsRepository.findAllByMember(member);
+        List<Position> dpositionList = positionRepository.findAllByMember(member);
+        memberInfoDto.setCover_pic(member.getCover_pic());
+        memberInfoDto.setPortfolio(member.getPortfolio());
+        memberInfoDto.setMyProjectList(myProjectList);
+        memberInfoDto.setMyClubList(myClubList);
+        memberInfoDto.setExpTechList(expTechList);
+        memberInfoDto.setBeginTechList(begTechList);
+        memberInfoDto.setSnsList(snsList);
+        memberInfoDto.setDpositionList(dpositionList);
+        return memberInfoDto;
+    }
+
     //    @Transactional(readOnly = true)
 //    public MemberInfoDto getMyPage() {
 //        return memberRepository.findById(SecurityUtil.getCurrentMemberId())
