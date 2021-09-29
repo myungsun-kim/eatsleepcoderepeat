@@ -1,4 +1,6 @@
 <template>
+  <input id="text" type="test" style="display: none" />
+
   <el-row :gutter="0" class="height100" id="signup">
     <el-col :span="9" :offset="0" id="left">
       <div class="height100">
@@ -474,7 +476,6 @@ export default {
         alert(
           '올바른 형식이 아닙니다.\n한글 이름은 1~7자 이내, \n영문 이름은 2~10자 이내로 작성해주세요.\n(혼용 불가)'
         );
-        state.form.name = '';
       }
     };
     // 닉네임 유효성 검사
