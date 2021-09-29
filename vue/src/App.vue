@@ -44,21 +44,15 @@ export default {
     beforeUpload: function (file) {
       console.log('1');
       console.log(file);
-      const token =
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0OSIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1ODYzNzR9.LHUNEgslWjvUmRdwW59vCnMwEJ64euA9k7-QZ1ffgP70F7XTiU2ilQhcqhfYxw4WL7v3BaTKPZuonG5nR_KI1w';
       let formData = new FormData();
       formData.append('file', file);
       console.log('2');
 
-      const res = axios.post(
-        'http://localhost:8080/api/file/uploadFile',
-        formData,
-        {
-          headers: {
-            Authorization: 'Bearer ' + token,
-          },
-        }
-      );
+      const res = axios.post('/api/file/uploadFile', formData, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
+        },
+      });
       console.log(res);
       console.log('3');
     },
