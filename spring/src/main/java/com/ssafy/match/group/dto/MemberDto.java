@@ -1,6 +1,6 @@
 package com.ssafy.match.group.dto;
 
-import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.member.entity.Member;
 import lombok.Getter;
 
 @Getter

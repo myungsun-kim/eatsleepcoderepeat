@@ -1,6 +1,6 @@
 package com.ssafy.match.db.repository;
 
-import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.db.entity.MemberClub;
 import com.ssafy.match.db.entity.embedded.CompositeMemberClub;
 import com.ssafy.match.group.dto.club.ClubDto;
