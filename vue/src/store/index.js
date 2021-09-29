@@ -1,5 +1,4 @@
 import { createStore } from 'vuex';
-import axios from 'axios';
 import createPersistedState from 'vuex-persistedstate';
 import { auth } from '@/store/modules/auth';
 import { member } from '@/store/modules/member';
@@ -10,6 +9,15 @@ export default createStore({
     user: {},
     scrollModal: 'false',
     // category 1:스터디 2:프로젝트 3:클럽
+    form: {
+      email: '',
+      name: '',
+      nickname: '',
+      password: '',
+      affirmPassword: '',
+      position: '',
+      city: '',
+    },
   },
   mutations: {
     setCategory(state, value) {
@@ -39,5 +47,6 @@ export default createStore({
     auth,
     member,
   },
+
   plugins: [createPersistedState()],
 });
