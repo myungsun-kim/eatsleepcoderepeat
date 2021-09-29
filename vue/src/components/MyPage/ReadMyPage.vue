@@ -286,11 +286,7 @@ export default {
       store.state.user = res.data;
     });
     const user = computed(() => store.state.user);
-    console.log(user);
-    console.log('snsList');
-    console.log(store.state.user.snsList);
-    // console.log('snsList Type ' + typeof user.snsList);
-    // console.log(user.snsList[0]);
+
     return { user };
   },
 };
