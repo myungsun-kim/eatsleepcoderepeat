@@ -4,16 +4,16 @@
 //
 //import com.ssafy.match.db.entity.Authority;
 //import com.ssafy.match.db.entity.City;
-//import com.ssafy.match.db.entity.Member;
+//import com.ssafy.match.member.entity.Member;
 //import com.ssafy.match.db.entity.Status;
-//import com.ssafy.match.db.repository.MemberExperiencedTechstackRepository;
+//import com.ssafy.match.member.repository.MemberExperiencedTechstackRepository;
 //import com.ssafy.match.group.dto.project.request.ProjectApplicationRequestDto;
 //import com.ssafy.match.group.entity.project.CompositeMemberProject;
 //import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
 //import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
 //import com.ssafy.match.group.entity.project.ProjectApplicationForm;
 //import com.ssafy.match.group.repository.project.MemberProjectRepository;
-//import com.ssafy.match.db.repository.MemberRepository;
+//import com.ssafy.match.member.repository.MemberRepository;
 //import com.ssafy.match.db.repository.TechstackRepository;
 //import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
 //import com.ssafy.match.group.entity.project.MemberProject;

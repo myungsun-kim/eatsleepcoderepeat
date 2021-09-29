@@ -1,7 +1,5 @@
 package com.ssafy.match.file.service;
 
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.exception.FileStorageException;
 import com.ssafy.match.file.exception.MyFileNotFoundException;

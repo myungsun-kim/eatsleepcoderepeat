@@ -1,13 +1,10 @@
 package com.ssafy.match.group.dto.project.request;
 
-import com.ssafy.match.file.entity.DBFile;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,33 +30,13 @@ public class ProjectApplicationRequestDto {
 
     private String backjoon;
 
-//    private List<String> strong;
-//
-//    private List<String> knowledgeable;
-
     private String bio;
 
     @Column(name = "create_date")
     private LocalDateTime createDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cover_pic")
-    private DBFile dbFile;
+    @ApiModelProperty(name = "uuid", example = "3fads23-fdfd13-23d2")
+    @ApiParam(value = "사진 고유 uuid")
+    private String uuid;
 
-    @Builder
-    public ProjectApplicationRequestDto(String nickname, String city, String role, String position,
-        String git, String twitter, String facebook, String backjoon, String bio,
-        LocalDateTime createDate, DBFile dbFile) {
-        this.nickname = nickname;
-        this.city = city;
-        this.role = role;
-        this.position = position;
-        this.git = git;
-        this.twitter = twitter;
-        this.facebook = facebook;
-        this.backjoon = backjoon;
-        this.bio = bio;
-        this.createDate = createDate;
-        this.dbFile = dbFile;
-    }
 }
