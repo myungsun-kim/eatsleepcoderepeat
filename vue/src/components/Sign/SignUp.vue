@@ -75,6 +75,7 @@
               onblur="this.placeholder='닉네임'"
               @blur="checkNickName()"
               autocomplete="off"
+              maxlength="7"
             />
           </div>
           <div id="warning3" style="display: none">
@@ -108,6 +109,7 @@
             onblur="this.placeholder='비밀번호'"
             @blur="checkPassword()"
             autocomplete="off"
+            maxlength="255"
           />
           <div id="warning6" style="display: none">
             비밀번호는 최소 8자 이상이어야 합니다.
@@ -124,6 +126,7 @@
             onblur="this.placeholder='비밀번호 확인'"
             @blur="checkAffirmPassword()"
             autocomplete="off"
+            maxlength="255"
           />
           <div id="warning7" style="display: none">
             비밀번호가 일치하지 않습니다.
@@ -553,10 +556,12 @@ export default {
             console.log(res.data);
             if (res.data == false) {
               // alert('사용가능한 닉네임 입니다!');
+              warning4.style = 'display:none';
               warning5.style = 'display:none';
               success2.style = '';
             } else {
               // alert('이미 존재하는 닉네임 입니다!');
+              warning4.style = 'display:none';
               warning5.style = '';
               success2.style = 'display:none';
             }
