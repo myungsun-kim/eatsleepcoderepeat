@@ -3,11 +3,11 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">Main</router-link>
   </div> -->
-  <el-form enctype="multipart/form-data">
+
+  <!-- <el-form enctype="multipart/form-data">
     <el-upload
       ref="upload"
       class="upload-demo"
-      action="/api/file/uploadFile"
       :before-upload="beforeUpload"
       :auto-upload="false"
     >
@@ -27,7 +27,7 @@
         </div>
       </template>
     </el-upload>
-  </el-form>
+  </el-form> -->
 
   <div class="bg-color">
     <router-view />
@@ -36,27 +36,33 @@
 <script lang="ts">
 import axios from 'axios';
 export default {
-  methods: {
-    submitUpload() {
-      console.log('7');
-      this.$refs.upload.submit();
-    },
-    beforeUpload: function (file) {
-      console.log('1');
-      console.log(file);
-      let formData = new FormData();
-      formData.append('file', file);
-      console.log('2');
-
-      const res = axios.post('/api/file/uploadFile', formData, {
-        headers: {
-          Authorization: 'Bearer ' + localStorage.getItem('accessToken'),
-        },
-      });
-      console.log(res);
-      console.log('3');
-    },
-  },
+  // methods: {
+  //   submitUpload() {
+  //     console.log('7');
+  //     this.$refs.upload.submit();
+  //     // this.$refs.upload.submit();
+  //   },
+  //   beforeUpload: function (file) {
+  //     console.log('1');
+  //     console.log(file);
+  //     let formData = new FormData();
+  //     formData.append('file', file);
+  //     console.log('2');
+  //     console.log(localStorage.getItem('accessToken'));
+  //     console.log("'Bearer ' + localStorage.getItem('accessToken')");
+  //     console.log('3');
+  //     const res = axios.post('/api/file/uploadFile', formData, {
+  //       headers: {
+  //         // auth가 제대로 안넘어가면 401 error 발생
+  //         // 이해가 안되면 최민수에게 문의
+  //         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     });
+  //     console.log(res);
+  //     console.log('4');
+  //   },
+  // },
 };
 </script>
 <style>
