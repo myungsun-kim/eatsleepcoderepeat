@@ -11,15 +11,15 @@ import org.springframework.data.repository.query.Param;
 
 public interface MemberProjectRepository extends JpaRepository<MemberProject, CompositeMemberProject> {
 
-    // 특정 프로젝트의 속한 멤버의 관계 정보
+    // 특정 프로젝트에 속한 멤버의 관계 정보
     @Query(value = "select mp from matching.member_project mp "
         + "where mp.compositeMemberProject.project = :project and mp.isActive = true")
-    List<MemberProject> findMemberWithProject(@Param("project") Project project);
+    List<MemberProject> findMemberRelationInProject(@Param("project") Project project);
 
-    // 특정 프로젝트의 속한 멤버의 정보
+    // 특정 프로젝트에 속한 멤버의 정보
     @Query(value = "select mp.compositeMemberProject.member from matching.member_project mp "
         + "where mp.compositeMemberProject.project = :project and mp.isActive = true")
-    List<Member> memberInProject(@Param("project") Project project);
+    List<Member> findMemberInProject(@Param("project") Project project);
 
     // 특정 프로젝트의 특정 멤버의 관계 정보
     @Query(value = "select mp from matching.member_project mp "

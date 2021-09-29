@@ -18,7 +18,6 @@ public class StudyCreateRequestDto {
     private String name;
 
     @ApiModelProperty(name = "techList", example = "[\"java\", \"python\"]")
-
     @ApiParam(value = "기술 스택 리스트", required = true)
     private List<String> techList;
 

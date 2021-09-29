@@ -2,6 +2,8 @@ package com.ssafy.match.group.service;
 
 import com.ssafy.match.db.entity.City;
 import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.db.entity.MemberSns;
+import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.db.repository.MemberBeginnerTechstackRepository;
 import com.ssafy.match.db.repository.MemberClubRepository;
@@ -11,14 +13,16 @@ import com.ssafy.match.db.repository.MemberSnsRepository;
 import com.ssafy.match.db.repository.TechstackRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
+import com.ssafy.match.group.dto.MemberDto;
+import com.ssafy.match.group.dto.club.ClubDto;
 import com.ssafy.match.group.dto.project.request.ProjectApplicationRequestDto;
 import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
 import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
 import com.ssafy.match.group.dto.project.response.InfoForApplyProjectFormResponseDto;
-import com.ssafy.match.group.dto.project.response.ProjectFormtInfoResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectFormInfoResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectInfoForCreateResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoForUpdateResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
-import com.ssafy.match.group.dto.project.response.ProjectMemberRoleResponseDto;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import com.ssafy.match.group.entity.project.CompositeProjectTechstack;
@@ -61,17 +65,17 @@ public class ProjectServiceImpl implements ProjectService {
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
     private final MemberSnsRepository memberSnsRepository;
 
-    public ProjectInfoForCreateResponseDto infoForCreate() throws Exception {
+    public ProjectInfoForCreateResponseDto getInfoForCreate() throws Exception {
         return ProjectInfoForCreateResponseDto.builder()
             .hostClub(memberClubRepository
                 .findClubIdNameByMember(findMember(SecurityUtil.getCurrentMemberId())))
-            .city(Stream.of(City.values())
-                .map(Enum::name)
-                .collect(Collectors.toList()))
             .build();
     }
     @Transactional
     public Long create(ProjectCreateRequestDto dto) throws Exception {
+        validCity(dto.getCity());
+        validTechstack(dto.getTechList());
+
         Project project = new Project(dto);
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         project.setMember(member);
@@ -88,6 +92,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Transactional
     public HttpStatus update(Long projectId, ProjectUpdateRequestDto dto) throws Exception {
+        validCity(dto.getCity());
+        validTechstack(dto.getAddStackList());
+        validTechstack(dto.getRemoveStackList());
+        validStatus(dto.getStatus());
+
         Project project = findProject(projectId);
         Long currentMemberId = SecurityUtil.getCurrentMemberId();
 
@@ -113,88 +122,93 @@ public class ProjectServiceImpl implements ProjectService {
             throw new Exception("권한이 없습니다.");
         }
 
-        List<MemberProject> memberProjects = memberProjectRepository.findMemberWithProject(project);
+        List<MemberProject> memberProjects = memberProjectRepository.findMemberRelationInProject(project);
         for (MemberProject mem : memberProjects) {
             mem.deactivation();
         }
 
-//        List<ProjectTechstack> pts = projectTechstackRepository.findProejctTechstackByProject(project);
-//        for (ProjectTechstack pt: pts) {
-//            studyTechstackRepository.delete(st);
-//        }
+        List<ProjectTechstack> pts = projectTechstackRepository.findProjectTechstackByProject(project);
+        for (ProjectTechstack pt: pts) {
+            projectTechstackRepository.delete(pt);
+        }
 
         project.setIsActive(false);
 
         return HttpStatus.OK;
     }
 
+    public List<ProjectInfoResponseDto> getAllProject() {
+        List<Project> projects = projectRepository.findAllProject();
+        List<ProjectInfoResponseDto> projectInfoResponseDtos = new ArrayList<>();
+
+        for (Project project: projects) {
+            if(project.getStatus().equals(Status.종료)) continue;
+            ProjectInfoResponseDto dto = new ProjectInfoResponseDto(project);
+            dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
+            projectInfoResponseDtos.add(dto);
+        }
+
+        return projectInfoResponseDtos;
+    }
+
+    // 현재 스터디에 속한 멤버 리스트
+    public List<Member> findMemberInProject(Project project) {
+        return memberProjectRepository.findMemberInProject(project);
+    }
+
+    // 현재 스터디 기술 스택의 이름 리스트
+    public List<String> projectTechstackName(Project project) {
+        return projectTechstackRepository.findByProjectTechstackName(project);
+    }
+
     // 현재 프로젝트 정보 리턴
-    public ProjectInfoResponseDto projectInfo(Long projectId) throws Exception {
+    public ProjectInfoResponseDto getOneProject(Long projectId) throws Exception {
 
         Project project = findProject(projectId);
-        if (SecurityUtil.getCurrentMemberId() != project.getMember().getId()
+        if (!SecurityUtil.getCurrentMemberId().equals(project.getMember().getId())
             && !project.getIsPublic()) {
             throw new Exception("비공개된 프로젝트입니다.");
         }
 
-        List<String> developerNicknames = memberNicknames(projectId, "개발자");
-        List<String> desiginerNicknames = memberNicknames(projectId, "디자이너");
-        List<String> plannerNicknames = memberNicknames(projectId, "기획자");
-        List<String> allTechstack = allTechstackName();
-        List<String> projectTechstack = projectTechstackName(projectId);
-        List<Club> hostClub = memberClubRepository.findClubByMember(project.getMember());
-
-        List<Member> projectMember = memberInProject(projectId);
-        List<ProjectMemberRoleResponseDto> projectMemberInfo = new ArrayList<>();
-        for (Member mem: projectMember) {
-            projectMemberInfo.add(new ProjectMemberRoleResponseDto(mem.getId(), mem.getName(), mem.getNickname()));
-        }
-
-        List<String> projectCity = Stream.of(City.values())
-            .map(Enum::name)
-            .collect(Collectors.toList());
-
-        ProjectInfoResponseDto responseDto = ProjectInfoResponseDto.builder()
-            .name(project.getName())
-            .schedule(project.getSchedule())
-            .period(project.getPeriod())
-            .hostNickname(project.getMember().getNickname())
-            .developerCount(project.getDeveloperCount())
-            .developerNicknames(developerNicknames)
-            .developerMaxCount(project.getDeveloperMaxCount())
-            .designerCount(project.getDesignerCount())
-            .designerNicknames(desiginerNicknames)
-            .designerMaxCount(project.getDesignerMaxCount())
-            .plannerCount(project.getPlannerCount())
-            .plannerNicknames(plannerNicknames)
-            .plannerMaxCount(project.getPlannerMaxCount())
-            .isPublic(project.getIsPublic())
-            .city(project.getCity())
-            .status(project.getStatus())
-            .isParticipate(project.getIsParticipate())
-            .modifyDate(project.getModifyDate())
-            .bio(project.getBio())
-            .allTechstack(allTechstack)
-            .projectTechstack(projectTechstack)
-            .hostClub(hostClub)
-            .projectMemberInfo(projectMemberInfo)
-            .projectCity(projectCity)
-            .build();
+        ProjectInfoResponseDto dto = new ProjectInfoResponseDto(project);
+        dto.setDeveloperNicknames(memberNicknames(projectId, "개발자"));
+        dto.setDesignerNicknames(memberNicknames(projectId, "디자이너"));
+        dto.setPlannerNicknames(memberNicknames(projectId, "기획자"));
+        dto.setTechList(projectTechstackName(project));
+        dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
 
         if (project.getClub() != null) {
-            responseDto.setClubId(project.getClub().getId());
-            responseDto.setClubName(project.getClub().getName());
-        }
-        if (project.getDbFile() != null) {
-            responseDto.setPicData(project.getDbFile().getData());
+            dto.setClub(new ClubDto(project.getClub()));
         }
 
-        return responseDto;
+        return dto;
+    }
+
+    public ProjectInfoForUpdateResponseDto getInfoForUpdateProject(Long projectId) throws Exception {
+        Project project = findProject(projectId);
+        if (!SecurityUtil.getCurrentMemberId().equals(project.getMember().getId())) {
+            throw new Exception("권한이 없습니다");
+        }
+
+        ProjectInfoForUpdateResponseDto dto = new ProjectInfoForUpdateResponseDto(project);
+        dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
+        dto.setProjectTechstack(projectTechstackName(project));
+        dto.setClubList(makeClubDtos(memberClubRepository.findClubByMember(project.getMember())));
+        dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
+
+        if (project.getClub() != null) {
+            dto.setClub(new ClubDto(project.getClub()));
+        }
+        if (project.getDbFile() != null) {
+            dto.setDbFile(project.getDbFile());
+        }
+
+        return dto;
     }
 
     // 현재 프로젝트에 어떤 멤버가 속해있는지 멤버 리스트 리턴
-    public List<Member> memberInProject(Long projectId) throws Exception {
-        return memberProjectRepository.memberInProject(findProject(projectId));
+    public List<Member> memberInProject(Project project) {
+        return memberProjectRepository.findMemberInProject(project);
     }
 
     // 특정 프로젝트의 특정 역할인 멤버의 닉네임 리스트
@@ -210,11 +224,6 @@ public class ProjectServiceImpl implements ProjectService {
     // 모든 기술스택의 이름 리스트
     public List<String> allTechstackName() {
         return techstackRepository.findAllName();
-    }
-
-    // 현재 프로젝트 기술 스택의 이름 리스트
-    public List<String> projectTechstackName(Long projectId) throws Exception {
-        return projectTechstackRepository.findByProjectTechstackName(findProject(projectId));
     }
 
     @Transactional
@@ -322,6 +331,46 @@ public class ProjectServiceImpl implements ProjectService {
             .orElseThrow(() -> new NullPointerException("파일 정보가 없습니다."));
     }
 
+    public void validCity(String city) throws Exception {
+        if(!Stream.of(City.values()).map(Enum::name)
+            .collect(Collectors.toList()).contains(city)){
+            throw new Exception("존재하지 않는 지역입니다");
+        }
+    }
+    public void validStatus(String status) throws Exception {
+        if(!Stream.of(Status.values()).map(Enum::name)
+            .collect(Collectors.toList()).contains(status)){
+            throw new Exception("존재하지 않는 지역입니다");
+        }
+    }
+    public void validTechstack(List<String> techstacks) throws Exception {
+        for (String inTech: techstacks) {
+            if(!techstackRepository.findAllName().contains(inTech)){
+                throw new Exception("존재하지 않는 기술 스택입니다");
+            }
+        }
+    }
+
+    public List<ClubDto> makeClubDtos(List<Club> hostClub) {
+        List<ClubDto> clubDtos = new ArrayList<>();
+
+        for (Club club : hostClub) {
+            clubDtos.add(new ClubDto(club));
+        }
+
+        return clubDtos;
+    }
+
+    public List<MemberDto> makeMemberDtos(List<Member> members) {
+        List<MemberDto> memberDtos = new ArrayList<>();
+
+        for (Member member : members) {
+            memberDtos.add(new MemberDto(member));
+        }
+
+        return memberDtos;
+    }
+
     // (아이디어가 생각이 안나서 임시로 If문 사용 조언 구함)
     @Transactional
     public void changeRole(Project project, Member member, String role) {
@@ -383,11 +432,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     // 신청 버튼 클릭시 관련 정보 및 권한 체크
-    public InfoForApplyProjectFormResponseDto checkForRegister(Long projectId) throws Exception {
+    public InfoForApplyProjectFormResponseDto getInfoForApply(Long projectId) throws Exception {
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         Project project = findProject(projectId);
 
-        List<Member> memberList = memberInProject(projectId);
+        List<Member> memberList = memberInProject(project);
         for (Member mem: memberList) {
             if(SecurityUtil.getCurrentMemberId() == mem.getId()){
                 throw new Exception("이미 가입한 멤버입니다.");
@@ -398,44 +447,48 @@ public class ProjectServiceImpl implements ProjectService {
             throw new Exception("참여 불가능한 프로젝트입니다.");
         }
 
-        List<String> allTechstack = allTechstackName();
-        List<String> projectCity = Stream.of(City.values())
-            .map(Enum::name)
-            .collect(Collectors.toList());
-
-        return InfoForApplyProjectFormResponseDto.builder()
-            .name(member.getName())
-            .position(member.getPosition())
-            .allTechstack(allTechstack)
-            .projectCity(projectCity)
+        InfoForApplyProjectFormResponseDto dto = InfoForApplyProjectFormResponseDto.builder()
+            .nickname(member.getNickname())
+            .strong(memberExperiencedTechstackRepository.findTechstackByMemberName(member))
+            .knowledgeable(memberBeginnerTechstackRepository.findTechstackByMemberName(member))
             .build();
+
+        Optional<MemberSns> git = memberSnsRepository.findByMemberAndSnsName(member, "github");
+        Optional<MemberSns> twitter = memberSnsRepository.findByMemberAndSnsName(member, "twitter");
+        Optional<MemberSns> facebook = memberSnsRepository
+            .findByMemberAndSnsName(member, "facebook");
+        Optional<MemberSns> backjoon = memberSnsRepository
+            .findByMemberAndSnsName(member, "backjoon");
+
+        if (git.isPresent()) {
+            dto.setGit(git.get().getSnsAccount());
+        }
+        if (twitter.isPresent()) {
+            dto.setTwitter(twitter.get().getSnsAccount());
+        }
+        if (facebook.isPresent()) {
+            dto.setFacebook(facebook.get().getSnsAccount());
+        }
+        if (backjoon.isPresent()) {
+            dto.setBackjoon(backjoon.get().getSnsAccount());
+        }
+
+        return dto;
     }
 
     @Transactional
-    public HttpStatus createForm(Long projectId, ProjectApplicationRequestDto dto) throws Exception {
+    public HttpStatus applyProject(Long projectId, ProjectApplicationRequestDto dto) throws Exception {
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         Project project = findProject(projectId);
 
-        CompositeMemberProject mp = new CompositeMemberProject(member, project);
+        CompositeMemberProject cmp = new CompositeMemberProject(member, project);
 
-        Optional<ProjectApplicationForm> form = projectApplicationFormRepository.findById(mp);
+        Optional<ProjectApplicationForm> form = projectApplicationFormRepository.findById(cmp);
         if (form.isPresent()) {
             throw new Exception("신청한 내역이 존재합니다.");
         }
 
-        ProjectApplicationForm projectApplicationForm = ProjectApplicationForm.builder()
-            .compositeMemberProject(mp)
-            .nickname(dto.getNickname())
-            .city(City.from(dto.getCity()))
-            .role(dto.getRole())
-            .position(dto.getPosition())
-            .git(dto.getGit())
-            .twitter(dto.getTwitter())
-            .facebook(dto.getFacebook())
-            .backjoon(dto.getBackjoon())
-            .bio(dto.getBio())
-            .createDate(LocalDateTime.now())
-            .build();
+        ProjectApplicationForm projectApplicationForm = new ProjectApplicationForm(cmp, dto);
 
         if(dto.getGit() != null){
             projectApplicationForm.setGit(dto.getGit());
@@ -446,19 +499,18 @@ public class ProjectServiceImpl implements ProjectService {
         if(dto.getFacebook() != null){
             projectApplicationForm.setFacebook(dto.getFacebook());
         }
-        if(dto.getGit() != null){
-            projectApplicationForm.setGit(dto.getGit());
+        if(dto.getBackjoon() != null){
+            projectApplicationForm.setBackjoon(dto.getBackjoon());
         }
-        if (dto.getDbFile() != null) {
-            projectApplicationForm.setDbFile(dto.getDbFile());
-        }
+
+        projectApplicationForm.setDbFile(findDBFile(dto.getUuid()));
 
         projectApplicationFormRepository.save(projectApplicationForm);
         return HttpStatus.OK;
     }
 
     // 모든 신청서 작성일 기준 내림차순 조회
-    public List<ProjectFormtInfoResponseDto> allProjectForm(Long projectId) throws Exception {
+    public List<ProjectFormInfoResponseDto> allProjectForm(Long projectId) throws Exception {
         Project project = findProject(projectId);
 
         if(SecurityUtil.getCurrentMemberId() != project.getMember().getId()){
@@ -466,47 +518,66 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         List<ProjectApplicationForm> forms = projectApplicationFormRepository.formByProjectId(project);
-        List<ProjectFormtInfoResponseDto> projectFormtInfoResponseDtos = new ArrayList<>();
+        List<ProjectFormInfoResponseDto> projectFormInfoResponseDtos = new ArrayList<>();
 
         for (ProjectApplicationForm form: forms) {
-            projectFormtInfoResponseDtos.add(new ProjectFormtInfoResponseDto(form));
+            projectFormInfoResponseDtos.add(ProjectFormInfoResponseDto.builder()
+                .form(form)
+                .strong(memberExperiencedTechstackRepository
+                    .findTechstackByMemberName(form.getCompositeMemberProject().getMember()))
+                .knowledgeable(memberBeginnerTechstackRepository
+                    .findTechstackByMemberName(form.getCompositeMemberProject().getMember()))
+                .build());
         }
 
-        return projectFormtInfoResponseDtos;
+        return projectFormInfoResponseDtos;
     }
 
     // 닉네임으로 신청서 검색
-    public List<ProjectFormtInfoResponseDto> allFormByProjectNickname(Long projectId, String nickname) throws Exception{
+    public List<ProjectFormInfoResponseDto> allFormByProjectNickname(Long projectId, String nickname) throws Exception{
         Project project = findProject(projectId);
 
         if(SecurityUtil.getCurrentMemberId() != project.getMember().getId()){
             throw new Exception("조회 권한이 없습니다.");
         }
 
-        List<ProjectApplicationForm> forms = projectApplicationFormRepository.allFormByProjectNickname(project, nickname);
-        List<ProjectFormtInfoResponseDto> projectFormtInfoResponseDtos = new ArrayList<>();
+        List<ProjectApplicationForm> forms = projectApplicationFormRepository.formByProjectId(project);
+        List<ProjectFormInfoResponseDto> projectFormInfoResponseDtos = new ArrayList<>();
 
         for (ProjectApplicationForm form: forms) {
-            projectFormtInfoResponseDtos.add(new ProjectFormtInfoResponseDto(form));
+            projectFormInfoResponseDtos.add(ProjectFormInfoResponseDto.builder()
+                .form(form)
+                .strong(memberExperiencedTechstackRepository
+                    .findTechstackByMemberName(form.getCompositeMemberProject().getMember()))
+                .knowledgeable(memberBeginnerTechstackRepository
+                    .findTechstackByMemberName(form.getCompositeMemberProject().getMember()))
+                .build());
         }
 
-        return projectFormtInfoResponseDtos;
+        return projectFormInfoResponseDtos;
     }
 
     // 신청서 목록의 복합 기본키를 가져와 해당 신청서 상세조회 (프론트 방식에 따라 불필요할 수 있음)
-    public ProjectFormtInfoResponseDto oneProjectForm(Long projectId, Long memberId) throws Exception {
+    public ProjectFormInfoResponseDto oneProjectForm(Long projectId, Long memberId) throws Exception {
         CompositeMemberProject cmp = new CompositeMemberProject(findMember(memberId), findProject(projectId));
 
-        return projectApplicationFormRepository.oneFormById(cmp)
-            .map(ProjectFormtInfoResponseDto::new)
+        ProjectApplicationForm form = projectApplicationFormRepository.oneFormById(cmp)
             .orElseThrow(()-> new NullPointerException("존재하지 않는 신청서입니다"));
+
+        return ProjectFormInfoResponseDto.builder()
+            .form(form)
+            .strong(memberExperiencedTechstackRepository
+                .findTechstackByMemberName(form.getCompositeMemberProject().getMember()))
+            .knowledgeable(memberBeginnerTechstackRepository
+                .findTechstackByMemberName(form.getCompositeMemberProject().getMember()))
+            .build();
     }
 
     // 가입 승인
     @Transactional
     public HttpStatus approval(Long projectId, Long memberId) throws Exception {
-        List<Member> members = memberInProject(projectId);
         Project project = findProject(projectId);
+        List<Member> members = memberInProject(project);
         Member member = findMember(memberId);
 
         for (Member mem: members) {
