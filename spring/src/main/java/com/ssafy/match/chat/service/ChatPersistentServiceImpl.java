@@ -89,7 +89,7 @@ public class ChatPersistentServiceImpl {
         if(cacheSize > CACHE_SIZE){
             strObjListOps.trim(
                 redisKey,
-                cacheSize-CACHE_SIZE-1,
+                cacheSize-CACHE_SIZE,
                 cacheSize-1
             );
         }
