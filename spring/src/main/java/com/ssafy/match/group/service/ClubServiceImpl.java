@@ -6,7 +6,7 @@
 //import com.ssafy.match.db.entity.Status;
 //import com.ssafy.match.db.entity.Techstack;
 //import com.ssafy.match.db.repository.MemberBeginnerTechstackRepository;
-//import com.ssafy.match.db.repository.MemberClubRepository;
+//import com.ssafy.match.group.repository.club.MemberClubRepository;
 //import com.ssafy.match.db.repository.MemberExperiencedTechstackRepository;
 //import com.ssafy.match.db.repository.MemberRepository;
 //import com.ssafy.match.db.repository.MemberSnsRepository;

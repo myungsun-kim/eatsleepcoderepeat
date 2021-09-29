@@ -37,6 +37,8 @@ public class FileController {
 //            .path("/file/downloadFile/")
 //            .path(dbFile.getId())
 //            .toUriString();
+// 현재 uri 만들어주는데 uri 바뀌면 못찾음, pdf 같은 경우는 다운로드 uri만 보내면 되는데 db파일 데이터 불필요하게 보냄
+// servleturicomponentbuiler 사용으로 테스트 환경이 바뀌면 안될가능성
 
         return new UploadFileResponse(dbFile.getId(), dbFile.getFile_name(), dbFile.getDownload_uri(),
             file.getContentType(), file.getSize());

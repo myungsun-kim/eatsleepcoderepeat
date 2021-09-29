@@ -1,10 +1,10 @@
-package com.ssafy.match.db.repository;
+package com.ssafy.match.group.repository.club;
 
-import com.ssafy.match.member.entity.Member;
-import com.ssafy.match.db.entity.MemberClub;
-import com.ssafy.match.db.entity.embedded.CompositeMemberClub;
 import com.ssafy.match.group.dto.club.ClubDto;
 import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.group.entity.club.CompositeMemberClub;
+import com.ssafy.match.group.entity.club.MemberClub;
+import com.ssafy.match.member.entity.Member;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

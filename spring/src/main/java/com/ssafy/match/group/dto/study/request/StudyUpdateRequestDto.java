@@ -41,7 +41,7 @@ public class StudyUpdateRequestDto {
     @ApiParam(value = "활동지역", required = true)
     private String city;
 
-    @ApiModelProperty(name = "status", example = "모집중, 진행중, 종료됨")
+    @ApiModelProperty(name = "status", example = "모집, 진행, 종료")
     @ApiParam(value = "스터디 상태", required = true)
     private String status;
 

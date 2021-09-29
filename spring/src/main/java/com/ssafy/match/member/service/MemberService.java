@@ -1,12 +1,13 @@
 package com.ssafy.match.member.service;
 
+import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.group.repository.club.MemberClubRepository;
 import com.ssafy.match.member.dto.*;
 import com.ssafy.match.db.entity.*;
 import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
 import com.ssafy.match.db.repository.*;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
-import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.repository.project.MemberProjectRepository;
 import com.ssafy.match.member.entity.*;
