@@ -1,7 +1,7 @@
-package com.ssafy.match.controller;
+package com.ssafy.match.member.controller;
 
-import com.ssafy.match.controller.dto.*;
-import com.ssafy.match.service.MemberService;
+import com.ssafy.match.member.dto.*;
+import com.ssafy.match.member.service.MemberService;
 import com.ssafy.match.util.SecurityUtil;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;

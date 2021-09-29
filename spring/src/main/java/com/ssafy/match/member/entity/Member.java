@@ -1,5 +1,6 @@
-package com.ssafy.match.db.entity;
+package com.ssafy.match.member.entity;
 
+import com.ssafy.match.db.entity.Authority;
 import com.ssafy.match.file.entity.DBFile;
 import java.time.LocalDateTime;
 import javax.persistence.Entity;

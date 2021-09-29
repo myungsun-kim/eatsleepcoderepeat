@@ -62,7 +62,7 @@ public class SwaggerConfig {
             .apiInfo(apiInfo)
             .groupName("Member")
             .select()
-            .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.controller"))
+            .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.member.controller"))
             // api 필요한 class path 추가
             .paths(
                         PathSelectors.ant("/**/member/**")

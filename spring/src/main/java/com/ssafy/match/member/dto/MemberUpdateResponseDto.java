@@ -1,7 +1,6 @@
-package com.ssafy.match.controller.dto;
+package com.ssafy.match.member.dto;
 
 
-import com.ssafy.match.db.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

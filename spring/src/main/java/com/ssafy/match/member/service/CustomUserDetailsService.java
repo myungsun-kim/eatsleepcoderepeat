@@ -1,7 +1,7 @@
-package com.ssafy.match.service;
+package com.ssafy.match.member.service;
 
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.repository.MemberRepository;
+import com.ssafy.match.member.entity.Member;
+import com.ssafy.match.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

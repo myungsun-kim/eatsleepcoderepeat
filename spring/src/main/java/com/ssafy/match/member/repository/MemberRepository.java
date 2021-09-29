@@ -1,16 +1,9 @@
-package com.ssafy.match.db.repository;
+package com.ssafy.match.member.repository;
 
-import com.ssafy.match.controller.dto.MemberInfoDto;
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.file.entity.DBFile;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
+import com.ssafy.match.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Repository

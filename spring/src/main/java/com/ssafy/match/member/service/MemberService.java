@@ -1,6 +1,6 @@
-package com.ssafy.match.service;
+package com.ssafy.match.member.service;
 
-import com.ssafy.match.controller.dto.*;
+import com.ssafy.match.member.dto.*;
 import com.ssafy.match.db.entity.*;
 import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
 import com.ssafy.match.db.repository.*;
@@ -9,6 +9,11 @@ import com.ssafy.match.file.repository.DBFileRepository;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.repository.project.MemberProjectRepository;
+import com.ssafy.match.member.entity.*;
+import com.ssafy.match.member.repository.MemberBeginnerTechstackRepository;
+import com.ssafy.match.member.repository.MemberExperiencedTechstackRepository;
+import com.ssafy.match.member.repository.MemberRepository;
+import com.ssafy.match.member.repository.MemberSnsRepository;
 import com.ssafy.match.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

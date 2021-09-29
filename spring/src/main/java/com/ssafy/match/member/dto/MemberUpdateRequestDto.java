@@ -1,20 +1,14 @@
-package com.ssafy.match.controller.dto;
+package com.ssafy.match.member.dto;
 
 
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.file.entity.DBFile;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Getter
 @AllArgsConstructor

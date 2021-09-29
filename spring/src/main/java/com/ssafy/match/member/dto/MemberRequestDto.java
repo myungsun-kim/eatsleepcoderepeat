@@ -1,10 +1,7 @@
-package com.ssafy.match.controller.dto;
+package com.ssafy.match.member.dto;
 
 import com.ssafy.match.db.entity.Authority;
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.entity.MemberExperiencedTechstack;
-import com.ssafy.match.db.entity.Techstack;
-import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
+import com.ssafy.match.member.entity.Member;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.*;
@@ -13,11 +10,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

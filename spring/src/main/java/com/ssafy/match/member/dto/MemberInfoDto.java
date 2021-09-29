@@ -1,9 +1,11 @@
-package com.ssafy.match.controller.dto;
+package com.ssafy.match.member.dto;
 
-import com.ssafy.match.db.entity.*;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
+import com.ssafy.match.member.entity.Member;
+import com.ssafy.match.member.entity.MemberSns;
+import com.ssafy.match.member.entity.Position;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;

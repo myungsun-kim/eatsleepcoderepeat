@@ -1,4 +1,4 @@
-package com.ssafy.match.controller.dto;
+package com.ssafy.match.member.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

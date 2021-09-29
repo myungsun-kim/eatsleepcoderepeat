@@ -1,23 +1,23 @@
-package com.ssafy.match.db.entity;
+package com.ssafy.match.member.entity;
 
 import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
+import lombok.*;
+
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
-import lombok.*;
-
 @Getter
-//@Setter
-@Entity(name = "matching.member_techstack")
+@Setter
+@Entity(name = "matching.member_beginner_techstack")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberTechstack {
+public class MemberBeginnerTechstack {
 
     @EmbeddedId
     private CompositeMemberTechstack compositeMemberTechstack;
 
     @Builder
-    public MemberTechstack(
-        CompositeMemberTechstack compositeMemberTechstack) {
+    public MemberBeginnerTechstack(
+            CompositeMemberTechstack compositeMemberTechstack) {
         this.compositeMemberTechstack = compositeMemberTechstack;
     }
 }

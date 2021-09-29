@@ -1,7 +1,7 @@
-package com.ssafy.match.db.repository;
+package com.ssafy.match.member.repository;
 
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.entity.MemberBeginnerTechstack;
+import com.ssafy.match.member.entity.Member;
+import com.ssafy.match.member.entity.MemberBeginnerTechstack;
 import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
 import org.springframework.data.jpa.repository.JpaRepository;

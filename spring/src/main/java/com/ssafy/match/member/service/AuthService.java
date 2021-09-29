@@ -1,12 +1,19 @@
-package com.ssafy.match.service;
+package com.ssafy.match.member.service;
 
-import com.ssafy.match.controller.dto.*;
+import com.ssafy.match.member.dto.*;
 import com.ssafy.match.db.entity.*;
 import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
 import com.ssafy.match.db.repository.*;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
 import com.ssafy.match.jwt.TokenProvider;
+import com.ssafy.match.member.entity.Member;
+import com.ssafy.match.member.entity.MemberBeginnerTechstack;
+import com.ssafy.match.member.entity.MemberExperiencedTechstack;
+import com.ssafy.match.member.entity.Position;
+import com.ssafy.match.member.repository.MemberBeginnerTechstackRepository;
+import com.ssafy.match.member.repository.MemberExperiencedTechstackRepository;
+import com.ssafy.match.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
