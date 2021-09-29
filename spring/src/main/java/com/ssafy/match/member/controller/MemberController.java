@@ -27,10 +27,10 @@ public class MemberController {
         return ResponseEntity.ok(memberService.checkPassword(memberCheckPasswordDto));
     }
 
-    @GetMapping("/mypage")
+    @GetMapping("/mypage/{email}")
     @ApiOperation(value = "마이 페이지")
-    public ResponseEntity<MemberInfoDto> getMyPage() {
-        return ResponseEntity.ok(memberService.getMyPage());
+    public ResponseEntity<MemberInfoDto> getMyPage(@PathVariable("email") String email) {
+        return ResponseEntity.ok(memberService.getMyPage(email));
     }
 
     @PutMapping

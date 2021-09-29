@@ -74,11 +74,16 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public MemberInfoDto getMyPage() {
-        MemberInfoDto memberInfoDto = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+    public MemberInfoDto getMyPage(String email) {
+//        MemberInfoDto memberInfoDto = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+//                .map(MemberInfoDto::of)
+//                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+//        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+//                .orElseThrow(() -> new NullPointerException("유저가 없습니다."));
+        MemberInfoDto memberInfoDto = memberRepository.findByEmail(email)
                 .map(MemberInfoDto::of)
-                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
-        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new NullPointerException("유저가 없습니다."));
+        Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NullPointerException("유저가 없습니다."));
         List<Club> myClubList = memberClubRepository.findClubByMember(member);
         List<Project> myProjectList = memberProjectRepository.projectInMember(member);
