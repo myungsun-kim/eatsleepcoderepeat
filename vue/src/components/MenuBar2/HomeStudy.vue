@@ -45,7 +45,7 @@
     <el-col :span="2" class="test-border"></el-col>
 
     <!-- item 한개 -->
-    <el-col :span="4" class="test-border item" @click="goIntroduce">
+    <el-col :span="4" class="item item-border" @click="goIntroduce">
       <el-row class="height40 item-img"></el-row>
       <el-row class="height10 item-head-title">백준 알고 스터디 하실 분</el-row>
       <el-row class="height10 item-content">기술 스택: Java, Kotlin</el-row>
@@ -188,7 +188,7 @@ export default {
     const router = useRouter();
 
     const goCreate = function () {
-      router.push({ path: '/nosubheader/create' });
+      router.push({ path: '/nosubheader/study/create' });
     };
 
     const goIntroduce = function () {
@@ -210,26 +210,36 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
   box-sizing: border-box;
+  border-radius: 5px 5px 0px 0px;
+  left: 0px;
+  top: 0px;
+
+  padding: 0px;
 }
 
 .item-head-title {
   font-size: 16pt;
   font-weight: bold;
+  padding: 0 3px 0 3px;
 }
 .item-content {
   font-size: 12pt;
   font-weight: normal;
+  padding: 0 3px 0 3px;
 }
 .item-small-content {
   font-size: 10pt;
   font-weight: normal;
+  padding: 0 3px 0 3px;
 }
 
 .left-content {
   text-align: left;
+  padding: 0 3px 0 3px;
 }
 .right-content {
   text-align: right;
+  padding: 0 3px 0 3px;
 }
 
 .item-state-badge-blue {
