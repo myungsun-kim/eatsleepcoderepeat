@@ -34,39 +34,63 @@
         <el-col :span="10" :offset="2" class="test-border flex-parent">
           <el-row class="test-border info-size">
             <el-col :span="5" class="test-border"> ID </el-col>
-            <el-col :span="15" :offset="4" class="info"> ssafy@ssafy</el-col>
+            <el-col :span="15" :offset="4" class="info">
+              {{ user.email }}</el-col
+            >
           </el-row>
           <el-row class="test-border info-size">
             <el-col :span="5" class="test-border"> 이름 </el-col>
-            <el-col :span="15" :offset="4" class="info"> 김싸피</el-col>
+            <el-col :span="15" :offset="4" class="info">
+              {{ user.name }}</el-col
+            >
           </el-row>
           <el-row class="test-border info-size">
             <el-col :span="5" class="test-border"> 닉넴 </el-col>
-            <el-col :span="15" :offset="4" class="info"> ssAfy</el-col>
+            <el-col :span="15" :offset="4" class="info">
+              {{ user.nickname }}</el-col
+            >
           </el-row>
           <el-row class="test-border info-size">
             <el-col :span="5" class="test-border"> 역할 </el-col>
-            <el-col :span="15" :offset="4" class="info"> 개발자</el-col>
+            <el-col :span="15" :offset="4" class="info">
+              {{ user.position }}</el-col
+            >
           </el-row>
         </el-col>
       </el-row>
       <!-- 마이페이지 정보 깃~ -->
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 지역 </el-col>
-        <el-col :span="16" :offset="1" class="info"> 경북 </el-col>
+        <el-col :span="16" :offset="1" class="info"> {{ user.city }} </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 깃 </el-col>
-        <el-col :span="16" :offset="1" class="info"> Github </el-col>
+        <el-col :span="16" :offset="1" class="info">
+          <!-- {{ typeof user.snsList }}{{ user.snsList.length }} -->
+          <!-- {{ user.snsList }} -->
+          <!-- <span
+            v-if="
+              user.snsList === undefined || user.snsList[0].snsName != 'github'
+            "
+            >없음</span
+          > -->
+          <!-- <span v-if="user.snsList">{{ user.snsList[0].snsAccount }}</span>
+          <span v-else-if="user.snsList[0].snsName != 'github'">깃x
+          </span>
+          <span v-else>없음</span> -->
+        </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 트위터 </el-col>
-        <el-col :span="16" :offset="1" class="info"> Twitter </el-col>
+        <el-col :span="16" :offset="1" class="info"> 트윗 </el-col>
       </el-row>
 
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 페이스북 </el-col>
-        <el-col :span="16" :offset="1" class="info"> Facebook </el-col>
+        <el-col :span="16" :offset="1" class="info">
+          <!-- <span v-if="!user.snsList">없음</span>
+          <span v-else>{{ user.snsList[2].snsAccount }}</span> -->
+        </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 백준 </el-col>
@@ -78,25 +102,38 @@
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 포트폴리오 url </el-col>
-        <el-col :span="16" :offset="1" class="info"> url </el-col>
+        <el-col :span="16" :offset="1" class="info">
+          {{ user.portfolio_uri }}
+        </el-col>
       </el-row>
       <el-row class="test-border info-size">
-        <el-col :span="7" class="test-border"> Strong </el-col>
-        <el-col :span="16" :offset="1" class="info"> C++, Python </el-col>
+        <el-col :span="7" class="test-border"> Experienced </el-col>
+        <el-col :span="16" :offset="1" class="info">
+          <span v-for="item in user.expTechList" :key="item"
+            >{{ item }}&nbsp;</span
+          >
+        </el-col>
       </el-row>
       <el-row class="test-border info-size">
-        <el-col :span="7" class="test-border"> Knowledgeable </el-col>
-        <el-col :span="16" :offset="1" class="info"> Java </el-col>
+        <el-col :span="7" class="test-border"> Beginner </el-col>
+        <el-col :span="16" :offset="1" class="info">
+          <span v-for="item in user.beginTechList" :key="item"
+            >{{ item }}&nbsp;</span
+          >
+        </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 희망 포지션 </el-col>
-        <el-col :span="16" :offset="1" class="info"> FE </el-col>
+        <el-col :span="16" :offset="1" class="info">
+          <span v-for="item in user.dpositionList" :key="item"
+            >{{ item.name }}&nbsp;</span
+          >
+        </el-col>
       </el-row>
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> 자기소개 </el-col>
         <el-col :span="16" :offset="1" class="info">
-          다양한 프로젝트를 하고 싶습니다. 다양한 프로젝트를 하고 싶습니다.
-          다양한 프로젝트를 하고 싶습니다.
+          <span v-if="user.bio">{{ user.bio }}</span>
         </el-col>
       </el-row>
       <el-row class="test-border align-center"> <PasswordCheckModal /> </el-row>
@@ -135,37 +172,33 @@
       ></el-row>
     </el-col>
   </el-row>
-  <el-button @click="read">읽기</el-button>
 </template>
 
 <script>
 import PasswordCheckModal from '../Modal/PasswordCheckModal.vue';
 import ServiceQuitModal from '../Modal/ServiceQuitModal.vue';
-import { computed } from 'vue';
+import { reactive } from 'vue';
 import { useStore } from 'vuex';
+import { computed } from 'vue';
 
 export default {
+  name: 'ReadMyPage',
   components: {
     PasswordCheckModal,
     ServiceQuitModal,
   },
-  mounted() {
-    const store = useStore();
-    store.dispatch('readMyPage');
-  },
   setup() {
     const store = useStore();
-    const payload = {};
-    const read = () => {
-      store.dispatch('readMyPage', payload);
-    };
-    // const store = useStore();
-    // const types = computed(() => store.state.user);
-    // console.log(types.value + ' setup');
-    return {
-      store,
-      read,
-    };
+
+    const res = store.dispatch('member/readMyPage');
+    res.then((res) => {
+      store.state.user = res.data;
+    });
+    const user = computed(() => store.state.user);
+    console.log(user);
+    // console.log('snsList Type ' + typeof user.snsList);
+    // console.log(user.snsList[0]);
+    return { user };
   },
 };
 </script>

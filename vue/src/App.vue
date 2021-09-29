@@ -9,17 +9,41 @@
   </div>
 </template>
 <script>
-// import { useStore } from 'vuex';
-// export default {
-//   components: {},
-//   setup() {
-//     const store = useStore();
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+export default {
+  components: {},
+  setup() {
+    const store = useStore();
+    const types = computed(() => store.state.data);
 
-//     return {
-//       store,
-//     };
-//   },
-// };
+    let payload = {
+      email: 'minsu@naver.com',
+      password: 'minsu',
+    };
+
+    const loginEvent = () => {
+      store.dispatch('requestLogin', payload);
+    };
+    const getInfo = () => {
+      console.log(types);
+      console.log(types.value);
+      console.log(types.value.grantType);
+    };
+    // import { useStore } from 'vuex';
+    // export default {
+    //   components: {},
+    //   setup() {
+    //     const store = useStore();
+
+    return {
+      store,
+      types,
+      loginEvent,
+      getInfo,
+    };
+  },
+};
 </script>
 <style>
 body {
@@ -86,11 +110,11 @@ body {
 }
 
 .test-border {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   box-sizing: border-box;
 }
 .test-router-border {
-  border: 5px solid springgreen;
+  /* border: 5px solid springgreen; */
   box-sizing: border-box;
   height: 90%;
 }
@@ -104,72 +128,72 @@ body {
   height: 100%;
 }
 .height100 {
-  border: 3px solid rgb(0, 183, 255);
+  /* border: 3px solid rgb(0, 183, 255); */
   box-sizing: border-box;
   height: 100%;
 }
 .height95 {
-  border: 3px solid rgb(255, 0, 0);
+  /* border: 3px solid rgb(255, 0, 0); */
   box-sizing: border-box;
   height: 95%;
 }
 .height92 {
-  border: 3px solid rgb(255, 123, 0);
+  /* border: 3px solid rgb(255, 123, 0); */
   box-sizing: border-box;
   height: 92%;
 }
 .height90 {
-  border: 3px solid rgb(166, 255, 0);
+  /* border: 3px solid rgb(166, 255, 0); */
   box-sizing: border-box;
   height: 90%;
 }
 .height85 {
-  border: 3px solid rgb(255, 238, 0);
+  /* border: 3px solid rgb(255, 238, 0); */
   box-sizing: border-box;
   height: 85%;
 }
 .height50 {
-  border: 3px solid rgb(139, 0, 139);
+  /* border: 3px solid rgb(139, 0, 139); */
   box-sizing: border-box;
   height: 50%;
 }
 .height40 {
-  border: 3px solid rgb(255, 0, 0);
+  /* border: 3px solid rgb(255, 0, 0); */
   box-sizing: border-box;
   height: 40%;
 }
 .height30 {
-  border: 3px solid rgb(255, 0, 212);
+  /* border: 3px solid rgb(255, 0, 212); */
   box-sizing: border-box;
   height: 30%;
 }
 .height25 {
-  border: 3px solid rgb(229, 255, 0);
+  /* border: 3px solid rgb(229, 255, 0); */
   box-sizing: border-box;
   height: 25%;
 }
 .height20 {
-  border: 3px solid rgb(61, 143, 65);
+  /* border: 3px solid rgb(61, 143, 65); */
   box-sizing: border-box;
   height: 20%;
 }
 .height10 {
-  border: 3px solid rgb(0, 25, 139);
+  /* border: 3px solid rgb(0, 25, 139); */
   box-sizing: border-box;
   height: 10%;
 }
 .height8 {
-  border: 3px solid rgb(113, 139, 255);
+  /* border: 3px solid rgb(113, 139, 255); */
   box-sizing: border-box;
   height: 8%;
 }
 .height5 {
-  border: 3px solid rgb(0, 255, 234);
+  /* border: 3px solid rgb(0, 255, 234); */
   box-sizing: border-box;
   height: 5%;
 }
 .height1 {
-  border: 3px solid rgb(0, 255, 111);
+  /* border: 3px solid rgb(0, 255, 111); */
   box-sizing: border-box;
   height: 1%;
 }
