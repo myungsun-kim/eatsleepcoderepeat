@@ -15,13 +15,13 @@
       <el-row class="test-border">
         <el-col :span="12" class="test-border">
           <el-upload
+            ref="upload"
             class="upload-demo"
             drag
-            action="https://jsonplaceholder.typicode.com/posts/"
             :on-preview="handlePreview"
             :on-remove="handleRemove"
             :file-list="fileList"
-            multiple
+            :before-upload="beforeUpload"
           >
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">
@@ -120,8 +120,25 @@
 <script>
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 export default {
+  methods: {
+    beforeUpload: function (file) {
+      let formData = new FormData();
+      formData.append('file', file);
+      const res = axios.post('/api/file/uploadFile', formData, {
+        headers: {
+          // auth가 제대로 안넘어가면 401 error 발생
+          // 이해가 안되면 최민수에게 문의
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      // console.log(res);
+    },
+  },
+
   setup() {
     const store = useStore();
     const router = useRouter();
