@@ -44,6 +44,15 @@ export const member = {
       });
       return res;
     },
+    updateMember({ commit }, form) {
+      console.log(JSON.stringify(form));
+      const res = axios.put(BASE_URL + `/api/member`, form, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      });
+      return res;
+    },
   },
   getters: {
     mypageGetter: (state) => {
