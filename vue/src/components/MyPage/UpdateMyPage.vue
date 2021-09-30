@@ -21,7 +21,9 @@
             <el-col :span="4"
               ><el-row class="height90"> </el-row
               ><el-row class="height10"
-                ><el-upload :before-upload="beforeUpload">업로드</el-upload>
+                ><el-upload :before-upload="beforeProfileUpload"
+                  >업로드</el-upload
+                >
               </el-row>
             </el-col>
           </el-row>
@@ -86,29 +88,37 @@
       <!-- 마이페이지 정보 깃~ -->
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> github </el-col>
-        <el-col :span="16" :offset="1" class="test-border"> Github </el-col>
+        <el-col :span="16" :offset="1" class="test-border">
+          <el-input type="text" v-model="state.form.github"> </el-input>
+        </el-col>
       </el-row>
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> twitter </el-col>
         <el-col :span="16" :offset="1" class="test-border">
-          <el-input type="text"></el-input>
+          <el-input type="text" v-model="state.form.twitter"> </el-input>
         </el-col>
       </el-row>
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> facebook </el-col>
-        <el-col :span="16" :offset="1" class="test-border"> Facebook </el-col>
+        <el-col :span="16" :offset="1" class="test-border">
+          <el-input type="text" v-model="state.form.facebook"> </el-input>
+        </el-col>
       </el-row>
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> baekjoon </el-col>
-        <el-col :span="16" :offset="1" class="test-border"> Baekjoon </el-col>
+        <el-col :span="16" :offset="1" class="test-border">
+          <el-input type="text" v-model="state.form.backjoon"> </el-input>
+        </el-col>
       </el-row>
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> port </el-col>
         <el-col :span="13" :offset="1" class="test-border">
-          <el-input type="text" v-model="state.form.port"> </el-input>
+          <a class="port"
+            ><el-input type="text" v-model="state.form.port"> </el-input
+          ></a>
         </el-col>
         <el-col :span="3" class="test-border"
-          ><el-upload :before-upload="beforeUpload">업로드</el-upload>
+          ><el-upload :before-upload="beforePortUpload">업로드</el-upload>
         </el-col>
       </el-row>
       <el-row class="test-border">
@@ -118,19 +128,19 @@
         </el-col>
       </el-row>
       <el-row class="test-border">
-        <el-col :span="7" class="test-border"> Strong </el-col>
+        <el-col :span="7" class="test-border"> Experienced </el-col>
         <el-col :span="16" :offset="1" class="test-border">
           <el-input type="text" v-model="state.form.expTechList"> </el-input>
         </el-col>
       </el-row>
       <el-row class="test-border">
-        <el-col :span="7" class="test-border"> Knowledgeable </el-col>
+        <el-col :span="7" class="test-border"> Beginner </el-col>
         <el-col :span="16" :offset="1" class="test-border">
           <el-input type="text" v-model="state.form.beginTechList"> </el-input>
         </el-col>
       </el-row>
       <el-row class="test-border">
-        <el-col :span="7" class="test-border"> 희망 포지션 </el-col>
+        <el-col :span="7" class="test-border"> 세부 포지션 </el-col>
         <el-col :span="16" :offset="1" class="test-border">
           <el-input
             type="text"
@@ -148,7 +158,7 @@
         </el-col>
       </el-row>
       <el-row class="test-border align-center">
-        <el-button class="btn-ghost-round-blue" @click="goReadMyPage"
+        <el-button class="btn-ghost-round-blue" @click="updateMember"
           >수정
         </el-button>
         <el-button class="btn-ghost-round" @click="goReadMyPage"
@@ -160,14 +170,72 @@
 </template>
 
 <script>
-import { ref, computed, reactive } from 'vue';
+import { ref, computed, reactive, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 export default {
-  methods: {
-    beforeUpload: function (file) {
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+    const res = store.dispatch('member/readMyPage');
+
+    res.then((res) => {
+      store.state.user = res.data;
+    });
+    const user = computed(() => store.getters['getUserInfo']);
+
+    const state = reactive({
+      form: {
+        beginAddTechList: [], //추가할 beginner 기술 리스트
+        beginDelTechList: [], //삭제할 beginner 기술 리스트
+        expAddTechList: [], //추가할 Experienced 기술 리스트
+        expDelTechList: [], //삭제할 Experienced 기술 리스트
+        dpositionAddList: [], //추가할 세부 포지션
+        dpositionDelList: [], //삭제할 세부 포지션
+        // cover_pic: user.value.cover_pic, //프로필 사진
+        email: user.value.email, //아이디=메일
+        name: user.value.name, //이름
+        nickname: user.value.nickname, //별명
+        position: user.value.position, //역할
+        password: '', //비밀번호
+        city: user.value.city, //거주지
+        // github: '',
+        // twitter: '',
+        // facebook: '',
+        // backjoon: '',
+        snsHashMap: {}, //sns 아이디
+        // port: user.value.port,
+        // portfolio_uri: user.value.portfolio_uri, //포트폴리오 주소
+        // portfolio_uuid: '', //포트폴리오 아이디
+        expTechList: user.value.expTechList, //Experinced
+        beginTechList: user.value.beginTechList, //beginner
+        dpositionList: user.value.dpositionList, //세부 포지션
+        bio: user.value.bio, // 자기소개
+        tel: '', //연락처
+      },
+    });
+
+    // 유저 snsList에서 snsName에 따라 snsAccount 계정 설정
+    onBeforeMount(() => {
+      for (var i = 0; i < 4; i++) {
+        if (user.value.snsList.length > i) {
+          if (user.value.snsList[i].snsName == 'github') {
+            state.form.github = user.value.snsList[i].snsAccount;
+          } else if (user.value.snsList[i].snsName == 'twitter') {
+            state.form.twitter = user.value.snsList[i].snsAccount;
+          } else if (user.value.snsList[i].snsName == 'facebook') {
+            state.form.facebook = user.value.snsList[i].snsAccount;
+          } else if (user.value.snsList[i].snsName == 'backjoon') {
+            state.form.backjoon = user.value.snsList[i].snsAccount;
+          }
+        }
+      }
+    });
+
+    // 프로필 사진 업로드
+    const beforeProfileUpload = (file) => {
       let formData = new FormData();
       formData.append('file', file);
 
@@ -183,14 +251,8 @@ export default {
         // document.body.appendChild(image);
       };
 
-      const res = axios.post('/api/file/uploadFile', formData, {
-        headers: {
-          // auth가 제대로 안넘어가면 401 error 발생
-          // 이해가 안되면 최민수에게 문의
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const res = store.dispatch('uploadFile', formData);
+
       res.then((res) => {
         console.log('then');
         console.log(res.data);
@@ -205,52 +267,32 @@ export default {
       // console.log(res);
       // console.log(res.data);
       // console.log(res.data.fileDownloadUri);
-    },
-    readURL: function (event) {
-      console.log('selected');
-      var reader = new FileReader();
-      reader.onload = (e) => {
-        console.log('onload');
-        console.log(e.target.result);
-        this.uploadImageFile = e.target.result;
-      };
+    };
 
-      console.log(this.uploadImageFile);
-    },
-  },
+    // 포트폴리오 파일 업로드
+    const beforePortUpload = (file) => {
+      let formData = new FormData();
+      formData.append('file', file);
 
-  setup() {
-    const store = useStore();
-    const router = useRouter();
-    const user = computed(() => store.state.user);
-    const state = reactive({
-      form: {
-        email: user.value.email,
-        name: user.value.name,
-        nickname: user.value.nickname,
-        position: user.value.position,
-        city: user.value.city,
-        github: '',
-        twitter: '',
-        facebook: '',
-        backjoon: '',
-        port: user.value.port,
-        protfolio_uri: user.value.protfolio_uri,
-        expTechList: user.value.expTechList,
-        beginTechList: user.value.beginTechList,
-        dpositionList: user.value.dpositionList,
-        bio: user.value.bio,
-      },
-    });
+      const res = store.dispatch('uploadFile', formData);
 
-    console.log('확인');
-    console.log(state.form.email);
-    console.log('유저정보');
-    console.log(user);
-    console.log(user.value.email);
-
+      res.then((res) => {
+        console.log('then');
+        console.log(res.data);
+        var portSrc = document.querySelector('.port');
+        portSrc.href = res.data.fileDownloadUri;
+        state.form.port = res.data.fileName;
+        // readURL(this.uploadImageFile);
+      });
+    };
     const goReadMyPage = function () {
       router.push({ path: '/nosubheader/readmypage' });
+    };
+
+    const updateMember = function () {
+      store.dispatch('member/updateMember', state.form).then((res) => {
+        console.log(res);
+      });
     };
 
     return {
@@ -258,9 +300,24 @@ export default {
       state,
       router,
       goReadMyPage,
-      inputName: ref(''),
+      beforeProfileUpload,
+      beforePortUpload,
+      updateMember,
       user,
     };
+  },
+
+  methods: {
+    // readURL: function (event) {
+    //   console.log('selected');
+    //   var reader = new FileReader();
+    //   reader.onload = (e) => {
+    //     console.log('onload');
+    //     console.log(e.target.result);
+    //     this.uploadImageFile = e.target.result;
+    //   };
+    //   console.log(this.uploadImageFile);
+    // },
   },
 };
 </script>
