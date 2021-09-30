@@ -14,14 +14,15 @@ import javax.validation.constraints.NotEmpty;
 public class StudyBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @NotEmpty
+//    @NotEmpty
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "study_id")
     private Study study;
 
     @NotEmpty
+    @Column(name = "name")
     private String name;
 
     @Builder
