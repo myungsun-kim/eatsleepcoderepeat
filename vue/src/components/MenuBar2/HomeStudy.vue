@@ -23,7 +23,7 @@
       :span="4"
       :offset="1"
       class="test-border item-border"
-      v-for="(item, index) in totalStudyList"
+      v-for="(item, index) in myStudyList"
       :key="index"
     >
       <el-row class="height40 item-img"></el-row>
@@ -242,20 +242,20 @@ export default {
 
     const res = store.dispatch('study/getTotalStudyList');
     res.then((res) => {
-      store.state.totalStudyList = res.data;
+      // store.state.totalStudyList = res.data;
     });
     const totalStudyList = computed(
       () => store.getters['study/totalStudyGetter']
     );
 
     // 내가 속한 스터디 목록 받을 것임
-    // const myRes = store.dispatch('study/getTotalStudyList');
-    // myRes.then((myRes) => {
-    //   store.state.totalStudyList = myRes.data;
-    // });
-    // const totalStudyList = computed(
-    //   () => store.getters['study/totalStudyGetter']
-    // );
+    const myRes = store.dispatch('member/readMyPage');
+    myRes.then((myRes) => {
+      // store.state.myStudyList = myRes.data;
+    });
+    const myStudyList = computed(
+      () => store.getters['member/myStudyListGetter']
+    );
 
     const goCreate = function () {
       router.push({ path: '/nosubheader/study/create' });
@@ -270,6 +270,7 @@ export default {
       store,
       router,
       totalStudyList,
+      myStudyList,
       goCreate,
       goIntroduce,
       tempArray,
