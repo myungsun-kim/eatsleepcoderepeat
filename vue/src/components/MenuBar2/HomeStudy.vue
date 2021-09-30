@@ -17,34 +17,69 @@
   </el-row>
 
   <el-row class="height25">
+    <el-col :span="2" class="test-border"></el-col>
+    <!-- Item 리스트 1개씩 v-for로 -->
     <el-col
       :span="4"
       :offset="1"
-      class="test-border"
-      v-for="(item, index) in tempArray"
-      :key="index"
-      >{{ item }}</el-col
-    >
-    {{ totalStudyList }}@@
-    <el-col
-      :span="4"
-      :offset="1"
-      class="test-border"
+      class="test-border item-border"
       v-for="(item, index) in totalStudyList"
       :key="index"
     >
-      @@{{ item[index] }}@@
+      <el-row class="height40 item-img"></el-row>
+      <el-row class="height10 item-head-title">{{ item.name }}</el-row>
+      <el-row class="height10 item-content"
+        >기술 스택:&nbsp;
+        <div v-for="(tech, index) in item.techList" :key="index">
+          {{ tech }} &nbsp;
+        </div>
+      </el-row>
+      <el-row class="height10"></el-row>
+      <el-row class="height10 item-content">
+        <el-col :span="12" class="test-border left-content"
+          >지역: {{ item.city }}</el-col
+        >
+        <el-col :span="12" class="test-border right-content">
+          <i v-if="item.isPublic == false" class="el-icon-lock icon-size"></i>
+        </el-col>
+      </el-row>
+      <el-row class="height10 item-content">
+        <el-col :span="12" class="test-border left-content"
+          >기간: {{ item.period }}주</el-col
+        >
+        <el-col :span="12" class="test-border right-content"
+          >인원: {{ item.memberCount }}/{{ item.maxCount }}</el-col
+        >
+      </el-row>
+      <el-row class="height10">
+        <el-col :span="12" class="test-border item-small-content left-content"
+          >작성일: {{ item.modifyDate.substr(2, 8) }}</el-col
+        >
+        <el-col :span="12" class="test-border right-content">
+          <div
+            v-if="item.status == '종료'"
+            class="item-state-badge-blue item-small-content"
+          >
+            {{ item.status }}
+          </div>
+          <div v-else class="item-state-badge-blue item-small-content">
+            {{ item.status }}중
+          </div>
+          <div
+            v-if="item.isParticipate == true && item.status == '진행'"
+            class="item-state-badge-blue item-small-content"
+          >
+            참여 가능
+          </div>
+        </el-col>
+      </el-row>
     </el-col>
-    <el-col :span="1" class="test-border"></el-col>
-    <el-col :span="4" class="test-border">정처기</el-col>
-    <el-col :span="1" class="test-border"></el-col>
-    <el-col :span="4" class="test-border">웹스터디</el-col>
-    <el-col :span="3" class="test-border"></el-col>
+    <el-col :span="2" class="test-border"></el-col>
   </el-row>
 
   <el-row class="height5">
     <el-col :span="24" class="test-border">
-      <a href="">더보기</a> <a href="">접기</a>
+      <a href="">더보기</a>
     </el-col>
   </el-row>
 
@@ -57,65 +92,66 @@
   <!-- 아이템 목록 시작 -->
   <el-row class="height25">
     <el-col :span="2" class="test-border"></el-col>
-
-    <!-- item 한개 -->
-    <el-col :span="4" class="item item-border" @click="goIntroduce">
+    <!-- Item 리스트 1개씩 v-for로 -->
+    <el-col
+      :span="4"
+      :offset="1"
+      class="test-border item-border"
+      v-for="(item, index) in totalStudyList"
+      :key="index"
+    >
       <el-row class="height40 item-img"></el-row>
-      <el-row class="height10 item-head-title">백준 알고 스터디 하실 분</el-row>
-      <el-row class="height10 item-content">기술 스택: Java, Kotlin</el-row>
+      <el-row class="height10 item-head-title">{{ item.name }}</el-row>
+      <el-row class="height10 item-content"
+        >기술 스택: {{ item.techList[0] }}, {{ item.techList[1] }}</el-row
+      >
       <el-row class="height10"></el-row>
       <el-row class="height10 item-content">
-        <el-col :span="12" class="test-border left-content">지역: 무관</el-col>
-        <el-col :span="12" class="test-border right-content">자물쇠</el-col>
+        <el-col :span="12" class="test-border left-content"
+          >지역: {{ item.city }}</el-col
+        >
+        <el-col :span="12" class="test-border right-content">
+          <i v-if="item.isPublic == false" class="el-icon-lock icon-size"></i>
+        </el-col>
       </el-row>
       <el-row class="height10 item-content">
-        <el-col :span="12" class="test-border left-content">기간: 14주</el-col>
-        <el-col :span="12" class="test-border right-content">인원: 4/10</el-col>
+        <el-col :span="12" class="test-border left-content"
+          >기간: {{ item.period }}주</el-col
+        >
+        <el-col :span="12" class="test-border right-content"
+          >인원: {{ item.memberCount }}/{{ item.maxCount }}</el-col
+        >
       </el-row>
       <el-row class="height10">
         <el-col :span="12" class="test-border item-small-content left-content"
-          >작성일: 21.09.01</el-col
+          >작성일: {{ item.modifyDate.substr(2, 8) }}</el-col
         >
         <el-col :span="12" class="test-border right-content">
-          <div class="item-state-badge-blue item-small-content">모집 중</div>
+          <div
+            v-if="item.status == '종료'"
+            class="item-state-badge-blue item-small-content"
+          >
+            {{ item.status }}
+          </div>
+          <div v-else class="item-state-badge-blue item-small-content">
+            {{ item.status }}중
+          </div>
+          <div
+            v-if="item.isParticipate == true && item.status == '진행'"
+            class="item-state-badge-blue item-small-content"
+          >
+            참여 가능
+          </div>
         </el-col>
       </el-row>
     </el-col>
-    <el-col :span="1" class="test-border"></el-col>
-    <el-col :span="4" class="test-border" @click="goIntroduce">
-      <el-row class="height40 item-img"></el-row>
-      <el-row class="height10 item-head-title">단기간 면접 대비 CS 공부</el-row>
-      <el-row class="height10 item-content">기술 스택: Java, Kotlin</el-row>
-      <el-row class="height10"></el-row>
-      <el-row class="height10 item-content">
-        <el-col :span="12" class="test-border left-content">지역: 무관</el-col>
-        <el-col :span="12" class="test-border right-content">자물쇠</el-col>
-      </el-row>
-      <el-row class="height10 item-content">
-        <el-col :span="12" class="test-border left-content">기간: 14주</el-col>
-        <el-col :span="12" class="test-border right-content">인원: 4/10</el-col>
-      </el-row>
-      <el-row class="height10">
-        <el-col :span="12" class="test-border item-small-content left-content"
-          >작성일: 21.09.01</el-col
-        >
-        <el-col :span="12" class="test-border right-content">
-          <div class="item-state-badge-green item-small-content">참여 가능</div>
-          <div class="item-state-badge-green item-small-content">진행 중</div>
-        </el-col>
-      </el-row>
-    </el-col>
-    <el-col :span="1" class="test-border"></el-col>
-    <el-col :span="4" class="test-border">정처기</el-col>
-    <el-col :span="1" class="test-border"></el-col>
-    <el-col :span="4" class="test-border">웹스터디</el-col>
-    <el-col :span="3" class="test-border"></el-col>
+    <el-col :span="2" class="test-border"></el-col>
   </el-row>
   <!-- 아이템 목록 끝 -->
 
   <el-row class="height5">
     <el-col :span="24" class="test-border">
-      <a href="">더보기</a> <a href="">접기</a>
+      <a href="">더보기</a>
     </el-col>
   </el-row>
 
@@ -128,61 +164,63 @@
   <!-- 아이템 목록 시작 -->
   <el-row class="height25">
     <el-col :span="2" class="test-border"></el-col>
-
-    <!-- item 한개 -->
-    <el-col :span="4" class="test-border">
+    <!-- Item 리스트 1개씩 v-for로 -->
+    <el-col
+      :span="4"
+      :offset="1"
+      class="test-border item-border"
+      v-for="(item, index) in totalStudyList"
+      :key="index"
+    >
       <el-row class="height40 item-img"></el-row>
-      <el-row class="height10 item-head-title">백준 알고 스터디 하실 분</el-row>
-      <el-row class="height10 item-content">기술 스택: Java, Kotlin</el-row>
+      <el-row class="height10 item-head-title">{{ item.name }}</el-row>
+      <el-row class="height10 item-content"
+        >기술 스택:&nbsp;
+        <div v-for="(tech, index) in item.techList" :key="index">
+          {{ tech }} &nbsp;
+        </div>
+      </el-row>
       <el-row class="height10"></el-row>
       <el-row class="height10 item-content">
-        <el-col :span="12" class="test-border left-content">지역: 무관</el-col>
+        <el-col :span="12" class="test-border left-content"
+          >지역: {{ item.city }}</el-col
+        >
         <el-col :span="12" class="test-border right-content">
-          <i class="el-icon-lock icon-size"></i>
+          <i v-if="item.isPublic == false" class="el-icon-lock icon-size"></i>
         </el-col>
       </el-row>
       <el-row class="height10 item-content">
-        <el-col :span="12" class="test-border left-content">기간: 14주</el-col>
-        <el-col :span="12" class="test-border right-content">인원: 4/10</el-col>
+        <el-col :span="12" class="test-border left-content"
+          >기간: {{ item.period }}주</el-col
+        >
+        <el-col :span="12" class="test-border right-content"
+          >인원: {{ item.memberCount }}/{{ item.maxCount }}</el-col
+        >
       </el-row>
       <el-row class="height10">
         <el-col :span="12" class="test-border item-small-content left-content"
-          >작성일: 21.09.01</el-col
+          >작성일: {{ item.modifyDate.substr(2, 8) }}</el-col
         >
         <el-col :span="12" class="test-border right-content">
-          <div class="item-state-badge-blue item-small-content">모집 중</div>
+          <div
+            v-if="item.status == '종료'"
+            class="item-state-badge-blue item-small-content"
+          >
+            {{ item.status }}
+          </div>
+          <div v-else class="item-state-badge-blue item-small-content">
+            {{ item.status }}중
+          </div>
+          <div
+            v-if="item.isParticipate == true && item.status == '진행'"
+            class="item-state-badge-blue item-small-content"
+          >
+            참여 가능
+          </div>
         </el-col>
       </el-row>
     </el-col>
-    <el-col :span="1" class="test-border"></el-col>
-    <el-col :span="4" class="test-border">
-      <el-row class="height40 item-img"></el-row>
-      <el-row class="height10 item-head-title">단기간 면접 대비 CS 공부</el-row>
-      <el-row class="height10 item-content">기술 스택: Java, Kotlin</el-row>
-      <el-row class="height10"></el-row>
-      <el-row class="height10 item-content">
-        <el-col :span="12" class="test-border left-content">지역: 무관</el-col>
-        <el-col :span="12" class="test-border right-content">자물쇠</el-col>
-      </el-row>
-      <el-row class="height10 item-content">
-        <el-col :span="12" class="test-border left-content">기간: 14주</el-col>
-        <el-col :span="12" class="test-border right-content">인원: 4/10</el-col>
-      </el-row>
-      <el-row class="height10">
-        <el-col :span="12" class="test-border item-small-content left-content"
-          >작성일: 21.09.01</el-col
-        >
-        <el-col :span="12" class="test-border right-content">
-          <div class="item-state-badge-green item-small-content">참여 가능</div>
-          <div class="item-state-badge-green item-small-content">진행 중</div>
-        </el-col>
-      </el-row>
-    </el-col>
-    <el-col :span="1" class="test-border"></el-col>
-    <el-col :span="4" class="test-border">정처기</el-col>
-    <el-col :span="1" class="test-border"></el-col>
-    <el-col :span="4" class="test-border">웹스터디</el-col>
-    <el-col :span="3" class="test-border"></el-col>
+    <el-col :span="2" class="test-border"></el-col>
   </el-row>
   <!-- 아이템 목록 끝 -->
 
@@ -202,8 +240,6 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    console.log('SET UP');
-
     const res = store.dispatch('study/getTotalStudyList');
     res.then((res) => {
       store.state.totalStudyList = res.data;
@@ -211,6 +247,15 @@ export default {
     const totalStudyList = computed(
       () => store.getters['study/totalStudyGetter']
     );
+
+    // 내가 속한 스터디 목록 받을 것임
+    // const myRes = store.dispatch('study/getTotalStudyList');
+    // myRes.then((myRes) => {
+    //   store.state.totalStudyList = myRes.data;
+    // });
+    // const totalStudyList = computed(
+    //   () => store.getters['study/totalStudyGetter']
+    // );
 
     const goCreate = function () {
       router.push({ path: '/nosubheader/study/create' });
