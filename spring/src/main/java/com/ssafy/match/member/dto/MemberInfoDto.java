@@ -3,6 +3,7 @@ package com.ssafy.match.member.dto;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
+import com.ssafy.match.group.entity.study.Study;
 import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.member.entity.MemberSns;
 import com.ssafy.match.member.entity.Position;
@@ -49,6 +50,7 @@ public class MemberInfoDto {
     private List<Club> myClubList = new ArrayList<>();
     @ApiModelProperty(name = "myProjectList", example = "[\"python\",\"java\"]")
     private List<Project> myProjectList = new ArrayList<>();
+    private List<Study> myStudyList = new ArrayList<>();
     @ApiModelProperty(name = "expTechList", example = "[\"python\",\"java\"]")
     private List<String> expTechList = new ArrayList<>();
     @ApiModelProperty(name = "beginTechList", example = "[\"python\",\"java\"]")
