@@ -3,6 +3,7 @@ package com.ssafy.match.group.studyboard.controller;
 
 import com.ssafy.match.group.studyboard.dto.StudyBoardCreateRequestDto;
 import com.ssafy.match.group.studyboard.dto.StudyBoardInfoDto;
+import com.ssafy.match.group.studyboard.dto.StudyBoardUpdateDto;
 import com.ssafy.match.group.studyboard.service.StudyBoardService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +31,14 @@ public class StudyBoardController {
     }
 
     @DeleteMapping("/{boardid}")
-    @ApiOperation(value = "(스터디)게시판 삭제", notes = "<strong>받은 스터디 id, 게시판 id</strong>를 사용해서 게시판을 삭제한다.")
+    @ApiOperation(value = "(스터디)게시판 삭제", notes = "<strong>받은 게시판 id</strong>를 사용해서 게시판을 삭제한다.")
     public ResponseEntity<Boolean> deleteBoard(@PathVariable("boardid") Integer boardid) throws Exception {
         return ResponseEntity.ok(studyBoardService.deleteBoard(boardid));
     }
 
+    @PutMapping("/{boardid}")
+    @ApiOperation(value = "(스터디)게시판 수정", notes = "<strong>받은 게시판 id</strong>를 사용해서 게시판을 수정한다.")
+    public ResponseEntity<Boolean> updateBoard(@PathVariable("boardid") Integer boardid, @RequestBody StudyBoardUpdateDto studyBoardUpdateDto) throws Exception {
+        return ResponseEntity.ok(studyBoardService.updateBoard(boardid, studyBoardUpdateDto));
+    }
 }

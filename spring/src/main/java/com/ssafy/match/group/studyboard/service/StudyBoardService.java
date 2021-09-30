@@ -4,6 +4,7 @@ import com.ssafy.match.group.entity.study.Study;
 import com.ssafy.match.group.repository.study.StudyRepository;
 import com.ssafy.match.group.studyboard.dto.StudyBoardCreateRequestDto;
 import com.ssafy.match.group.studyboard.dto.StudyBoardInfoDto;
+import com.ssafy.match.group.studyboard.dto.StudyBoardUpdateDto;
 import com.ssafy.match.group.studyboard.entity.StudyBoard;
 import com.ssafy.match.group.studyboard.repository.StudyBoardRepository;
 import com.ssafy.match.member.entity.Member;
@@ -52,6 +53,16 @@ public class StudyBoardService {
             throw new RuntimeException("존재하지 않는 게시판입니다.");
         }
         studyBoardRepository.delete(studyBoardRepository.getById(boardId));
+        return Boolean.TRUE;
+    }
+
+    @Transactional
+    public Boolean updateBoard(Integer boardId, StudyBoardUpdateDto studyBoardUpdateDto) throws Exception {
+        if (!studyBoardRepository.existsById(boardId)) {
+            throw new RuntimeException("존재하지 않는 게시판입니다.");
+        }
+        StudyBoard studyBoard = studyBoardRepository.getById(boardId);
+        studyBoard.setName(studyBoardUpdateDto.getName());
         return Boolean.TRUE;
     }
 
