@@ -16,6 +16,9 @@ import lombok.Setter;
 @Setter
 public class ClubInfoResponseDto {
 
+    @ApiModelProperty(name = "id", example = "4")
+    private Long id;
+
     @ApiModelProperty(name = "name", example = "알고리즘 클럽")
     @ApiParam(value = "클럽명", required = true)
     private String name;
@@ -50,11 +53,11 @@ public class ClubInfoResponseDto {
 
     @Builder
     public ClubInfoResponseDto(Club club) {
+        this.id = club.getId();
         this.name = club.getName();
         this.maxCount = club.getMaxCount();
         this.isPublic = club.getIsPublic();
         this.city = club.getCity().name();
-        this.dbFile = club.getDbFile();
         this.bio = club.getBio();
     }
 }

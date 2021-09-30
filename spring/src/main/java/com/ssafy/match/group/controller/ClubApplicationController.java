@@ -27,7 +27,7 @@ public class ClubApplicationController {
     private final ClubService clubService;
 
     @GetMapping("/infoforcreate/{clubId}")
-    @ApiOperation(value = "신청서 생성을 위한 정보", notes = "<strong>클럽에 가입하기 위한</strong>신청서를 작성하기 위한 정보(전체 기술, 선택할 수 있는 지역 리스트)를 받는다")
+    @ApiOperation(value = "신청서 생성을 위한 정보", notes = "<strong>클럽에 가입하기 위한</strong>신청서를 작성하기 위한 정보를 받는다")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
