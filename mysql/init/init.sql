@@ -666,7 +666,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `matching`.`club_content` (
   `id` BIGINT NOT NULL,
   `club_article_id` BIGINT NOT NULL,
-  `content` VARCHAR(1000) NOT NULL,
+  `content` MEDIUMTEXT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_club_content_club_article1_idx` (`club_article_id` ASC) VISIBLE,
   CONSTRAINT `fk_club_content_club_article1`
@@ -774,7 +774,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `matching`.`study_content` (
   `id` BIGINT NOT NULL,
   `study_article_id` BIGINT NOT NULL,
-  `content` VARCHAR(1000) NOT NULL,
+  `content` MEDIUMTEXT NOT NULL,
   INDEX `fk_study_content_study_article1_idx` (`study_article_id` ASC) VISIBLE,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_study_content_study_article1`
@@ -820,7 +820,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `matching`.`project_article_tag` (
   `id` BIGINT NOT NULL,
-  `name` VARCHAR(45) NULL,
+  `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -882,7 +882,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `matching`.`project_content` (
   `id` BIGINT NOT NULL,
   `project_article_id` BIGINT NOT NULL,
-  `content` VARCHAR(1000) NOT NULL,
+  `content` MEDIUMTEXT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_project_content_project_article1_idx` (`project_article_id` ASC) VISIBLE,
   CONSTRAINT `fk_project_content_project_article1`
