@@ -18,17 +18,13 @@ public interface MemberClubRepository extends JpaRepository<MemberClub, Composit
     List<MemberClub> findMemberRelationInClub(@Param("club") Club club);
 
     // 특정 클럽에 속한 멤버 정보
-    @Query(value = "select mc.compositeMemberClub.member.id, mc.compositeMemberClub.member.name, mc.compositeMemberClub.member.nickname"
-        + " from matching.member_club mc where mc.compositeMemberClub.club = :club and mc.isActive = true")
-    List<MemberDto> findMemberInClub(@Param("club") Club club);
+    @Query(value = "select mc.compositeMemberClub.member from matching.member_club mc "
+        + "where mc.compositeMemberClub.club = :club and mc.isActive = true")
+    List<Member> findMemberInClub(@Param("club") Club club);
 
     // 해당 멤버가 속한 클럽 리스트
     @Query(value = "select mc.compositeMemberClub.club from matching.member_club mc "
         + "where mc.compositeMemberClub.member = :member and mc.isActive = true")
     List<Club> findClubByMember(@Param("member") Member member);
 
-    // 해당 멤버가 속한 클럽의 id, name 정보 리스트
-    @Query(value = "select mc.compositeMemberClub.club.id, mc.compositeMemberClub.club.name from matching.member_club mc "
-        + "where mc.compositeMemberClub.member = :member and mc.isActive = true")
-    List<ClubDto> findClubIdNameByMember(@Param("member") Member member);
 }
