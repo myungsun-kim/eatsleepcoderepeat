@@ -49,7 +49,6 @@ public class ClubServiceImpl implements ClubService {
     private final ClubRepository clubRepository;
     private final MemberClubRepository memberClubRepository;
     private final ClubApplicationFormRepository clubApplicationFormRepository;
-    private final TechstackRepository techstackRepository;
     private final DBFileRepository dbFileRepository;
     private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
@@ -106,12 +105,16 @@ public class ClubServiceImpl implements ClubService {
     }
 
     public List<ClubInfoResponseDto> getAllClub() {
-        List<Club> studies = clubRepository.findAllClub();
+        List<Club> clubs = clubRepository.findAllClub();
         List<ClubInfoResponseDto> clubInfoResponseDtos = new ArrayList<>();
 
-        for (Club club : studies) {
+        for (Club club : clubs) {
             ClubInfoResponseDto dto = new ClubInfoResponseDto(club);
+            dto.setHost(new MemberDto(club.getMember()));
             dto.setMemberDtos(findMemberInClub(club));
+            System.out.println("fsdfd");
+            dto.setDbFile(club.getDbFile());
+
             clubInfoResponseDtos.add(dto);
         }
 
@@ -128,6 +131,7 @@ public class ClubServiceImpl implements ClubService {
         }
 
         ClubInfoResponseDto dto = new ClubInfoResponseDto(club);
+        dto.setHost(new MemberDto(club.getMember()));
         dto.setMemberDtos(findMemberInClub(club));
 
         return dto;

@@ -145,6 +145,7 @@ public class StudyServiceImpl implements StudyService {
         for (Study study: studies) {
             if(study.getStatus().equals(Status.종료)) continue;
             StudyInfoResponseDto dto = new StudyInfoResponseDto(study);
+            dto.setHost(new MemberDto(study.getMember()));
             dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
             dto.setTechList(studyTechstackName(study));
             studyInfoResponseDtos.add(dto);
@@ -163,6 +164,7 @@ public class StudyServiceImpl implements StudyService {
         }
 
         StudyInfoResponseDto dto = new StudyInfoResponseDto(study);
+        dto.setHost(new MemberDto(study.getMember()));
         dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
         if(study.getClub() != null){
             dto.setClub(new ClubDto(study.getClub()));

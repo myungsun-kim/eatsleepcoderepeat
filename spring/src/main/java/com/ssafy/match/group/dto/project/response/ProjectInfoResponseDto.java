@@ -16,6 +16,9 @@ import lombok.Setter;
 @Setter
 public class ProjectInfoResponseDto {
 
+    @ApiModelProperty(name = "id", example = "4")
+    private Long id;
+
     @ApiModelProperty(name = "name", example = "매칭 프로젝트")
     @ApiParam(value = "프로젝트명", required = true)
     private String name;
@@ -110,6 +113,7 @@ public class ProjectInfoResponseDto {
 
     @Builder
     public ProjectInfoResponseDto(Project project) {
+        this.id = project.getId();
         this.developerCount = project.getDeveloperCount();
         this.developerMaxCount = project.getDeveloperMaxCount();
         this.designerCount = project.getDesignerCount();

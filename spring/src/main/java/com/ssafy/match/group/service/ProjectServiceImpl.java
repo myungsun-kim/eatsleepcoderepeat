@@ -144,6 +144,7 @@ public class ProjectServiceImpl implements ProjectService {
         for (Project project: projects) {
             if(project.getStatus().equals(Status.종료)) continue;
             ProjectInfoResponseDto dto = new ProjectInfoResponseDto(project);
+            dto.setHost(new MemberDto(project.getMember()));
             dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
             projectInfoResponseDtos.add(dto);
         }
@@ -171,6 +172,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         ProjectInfoResponseDto dto = new ProjectInfoResponseDto(project);
+        dto.setHost(new MemberDto(project.getMember()));
         dto.setDeveloperNicknames(memberNicknames(projectId, "개발자"));
         dto.setDesignerNicknames(memberNicknames(projectId, "디자이너"));
         dto.setPlannerNicknames(memberNicknames(projectId, "기획자"));
@@ -191,6 +193,7 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         ProjectInfoForUpdateResponseDto dto = new ProjectInfoForUpdateResponseDto(project);
+        dto.setHost(new MemberDto(project.getMember()));
         dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
         dto.setProjectTechstack(projectTechstackName(project));
         dto.setClubList(makeClubDtos(memberClubRepository.findClubByMember(project.getMember())));
