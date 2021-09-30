@@ -6,13 +6,23 @@ export const member = {
   namespaced: true,
   actions: {
     readMyPage() {
-      console.log('?');
-      // const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0NiIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1OTA4OTV9.Ahg3zPGMPIdB8qHERI8W3_fOi3P6aq6df0hGhmeFTZOW-caVv980V2Jc8buS2V0_WBjlgXtsEt4eFzXeJq7ZjQ`;
-      const token = localStorage.getItem('accessToken');
-      console.log(token);
-      const res = axios.get(BASE_URL + '/api/member/mypage', {
+      const res = axios.get(BASE_URL + `/api/member/mypage`, {
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      });
+
+      return res;
+    },
+    checkPassword({ commit }, form) {
+      console.log('데이터');
+      console.log(JSON.stringify(form));
+      console.log('form');
+      console.log(form);
+      console.log(localStorage.getItem('accessToken'));
+      const res = axios.post(BASE_URL + `/api/member/check/password`, form, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       });
       return res;
