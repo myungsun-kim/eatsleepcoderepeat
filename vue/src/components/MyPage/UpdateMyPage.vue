@@ -85,6 +85,18 @@
           </el-row>
         </el-col>
       </el-row>
+      <el-row class="test-border">
+        <el-col :span="7" class="test-border"> 새 비밀번호 </el-col>
+        <el-col :span="16" :offset="1" class="test-border">
+          <el-input type="password" v-model="state.form.password"> </el-input>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="test-border">
+        <el-col :span="7" class="test-border"> 새 비밀번호 확인 </el-col>
+        <el-col :span="16" :offset="1" class="test-border">
+          <el-input type="text" v-model="state.form.password"> </el-input>
+        </el-col>
+      </el-row> -->
       <!-- 마이페이지 정보 깃~ -->
       <el-row class="test-border">
         <el-col :span="7" class="test-border"> github </el-col>
@@ -194,7 +206,7 @@ export default {
         expDelTechList: [], //삭제할 Experienced 기술 리스트
         dpositionAddList: [], //추가할 세부 포지션
         dpositionDelList: [], //삭제할 세부 포지션
-        // cover_pic: user.value.cover_pic, //프로필 사진
+        cover_pic: user.value.cover_pic, //프로필 사진 id
         email: user.value.email, //아이디=메일
         name: user.value.name, //이름
         nickname: user.value.nickname, //별명
@@ -207,8 +219,8 @@ export default {
         // backjoon: '',
         snsHashMap: {}, //sns 아이디
         // port: user.value.port,
-        // portfolio_uri: user.value.portfolio_uri, //포트폴리오 주소
-        // portfolio_uuid: '', //포트폴리오 아이디
+        portfolio_uri: user.value.portfolio_uri, //포트폴리오 주소
+        portfolio_uuid: user.value.portfolio, //포트폴리오 id
         expTechList: user.value.expTechList, //Experinced
         beginTechList: user.value.beginTechList, //beginner
         dpositionList: user.value.dpositionList, //세부 포지션
@@ -217,8 +229,27 @@ export default {
       },
     });
 
-    // 유저 snsList에서 snsName에 따라 snsAccount 계정 설정
     onBeforeMount(() => {
+      console.log('데이터');
+      console.log(state.form.cover_pic);
+      // let formData = new FormData();
+      // formData.append('file', state.form.cover_pic);
+
+      var reader = new FileReader();
+      reader.readAsDataURL(state.form.cover_pic);
+      reader.onload = function (e) {
+        // var image = document.createElement('img');
+        var image = document.querySelector('.previewImg');
+        image.src = e.target.result; //blob 매핑
+        image.width = 250;
+        image.height = 200;
+        image.alt = 'here should be some image';
+        // document.body.appendChild(image);
+      };
+
+      console.log(state.form.cover_pic);
+
+      // 유저 snsList에서 snsName에 따라 snsAccount 계정 설정
       for (var i = 0; i < 4; i++) {
         if (user.value.snsList.length > i) {
           if (user.value.snsList[i].snsName == 'github') {
@@ -231,6 +262,9 @@ export default {
             state.form.backjoon = user.value.snsList[i].snsAccount;
           }
         }
+      }
+      if (state.form.cover_pic) {
+        console.log('사진잇');
       }
     });
 
@@ -259,6 +293,7 @@ export default {
         console.log(res.data.fileDownloadUri);
         // readURL(this.uploadImageFile);
         console.log('reader');
+        state.form.cover_pic = res.data.id;
       });
       console.log('onfile');
 
@@ -283,6 +318,8 @@ export default {
         portSrc.href = res.data.fileDownloadUri;
         state.form.port = res.data.fileName;
         // readURL(this.uploadImageFile);
+        // state.form.portfolio_uri = res.data.fileDownloadUri;
+        state.form.portfolio_uuid = res.data.id;
       });
     };
     const goReadMyPage = function () {
