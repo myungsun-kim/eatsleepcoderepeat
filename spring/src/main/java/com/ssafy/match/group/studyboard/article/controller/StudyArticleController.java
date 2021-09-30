@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/board")
+@RequestMapping("/boards")
 public class StudyArticleController {
     private final StudyArticleService studyArticleService;
 
-    @PostMapping("/{boardid}/article")
+    @PostMapping("/article")
     @ApiOperation(value = "(스터디)게시판의 게시물 생성", notes = "<strong>받은 게시판 id</strong>를 사용해서 게시물을 생성한다.")
-    public ResponseEntity<Long> create(@PathVariable("boardid") Integer boardid, @RequestBody StudyArticleCreateRequestDto studyArticleCreateRequestDto) throws Exception {
-        return ResponseEntity.ok(studyArticleService.createArticle(boardid, studyArticleCreateRequestDto));
+    public ResponseEntity<Long> create(@RequestBody StudyArticleCreateRequestDto studyArticleCreateRequestDto) throws Exception {
+        return ResponseEntity.ok(studyArticleService.createArticle(studyArticleCreateRequestDto));
     }
 }

@@ -18,25 +18,25 @@ import java.util.List;
 public class StudyBoardController {
     private final StudyBoardService studyBoardService;
 
-    @GetMapping("/{studyid}/board/list")
+    @GetMapping("/{studyid}/boards")
     @ApiOperation(value = "(스터디)게시판 리스트 조회", notes = "<strong>받은 스터디 id</strong>를 사용해서 게시판들을 조회한다.")
     public ResponseEntity<List<StudyBoardInfoDto>> getBoards(@PathVariable("studyid") Long studyid) throws Exception {
         return ResponseEntity.ok(studyBoardService.getStudyBoards(studyid));
     }
 
-    @PostMapping("/board")
+    @PostMapping("/boards")
     @ApiOperation(value = "(스터디)게시판 생성", notes = "<strong>받은 스터디 id</strong>를 사용해서 게시판을 생성한다.")
     public ResponseEntity<Integer> create(@RequestBody StudyBoardCreateRequestDto studyBoardCreateRequestDto) throws Exception {
         return ResponseEntity.ok(studyBoardService.createBoard(studyBoardCreateRequestDto));
     }
 
-    @DeleteMapping("/board/{boardid}")
+    @DeleteMapping("/boards/{boardid}")
     @ApiOperation(value = "(스터디)게시판 삭제", notes = "<strong>받은 게시판 id</strong>를 사용해서 게시판을 삭제한다.")
     public ResponseEntity<Boolean> deleteBoard(@PathVariable("boardid") Integer boardid) throws Exception {
         return ResponseEntity.ok(studyBoardService.deleteBoard(boardid));
     }
 
-    @PutMapping("/board/{boardid}")
+    @PutMapping("/boards/{boardid}")
     @ApiOperation(value = "(스터디)게시판 수정", notes = "<strong>받은 게시판 id</strong>를 사용해서 게시판을 수정한다.")
     public ResponseEntity<Boolean> updateBoard(@PathVariable("boardid") Integer boardid, @RequestBody StudyBoardUpdateDto studyBoardUpdateDto) throws Exception {
         return ResponseEntity.ok(studyBoardService.updateBoard(boardid, studyBoardUpdateDto));
