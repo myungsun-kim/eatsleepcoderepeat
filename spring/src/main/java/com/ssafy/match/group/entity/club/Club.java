@@ -75,6 +75,7 @@ public class Club {
 
     public void update(ClubUpdateRequestDto dto) {
         this.name = dto.getName();
+        this.topic = dto.getTopic();
         this.bio = dto.getBio();
         this.maxCount = dto.getMaxCount();
         this.city = City.from(dto.getCity());
@@ -83,6 +84,7 @@ public class Club {
 
     public Club(ClubCreateRequestDto dto) {
         this.name = dto.getName();
+        this.topic = dto.getTopic();
         this.bio = dto.getBio();
         this.memberCount = 0;
         this.maxCount = dto.getMaxCount();

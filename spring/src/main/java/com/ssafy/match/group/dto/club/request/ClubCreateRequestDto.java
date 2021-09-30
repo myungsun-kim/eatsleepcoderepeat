@@ -3,7 +3,6 @@ package com.ssafy.match.group.dto.club.request;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,24 +24,20 @@ public class ClubCreateRequestDto {
     @ApiParam(value = "클럽 제한 인원", required = true)
     private int maxCount;
 
-    @ApiModelProperty(name = "city", example = "구미")
+    @ApiModelProperty(name = "city", example = "서울")
     @ApiParam(value = "활동지역", required = true)
     private String city;
 
-    @ApiModelProperty(name = "isPublic", example = "false")
+    @ApiModelProperty(name = "isPublic", example = "true")
     @ApiParam(value = "공개 비공개", required = true)
     private Boolean isPublic;
 
-    @ApiModelProperty(name = "uuid", example = "3fads23-fdfd13-23d2")
+    @ApiModelProperty(name = "uuid", example = "97534f05-7e7f-425d-ac3e-aae8acee8a42")
     @ApiParam(value = "사진 고유 uuid")
     private String uuid;
 
-    @ApiModelProperty(name = "bio", example = "알고리즘입니다.")
+    @ApiModelProperty(name = "bio", example = "React 클럽입니다.")
     @ApiParam(value = "클럽 소개", required = true)
     private String bio;
-
-    @ApiModelProperty(name = "hostId", example = "5")
-    @ApiParam(value = "클럽장 id", required = true)
-    private Long hostId;
 
 }
