@@ -59,11 +59,13 @@ public class ProjectApplicationForm {
     public ProjectApplicationForm(CompositeMemberProject cmp, ProjectApplicationRequestDto dto) {
         this.compositeMemberProject = cmp;
         this.nickname = dto.getNickname();
+        this.position = dto.getPosition();
         this.city = City.from(dto.getCity());
         this.git = dto.getGit();
         this.twitter = dto.getTwitter();
         this.facebook = dto.getFacebook();
         this.backjoon = dto.getBackjoon();
+        this.role = dto.getRole();
         this.bio = dto.getBio();
         this.createDate = LocalDateTime.now();
     }

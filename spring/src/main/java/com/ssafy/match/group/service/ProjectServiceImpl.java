@@ -67,20 +67,19 @@ public class ProjectServiceImpl implements ProjectService {
 
     public ProjectInfoForCreateResponseDto getInfoForCreate() throws Exception {
         return ProjectInfoForCreateResponseDto.builder()
-            .hostClub(memberClubRepository
-                .findClubIdNameByMember(findMember(SecurityUtil.getCurrentMemberId())))
+            .hostClub(makeClubDtos(memberClubRepository.
+                findClubByMember(findMember(SecurityUtil.getCurrentMemberId()))))
             .build();
     }
+
     @Transactional
     public Long create(ProjectCreateRequestDto dto) throws Exception {
         validCity(dto.getCity());
         validTechstack(dto.getTechList());
 
-        Project project = new Project(dto);
+        Project project = new Project(dto, findClub(dto.getClubId()), findDBFile(dto.getUuid()));
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         project.setMember(member);
-        project.setClub(findClub(dto.getClubId()));
-        project.setDBFile(findDBFile(dto.getUuid()));
 
         projectRepository.save(project);
 
@@ -104,10 +103,8 @@ public class ProjectServiceImpl implements ProjectService {
             throw new Exception("권한이 없습니다.");
         }
 
-        project.update(dto);
+        project.update(dto, findClub(dto.getClubId()), findDBFile(dto.getUuid()));
         project.setMember(findMember(dto.getHostId()));
-        project.setClub(findClub(dto.getClubId()));
-        project.setDBFile(findDBFile(dto.getUuid()));
         addTechstack(project, dto.getAddStackList());
         removeTechstack(project, dto.getRemoveStackList());
 
@@ -179,10 +176,6 @@ public class ProjectServiceImpl implements ProjectService {
         dto.setTechList(projectTechstackName(project));
         dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
 
-        if (project.getClub() != null) {
-            dto.setClub(new ClubDto(project.getClub()));
-        }
-
         return dto;
     }
 
@@ -199,13 +192,6 @@ public class ProjectServiceImpl implements ProjectService {
         dto.setClubList(makeClubDtos(memberClubRepository.findClubByMember(project.getMember())));
         dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
 
-        if (project.getClub() != null) {
-            dto.setClub(new ClubDto(project.getClub()));
-        }
-        if (project.getDbFile() != null) {
-            dto.setDbFile(project.getDbFile());
-        }
-
         return dto;
     }
 
@@ -220,8 +206,17 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     // 특정 멤버의 활성화 프로젝트 리스트
-    public List<Project> projectInMember(Long memberId) throws Exception {
-        return memberProjectRepository.projectInMember(findMember(memberId));
+    public List<ProjectInfoResponseDto> projectInMember(Long memberId) throws Exception {
+        List<ProjectInfoResponseDto> projectInfoResponseDtos = new ArrayList<>();
+
+        for (Project project: memberProjectRepository.projectInMember(findMember(memberId))) {
+            if(project.getStatus().equals(Status.종료)) continue;
+            ProjectInfoResponseDto dto = new ProjectInfoResponseDto(project);
+            dto.setHost(new MemberDto(project.getMember()));
+            dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
+            projectInfoResponseDtos.add(dto);
+        }
+        return projectInfoResponseDtos;
     }
 
     // 모든 기술스택의 이름 리스트
@@ -452,6 +447,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         InfoForApplyProjectFormResponseDto dto = InfoForApplyProjectFormResponseDto.builder()
             .nickname(member.getNickname())
+            .position(member.getPosition()) // 역할도 받아와야할수도
             .strong(memberExperiencedTechstackRepository.findTechstackByMemberName(member))
             .knowledgeable(memberBeginnerTechstackRepository.findTechstackByMemberName(member))
             .build();
@@ -492,19 +488,6 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         ProjectApplicationForm projectApplicationForm = new ProjectApplicationForm(cmp, dto);
-
-        if(dto.getGit() != null){
-            projectApplicationForm.setGit(dto.getGit());
-        }
-        if(dto.getTwitter() != null){
-            projectApplicationForm.setTwitter(dto.getTwitter());
-        }
-        if(dto.getFacebook() != null){
-            projectApplicationForm.setFacebook(dto.getFacebook());
-        }
-        if(dto.getBackjoon() != null){
-            projectApplicationForm.setBackjoon(dto.getBackjoon());
-        }
 
         projectApplicationForm.setDbFile(findDBFile(dto.getUuid()));
 
