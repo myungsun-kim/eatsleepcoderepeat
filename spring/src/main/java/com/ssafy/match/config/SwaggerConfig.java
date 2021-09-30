@@ -124,10 +124,24 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo)
                 .groupName("StudyBoard")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard.board.controller"))
                 .paths(
                         PathSelectors.ant("/**/study/board/**")
-//                                .or(PathSelectors.ant("/**/studyapplication/**"))
+                )
+                .build()
+                .useDefaultResponseMessages(false);
+    }
+
+    @Bean
+    public Docket studyBoardArticleApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .globalRequestParameters(headers)
+                .apiInfo(apiInfo)
+                .groupName("StudyArticle")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard.article.controller"))
+                .paths(
+                        PathSelectors.ant("/**/study/board/**")
                 )
                 .build()
                 .useDefaultResponseMessages(false);
