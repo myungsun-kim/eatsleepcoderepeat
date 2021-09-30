@@ -118,6 +118,22 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public Docket studyBoardApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .globalRequestParameters(headers)
+                .apiInfo(apiInfo)
+                .groupName("StudyBoard")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard.controller"))
+                .paths(
+                        PathSelectors.ant("/**/study/board/**")
+//                                .or(PathSelectors.ant("/**/studyapplication/**"))
+                )
+                .build()
+                .useDefaultResponseMessages(false);
+    }
+
+    @Bean
     public Docket fileApi() {
         return new Docket(DocumentationType.SWAGGER_2)
 //            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
