@@ -14,7 +14,6 @@ export const study = {
   actions: {
     // JSON 형태로 보내야 하고, null인건 null로 보내야함 ""말고
     createStudy({ commit }, form) {
-
       const res = axios.post(
         BASE_URL + '/api/study',
         JSON.stringify(form),

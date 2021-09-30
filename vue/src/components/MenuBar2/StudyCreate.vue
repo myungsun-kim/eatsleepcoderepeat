@@ -195,7 +195,6 @@ export default {
       store.commit('setMember', mypage.data);
     });
     const user = computed(() => store.getters['getUserInfo']);
-    console.log('@@@@@');
     // console.log(user.value);
     // console.log(user.value.city);
     // console.log(user.value.myClubList);
@@ -220,33 +219,14 @@ export default {
       let formData = new FormData();
       formData.append('file', file);
 
-      var reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = function (e) {
-        var image = document.querySelector('.previewImg');
-        image.src = e.target.result; //blob 매핑
-        image.width = 100;
-        image.height = 100;
-        image.alt = 'here should be some image';
-      };
-
-      const res = axios.post('/api/file/uploadFile', formData, {
-        headers: {
-          // auth가 제대로 안넘어가면 401 error 발생
-          // 이해가 안되면 최민수에게 문의
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const res = store.dispatch('uploadFile', formData);
       res.then((res) => {
-        // console.log(res.data.id);
+        console.log(res.data.id);
         // console.log(res.data.fileDownloadUri);
         state.form.uuid = res.data.id;
       });
     };
 
-    // 독립적인 반응형 값 생성 ref()
-    // const create = ref(null);
     const state = reactive({
       form: {
         bio: '', //소개
@@ -267,7 +247,7 @@ export default {
       // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다?)
 
       store.dispatch('study/createStudy', state.form);
-      // router.push({ path: '/subheader/introduce' });
+      router.push({ path: '/subheader/introduce' });
     };
     const goHome = function () {
       router.push({ path: '/nosubheader/home' });
