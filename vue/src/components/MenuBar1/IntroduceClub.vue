@@ -131,7 +131,7 @@ export default {
     const router = useRouter();
 
     const goUpdate = function () {
-      router.push({ path: '/nosubheader/update' });
+      router.push({ path: '/nosubheader/club/update' });
     };
     return {
       store,
