@@ -16,7 +16,9 @@
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex-persistedstate": "^4.1.0",
+    "sockjs-client": "^1.5.1",
+    "@stomp/stompjs": "^6.1.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-eslint": "~4.5.0",
