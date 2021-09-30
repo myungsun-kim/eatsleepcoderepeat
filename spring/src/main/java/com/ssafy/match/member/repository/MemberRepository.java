@@ -13,7 +13,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsByNickname(String nickname);
     boolean existsMemberByIdAndPassword(Long id, String password);
 
-
 //    @Query("select new com.ssafy.match.controller.dto.MemberInfoDto(m.email, m.name, m.nickname, m.tel, m.bio, m.city, m.position, m.dbFile, m.myClubList) from Member m")
 //    List<MemberInfoDto> findMemberInfoDto();
 }
