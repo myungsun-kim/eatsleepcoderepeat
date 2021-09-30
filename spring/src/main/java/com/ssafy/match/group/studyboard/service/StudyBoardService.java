@@ -23,7 +23,7 @@ public class StudyBoardService {
     private final StudyBoardRepository studyBoardRepository;
     private final StudyRepository studyRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<StudyBoardInfoDto> getStudyBoards(Long studyId) throws Exception {
         if (!studyRepository.existsById(studyId)) {
             throw new RuntimeException("존재하지 않는 study입니다.");
@@ -33,16 +33,10 @@ public class StudyBoardService {
                 .map(StudyBoardInfoDto::of)
                 .collect(Collectors.toList());
         return studyBoardInfoDtos;
-//              ;
-////        StudyBoardInfoDto studyBoardInfoDto = studyBoardRepository.
-//        Study study = studyRepository.getById(studyBoardCreateRequestDto.getStudyId());
-//        StudyBoard studyBoard = studyBoardCreateRequestDto.toStudyBoard(study);
-//        StudyBoard ret = studyBoardRepository.save(studyBoard);
-//        return ret.getId();
     }
 
     @Transactional
-    public Integer create(StudyBoardCreateRequestDto studyBoardCreateRequestDto) throws Exception {
+    public Integer createBoard(StudyBoardCreateRequestDto studyBoardCreateRequestDto) throws Exception {
         if (!studyRepository.existsById(studyBoardCreateRequestDto.getStudyId())) {
             throw new RuntimeException("존재하지 않는 study입니다.");
         }
@@ -50,6 +44,15 @@ public class StudyBoardService {
         StudyBoard studyBoard = studyBoardCreateRequestDto.toStudyBoard(study);
         StudyBoard ret = studyBoardRepository.save(studyBoard);
         return ret.getId();
+    }
+
+    @Transactional
+    public Boolean deleteBoard(Integer boardId) throws Exception {
+        if (!studyBoardRepository.existsById(boardId)) {
+            throw new RuntimeException("존재하지 않는 게시판입니다.");
+        }
+        studyBoardRepository.delete(studyBoardRepository.getById(boardId));
+        return Boolean.TRUE;
     }
 
     public Member findMember(Long memberId) throws Exception {

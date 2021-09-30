@@ -10,17 +10,22 @@ import javax.validation.constraints.NotEmpty;
 
 @Data
 public class StudyBoardInfoDto {
-    @ApiModelProperty(name = "name", example = "문일민")
+    @ApiModelProperty(name="id", example = "3")
+    private Integer id;
+
+    @ApiModelProperty(name = "name", example = "일정게시판")
     private String name;
 
     public static StudyBoardInfoDto of(StudyBoard studyBoard) {
         return StudyBoardInfoDto.builder()
+                .id(studyBoard.getId())
                 .name(studyBoard.getName())
                 .build();
     }
 
     @Builder
-    public StudyBoardInfoDto(String name) {
+    public StudyBoardInfoDto(Integer id, String name) {
+        this.id = id;
         this.name = name;
     }
 

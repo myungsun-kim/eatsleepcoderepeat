@@ -11,4 +11,6 @@ import java.util.List;
 @Repository
 public interface StudyBoardRepository extends JpaRepository<StudyBoard, Long> {
     List<StudyBoard> findAllByStudy(Study study);
+    boolean existsById(Integer id);
+    StudyBoard getById(Integer id);
 }
