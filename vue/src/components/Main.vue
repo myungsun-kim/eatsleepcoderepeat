@@ -2,16 +2,16 @@
   <el-row id="main">
     <el-col :span="5"></el-col>
     <el-col :span="14">
-      <el-row style="height: 20%"></el-row>
+      <el-row class="height20"></el-row>
       <el-row id="main-box">
-        <el-row style="height: 25%"></el-row>
-        <el-row style="height: 13%; font-size: 64px">
+        <el-row class="height10"></el-row>
+        <el-row class="height20" style="font-size: 64px">
           <el-col :span="6"></el-col>
-          <el-col :span="12">Eat Sleep Code Repeat</el-col>
+          <el-col :span="12">Eat Sleep Code<br />Repeat</el-col>
           <el-col :span="6"></el-col>
         </el-row>
-        <el-row style="height: 7%"></el-row>
-        <el-row style="height: 10%; font-size: 48px">
+        <el-row class="height20"></el-row>
+        <el-row class="height10" style="font-size: 36px">
           <el-col :span="6"></el-col>
           <el-col :span="12">
             좋은 사람<br />
@@ -20,8 +20,8 @@
           </el-col>
           <el-col :span="6"></el-col>
         </el-row>
-        <el-row :gutter="0" style="height: 20%"></el-row>
-        <el-row :gutter="0" style="height: 5%">
+        <el-row class="height20"></el-row>
+        <el-row class="height5">
           <el-col :span="10"></el-col>
           <el-col :span="2">
             <button class="sign-btn" @click="goSignIn">로그인</button>

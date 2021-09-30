@@ -132,6 +132,7 @@ body {
 .test-border {
   /* border: 1px solid black; */
   box-sizing: border-box;
+  padding: 0 3px 0 3px;
 }
 .test-router-border {
   /* border: 5px solid springgreen; */
@@ -216,6 +217,14 @@ body {
   /* border: 3px solid rgb(0, 255, 111); */
   box-sizing: border-box;
   height: 1%;
+}
+.item-border {
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  border-radius: 5px;
+  background: #ffffff;
+  filter: drop-shadow(2px 4px 4px rgba(0, 0, 0, 0.25));
+  padding: 0px;
 }
 
 /* buttons */
