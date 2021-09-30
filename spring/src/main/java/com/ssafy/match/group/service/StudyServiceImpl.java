@@ -1,12 +1,13 @@
 package com.ssafy.match.group.service;
 
 import com.ssafy.match.db.entity.City;
+import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.member.entity.MemberSns;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.member.repository.MemberBeginnerTechstackRepository;
-import com.ssafy.match.db.repository.MemberClubRepository;
+import com.ssafy.match.group.repository.club.MemberClubRepository;
 import com.ssafy.match.member.repository.MemberExperiencedTechstackRepository;
 import com.ssafy.match.member.repository.MemberRepository;
 import com.ssafy.match.member.repository.MemberSnsRepository;
@@ -23,7 +24,6 @@ import com.ssafy.match.group.dto.study.response.StudyFormInfoResponseDto;
 import com.ssafy.match.group.dto.study.response.StudyInfoForCreateResponseDto;
 import com.ssafy.match.group.dto.study.response.StudyInfoForUpdateResponseDto;
 import com.ssafy.match.group.dto.study.response.StudyInfoResponseDto;
-import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.study.CompositeMemberStudy;
 import com.ssafy.match.group.entity.study.CompositeStudyTechstack;
 import com.ssafy.match.group.entity.study.MemberStudy;
@@ -183,6 +183,7 @@ public class StudyServiceImpl implements StudyService {
         dto.setStudyTechstack(studyTechstackName(study));
         dto.setClubList(makeClubDtos(memberClubRepository.findClubByMember(study.getMember())));
         dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
+        dto.setHost(new MemberDto(study.getMember()));
 
         if (study.getClub() != null) {
             dto.setClub(new ClubDto(study.getClub()));

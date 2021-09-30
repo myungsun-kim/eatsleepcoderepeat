@@ -1,12 +1,13 @@
 package com.ssafy.match.group.service;
 
 import com.ssafy.match.db.entity.City;
+import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.member.entity.MemberSns;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.member.repository.MemberBeginnerTechstackRepository;
-import com.ssafy.match.db.repository.MemberClubRepository;
+import com.ssafy.match.group.repository.club.MemberClubRepository;
 import com.ssafy.match.member.repository.MemberExperiencedTechstackRepository;
 import com.ssafy.match.member.repository.MemberRepository;
 import com.ssafy.match.member.repository.MemberSnsRepository;
@@ -23,7 +24,6 @@ import com.ssafy.match.group.dto.project.response.ProjectFormInfoResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectInfoForCreateResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectInfoForUpdateResponseDto;
 import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
-import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import com.ssafy.match.group.entity.project.CompositeProjectTechstack;
 import com.ssafy.match.group.entity.project.MemberProject;
