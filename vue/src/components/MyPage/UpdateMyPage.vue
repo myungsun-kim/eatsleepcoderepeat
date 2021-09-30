@@ -13,7 +13,8 @@
   <el-row class="height85">
     <el-col :span="10" :offset="7" class="test-border flex-parent">
       <el-row class="test-border">
-        <el-col :span="12" class="test-border">
+        <el-col :span="12" class="cover-pic test-border">
+          <img class="previewImg" />
           <el-upload
             ref="upload"
             class="upload-demo"
@@ -31,6 +32,7 @@
             </div>
           </el-upload>
         </el-col>
+
         <el-col :span="10" :offset="2" class="test-border">
           <el-row class="test-border">
             <el-col :span="5" class="test-border"> ID </el-col>
@@ -140,10 +142,26 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 
 export default {
+  data() {
+    return { previewImgUrl: null };
+  },
   methods: {
     beforeUpload: function (file) {
       let formData = new FormData();
       formData.append('file', file);
+
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function (e) {
+        // var image = document.createElement('img');
+        var image = document.querySelector('.previewImg');
+        image.src = e.target.result; //blob 매핑
+        image.width = 100;
+        image.height = 100;
+        image.alt = 'here should be some image';
+        // document.body.appendChild(image);
+      };
+
       const res = axios.post('/api/file/uploadFile', formData, {
         headers: {
           // auth가 제대로 안넘어가면 401 error 발생
@@ -152,7 +170,30 @@ export default {
           'Content-Type': 'multipart/form-data',
         },
       });
+      res.then((res) => {
+        console.log('then');
+        console.log(res.data.fileDownloadUri);
+        // readURL(this.uploadImageFile);
+        console.log('reader');
+      });
+      console.log('onfile');
+
+      // this.onFileSelected(file);
+      // console.log('res');
       // console.log(res);
+      // console.log(res.data);
+      // console.log(res.data.fileDownloadUri);
+    },
+    readURL: function (event) {
+      console.log('selected');
+      var reader = new FileReader();
+      reader.onload = (e) => {
+        console.log('onload');
+        console.log(e.target.result);
+        this.uploadImageFile = e.target.result;
+      };
+
+      console.log(this.uploadImageFile);
     },
   },
 
