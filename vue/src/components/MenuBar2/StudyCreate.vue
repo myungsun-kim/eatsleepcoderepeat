@@ -178,7 +178,6 @@
   </div>
 </template>
 <script>
-import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
