@@ -17,8 +17,6 @@ export const auth = {
       affirmPassword: '',
       position: '',
       city: '',
-      exp: '',
-      beg: '',
       expTechList: [],
       beginTechList: [],
       dpositionList: [],

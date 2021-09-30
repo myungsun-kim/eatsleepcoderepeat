@@ -41,7 +41,7 @@
             id="email"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='이메일'"
-            @blur="checkEmail()"
+            @input="checkEmail()"
             autocomplete="off"
             maxlength="30"
           />
@@ -81,15 +81,15 @@
           <div id="warning3" style="display: none">
             올바르지 않은 이름입니다.
             <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;한글 이름은 1~7자 이내, 영문 이름은 2~10자
-            이내로 작성해주세요.(혼용 불가)
+            한글 이름은 1~7자 이내, 영문 이름은 2~10자 이내로 작성해주세요.(혼용
+            불가)
           </div>
 
           <div id="warning4" style="display: none">
             올바르지 않은 닉네임입니다.
             <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;한글, 영문, 숫자만 가능합니다.(혼용가능)
-            닉네임 길이는 2~7자 이내로 작성해주세요
+            한글, 영문, 숫자만 가능합니다.(혼용가능) 닉네임 길이는 2~7자 이내로
+            작성해주세요
           </div>
           <div id="success2" style="display: none">
             사용가능한 닉네임입니다!
@@ -104,7 +104,7 @@
             id="password"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='비밀번호'"
-            @blur="checkPassword()"
+            @input="checkPassword()"
             autocomplete="off"
             maxlength="255"
           />
@@ -121,7 +121,7 @@
             id="checkpassword"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='비밀번호 확인'"
-            @blur="checkAffirmPassword()"
+            @input="checkAffirmPassword()"
             autocomplete="off"
             maxlength="255"
           />
@@ -263,7 +263,7 @@
               <div id="box-text1">(최대 5개)</div>
               <div id="box1">
                 <div
-                  v-for="techStack in expTechList"
+                  v-for="techStack in state.form.expTechList"
                   :key="techStack"
                   class="addValue1"
                   @click="handleClick(techStack)"
@@ -306,10 +306,10 @@
               <div id="box-text1">(최대 5개)</div>
               <div id="box2">
                 <div
-                  v-for="techStack in beginTechList"
+                  v-for="techStack in state.form.beginTechList"
                   :key="techStack"
                   class="addValue1"
-                  @click="handleClick(techStack)"
+                  @click="handleClick1(techStack)"
                 >
                   {{ techStack }}
                 </div>
@@ -367,10 +367,10 @@
           <p id="h8">세부 포지션 (최대 5개)</p>
           <div id="box3">
             <div
-              v-for="detailPosition in dpositionList"
+              v-for="detailPosition in state.form.dpositionList"
               :key="detailPosition"
               class="addValue1"
-              @click="handleClick1(detailPosition)"
+              @click="handleClick2(detailPosition)"
             >
               {{ detailPosition }}
             </div>
@@ -412,7 +412,7 @@
 </template>
 
 <script>
-import { onBeforeMount, onUnmounted, reactive, ref } from 'vue';
+import { onUnmounted, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -426,7 +426,7 @@ export default {
     // const signUp = ref(null);
     const state = reactive({
       // step: 1,
-      step: 4,
+      step: 1,
       form: {
         email: '',
         name: '',
@@ -445,7 +445,10 @@ export default {
     });
     // Step1~4 간의 이동시 이동하는 페이지에 기존에 입력해놨던 값이 하나라도 있었다면 모조리 불러온다.(=값을 입력했으나 unMounted 된 적이 없는 경우)
     // router.push로 해당 페이지로 이동했을 때 store.auth.state.form에 저장되어 있는 내용이 있다면 해당 내용을 불러온다.
-    onBeforeMount(() => {
+
+    // state.step이 변경되는지 감시한다.
+    // 두번째 인자로는 감지할 변수를 작성해야 하나 state.step안에 숫자밖에 없으므로 빈칸으로 해준다.
+    watch(state.step, () => {
       // 'state 중 auth 모둘의 값을 쓸 것이다.' 라는 문법
       if (store.state.auth.form) {
         console.log(store.state.form);
@@ -547,9 +550,6 @@ export default {
     // 회원가입 다음 Step으로 이동
     const nextStep = function () {
       console.log('다음 Step으로 이동!');
-      console.log(state.form);
-      console.log(expTechList);
-      console.log(beginTechList);
       store.state.auth.form.email = state.form.email;
       store.state.auth.form.name = state.form.name;
       store.state.auth.form.nickname = state.form.nickname;
@@ -566,6 +566,10 @@ export default {
     };
     // 회원가입 Step 입력안하고 다음 Step으로 이동 (필수 입력이 아닌 Step들만 건너뛰기 가능)
     const skipStep = function () {
+      console.log('건너뛰기!');
+      console.log(state.form);
+      console.log(state.form.expTechList);
+      console.log(state.form.beginTechList);
       store.state.auth.form.email = state.form.email;
       store.state.auth.form.name = state.form.name;
       store.state.auth.form.nickname = state.form.nickname;
@@ -691,7 +695,6 @@ export default {
     };
 
     // Step3 박스에 요소 추가(Experience)
-    const expTechList = ref([]);
     const addEx = function () {
       var warning8 = document.getElementById('warning8');
       var warning9 = document.getElementById('warning9');
@@ -704,8 +707,8 @@ export default {
       }
       // 기술스택 개수가 5개이하이고 추가되어있는 techStack일때
       else if (
-        expTechList.value.length < 5 &&
-        expTechList.value.includes(state.exp)
+        state.form.expTechList.length < 5 &&
+        state.form.expTechList.includes(state.exp)
       ) {
         warning8.style = 'display:none';
         warning9.style = '';
@@ -713,8 +716,8 @@ export default {
       }
       // 기술스택 개수가 5개이상이고 추가되어있지 않은 techStack일때
       else if (
-        expTechList.value.length >= 5 &&
-        !expTechList.value.includes(state.exp)
+        state.form.expTechList.length >= 5 &&
+        !state.form.expTechList.includes(state.exp)
       ) {
         warning8.style = 'display:none';
         warning9.style = 'display:none';
@@ -722,25 +725,23 @@ export default {
       }
       // 기술스택 개수가 5개 이상이고 추가되어있는 techStack일때
       else if (
-        expTechList.value.length >= 5 &&
-        expTechList.value.includes(state.exp)
+        state.form.expTechList.length >= 5 &&
+        state.form.expTechList.includes(state.exp)
       ) {
         warning8.style = 'display:none';
         warning9.style = '';
         warning10.style = '';
       }
-      // 기술스택 개수가 5개 이하이고 추가되어있지 않은 techStack일때
+      // 기술스택 개수가 5개 미만이고 추가되어있지 않은 techStack일때
       else {
-        // 여러개 나타낼 상자의 data값
-        expTechList.value.push(state.exp);
         // 회원가입할때 보낼 data값
         state.form.expTechList.push(state.exp);
+        console.log(state.form, 'exp찍을거임!');
         warning8.style = 'display:none';
         warning9.style = 'display:none';
         warning10.style = 'display:none';
         state.exp = '';
       }
-      console.log(expTechList.value);
     };
     // const addEx = function () {
     //   console.log('addEx');
@@ -762,7 +763,7 @@ export default {
     // };
 
     // Step3 박스에 요소 추가(Beginner)
-    const beginTechList = ref([]);
+
     const addBe = function () {
       var warning11 = document.getElementById('warning11');
       var warning12 = document.getElementById('warning12');
@@ -775,8 +776,8 @@ export default {
       }
       // 기술스택 개수가 5개이하이고 추가되어있는 techStack일때
       else if (
-        beginTechList.value.length < 5 &&
-        beginTechList.value.includes(state.beg)
+        state.form.beginTechList.length < 5 &&
+        state.form.beginTechList.includes(state.beg)
       ) {
         warning11.style = 'display:none';
         warning12.style = '';
@@ -784,8 +785,8 @@ export default {
       }
       // 기술스택 개수가 5개이상이고 추가되어있지 않은 techStack일때
       else if (
-        beginTechList.value.length >= 5 &&
-        !beginTechList.value.includes(state.beg)
+        state.form.beginTechList.length >= 5 &&
+        !state.form.beginTechList.includes(state.beg)
       ) {
         warning11.style = 'display:none';
         warning12.style = 'display:none';
@@ -793,8 +794,8 @@ export default {
       }
       // 기술스택 개수가 5개 이상이고 추가되어있는 techStack일때
       else if (
-        beginTechList.value.length >= 5 &&
-        beginTechList.value.includes(state.beg)
+        state.form.beginTechList.length >= 5 &&
+        state.form.beginTechList.includes(state.beg)
       ) {
         warning11.style = 'display:none';
         warning12.style = '';
@@ -802,16 +803,14 @@ export default {
       }
       // 기술스택 개수가 5개 이하이고 추가되어있지 않은 techStack일때
       else {
-        // 여러개 나타낼 상자의 data값
-        beginTechList.value.push(state.beg);
         // 회원가입할때 보낼 data값
         state.form.beginTechList.push(state.beg);
+        console.log(state.form, 'begin찍을꺼임!!!');
         warning11.style = 'display:none';
         warning12.style = 'display:none';
         warning13.style = 'display:none';
         state.beg = '';
       }
-      console.log(expTechList.value);
     };
     // const addBe = function () {
     //   console.log('addBe');
@@ -831,7 +830,7 @@ export default {
     //   // 이미 추가했던 기술스택이라면 경고메세지 띄우기
     //   state.beg = '';
     // };
-    const dpositionList = ref([]);
+
     const addPosition = function () {
       var warning14 = document.getElementById('warning14');
       var warning15 = document.getElementById('warning15');
@@ -844,8 +843,8 @@ export default {
       }
       // 기술스택 개수가 5개이하이고 추가되어있는 techStack일때
       else if (
-        dpositionList.value.length < 5 &&
-        dpositionList.value.includes(state.dp)
+        state.form.dpositionList.length < 5 &&
+        state.form.dpositionList.includes(state.dp)
       ) {
         warning14.style = 'display:none';
         warning15.style = '';
@@ -853,8 +852,8 @@ export default {
       }
       // 기술스택 개수가 5개이상이고 추가되어있지 않은 techStack일때
       else if (
-        dpositionList.value.length >= 5 &&
-        !dpositionList.value.includes(state.dp)
+        state.form.dpositionList.length >= 5 &&
+        !state.form.dpositionList.includes(state.dp)
       ) {
         warning14.style = 'display:none';
         warning15.style = 'display:none';
@@ -862,8 +861,8 @@ export default {
       }
       // 기술스택 개수가 5개 이상이고 추가되어있는 techStack일때
       else if (
-        dpositionList.value.length >= 5 &&
-        dpositionList.value.includes(state.dp)
+        state.form.dpositionList.length >= 5 &&
+        state.form.dpositionList.includes(state.dp)
       ) {
         warning14.style = 'display:none';
         warning15.style = '';
@@ -871,25 +870,28 @@ export default {
       }
       // 기술스택 개수가 5개 이하이고 추가되어있지 않은 techStack일때
       else {
-        // 여러개 나타낼 상자의 data값
-        dpositionList.value.push(state.dp);
         // 회원가입할때 보낼 data값
         state.form.dpositionList.push(state.dp);
+        console.log(state.form, '세부포지션을 찍을거임!');
         warning14.style = 'display:none';
         warning15.style = 'display:none';
         warning16.style = 'display:none';
         state.dp = '';
       }
-      console.log(dpositionList.value);
-      console.log(state.form.dpositionList);
     };
+
     const handleClick = (clickedTechStack) => {
-      expTechList.value = expTechList.value.filter(
+      state.form.expTechList = state.form.expTechList.filter(
         (techStack) => techStack !== clickedTechStack
       );
     };
-    const handleClick1 = (clickedDetailPosition) => {
-      dpositionList.value = dpositionList.value.filter(
+    const handleClick1 = (clickedTechStack) => {
+      state.form.beginTechList = state.form.beginTechList.filter(
+        (techStack) => techStack !== clickedTechStack
+      );
+    };
+    const handleClick2 = (clickedDetailPosition) => {
+      state.form.dpositionList = state.form.dpositionList.filter(
         (detailPosition) => detailPosition !== clickedDetailPosition
       );
     };
@@ -920,11 +922,9 @@ export default {
       addEx,
       addBe,
       addPosition,
-      expTechList,
-      beginTechList,
-      dpositionList,
       handleClick,
       handleClick1,
+      handleClick2,
     };
   },
 };
