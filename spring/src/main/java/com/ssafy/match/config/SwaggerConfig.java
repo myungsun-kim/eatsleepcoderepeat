@@ -60,7 +60,7 @@ public class SwaggerConfig {
     @Bean
     public Docket mainApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-//            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
+            .globalRequestParameters(headers) // 글로벌 파라미터 필요시 추가하기
             .apiInfo(apiInfo)
             .groupName("Member")
             .select()
