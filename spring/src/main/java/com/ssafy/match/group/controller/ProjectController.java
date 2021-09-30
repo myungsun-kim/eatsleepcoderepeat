@@ -1,9 +1,10 @@
 package com.ssafy.match.group.controller;
 
 import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
-import com.ssafy.match.group.dto.project.response.ProjectInfoForCreateResponseDto;
-import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
 import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoForCreateResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoForUpdateResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.service.ProjectService;
 import io.swagger.annotations.ApiOperation;
@@ -29,16 +30,24 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-    @GetMapping("/")
-    @ApiOperation(value = "프로젝트 생성을 위한 정보", notes = "<strong>프로젝트를 생성하기 위한</strong> 전체 기술, 생성할 멤버의 클럽, 선택할 수 있는 지역 리스트를 받는다")
+    @GetMapping("/infoforcreate")
+    @ApiOperation(value = "프로젝트 생성을 위한 정보", notes = "<strong>프로젝트를 생성하기 위한</strong> 생성할 멤버의 클럽을 받는다")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<ProjectInfoForCreateResponseDto> infoForCreate() throws Exception {
-        return ResponseEntity.ok(projectService.infoForCreate());
+    public ResponseEntity<ProjectInfoForCreateResponseDto> getInfoForCreate() throws Exception {
+        return ResponseEntity.ok(projectService.getInfoForCreate());
     }
 
-    @PostMapping("/")
+    @GetMapping("/infoforupdate/{projectId}")
+    @ApiOperation(value = "프로젝트 업데이트를 위한 정보",
+        notes = "<strong>받은 프로젝트 id</strong>로 해당 프로젝트 정보 + 수정을 위한 정보(사용자 클럽 리스트, 지역, 상태 리스트 등")
+    public ResponseEntity<ProjectInfoForUpdateResponseDto> getInfoForUpdate(@PathVariable("projectId") Long projectId)
+        throws Exception {
+        return ResponseEntity.ok(projectService.getInfoForUpdateProject(projectId));
+    }
+
+    @PostMapping
     @ApiOperation(value = "프로젝트 생성", notes = "<strong>받은 프로젝트 정보</strong>를 사용해서 프로젝트을 생성한다.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -72,7 +81,7 @@ public class ProjectController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public void withdrawProject(@PathVariable("projectId") Long projectId, @PathVariable("memberId") Long memberId)
+    public void deleteMember(@PathVariable("projectId") Long projectId, @PathVariable("memberId") Long memberId)
         throws Exception {
         projectService.removeMember(projectId, memberId);
     }
@@ -83,9 +92,9 @@ public class ProjectController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<ProjectInfoResponseDto> projectInfo(@PathVariable("projectId") Long projectId)
+    public ResponseEntity<ProjectInfoResponseDto> getOneProject(@PathVariable("projectId") Long projectId)
         throws Exception {
-        return ResponseEntity.ok(projectService.projectInfo(projectId));
+        return ResponseEntity.ok(projectService.getOneProject(projectId));
     }
 
     @GetMapping("/info/{memberId}")
@@ -96,5 +105,11 @@ public class ProjectController {
     public ResponseEntity<List<Project>> projectInMember(@PathVariable("memberId") Long memberId)
         throws Exception {
         return ResponseEntity.ok(projectService.projectInMember(memberId));
+    }
+
+    @GetMapping
+    @ApiOperation(value = "모든 프로젝트 조회", notes = "모든 프로젝트를 작성일 기준 내림차순으로 받는다")
+    public ResponseEntity<List<ProjectInfoResponseDto>> getAllProject() {
+        return ResponseEntity.ok(projectService.getAllProject());
     }
 }

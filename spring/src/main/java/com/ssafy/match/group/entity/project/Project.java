@@ -1,13 +1,12 @@
 package com.ssafy.match.group.entity.project;
 
 import com.ssafy.match.db.entity.City;
-import com.ssafy.match.db.entity.Member;
+import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
 import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
-import com.ssafy.match.group.dto.study.request.StudyUpdateRequestDto;
-import com.ssafy.match.group.entity.club.Club;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +20,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

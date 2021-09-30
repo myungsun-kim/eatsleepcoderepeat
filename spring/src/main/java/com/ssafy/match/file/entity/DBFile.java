@@ -1,13 +1,10 @@
 package com.ssafy.match.file.entity;
 
-import com.ssafy.match.db.entity.Member;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +23,8 @@ public class DBFile {
 
     private String file_name;
     private String file_type;
+
+    private String download_uri;
 
     @Lob
     private byte[] data;
