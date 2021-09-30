@@ -93,13 +93,13 @@
             <div id="box4">
               <label id="h2">프로필 사진 등록</label>
               <el-upload
+                ref="upload"
                 class="upload-demo"
                 drag
-                action="https://jsonplaceholder.typicode.com/posts/"
                 :on-preview="handlePreview"
                 :on-remove="handleRemove"
                 :file-list="fileList"
-                multiple
+                :before-upload="beforeUpload"
               >
                 <i class="el-icon-upload"></i>
                 <div class="el-upload__text">
@@ -136,12 +136,20 @@
 
           <div id="box1">
             <label id="h2">소속 클럽</label>
-            <select id="club" v-model="state.form.club">
+            <select id="clubId" v-model="state.form.clubId">
               <!-- 내가 속한 각 클럽 목록을 받아서 뿌려줘야 함 -->
-              <option value="none">없음</option>
+
+              <option
+                :value="clubId[index]"
+                v-for="(item, index) in clubList"
+                :key="index"
+              >
+                {{ item }}
+              </option>
+              <!-- <option value="none">없음</option>
               <option value="B">B</option>
               <option value="C">C</option>
-              <option value="D">D</option>
+              <option value="D">D</option> -->
             </select>
           </div>
           <div id="box1">
@@ -170,60 +178,95 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
   name: 'studyCreate',
+  methods: {},
   setup() {
     const router = useRouter();
     const store = useStore();
+
     const mypage = store.dispatch('member/readMyPage');
     mypage.then((mypage) => {
-      store.state.user = mypage.data;
+      store.commit('setMember', mypage.data);
     });
-    const user = computed(() => store.state.user);
+    const user = computed(() => store.getters['getUserInfo']);
     console.log('@@@@@');
-    console.log(user);
-    console.log(user.data);
-    console.log(user.nickname);
-    console.log(user.email);
-    // console.log(mypage.data.myClubList);
-    // console.log(mypage.data.myClubList[0]);
+    // console.log(user.value);
+    // console.log(user.value.city);
+    // console.log(user.value.myClubList);
+    // console.log(user.value.myClubList.length);
+    // console.log(user.value.myClubList[0]);
+
+    let clubList = [];
+    let clubId = [];
+    if (user.value.myClubList.length > 0) {
+      for (let index = 0; index < user.value.myClubList.length; index++) {
+        clubList[index] = user.value.myClubList[index].name;
+        clubId[index] = user.value.myClubList[index].id;
+      }
+    } else {
+      clubList[0] = '없음';
+      clubId[0] = null;
+    }
+    // const clubList = ['사과', '배클럽', '우주', '공장'];
+    // const clubId = [31, 32, 33, 34];
+
+    const beforeUpload = (file) => {
+      let formData = new FormData();
+      formData.append('file', file);
+
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function (e) {
+        var image = document.querySelector('.previewImg');
+        image.src = e.target.result; //blob 매핑
+        image.width = 100;
+        image.height = 100;
+        image.alt = 'here should be some image';
+      };
+
+      const res = axios.post('/api/file/uploadFile', formData, {
+        headers: {
+          // auth가 제대로 안넘어가면 401 error 발생
+          // 이해가 안되면 최민수에게 문의
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      res.then((res) => {
+        // console.log(res.data.id);
+        // console.log(res.data.fileDownloadUri);
+        state.form.uuid = res.data.id;
+      });
+    };
+
     // 독립적인 반응형 값 생성 ref()
     // const create = ref(null);
     const state = reactive({
       form: {
         bio: '', //소개
         city: '', //도시
-        clubId: 0, //??
+        clubId: null, //소속 클럽 id
         isPublic: false, //공개 여부
         maxCount: 0, //최대 인원수
         name: '', //스터디 이름
         period: 7, //기간
         schedule: '', //일정 String
         techList: [], //기술 목록
-        uuid: '', //사진 uuid
+        uuid: null, //사진 uuid
       },
-      // form: {
-      //   bio: '알고리즘 스터디입니다.',
-      //   city: '구미',
-      //   clubId: 3,
-      //   isPublic: false,
-      //   maxCount: 3,
-      //   name: '매칭 스터디',
-      //   period: 7,
-      //   schedule: '매주 화, 수 6시',
-      //   techList: ['java', 'python'],
-      //   uuid: '3fads23-fdfd13-23d2',
-      // },
     });
 
     const goIntroduce = function () {
       console.log(state.form);
-      // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다.)
+      // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다?)
 
+      store.dispatch('study/createStudy', state.form);
       // router.push({ path: '/subheader/introduce' });
     };
     const goHome = function () {
@@ -234,6 +277,11 @@ export default {
       goIntroduce,
       goHome,
       store,
+      mypage,
+      user,
+      clubList,
+      clubId,
+      beforeUpload,
       state,
     };
   },
