@@ -25,7 +25,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @ApiOperation(value = "로그인")
-    public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto memberRequestDto) {
+    public ResponseEntity<?> login(@RequestBody MemberRequestDto memberRequestDto) throws Exception {
         return ResponseEntity.ok(authService.login(memberRequestDto));
     }
 
