@@ -13,9 +13,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class StudyInfoForCreateResponseDto {
-    @ApiModelProperty(name = "allTechstack", example = "[\"java\", \"python\", \"spring\"]")
-    @ApiParam(value = "모든 기술스택 목록", required = true)
-    private List<String> allTechstack;
 
     @ApiModelProperty(name = "hostClub", example = "[{\"id\": 1, \"name\": \"클럽1\"}, {\"id\": 2, \"name\": \"클럽2\"}]")
     @ApiParam(value = "스터디를 생성하려는 멤버의 클럽 id, name 정보 리스트", required = true)

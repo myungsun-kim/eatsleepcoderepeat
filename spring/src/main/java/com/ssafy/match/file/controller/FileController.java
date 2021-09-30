@@ -1,11 +1,8 @@
 package com.ssafy.match.file.controller;
 
-import com.ssafy.match.db.entity.Member;
-import com.ssafy.match.db.repository.MemberRepository;
 import com.ssafy.match.file.dto.UploadFileResponse;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.service.DBFileStorageService;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @RequestMapping("/file")
@@ -37,12 +33,14 @@ public class FileController {
 
         DBFile dbFile = dbFileStorageService.storeFile(file);
 
-        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-            .path("/file/downloadFile/")
-            .path(dbFile.getId())
-            .toUriString();
+//        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+//            .path("/file/downloadFile/")
+//            .path(dbFile.getId())
+//            .toUriString();
+// 현재 uri 만들어주는데 uri 바뀌면 못찾음, pdf 같은 경우는 다운로드 uri만 보내면 되는데 db파일 데이터 불필요하게 보냄
+// servleturicomponentbuiler 사용으로 테스트 환경이 바뀌면 안될가능성
 
-        return new UploadFileResponse(dbFile.getId(), dbFile.getFile_name(), fileDownloadUri,
+        return new UploadFileResponse(dbFile.getId(), dbFile.getFile_name(), dbFile.getDownload_uri(),
             file.getContentType(), file.getSize());
 
     }

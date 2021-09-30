@@ -1,7 +1,5 @@
 package com.ssafy.match.group.dto.project.response;
 
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,29 +10,22 @@ import lombok.Setter;
 @Builder
 public class InfoForApplyProjectFormResponseDto {
 
-    private String name;
+    private String nickname;
 
     private String position;
 
-//    private String git;
-//
-//    private String twitter;
-//
-//    private String facebook;
-//
-//    private String backjoon;
-//
-//    private List<Techstack> strong;
-//
-//    private List<Techstack> knowledgeable;
-//
-//    private String bio;
+    private String git;
 
-    @ApiModelProperty(name = "allTechstack", example = "{'Java', 'Python', 'Spring'}")
-    @ApiParam(value = "모든 기술스택 목록", required = true)
-    private List<String> allTechstack;
+    private String twitter;
 
-    @ApiModelProperty(name = "projectCity", example = "{'광주', '구미'}")
-    @ApiParam(value = "선택할 수 있는 지역 리스트", required = true)
-    private List<String> projectCity;
+    private String facebook;
+
+    private String backjoon;
+
+    private List<String> strong;
+
+    private List<String> knowledgeable;
+
+    private String bio;
+
 }
