@@ -26,6 +26,7 @@
             id="password"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='비밀번호'"
+            @keyup.enter="signIn()"
           />
         </div>
         <div class="height5">
@@ -48,7 +49,7 @@
         </div>
         <div class="height5"></div>
         <div class="height5">
-          <el-button id="signin" @click="goSignUp">회원가입</el-button>
+          <el-button id="signin" @click="goSignUp()">회원가입</el-button>
         </div>
         <div class="height5"></div>
         <div class="height30"></div>

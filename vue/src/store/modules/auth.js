@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ref } from 'vue-demi';
 const BASE_URL = '';
 const header = { headers: { 'Content-Type': 'application/json' } };
 
@@ -16,7 +17,13 @@ export const auth = {
       affirmPassword: '',
       position: '',
       city: '',
+      exp: '',
+      beg: '',
+      expTechList: [],
+      beginTechList: [],
+      dpositionList: [],
     },
+    isLogin: false,
   },
   mutations: {
     setCategory(state, value) {
