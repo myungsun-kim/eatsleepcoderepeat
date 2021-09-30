@@ -66,7 +66,7 @@
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> github </el-col>
         <el-col :span="16" :offset="1" class="info">
-          <!-- <span
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'github'
             "
@@ -89,18 +89,17 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'github'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          > -->
-
-          <!-- <span v-if="user.snsList">{{ user.snsList[0].snsAccount }}</span>
-          <span v-else-if="user.snsList[0].snsName != 'github'">깃x
-          </span>
+          >
+          <!-- 
+          <span v-if="user.snsList">{{ user.snsList[0].snsAccount }}</span>
+          <span v-else-if="user.snsList[0].snsName != 'github'">깃x </span>
           <span v-else>없음</span> -->
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 트위터 </el-col>
         <el-col :span="16" :offset="1" class="info">
-          <!-- <span
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'twitter'
             "
@@ -123,7 +122,7 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'twitter'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          > -->
+          >
         </el-col>
       </el-row>
 
@@ -132,7 +131,7 @@
         <el-col :span="16" :offset="1" class="info">
           <!-- <span v-if="!user.snsList">없음</span>
           <span v-else>{{ user.snsList[2].snsAccount }}</span> -->
-          <!-- <span
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'facebook'
             "
@@ -155,13 +154,13 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'facebook'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          > -->
+          >
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 백준 </el-col>
         <el-col :span="16" :offset="1" class="info">
-          <!-- <span
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'backjoon'
             "
@@ -184,7 +183,7 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'backjoon'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          > -->
+          >
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
