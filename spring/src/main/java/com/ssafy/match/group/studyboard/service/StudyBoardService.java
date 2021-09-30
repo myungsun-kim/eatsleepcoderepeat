@@ -3,6 +3,7 @@ package com.ssafy.match.group.studyboard.service;
 import com.ssafy.match.group.entity.study.Study;
 import com.ssafy.match.group.repository.study.StudyRepository;
 import com.ssafy.match.group.studyboard.dto.StudyBoardCreateRequestDto;
+import com.ssafy.match.group.studyboard.dto.StudyBoardInfoDto;
 import com.ssafy.match.group.studyboard.entity.StudyBoard;
 import com.ssafy.match.group.studyboard.repository.StudyBoardRepository;
 import com.ssafy.match.member.entity.Member;
@@ -12,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class StudyBoardService {
@@ -20,22 +24,31 @@ public class StudyBoardService {
     private final StudyRepository studyRepository;
 
     @Transactional
-    public Long create(StudyBoardCreateRequestDto studyBoardCreateRequestDto) throws Exception {
+    public List<StudyBoardInfoDto> getStudyBoards(Long studyId) throws Exception {
+        if (!studyRepository.existsById(studyId)) {
+            throw new RuntimeException("존재하지 않는 study입니다.");
+        }
+        Study study = studyRepository.getById(studyId);
+        List<StudyBoardInfoDto> studyBoardInfoDtos = studyBoardRepository.findAllByStudy(study).stream()
+                .map(StudyBoardInfoDto::of)
+                .collect(Collectors.toList());
+        return studyBoardInfoDtos;
+//              ;
+////        StudyBoardInfoDto studyBoardInfoDto = studyBoardRepository.
+//        Study study = studyRepository.getById(studyBoardCreateRequestDto.getStudyId());
+//        StudyBoard studyBoard = studyBoardCreateRequestDto.toStudyBoard(study);
+//        StudyBoard ret = studyBoardRepository.save(studyBoard);
+//        return ret.getId();
+    }
+
+    @Transactional
+    public Integer create(StudyBoardCreateRequestDto studyBoardCreateRequestDto) throws Exception {
         if (!studyRepository.existsById(studyBoardCreateRequestDto.getStudyId())) {
             throw new RuntimeException("존재하지 않는 study입니다.");
         }
         Study study = studyRepository.getById(studyBoardCreateRequestDto.getStudyId());
-        System.out.println("######fir step");
-        System.out.println(study.getId());
         StudyBoard studyBoard = studyBoardCreateRequestDto.toStudyBoard(study);
-        System.out.println("######sec step");
-        System.out.println(studyBoard.getName());
         StudyBoard ret = studyBoardRepository.save(studyBoard);
-        System.out.println("######third step");
-        System.out.println(ret);
-
-
-
         return ret.getId();
     }
 
