@@ -17,10 +17,24 @@
   </el-row>
 
   <el-row class="height25">
-    <el-col :span="2" class="test-border"></el-col>
-    <el-col :span="4" class="test-border">백준알고스터디</el-col>
-    <el-col :span="1" class="test-border"></el-col>
-    <el-col :span="4" class="test-border">단기간면접</el-col>
+    <el-col
+      :span="4"
+      :offset="1"
+      class="test-border"
+      v-for="(item, index) in tempArray"
+      :key="index"
+      >{{ item }}</el-col
+    >
+    {{ totalStudyList }}@@
+    <el-col
+      :span="4"
+      :offset="1"
+      class="test-border"
+      v-for="(item, index) in totalStudyList"
+      :key="index"
+    >
+      @@{{ item[index] }}@@
+    </el-col>
     <el-col :span="1" class="test-border"></el-col>
     <el-col :span="4" class="test-border">정처기</el-col>
     <el-col :span="1" class="test-border"></el-col>
@@ -179,6 +193,7 @@
   </el-row>
 </template>
 <script>
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -186,6 +201,16 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
+
+    console.log('SET UP');
+
+    const res = store.dispatch('study/getTotalStudyList');
+    res.then((res) => {
+      store.state.totalStudyList = res.data;
+    });
+    const totalStudyList = computed(
+      () => store.getters['study/totalStudyGetter']
+    );
 
     const goCreate = function () {
       router.push({ path: '/nosubheader/study/create' });
@@ -195,11 +220,14 @@ export default {
       router.push({ path: '/subheader/study/introduce' });
     };
 
+    const tempArray = ['a', 'BBB'];
     return {
       store,
       router,
+      totalStudyList,
       goCreate,
       goIntroduce,
+      tempArray,
     };
   },
 };

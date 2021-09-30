@@ -21,8 +21,8 @@
           </div>
           <div id="box1">
             <label id="h2">기술스택</label>
+            <!-- v-model="state.form.techList" -->
             <input
-              v-model="state.form.techList"
               type="text"
               placeholder="사용하는 기술 스택을 입력하세요."
               id="techList"
@@ -220,7 +220,7 @@ export default {
 
       const res = store.dispatch('uploadFile', formData);
       res.then((res) => {
-        console.log(res.data.id);
+        // console.log(res.data.id);
         // console.log(res.data.fileDownloadUri);
         state.form.uuid = res.data.id;
       });
@@ -236,7 +236,7 @@ export default {
         name: '', //스터디 이름
         period: 7, //기간
         schedule: '', //일정 String
-        techList: [], //기술 목록
+        techList: ['java', 'python'], //기술 목록
         uuid: null, //사진 uuid
       },
     });
@@ -246,7 +246,7 @@ export default {
       // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다?)
 
       store.dispatch('study/createStudy', state.form);
-      router.push({ path: '/subheader/introduce' });
+      router.push({ path: '/subheader/study/introduce' });
     };
     const goHome = function () {
       router.push({ path: '/nosubheader/home' });
