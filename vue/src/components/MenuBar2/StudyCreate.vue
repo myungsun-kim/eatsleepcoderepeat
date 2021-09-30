@@ -11,9 +11,10 @@
           <div id="box1">
             <label id="h2">스터디 이름</label>
             <input
+              v-model="state.form.name"
               type="text"
               placeholder="이름을 입력하세요."
-              id="input"
+              id="name"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='이름을 입력하세요'"
             />
@@ -21,9 +22,10 @@
           <div id="box1">
             <label id="h2">기술스택</label>
             <input
+              v-model="state.form.techList"
               type="text"
               placeholder="사용하는 기술 스택을 입력하세요."
-              id="input"
+              id="techList"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='사용하는 기술 스택을 입력하세요'"
             />
@@ -33,9 +35,10 @@
               <div id="box1">
                 <label id="h2">일정</label>
                 <input
+                  v-model="state.form.schedule"
                   type="text"
                   placeholder="스터디 일정을 입력하세요"
-                  id="input1"
+                  id="schedule"
                   onfocus="this.placeholder=''"
                   onblur="this.placeholder='스터디 일정을 입력하세요'"
                 />
@@ -43,9 +46,10 @@
               <div id="box1">
                 <label id="h2">스터디 기간(단위: 주)</label>
                 <input
+                  v-model="state.form.period"
                   type="text"
                   placeholder="숫자를 입력하세요"
-                  id="input1"
+                  id="period"
                   onfocus="this.placeholder=''"
                   onblur="this.placeholder='숫자를 입력하세요'"
                 />
@@ -53,9 +57,10 @@
               <div id="box1">
                 <label id="h2">인원</label>
                 <input
+                  v-model="state.form.maxCount"
                   type="text"
                   placeholder="숫자를 입력하세요"
-                  id="input1"
+                  id="maxCount"
                   onfocus="this.placeholder=''"
                   onblur="this.placeholder='숫자를 입력하세요'"
                 />
@@ -65,11 +70,21 @@
                 <div id="radio">
                   <!-- radio 타입은 name명이 같을 경우 하나만 선택된다. -->
                   <label>
-                    <input type="radio" name="study" value="open" />
+                    <input
+                      type="radio"
+                      name="study"
+                      value="true"
+                      v-model="state.form.isPublic"
+                    />
                     공개
                   </label>
                   <label>
-                    <input type="radio" name="study" value="private" />
+                    <input
+                      type="radio"
+                      name="study"
+                      value="false"
+                      v-model="state.form.isPublic"
+                    />
                     비공개
                   </label>
                 </div>
@@ -97,17 +112,32 @@
           </div>
           <div id="box1">
             <label id="h2">지역</label>
-            <select id="region">
-              <option value="1">11</option>
-              <option value="2">22</option>
-              <option value="3">33</option>
-              <option value="4">44</option>
+            <select id="city" v-model="state.form.city">
+              <option value="">지역을 선택하세요</option>
+              <option value="서울">서울</option>
+              <option value="부산">부산</option>
+              <option value="대구">대구</option>
+              <option value="인천">인천</option>
+              <option value="광주">광주</option>
+              <option value="대전">대전</option>
+              <option value="울산">울산</option>
+              <option value="세종">세종</option>
+              <option value="경기">경기</option>
+              <option value="강원">강원</option>
+              <option value="충북">충북</option>
+              <option value="충남">충남</option>
+              <option value="전북">전북</option>
+              <option value="전남">전남</option>
+              <option value="경북">경북</option>
+              <option value="경남">경남</option>
+              <option value="제주">제주</option>
             </select>
           </div>
 
           <div id="box1">
             <label id="h2">소속 클럽</label>
-            <select id="region">
+            <select id="club" v-model="state.form.club">
+              <!-- 내가 속한 각 클럽 목록을 받아서 뿌려줘야 함 -->
               <option value="none">없음</option>
               <option value="B">B</option>
               <option value="C">C</option>
@@ -117,9 +147,10 @@
           <div id="box1">
             <label id="h2">소개</label>
             <textarea
+              v-model="state.form.bio"
               type="textarea"
               placeholder="해당 스터디에 대해 소개해주세요"
-              id="input2"
+              id="bio"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='해당 스터디에 대해 소개해주세요'"
               maxlength="300"
@@ -140,7 +171,7 @@
 </template>
 <script>
 import { useRouter } from 'vue-router';
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -148,14 +179,52 @@ export default {
   setup() {
     const router = useRouter();
     const store = useStore();
+    const mypage = store.dispatch('member/readMyPage');
+    mypage.then((mypage) => {
+      store.state.user = mypage.data;
+    });
+    const user = computed(() => store.state.user);
+    console.log('@@@@@');
+    console.log(user);
+    console.log(user.data);
+    console.log(user.nickname);
+    console.log(user.email);
+    // console.log(mypage.data.myClubList);
+    // console.log(mypage.data.myClubList[0]);
     // 독립적인 반응형 값 생성 ref()
     // const create = ref(null);
     const state = reactive({
-      form: {},
+      form: {
+        bio: '', //소개
+        city: '', //도시
+        clubId: 0, //??
+        isPublic: false, //공개 여부
+        maxCount: 0, //최대 인원수
+        name: '', //스터디 이름
+        period: 7, //기간
+        schedule: '', //일정 String
+        techList: [], //기술 목록
+        uuid: '', //사진 uuid
+      },
+      // form: {
+      //   bio: '알고리즘 스터디입니다.',
+      //   city: '구미',
+      //   clubId: 3,
+      //   isPublic: false,
+      //   maxCount: 3,
+      //   name: '매칭 스터디',
+      //   period: 7,
+      //   schedule: '매주 화, 수 6시',
+      //   techList: ['java', 'python'],
+      //   uuid: '3fads23-fdfd13-23d2',
+      // },
     });
 
     const goIntroduce = function () {
-      router.push({ path: '/subheader/introduce' });
+      console.log(state.form);
+      // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다.)
+
+      // router.push({ path: '/subheader/introduce' });
     };
     const goHome = function () {
       router.push({ path: '/nosubheader/home' });
