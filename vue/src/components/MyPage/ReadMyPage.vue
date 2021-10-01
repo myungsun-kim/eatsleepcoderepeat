@@ -14,22 +14,9 @@
     <el-col :span="8" :offset="1" class="test-border font-14 flex-parent">
       <el-row class="test-border">
         <el-col :span="12" class="test-border">
-          <el-upload
-            class="upload-demo"
-            drag
-            action="https://jsonplaceholder.typicode.com/posts/"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :file-list="fileList"
-            multiple
-          >
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">
-              파일을 드래그 하거나
-              <br />
-              <em>클릭해서 업로드 하세요</em>
-            </div>
-          </el-upload>
+          <div class="profile">
+            <img class="previewImg" />
+          </div>
         </el-col>
         <el-col :span="10" :offset="2" class="test-border flex-parent">
           <el-row class="test-border info-size">
@@ -90,10 +77,9 @@
             "
             >{{ user.snsList[3].snsAccount }}</span
           >
-
-          <!-- <span v-if="user.snsList">{{ user.snsList[0].snsAccount }}</span>
-          <span v-else-if="user.snsList[0].snsName != 'github'">깃x
-          </span>
+          <!-- 
+          <span v-if="user.snsList">{{ user.snsList[0].snsAccount }}</span>
+          <span v-else-if="user.snsList[0].snsName != 'github'">깃x </span>
           <span v-else>없음</span> -->
         </el-col>
       </el-row>
@@ -160,8 +146,8 @@
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 백준 </el-col>
-        <el-col :span="16" :offset="1" class="info"
-          ><span
+        <el-col :span="16" :offset="1" class="info">
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'backjoon'
             "
@@ -184,8 +170,8 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'backjoon'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          ></el-col
-        >
+          >
+        </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 포트폴리오 </el-col>
@@ -222,7 +208,10 @@
         </el-col>
       </el-row>
       <el-row class="test-border">
-        <el-col :span="7" class="test-border"> 자기소개 </el-col>
+        <el-col :span="7" class="test-border">
+          자기소개
+          <div id="myImg" style="width: 100px; height: 100px"></div
+        ></el-col>
         <el-col :span="16" :offset="1" class="info">
           <span v-if="user.bio">{{ user.bio }}</span>
         </el-col>
@@ -281,16 +270,86 @@ export default {
   setup() {
     const store = useStore();
     const res = store.dispatch('member/readMyPage');
+
     res.then((res) => {
       store.state.user = res.data;
+      console.log(console.store.state.user.cover_pic);
     });
-    const user = computed(() => store.state.user);
+    const user = computed(() => store.getters['member/mypageGetter']);
+    console.log('확인');
     console.log(user);
-    console.log('snsList');
-    console.log(store.state.user.snsList);
-    // console.log('snsList Type ' + typeof user.snsList);
-    // console.log(user.snsList[0]);
-    return { user };
+    console.log(user.value.cover_pic);
+
+    // const profileImg = computed(() =>
+    //   store.dispatch('member/readProfile', user.value.cover_pic).then((res) => {
+    //     console.log('get사진');
+    //     console.log(res.data);
+    //   })
+    // );
+
+    const profile = store.dispatch('member/readProfile', user.value.cover_pic);
+    profile.then((res) => {
+      store.state.profile = res.data;
+    });
+    const profileImg = computed(() => store.getters['getProfile']);
+
+    console.log(profileImg);
+    // console.log(JSON.parse(profileImg));
+    console.log('프로필');
+
+    var myblob = new Blob([profileImg.value], {
+      type: 'image/png',
+    });
+    console.log('bl');
+    console.log(typeof myblob);
+
+    // const base64Data = profileImg.value;
+    // const base64 = fetch(base64Data);
+
+    // const base64Response = fetch(`data:image/png;base64,${base64Data}`);
+
+    // const blob = base64Response.blob();
+
+    // console.log(typeof profileImg.value);
+
+    // const value = profileImg.value;
+    // console.log('value');
+    // console.log(value);
+    // console.log('J');
+    // console.log(typeof JSON.parse(value));
+
+    // var test = JSON.parse(value);
+    // console.log(typeof test);
+
+    // console.log()
+
+    var reader = new FileReader();
+    reader.readAsDataURL(myblob);
+    reader.onload = function (e) {
+      // var image = document.createElement('img');
+      console.log('파일리더');
+      console.log(e);
+      var image = document.querySelector('.previewImg');
+      console.log('이미지');
+      console.log('blob');
+      console.log(e.target.result);
+      image.src = e.target.result; //blob 매핑
+
+      image.width = 250;
+      image.height = 200;
+      image.alt = 'here should be some image';
+      // document.body.appendChild(image);
+    };
+
+    // let blob = new Blob([new ArrayBuffer(64)], {
+    //   type: 'image/png',
+    // });
+
+    // blob
+    // const url = window.URL.createObjectURL(user.value.cover_pic); // blob:http://localhost:1234/28ff8746-94eb-4dbe-9d6c-2443b581dd30
+    // document.getElementById('image').src = url;
+
+    return { user, profileImg };
   },
 };
 </script>

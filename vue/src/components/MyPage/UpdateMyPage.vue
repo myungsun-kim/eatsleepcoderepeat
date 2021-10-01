@@ -196,7 +196,11 @@ export default {
     res.then((res) => {
       store.state.user = res.data;
     });
-    const user = computed(() => store.getters['getUserInfo']);
+    const user = computed(() => store.getters['member/mypageGetter']);
+
+    console.log('UpdateMyPage' + user.value);
+    console.log('사진?');
+    console.log(user.value.cover_pic);
 
     const state = reactive({
       form: {
@@ -231,23 +235,24 @@ export default {
 
     onBeforeMount(() => {
       console.log('데이터');
-      console.log(state.form.cover_pic);
+      console.log(user.value.cover_pic);
+      // console.log(user.value.cover_pic.data);
       // let formData = new FormData();
       // formData.append('file', state.form.cover_pic);
 
-      var reader = new FileReader();
-      reader.readAsDataURL(state.form.cover_pic);
-      reader.onload = function (e) {
-        // var image = document.createElement('img');
-        var image = document.querySelector('.previewImg');
-        image.src = e.target.result; //blob 매핑
-        image.width = 250;
-        image.height = 200;
-        image.alt = 'here should be some image';
-        // document.body.appendChild(image);
-      };
+      // var reader = new FileReader();
+      // reader.readAsDataURL(state.form.cover_pic);
+      // reader.onload = function (e) {
+      //   // var image = document.createElement('img');
+      //   var image = document.querySelector('.previewImg');
+      //   image.src = e.target.result; //blob 매핑
+      //   image.width = 250;
+      //   image.height = 200;
+      //   image.alt = 'here should be some image';
+      //   // document.body.appendChild(image);
+      // };
 
-      console.log(state.form.cover_pic);
+      // console.log(state.form.cover_pic);
 
       // 유저 snsList에서 snsName에 따라 snsAccount 계정 설정
       for (var i = 0; i < 4; i++) {
@@ -277,7 +282,13 @@ export default {
       reader.readAsDataURL(file);
       reader.onload = function (e) {
         // var image = document.createElement('img');
+        console.log('파일리더');
+        console.log(e);
         var image = document.querySelector('.previewImg');
+        console.log('이미지');
+        console.log(image);
+        console.log('blob');
+        console.log(e.target.result);
         image.src = e.target.result; //blob 매핑
         image.width = 250;
         image.height = 200;
@@ -285,6 +296,8 @@ export default {
         // document.body.appendChild(image);
       };
 
+      console.log('ddd');
+      console.log(typeof formData);
       const res = store.dispatch('uploadFile', formData);
 
       res.then((res) => {
