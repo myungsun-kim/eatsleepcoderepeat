@@ -1,8 +1,6 @@
 package com.ssafy.match.group.studyboard.article.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ssafy.match.member.entity.Member;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,13 +17,14 @@ public class StudyContent {
 //    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "study_article_id")
-    private Member memberId;
+    private StudyArticle studyArticle;
 
     @Column(name = "content")
     private String content;
 
     @Builder
-    public StudyContent(String content) {
+    public StudyContent(StudyArticle studyArticle, String content) {
+        this.studyArticle = studyArticle;
         this.content = content;
     }
 
