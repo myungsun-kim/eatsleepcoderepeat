@@ -3,12 +3,14 @@ package com.ssafy.match.group.dto.study.response;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.dto.MemberDto;
 import com.ssafy.match.group.dto.club.ClubDto;
+import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.study.Study;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.Lob;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,9 +57,9 @@ public class StudyInfoResponseDto {
     @ApiModelProperty(name = "club", example = "[\"id\": 3, \"name\": \"SSAFY\"]")
     private ClubDto club;
 
-    @ApiModelProperty(name = "dbFile")
-    @ApiParam(value = "사진 정보")
-    private DBFile dbFile;
+    @ApiModelProperty(name = "data", example = "사진을 보이기 위한 바이트")
+    @Lob // DBFile 객체 반환시 InvalidDefinitionException: No serializer found for class
+    private byte[] data;
 
     @ApiModelProperty(name = "modifyDate", example = "2021-09-06 06:57:37.667537")
     private LocalDateTime modifyDate;
@@ -71,6 +73,16 @@ public class StudyInfoResponseDto {
     @ApiModelProperty(name = "techList", example = "[\"java\", \"python\"]")
     private List<String> techList;
 
+    public void setClub(Club club){
+        if(club == null) return;
+        this.club = new ClubDto(club);
+    }
+
+    public void setData(DBFile dbFile){
+        if(dbFile == null) return;
+        this.data = dbFile.getData();
+    }
+
     @Builder
     public StudyInfoResponseDto(Study study) {
         this.id = study.getId();
@@ -82,7 +94,8 @@ public class StudyInfoResponseDto {
         this.isParticipate = study.getIsParticipate();
         this.city = study.getCity().name();
         this.status = study.getStatus().name();
-        this.dbFile = study.getDbFile();
+        setClub(study.getClub());
+        setData(study.getDbFile());
         this.modifyDate = study.getModifyDate();
         this.bio = study.getBio();
     }

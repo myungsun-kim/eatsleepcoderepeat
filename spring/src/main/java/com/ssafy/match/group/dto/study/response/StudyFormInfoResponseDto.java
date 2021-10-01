@@ -2,6 +2,7 @@ package com.ssafy.match.group.dto.study.response;
 
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.entity.study.StudyApplicationForm;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +24,13 @@ public class StudyFormInfoResponseDto {
     private List<String> strong;
     private List<String> knowledgeable;
     private String bio;
-    private DBFile dbFile;
+    @ApiModelProperty(name = "fileDownloadUri", example = "http://localhost:8080/api/downloadFile/97534f05-7e7f-425d-ac3e-aae8acee8a42")
+    private String fileDownloadUri;
+
+    public void setFileDownloadUri(DBFile dbFile){
+        if(dbFile == null) return;
+        this.fileDownloadUri = dbFile.getDownload_uri();
+    }
 
     @Builder
     public StudyFormInfoResponseDto(StudyApplicationForm form, List<String> strong, List<String> knowledgeable){
@@ -38,6 +45,6 @@ public class StudyFormInfoResponseDto {
         this.strong = strong;
         this.knowledgeable = knowledgeable;
         this.bio = form.getBio();
-        this.dbFile = form.getDbFile();
+        setFileDownloadUri(form.getDbFile());
     }
 }
