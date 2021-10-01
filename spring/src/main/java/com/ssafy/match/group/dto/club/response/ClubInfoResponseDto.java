@@ -22,6 +22,8 @@ public class ClubInfoResponseDto {
     @ApiModelProperty(name = "name", example = "알고리즘 클럽")
     private String name;
 
+    private int memberCount;
+
     @ApiModelProperty(name = "maxCount", example = "3")
     private int maxCount;
 
@@ -54,6 +56,7 @@ public class ClubInfoResponseDto {
     public ClubInfoResponseDto(Club club) {
         this.id = club.getId();
         this.name = club.getName();
+        this.memberCount = club.getMemberCount();
         this.maxCount = club.getMaxCount();
         this.isPublic = club.getIsPublic();
         this.city = club.getCity().name();
