@@ -126,7 +126,7 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard.board.controller"))
                 .paths(
-                        PathSelectors.ant("/**/study/board/**")
+                        PathSelectors.ant("/**/study/**")
                 )
                 .build()
                 .useDefaultResponseMessages(false);
@@ -141,7 +141,7 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard.article.controller"))
                 .paths(
-                        PathSelectors.ant("/**/study/board/**")
+                        PathSelectors.ant("/**/boards/**")
                 )
                 .build()
                 .useDefaultResponseMessages(false);

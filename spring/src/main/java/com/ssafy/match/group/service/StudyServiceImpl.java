@@ -69,8 +69,8 @@ public class StudyServiceImpl implements StudyService {
     // 스터디 생성을 위한 정보(호스트의 클럽 정보)
     public StudyInfoForCreateResponseDto getInfoForCreate() throws Exception {
         return StudyInfoForCreateResponseDto.builder()
-            .hostClub(memberClubRepository
-                .findClubIdNameByMember(findMember(SecurityUtil.getCurrentMemberId())))
+            .hostClub(makeClubDtos(memberClubRepository
+                .findClubByMember(findMember(SecurityUtil.getCurrentMemberId()))))
             .build();
     }
 

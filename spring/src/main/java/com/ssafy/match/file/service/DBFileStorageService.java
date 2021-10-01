@@ -41,7 +41,7 @@ public class DBFileStorageService {
     @Transactional
     public DBFile makeDownloadUri(DBFile dbFile){
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-            .path("/downloadFile/")
+            .path("/file/downloadFile/")
             .path(dbFile.getId())
             .toUriString();
 

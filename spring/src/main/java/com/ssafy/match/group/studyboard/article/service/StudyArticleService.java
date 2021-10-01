@@ -21,11 +21,11 @@ public class StudyArticleService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long createArticle(Integer boardId, StudyArticleCreateRequestDto studyArticleCreateRequestDto) throws Exception {
-        if (!studyBoardRepository.existsById(boardId)) {
+    public Long createArticle(StudyArticleCreateRequestDto studyArticleCreateRequestDto) throws Exception {
+        if (!studyBoardRepository.existsById(studyArticleCreateRequestDto.getBoardId())) {
             throw new RuntimeException("존재하지 않는 게시판 입니다!");
         }
-        StudyBoard studyBoard = studyBoardRepository.getById(boardId);
+        StudyBoard studyBoard = studyBoardRepository.getById(studyArticleCreateRequestDto.getBoardId());
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new NullPointerException("존재하지 않는 사용자 입니다."));
         StudyArticle studyArticle = studyArticleCreateRequestDto.toStudyBoard(member, studyBoard);
         StudyArticle ret = studyArticleRepository.save(studyArticle);

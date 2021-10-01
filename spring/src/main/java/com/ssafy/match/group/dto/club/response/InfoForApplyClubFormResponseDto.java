@@ -15,19 +15,20 @@ public class InfoForApplyClubFormResponseDto {
 //    private String name;
 
     @ApiModelProperty(name = "nickname", example = "4")
-    @ApiParam(value = "신청 유저의 닉네임", required = true)
     private String nickname;
+
+    private String city;
+
     @ApiModelProperty(name = "git", example = "github")
-    @ApiParam(value = "Git 닉네임", required = true)
     private String git;
+
     @ApiModelProperty(name = "twitter", example = "twitter.com")
-    @ApiParam(value = "Twitter 주소", required = true)
     private String twitter;
+
     @ApiModelProperty(name = "facebook", example = "facebook.com")
-    @ApiParam(value = "Facebook 주소", required = true)
     private String facebook;
+
     @ApiModelProperty(name = "backjoon", example = "BEOMKING")
-    @ApiParam(value = "백준 닉네임", required = true)
     private String backjoon;
 
     private List<String> experiencedTechstack;

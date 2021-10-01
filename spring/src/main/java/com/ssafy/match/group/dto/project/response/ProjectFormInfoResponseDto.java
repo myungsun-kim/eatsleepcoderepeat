@@ -47,6 +47,7 @@ public class ProjectFormInfoResponseDto {
         this.city = form.getCity().toString();
         this.role = form.getRole();
         this.git = form.getGit();
+        this.position = form.getPosition();
         this.twitter = form.getTwitter();
         this.facebook = form.getFacebook();
         this.backjoon = form.getBackjoon();
