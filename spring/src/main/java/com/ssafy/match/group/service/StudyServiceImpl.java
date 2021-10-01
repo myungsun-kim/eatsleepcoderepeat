@@ -166,9 +166,7 @@ public class StudyServiceImpl implements StudyService {
         StudyInfoResponseDto dto = new StudyInfoResponseDto(study);
         dto.setHost(new MemberDto(study.getMember()));
         dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
-        if(study.getClub() != null){
-            dto.setClub(new ClubDto(study.getClub()));
-        }
+
         dto.setTechList(studyTechstackName(study));
 
         return dto;
@@ -186,13 +184,6 @@ public class StudyServiceImpl implements StudyService {
         dto.setClubList(makeClubDtos(memberClubRepository.findClubByMember(study.getMember())));
         dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
         dto.setHost(new MemberDto(study.getMember()));
-
-        if (study.getClub() != null) {
-            dto.setClub(new ClubDto(study.getClub()));
-        }
-        if (study.getDbFile() != null) {
-            dto.setDbFile(study.getDbFile());
-        }
 
         return dto;
     }
