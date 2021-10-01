@@ -153,7 +153,7 @@
           </div>
           <div id="btn">
             <el-button class="btn-create" @click="goIntroduce">생성</el-button>
-            <el-button class="btn-cancel" @click="goHome">취소</el-button>
+            <el-button class="btn-cancel" @click="goIntroduce">취소</el-button>
           </div>
         </div>
       </el-col>
@@ -210,9 +210,6 @@ export default {
 
     const goIntroduce = function () {
       router.push({ path: '/subheader/study/introduce' });
-    };
-    const goHome = function () {
-      router.push({ path: '/nosubheader/study/home' });
     };
 
     // 사진 업로드
