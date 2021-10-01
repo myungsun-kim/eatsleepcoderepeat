@@ -25,6 +25,7 @@ export const study = {
       res.then((res) => {
         console.log('스터디 목록 조회 결과');
         console.log(res);
+        console.log(res.data);
         commit('updateTotalStudyList', res.data);
       });
       return res;
@@ -46,7 +47,6 @@ export const study = {
   },
   getters: {
     totalStudyGetter: (state) => {
-      console.log('GETTERS 들어옴');
       return state.totalStudyList;
     },
   },

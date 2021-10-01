@@ -33,7 +33,7 @@
         <div class="height10" id="H2">
           <p id="h2">Step1-기본정보</p>
         </div>
-        <div class="height40" id="input1" :rules="state.rules">
+        <div class="height50" id="input1">
           <input
             v-model="state.form.email"
             type="text"
@@ -41,7 +41,7 @@
             id="email"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='이메일'"
-            @blur="checkEmail()"
+            @input="checkEmail()"
             autocomplete="off"
             maxlength="30"
           />
@@ -81,18 +81,15 @@
           <div id="warning3" style="display: none">
             올바르지 않은 이름입니다.
             <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;한글 이름은 1~7자 이내,
-            <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;영문 이름은 2~10자 이내로 작성해주세요.(혼용
+            한글 이름은 1~7자 이내, 영문 이름은 2~10자 이내로 작성해주세요.(혼용
             불가)
           </div>
 
           <div id="warning4" style="display: none">
             올바르지 않은 닉네임입니다.
             <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;한글, 영문, 숫자만 가능합니다.(혼용가능)
-            <br />
-            &nbsp;&nbsp;&nbsp;&nbsp;닉네임 길이는 2~7자 이내로 작성해주세요
+            한글, 영문, 숫자만 가능합니다.(혼용가능) 닉네임 길이는 2~7자 이내로
+            작성해주세요
           </div>
           <div id="success2" style="display: none">
             사용가능한 닉네임입니다!
@@ -107,7 +104,7 @@
             id="password"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='비밀번호'"
-            @blur="checkPassword()"
+            @input="checkPassword()"
             autocomplete="off"
             maxlength="255"
           />
@@ -124,7 +121,7 @@
             id="checkpassword"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='비밀번호 확인'"
-            @blur="checkAffirmPassword()"
+            @input="checkAffirmPassword()"
             autocomplete="off"
             maxlength="255"
           />
@@ -167,7 +164,6 @@
 
           <el-button id="next0" @click="nextStep1">다음</el-button>
         </div>
-        <div class="height10"></div>
         <div class="height5"></div>
       </form>
     </el-col>
@@ -264,14 +260,39 @@
               (이해가 깊음)
             </div>
             <div id="H8">
-              <div id="box1"></div>
-              <input
-                type="text"
-                placeholder="기술스택을 입력하세요."
-                id="stack"
-                onfocus="this.placeholder=''"
-                onblur="this.placeholder='기술스택을 입력하세요'"
-              />
+              <div id="box-text1">(최대 5개)</div>
+              <div id="box1">
+                <div
+                  v-for="techStack in state.form.expTechList"
+                  :key="techStack"
+                  class="addValue1"
+                  @click="handleClick(techStack)"
+                >
+                  {{ techStack }}
+                </div>
+              </div>
+              <div id="box4">
+                <input
+                  v-model="state.exp"
+                  type="text"
+                  placeholder="기술스택을 입력하세요."
+                  id="stack1"
+                  onfocus="this.placeholder=''"
+                  onblur="this.placeholder='기술스택을 입력하세요'"
+                  @keyup.enter="addEx()"
+                />
+                <div id="box5">
+                  <div id="warning8" style="display: none">
+                    값을 입력해주세요.
+                  </div>
+                  <div id="warning9" style="display: none">
+                    이미 포함되어 있습니다.
+                  </div>
+                  <div id="warning10" style="display: none">
+                    최대 5개까지 가능합니다.
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
           <hr style="border: dotted 1px; margin-left: 180px" />
@@ -282,17 +303,43 @@
               (경험해본적 있음)
             </div>
             <div>
-              <div id="box1"></div>
-              <input
-                type="text"
-                placeholder="기술스택을 입력하세요."
-                id="stack"
-                onfocus="this.placeholder=''"
-                onblur="this.placeholder='기술스택을 입력하세요'"
-              />
+              <div id="box-text1">(최대 5개)</div>
+              <div id="box2">
+                <div
+                  v-for="techStack in state.form.beginTechList"
+                  :key="techStack"
+                  class="addValue1"
+                  @click="handleClick1(techStack)"
+                >
+                  {{ techStack }}
+                </div>
+              </div>
+              <div id="box4">
+                <input
+                  v-model="state.beg"
+                  type="text"
+                  placeholder="기술스택을 입력하세요."
+                  id="stack2"
+                  onfocus="this.placeholder=''"
+                  onblur="this.placeholder='기술스택을 입력하세요'"
+                  @keyup.enter="addBe()"
+                />
+                <div id="box5">
+                  <div id="warning11" style="display: none">
+                    값을 입력해주세요.
+                  </div>
+                  <div id="warning12" style="display: none">
+                    이미 포함되어 있습니다.
+                  </div>
+                  <div id="warning13" style="display: none">
+                    최대 5개까지 가능합니다.
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
         <div class="height10" id="button">
           <el-row :gutter="0">
             <el-col :span="12" :offset="0"></el-col>
@@ -318,7 +365,36 @@
         </div>
         <div class="height40" id="H8">
           <p id="h8">세부 포지션 (최대 5개)</p>
-          <div id="box2">box</div>
+          <div id="box3">
+            <div
+              v-for="detailPosition in state.form.dpositionList"
+              :key="detailPosition"
+              class="addValue1"
+              @click="handleClick2(detailPosition)"
+            >
+              {{ detailPosition }}
+            </div>
+          </div>
+          <div id="box6">
+            <input
+              v-model="state.dp"
+              type="text"
+              placeholder="세부 포지션을 입력하세요."
+              id="stack2"
+              onfocus="this.placeholder=''"
+              onblur="this.placeholder='세부 포지션을 입력하세요'"
+              @keyup.enter="addPosition()"
+            />
+            <div id="box5">
+              <div id="warning14" style="display: none">값을 입력해주세요.</div>
+              <div id="warning15" style="display: none">
+                이미 포함되어 있습니다.
+              </div>
+              <div id="warning16" style="display: none">
+                최대 5개까지 가능합니다.
+              </div>
+            </div>
+          </div>
         </div>
         <div class="height10" id="button">
           <el-row :gutter="0">
@@ -336,9 +412,10 @@
 </template>
 
 <script>
-import { onBeforeMount, onUnmounted, reactive } from 'vue';
+import { onUnmounted, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+
 export default {
   name: 'SignUp',
   setup() {
@@ -348,6 +425,7 @@ export default {
     // 독립적인 반응형 값 생성 ref()
     // const signUp = ref(null);
     const state = reactive({
+      // step: 1,
       step: 1,
       form: {
         email: '',
@@ -357,12 +435,20 @@ export default {
         affirmPassword: '',
         position: '',
         city: '',
+        expTechList: [],
+        beginTechList: [],
+        dpositionList: [],
       },
-      tmp: '',
+      exp: '',
+      beg: '',
+      dp: '',
     });
     // Step1~4 간의 이동시 이동하는 페이지에 기존에 입력해놨던 값이 하나라도 있었다면 모조리 불러온다.(=값을 입력했으나 unMounted 된 적이 없는 경우)
     // router.push로 해당 페이지로 이동했을 때 store.auth.state.form에 저장되어 있는 내용이 있다면 해당 내용을 불러온다.
-    onBeforeMount(() => {
+
+    // state.step이 변경되는지 감시한다.
+    // 두번째 인자로는 감지할 변수를 작성해야 하나 state.step안에 숫자밖에 없으므로 빈칸으로 해준다.
+    watch(state.step, () => {
       // 'state 중 auth 모둘의 값을 쓸 것이다.' 라는 문법
       if (store.state.auth.form) {
         console.log(store.state.form);
@@ -373,6 +459,9 @@ export default {
         state.form.affirmPassword = store.state.auth.form.affirmPassword;
         state.form.position = store.state.auth.form.position;
         state.form.city = store.state.auth.form.city;
+        state.form.expTechList = store.state.auth.expTechList;
+        state.form.beginTechList = store.state.auth.beginTechList;
+        state.form.dpositionList = store.state.auth.dpositionList;
       }
     });
 
@@ -385,13 +474,14 @@ export default {
       store.state.auth.form.affirmPassword = '';
       store.state.auth.form.position = '';
       store.state.auth.form.city = '';
+      store.state.auth.expTechList = [];
+      store.state.auth.beginTechList = [];
+      store.state.auth.dpositionList = [];
     });
-
     // 로그인 페이지로 이동
     const goSignIn = function () {
       router.push({ path: '/noheader/signin' });
     };
-
     // 현제 페이지에서 입력했던 내용들을 vuex-persistedstate가 적용되는 store에 저장시켜놓고
     // 이전 회원가입 Step으로 이동
     const previousStep = function () {
@@ -404,6 +494,9 @@ export default {
       store.state.auth.form.affirmPassword = state.form.affirmPassword;
       store.state.auth.form.position = state.form.position;
       store.state.auth.form.city = state.form.city;
+      store.state.auth.expTechList = state.form.expTechList;
+      store.state.auth.beginTechList = state.form.beginTechList;
+      store.state.auth.dpositionList = state.form.dpositionList;
       state.step = state.step - 1;
       router.push({ path: '/noheader/signup' });
     };
@@ -457,7 +550,6 @@ export default {
     // 회원가입 다음 Step으로 이동
     const nextStep = function () {
       console.log('다음 Step으로 이동!');
-      console.log(state.form);
       store.state.auth.form.email = state.form.email;
       store.state.auth.form.name = state.form.name;
       store.state.auth.form.nickname = state.form.nickname;
@@ -465,12 +557,19 @@ export default {
       store.state.auth.form.affirmPassword = state.form.affirmPassword;
       store.state.auth.form.position = state.form.position;
       store.state.auth.form.city = state.form.city;
+      store.state.auth.expTechList = state.form.expTechList;
+      store.state.auth.beginTechList = state.form.beginTechList;
+      store.state.auth.dpositionList = state.form.dpositionList;
       state.step = state.step + 1;
       // window.location.reload();
       router.push({ path: '/noheader/signup' });
     };
     // 회원가입 Step 입력안하고 다음 Step으로 이동 (필수 입력이 아닌 Step들만 건너뛰기 가능)
     const skipStep = function () {
+      console.log('건너뛰기!');
+      console.log(state.form);
+      console.log(state.form.expTechList);
+      console.log(state.form.beginTechList);
       store.state.auth.form.email = state.form.email;
       store.state.auth.form.name = state.form.name;
       store.state.auth.form.nickname = state.form.nickname;
@@ -478,17 +577,13 @@ export default {
       store.state.auth.form.affirmPassword = state.form.affirmPassword;
       store.state.auth.form.position = state.form.position;
       store.state.auth.form.city = state.form.city;
+      store.state.auth.expTechList = state.form.expTechList;
+      store.state.auth.beginTechList = state.form.beginTechList;
+      store.state.auth.dpositionList = state.form.dpositionList;
       state.step = state.step + 1;
       router.push({ path: '/noheader/signup' });
     };
-    // 회원가입 요청
-    const signUp = function () {
-      // modules의 auth.js에서 signUp 액션을 dispatch함
-      store.dispatch('auth/signUp', state.form);
-      alert('회원가입이 성공적으로 완료되었습니다!');
-      window.location = '/noheader/signin';
-      console.log(state.form);
-    };
+
     // 이메일 유효성 검사
     const checkEmail = function () {
       console.log('이메일 유효성 체크!!!!');
@@ -598,6 +693,217 @@ export default {
         warning7.style = 'display:none';
       }
     };
+
+    // Step3 박스에 요소 추가(Experience)
+    const addEx = function () {
+      var warning8 = document.getElementById('warning8');
+      var warning9 = document.getElementById('warning9');
+      var warning10 = document.getElementById('warning10');
+      // 값을 입력하지 않았을때
+      if (!state.exp) {
+        warning8.style = '';
+        warning9.style = 'display:none';
+        warning10.style = 'display:none';
+      }
+      // 기술스택 개수가 5개이하이고 추가되어있는 techStack일때
+      else if (
+        state.form.expTechList.length < 5 &&
+        state.form.expTechList.includes(state.exp)
+      ) {
+        warning8.style = 'display:none';
+        warning9.style = '';
+        warning10.style = 'display:none';
+      }
+      // 기술스택 개수가 5개이상이고 추가되어있지 않은 techStack일때
+      else if (
+        state.form.expTechList.length >= 5 &&
+        !state.form.expTechList.includes(state.exp)
+      ) {
+        warning8.style = 'display:none';
+        warning9.style = 'display:none';
+        warning10.style = '';
+      }
+      // 기술스택 개수가 5개 이상이고 추가되어있는 techStack일때
+      else if (
+        state.form.expTechList.length >= 5 &&
+        state.form.expTechList.includes(state.exp)
+      ) {
+        warning8.style = 'display:none';
+        warning9.style = '';
+        warning10.style = '';
+      }
+      // 기술스택 개수가 5개 미만이고 추가되어있지 않은 techStack일때
+      else {
+        // 회원가입할때 보낼 data값
+        state.form.expTechList.push(state.exp);
+        console.log(state.form, 'exp찍을거임!');
+        warning8.style = 'display:none';
+        warning9.style = 'display:none';
+        warning10.style = 'display:none';
+        state.exp = '';
+      }
+    };
+    // const addEx = function () {
+    //   console.log('addEx');
+    //   // 1.추가할 값을 input태그에서 읽어온다
+    //   const addValue1 = document.getElementById('stack1').value;
+    //   // 2.추가할 div element 생성
+    //   // 2-1.추가할 div element 생성
+    //   const box = document.createElement('div');
+    //   // 2-2. box에 addValue1이라는 이름의 id속성 추가
+    //   box.setAttribute('class', 'addValue1');
+    //   // 2-3. box에 textnode추가
+    //   const textNode = document.createTextNode(addValue1);
+    //   box.appendChild(textNode);
+    //   // 3. 생성된 박스를 상위div에 추가
+    //   document.getElementById('box1').appendChild(box);
+    //   // 인풋박스 초기화
+    //   // 이미 추가했던 기술스택이라면 경고메세지 띄우기
+    //   state.exp = '';
+    // };
+
+    // Step3 박스에 요소 추가(Beginner)
+
+    const addBe = function () {
+      var warning11 = document.getElementById('warning11');
+      var warning12 = document.getElementById('warning12');
+      var warning13 = document.getElementById('warning13');
+      // 값을 입력하지 않았을때
+      if (!state.beg) {
+        warning11.style = '';
+        warning12.style = 'display:none';
+        warning13.style = 'display:none';
+      }
+      // 기술스택 개수가 5개이하이고 추가되어있는 techStack일때
+      else if (
+        state.form.beginTechList.length < 5 &&
+        state.form.beginTechList.includes(state.beg)
+      ) {
+        warning11.style = 'display:none';
+        warning12.style = '';
+        warning13.style = 'display:none';
+      }
+      // 기술스택 개수가 5개이상이고 추가되어있지 않은 techStack일때
+      else if (
+        state.form.beginTechList.length >= 5 &&
+        !state.form.beginTechList.includes(state.beg)
+      ) {
+        warning11.style = 'display:none';
+        warning12.style = 'display:none';
+        warning13.style = '';
+      }
+      // 기술스택 개수가 5개 이상이고 추가되어있는 techStack일때
+      else if (
+        state.form.beginTechList.length >= 5 &&
+        state.form.beginTechList.includes(state.beg)
+      ) {
+        warning11.style = 'display:none';
+        warning12.style = '';
+        warning13.style = '';
+      }
+      // 기술스택 개수가 5개 이하이고 추가되어있지 않은 techStack일때
+      else {
+        // 회원가입할때 보낼 data값
+        state.form.beginTechList.push(state.beg);
+        console.log(state.form, 'begin찍을꺼임!!!');
+        warning11.style = 'display:none';
+        warning12.style = 'display:none';
+        warning13.style = 'display:none';
+        state.beg = '';
+      }
+    };
+    // const addBe = function () {
+    //   console.log('addBe');
+    //   // 1.추가할 값을 input태그에서 읽어온다
+    //   const addValue2 = document.getElementById('stack2').value;
+    //   // 2.추가할 div element 생성
+    //   // 2-1.추가할 div element 생성
+    //   const box = document.createElement('div');
+    //   // 2-2. box에 addValue2라는 이름의 id속성 추가
+    //   box.setAttribute('id', 'addValue2');
+    //   // 2-3. box에 textnode추가
+    //   const textNode = document.createTextNode(addValue2);
+    //   box.appendChild(textNode);
+    //   // 3. 생성된 박스를 상위div에 추가
+    //   document.getElementById('box2').appendChild(box);
+    //   // 인풋박스 초기화
+    //   // 이미 추가했던 기술스택이라면 경고메세지 띄우기
+    //   state.beg = '';
+    // };
+
+    const addPosition = function () {
+      var warning14 = document.getElementById('warning14');
+      var warning15 = document.getElementById('warning15');
+      var warning16 = document.getElementById('warning16');
+      // 값을 입력하지 않았을때
+      if (!state.dp) {
+        warning14.style = '';
+        warning15.style = 'display:none';
+        warning16.style = 'display:none';
+      }
+      // 기술스택 개수가 5개이하이고 추가되어있는 techStack일때
+      else if (
+        state.form.dpositionList.length < 5 &&
+        state.form.dpositionList.includes(state.dp)
+      ) {
+        warning14.style = 'display:none';
+        warning15.style = '';
+        warning16.style = 'display:none';
+      }
+      // 기술스택 개수가 5개이상이고 추가되어있지 않은 techStack일때
+      else if (
+        state.form.dpositionList.length >= 5 &&
+        !state.form.dpositionList.includes(state.dp)
+      ) {
+        warning14.style = 'display:none';
+        warning15.style = 'display:none';
+        warning16.style = '';
+      }
+      // 기술스택 개수가 5개 이상이고 추가되어있는 techStack일때
+      else if (
+        state.form.dpositionList.length >= 5 &&
+        state.form.dpositionList.includes(state.dp)
+      ) {
+        warning14.style = 'display:none';
+        warning15.style = '';
+        warning16.style = '';
+      }
+      // 기술스택 개수가 5개 이하이고 추가되어있지 않은 techStack일때
+      else {
+        // 회원가입할때 보낼 data값
+        state.form.dpositionList.push(state.dp);
+        console.log(state.form, '세부포지션을 찍을거임!');
+        warning14.style = 'display:none';
+        warning15.style = 'display:none';
+        warning16.style = 'display:none';
+        state.dp = '';
+      }
+    };
+
+    const handleClick = (clickedTechStack) => {
+      state.form.expTechList = state.form.expTechList.filter(
+        (techStack) => techStack !== clickedTechStack
+      );
+    };
+    const handleClick1 = (clickedTechStack) => {
+      state.form.beginTechList = state.form.beginTechList.filter(
+        (techStack) => techStack !== clickedTechStack
+      );
+    };
+    const handleClick2 = (clickedDetailPosition) => {
+      state.form.dpositionList = state.form.dpositionList.filter(
+        (detailPosition) => detailPosition !== clickedDetailPosition
+      );
+    };
+
+    // 회원가입 요청
+    const signUp = function () {
+      // modules의 auth.js에서 signUp 액션을 dispatch함
+      store.dispatch('auth/signUp', state.form);
+      alert('회원가입이 성공적으로 완료되었습니다!');
+      window.location = '/noheader/signin';
+      console.log(state.form);
+    };
     return {
       store,
       state,
@@ -613,6 +919,12 @@ export default {
       checkNickName,
       checkPassword,
       checkAffirmPassword,
+      addEx,
+      addBe,
+      addPosition,
+      handleClick,
+      handleClick1,
+      handleClick2,
     };
   },
 };
@@ -654,7 +966,6 @@ export default {
   color: #ff5757;
 }
 #warning2 {
-  display: none;
   display: flex;
   margin-left: 190px;
 
@@ -665,7 +976,6 @@ export default {
   color: #ff5757;
 }
 #warning3 {
-  display: none;
   display: flex;
   text-align: left;
   margin-left: 190px;
@@ -677,7 +987,6 @@ export default {
   color: #ff5757;
 }
 #warning4 {
-  display: none;
   display: flex;
   text-align: left;
   margin-left: 190px;
@@ -689,7 +998,6 @@ export default {
   color: #ff5757;
 }
 #warning5 {
-  display: none;
   display: flex;
   text-align: left;
   margin-left: 190px;
@@ -701,7 +1009,6 @@ export default {
   color: #ff5757;
 }
 #warning6 {
-  display: none;
   display: flex;
   text-align: left;
   margin-left: 190px;
@@ -713,7 +1020,6 @@ export default {
   color: #ff5757;
 }
 #warning7 {
-  display: none;
   display: flex;
   text-align: left;
   margin-left: 190px;
@@ -724,8 +1030,106 @@ export default {
   font-size: 15px;
   color: #ff5757;
 }
+#warning8 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning9 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning10 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning11 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning12 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning13 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning14 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning15 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning16 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
 #success1 {
-  display: none;
   display: flex;
   margin-left: 190px;
 
@@ -736,7 +1140,6 @@ export default {
   color: #307ff5;
 }
 #success2 {
-  display: none;
   display: flex;
   margin-left: 190px;
 
@@ -1249,16 +1652,43 @@ export default {
 
   color: #000000;
 }
+#box-text1 {
+  display: flex;
+  width: 332px;
+  margin-left: 65px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+}
 #box1 {
+  display: flex;
+  flex-wrap: wrap;
   width: 332px;
   height: 87px;
+  padding-left: 10px;
+  padding-top: 5px;
 
   border: 1px solid #000000;
   box-sizing: border-box;
   border-radius: 15px;
   margin-left: 65px;
 }
-#stack {
+#box2 {
+  display: flex;
+  flex-wrap: wrap;
+  width: 332px;
+  height: 87px;
+  padding-left: 10px;
+  padding-top: 5px;
+
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 15px;
+  margin-left: 65px;
+}
+#stack1 {
   width: 200px;
   height: 40px;
 
@@ -1283,6 +1713,67 @@ export default {
 
   color: #919191;
 }
+#stack2 {
+  width: 200px;
+  height: 40px;
+
+  background: #e8e8e8;
+  border-radius: 10px;
+  border: 0px;
+
+  display: flex;
+  margin-left: 65px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+
+  /* 기술스택 텍스트 */
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  padding-left: 10px;
+  text-align: left;
+
+  color: #919191;
+}
+.addValue1 {
+  height: 30px;
+  display: flex;
+  /* text-align: center; */
+  vertical-align: middle;
+
+  margin-right: 5px;
+  padding-top: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 1px solid #307ff5;
+  border-radius: 10px;
+  color: #307ff5;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+}
+.addValue1:hover {
+  height: 30px;
+  display: flex;
+  /* text-align: center; */
+  vertical-align: middle;
+
+  margin-right: 5px;
+  padding-top: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 1px solid #ff5757;
+  border-radius: 10px;
+  color: #ff5757;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+
+  cursor: pointer;
+}
 /* --------------------------------------------Step4-------------------------------------------- */
 #H8 {
   display: flex;
@@ -1292,17 +1783,32 @@ export default {
   display: flex;
   margin-left: 180px;
 }
-#box2 {
+#box3 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: left;
+
   width: 397px;
-  height: 45px;
+  height: 87px;
   margin-left: 180px;
+  padding-left: 10px;
+  padding-top: 2px;
 
   border: 1px solid #000000;
   box-sizing: border-box;
   border-radius: 15px;
-
+}
+#box4 {
   display: flex;
-  align-items: center;
-  justify-content: left;
+}
+#box5 {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+#box6 {
+  display: flex;
+  margin-left: 115px;
 }
 </style>
