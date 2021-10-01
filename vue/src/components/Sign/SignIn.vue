@@ -87,8 +87,8 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             localStorage.setItem('accessToken', res.data.accessToken);
-            console.log('바로밑이 토큰 저장!!!!!!!!!');
-            console.log(localStorage.getItem('accessToken'));
+            console.log(localStorage.getItem('accessToken')), '토큰저장!!!';
+
             window.location = '/';
           } else if (res.status == 404) {
             alert('해당 아이디가 존재하지 않습니다.');
