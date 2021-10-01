@@ -1,6 +1,7 @@
 package com.ssafy.match.group.studyboard.board.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.match.group.entity.study.Study;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class StudyBoard {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "study_id")
     private Study study;
