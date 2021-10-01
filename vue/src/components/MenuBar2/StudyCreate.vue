@@ -181,7 +181,7 @@ export default {
     mypage.then((mypage) => {
       store.commit('setMember', mypage.data);
     });
-    const user = computed(() => store.getters['getUserInfo']);
+    const user = computed(() => store.getters['member/mypageGetter']);
     // console.log(user.value);
     // console.log(user.value.city);
     // console.log(user.value.myClubList);

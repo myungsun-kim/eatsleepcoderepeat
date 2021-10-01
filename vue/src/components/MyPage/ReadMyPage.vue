@@ -280,7 +280,6 @@ export default {
   },
   setup() {
     const store = useStore();
-
     const res = store.dispatch('member/readMyPage');
     res.then((res) => {
       store.state.user = res.data;

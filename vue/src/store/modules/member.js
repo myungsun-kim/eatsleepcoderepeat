@@ -31,6 +31,19 @@ export const member = {
 
       return res;
     },
+    // 프로필 다운로드
+    readProfile({ commit }, form) {
+      console.log(localStorage.getItem('accessToken'));
+      console.log(form);
+      const res = axios.get(form, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          'Content-Type': 'image/png',
+        },
+      });
+      return res;
+    },
+    // 비밀번호 체크
     checkPassword({ commit }, form) {
       console.log('데이터');
       console.log(JSON.stringify(form));
@@ -44,6 +57,7 @@ export const member = {
       });
       return res;
     },
+    // 회원정보 수정
     updateMember({ commit }, form) {
       console.log(JSON.stringify(form));
       const res = axios.put(BASE_URL + `/api/member`, form, {
@@ -51,7 +65,7 @@ export const member = {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       });
-      return res;
+      return res.data;
     },
   },
   getters: {
