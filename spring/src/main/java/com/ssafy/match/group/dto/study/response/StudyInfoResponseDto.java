@@ -89,6 +89,7 @@ public class StudyInfoResponseDto {
         this.name = study.getName();
         this.schedule = study.getSchedule();
         this.period = study.getPeriod();
+        this.memberCount = study.getMemberCount();
         this.maxCount = study.getMaxCount();
         this.isPublic = study.getIsPublic();
         this.isParticipate = study.getIsParticipate();
