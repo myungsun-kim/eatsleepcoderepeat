@@ -384,7 +384,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .test-border {
   padding: 0 3px 0 3px;
 }

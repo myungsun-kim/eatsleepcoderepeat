@@ -15,6 +15,9 @@ public class StudyArticleInfoDto {
     @ApiModelProperty(name = "title", example = "게시물 제목")
     private String title;
 
+    @ApiModelProperty(name = "content", example = "내용")
+    private String content;
+
     @ApiModelProperty(name = "studyBoard", example = "일정게시판")
     private String studyBoard;
 

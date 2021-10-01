@@ -188,7 +188,7 @@ export default {
     const router = useRouter();
 
     const goCreate = function () {
-      router.push({ path: '/nosubheader/create' });
+      router.push({ path: '/nosubheader/project/create' });
     };
 
     const goIntroduce = function () {
@@ -243,7 +243,7 @@ export default {
 }
 .item-state-badge-green {
   display: inline-block;
-  padding: 0 3px 0 3px;
+  padding: ;
   margin: 0 2px 0 2px;
   color: white;
   background: #00bf00;
