@@ -1,5 +1,6 @@
 <template>
   <el-row class="font-20">
+    {{ studyIntroduce }} !!!!!!!!!!!!
     <el-col :span="3"></el-col>
     <el-col :span="3"
       ><el-row class="height1"> </el-row>
@@ -149,6 +150,11 @@ export default {
     const router = useRouter();
     const studyId = computed(() => store.getters['study/studyIdGetter']);
     console.log('studyId: ' + studyId.value);
+    store.dispatch('study/introduce', studyId.value);
+    const studyIntroduce = computed(
+      () => store.getters['study/studyIntroduceGetter']
+    );
+    console.log('studyIntroduce: ' + studyIntroduce.value);
 
     const goUpdate = function () {
       router.push({ path: '/nosubheader/study/update' });
@@ -156,6 +162,7 @@ export default {
     return {
       store,
       router,
+      studyIntroduce,
       goUpdate,
     };
   },
