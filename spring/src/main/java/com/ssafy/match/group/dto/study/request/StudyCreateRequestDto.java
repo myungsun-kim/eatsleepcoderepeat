@@ -28,7 +28,7 @@ public class StudyCreateRequestDto {
     @ApiModelProperty(name = "maxCount", example = "3")
     private int maxCount;
 
-    @ApiModelProperty(name = "city", example = "구미")
+    @ApiModelProperty(name = "city", example = "서울")
     private String city;
 
     @ApiModelProperty(name = "isPublic", example = "false")

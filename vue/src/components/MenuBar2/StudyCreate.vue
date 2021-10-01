@@ -133,7 +133,6 @@
             <label id="h2">소속 클럽</label>
             <select id="clubId" v-model="state.form.clubId" class="input3">
               <!-- 내가 속한 각 클럽 목록을 받아서 뿌려줘야 함 -->
-
               <option
                 :value="clubId[index]"
                 v-for="(item, index) in clubList"
@@ -141,10 +140,6 @@
               >
                 {{ item }}
               </option>
-              <!-- <option value="none">없음</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-              <option value="D">D</option> -->
             </select>
           </div>
           <div id="box1">
@@ -195,6 +190,7 @@ export default {
     // console.log(user.value.myClubList.length);
     // console.log(user.value.myClubList[0]);
 
+<<<<<<< HEAD
     // let clubList = [];
     // let clubId = [];
     // if (user.value.myClubList.length > 0) {
@@ -206,6 +202,19 @@ export default {
     //   clubList[0] = '없음';
     //   clubId[0] = null;
     // }
+=======
+    let clubList = [];
+    let clubId = [];
+    if (user.value.myClubList.length > 0) {
+      for (let index = 0; index < user.value.myClubList.length; index++) {
+        clubList[index] = user.value.myClubList[index].name;
+        clubId[index] = user.value.myClubList[index].id;
+      }
+    } else {
+      clubList[0] = '무관';
+      clubId[0] = null;
+    }
+>>>>>>> fe6e12da89258d26db6191f73c5fdeb00f17ecb5
     // const clubList = ['사과', '배클럽', '우주', '공장'];
     // const clubId = [31, 32, 33, 34];
 
