@@ -12,10 +12,15 @@ export const study = {
   namespaced: true,
   state: {
     totalStudyList: [],
+    studyId: '',
   },
   mutations: {
     updateTotalStudyList(state, payload) {
       state.totalStudyList = payload;
+    },
+    updateStudyId(state, payload) {
+      // console.log('넘겨준 STUDY ID 값' + payload);
+      state.studyId = payload;
     },
   },
   actions: {
@@ -44,10 +49,17 @@ export const study = {
         console.log(res);
       });
     },
+    callUpdateStudyId({ commit }, data) {
+      // console.log('넘겨줄 STUDY ID 값' + data);
+      commit('updateStudyId', data);
+    },
   },
   getters: {
     totalStudyGetter: (state) => {
       return state.totalStudyList;
+    },
+    studyIdGetter: (state) => {
+      return state.studyId;
     },
   },
   modules: {},
