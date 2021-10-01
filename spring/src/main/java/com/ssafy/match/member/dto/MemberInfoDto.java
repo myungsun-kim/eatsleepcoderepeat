@@ -37,10 +37,10 @@ public class MemberInfoDto {
     @ApiModelProperty(name = "position", example = "개발자")
     private String position;
 
-    @ApiModelProperty(name = "cover_pic", example = "사진 데이터")
+    @ApiModelProperty(name = "cover_pic", example = "사진 uri")
     private String cover_pic;
 
-    @ApiModelProperty(name = "portfolio", example = "사진 데이터")
+    @ApiModelProperty(name = "portfolio", example = "포트폴리오 uri")
     private String portfolio;
 
     @ApiModelProperty(name = "portfolio_uri", example = "https://naver.com")

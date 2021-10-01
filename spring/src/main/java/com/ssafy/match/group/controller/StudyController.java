@@ -28,6 +28,7 @@ public class StudyController {
     private final StudyService studyService;
 
     @GetMapping("/infoforcreate")
+    @ApiOperation(value = "스터디 생성을 위한 정보", notes = "스터디 생성을 위해 사용자의 클럽 정보를 조회")
     public ResponseEntity<StudyInfoForCreateResponseDto> getInfoForCreate() throws Exception {
         return ResponseEntity.ok(studyService.getInfoForCreate());
     }

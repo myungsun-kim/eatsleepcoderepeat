@@ -159,7 +159,7 @@ public class SwaggerConfig {
             // api 필요한 클래스패스 추가하기
             .paths(
                 PathSelectors.ant("/**/file/**")
-//                    .or(PathSelectors.ant("/**/projectform/**"))
+                    .or(PathSelectors.ant("/**/projectform/**"))
 //                PathSelectors.any()
             )
             .build()

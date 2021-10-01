@@ -1,5 +1,6 @@
 package com.ssafy.match.group.studyboard.article.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.match.group.studyboard.board.entity.StudyBoard;
 import com.ssafy.match.member.entity.Member;
 import lombok.*;
