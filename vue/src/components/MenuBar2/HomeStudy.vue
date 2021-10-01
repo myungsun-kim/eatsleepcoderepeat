@@ -23,8 +23,9 @@
       :span="4"
       :offset="1"
       class="test-border item-border"
-      v-for="(item, index) in myStudyList"
+      v-for="(item, index) in myStudyList.slice(0, 4)"
       :key="index"
+      @click="goIntroduce(item.id)"
     >
       <el-row class="height40 item-img"></el-row>
       <el-row class="height10 item-head-title">{{ item.name }}</el-row>
@@ -97,8 +98,9 @@
       :span="4"
       :offset="1"
       class="test-border item-border"
-      v-for="(item, index) in totalStudyList"
+      v-for="(item, index) in totalStudyList.slice(0, 4)"
       :key="index"
+      @click="goIntroduce(item.id)"
     >
       <el-row class="height40 item-img"></el-row>
       <el-row class="height10 item-head-title">{{ item.name }}</el-row>
@@ -169,8 +171,9 @@
       :span="4"
       :offset="1"
       class="test-border item-border"
-      v-for="(item, index) in totalStudyList"
+      v-for="(item, index) in totalStudyList.slice(0, 4)"
       :key="index"
+      @click="goIntroduce(item.id)"
     >
       <el-row class="height40 item-img"></el-row>
       <el-row class="height10 item-head-title">{{ item.name }}</el-row>
@@ -226,7 +229,7 @@
 
   <el-row class="height5">
     <el-col :span="24" class="test-border">
-      <a href="">더보기</a> <a href="">접기</a>
+      <a href="">더보기</a>
     </el-col>
   </el-row>
 </template>
@@ -240,19 +243,13 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    const res = store.dispatch('study/getTotalStudyList');
-    res.then((res) => {
-      // store.state.totalStudyList = res.data;
-    });
+    store.dispatch('study/getTotalStudyList');
     const totalStudyList = computed(
       () => store.getters['study/totalStudyGetter']
     );
 
     // 내가 속한 스터디 목록 받을 것임
-    const myRes = store.dispatch('member/readMyPage');
-    myRes.then((myRes) => {
-      // store.state.myStudyList = myRes.data;
-    });
+    store.dispatch('member/readMyPage');
     const myStudyList = computed(
       () => store.getters['member/myStudyListGetter']
     );
@@ -261,7 +258,8 @@ export default {
       router.push({ path: '/nosubheader/study/create' });
     };
 
-    const goIntroduce = function () {
+    const goIntroduce = function (id) {
+      store.dispatch('study/callUpdateStudyId', id);
       router.push({ path: '/subheader/study/introduce' });
     };
 
