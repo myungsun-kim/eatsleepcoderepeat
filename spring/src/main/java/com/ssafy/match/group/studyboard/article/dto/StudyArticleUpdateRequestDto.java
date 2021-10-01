@@ -15,10 +15,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudyArticleCreateRequestDto {
-//    @ApiModelProperty(name = "articleid", example = "3")
-//    @ApiParam(value = "게시물 id", required = true)
-//    private Integer articleId;
+public class StudyArticleUpdateRequestDto {
 
     @ApiModelProperty(name = "title", example = "게시물 제목")
     @ApiParam(value = "게시물 제목", required = true)
@@ -28,14 +25,4 @@ public class StudyArticleCreateRequestDto {
     @ApiParam(value = "게시물내용")
     private String content;
 
-    public StudyArticle toStudyBoard(Member member, StudyBoard studyBoard) {
-        return StudyArticle.builder()
-                .title(title)
-                .studyBoard(studyBoard)
-                .viewCount(0)
-                .member(member)
-                .createDate(LocalDateTime.now())
-//                .modifiedDate(LocalDateTime.now())
-                .build();
-    }
 }

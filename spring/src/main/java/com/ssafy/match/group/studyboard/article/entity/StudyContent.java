@@ -15,7 +15,7 @@ public class StudyContent {
     private Long id;
 
 //    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JoinColumn(name = "study_article_id")
     private StudyArticle studyArticle;
 
