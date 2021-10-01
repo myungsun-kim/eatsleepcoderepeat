@@ -698,11 +698,17 @@ export default {
       var warning8 = document.getElementById('warning8');
       var warning9 = document.getElementById('warning9');
       var warning10 = document.getElementById('warning10');
-      // 값을 입력하지 않았을때
-      if (!state.exp) {
+      // 값을 입력하지 않았고 추가되어있는 techStack이 5개 미만일떄
+      if (!state.exp && state.form.expTechList.length < 5) {
         warning8.style = '';
         warning9.style = 'display:none';
         warning10.style = 'display:none';
+      }
+      // 값을 입력하지 않았고 추가되어있는 techStack이 5개 이상일떄
+      else if (!state.exp && state.form.expTechList.length >= 5) {
+        warning8.style = '';
+        warning9.style = 'display:none';
+        warning10.style = '';
       }
       // 기술스택 개수가 5개이하이고 추가되어있는 techStack일때
       else if (
@@ -767,11 +773,17 @@ export default {
       var warning11 = document.getElementById('warning11');
       var warning12 = document.getElementById('warning12');
       var warning13 = document.getElementById('warning13');
-      // 값을 입력하지 않았을때
-      if (!state.beg) {
+      // 값을 입력하지 않았고 추가되어있는 techStack이 5개 미만일떄
+      if (!state.beg && state.form.beginTechList.length < 5) {
         warning11.style = '';
         warning12.style = 'display:none';
         warning13.style = 'display:none';
+      }
+      // 값을 입력하지 않았고 추가되어있는 techStack이 5개 이상일 때
+      else if (!state.beg && state.form.beginTechList.length >= 5) {
+        warning11.style = '';
+        warning12.style = 'display:none';
+        warning13.style = '';
       }
       // 기술스택 개수가 5개이하이고 추가되어있는 techStack일때
       else if (
@@ -834,11 +846,17 @@ export default {
       var warning14 = document.getElementById('warning14');
       var warning15 = document.getElementById('warning15');
       var warning16 = document.getElementById('warning16');
-      // 값을 입력하지 않았을때
-      if (!state.dp) {
+      // 값을 입력하지 않았고 추가되어있는 detailPosition이 5개 미만일떄
+      if (!state.dp && state.form.dpositionList.length < 5) {
         warning14.style = '';
         warning15.style = 'display:none';
         warning16.style = 'display:none';
+      }
+      // 값을 입력하지 않았고 추가되어있는 detailPosition이 5개 이상일떄
+      else if (!state.dp && state.form.dpositionList.length >= 5) {
+        warning14.style = '';
+        warning15.style = 'display:none';
+        warning16.style = '';
       }
       // 기술스택 개수가 5개이하이고 추가되어있는 techStack일때
       else if (

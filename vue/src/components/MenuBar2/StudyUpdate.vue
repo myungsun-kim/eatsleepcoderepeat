@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="bg">
     <el-row :gutter="0">
       <el-col :span="5" :offset="0">
-        <div class="height100">1</div>
+        <div class="height100"></div>
       </el-col>
       <el-col :span="13" :offset="0">
         <div class="height100">
-          <div id="h1">스터디 생성</div>
+          <div id="h1">스터디 수정</div>
           <hr />
           <div id="box1">
             <label id="h2">스터디 이름</label>
@@ -77,10 +77,12 @@
             </div>
             <div id="box4">
               <label id="h2">프로필 사진 등록</label>
-              <div style="width: 100%; height: 80%">
+              <div id="thumbnail">
                 <img class="previewImg" />
               </div>
-              <el-upload :before-upload="beforeUpload">업로드</el-upload>
+              <el-upload :before-upload="beforeUpload">
+                <button>사진 업로드</button>
+              </el-upload>
             </div>
           </div>
           <div id="box1">
@@ -153,7 +155,7 @@
         </div>
       </el-col>
       <el-col :span="6" :offset="0">
-        <div class="height100">3</div>
+        <div class="height100"></div>
       </el-col>
     </el-row>
   </div>
@@ -230,6 +232,9 @@ export default {
 };
 </script>
 <style scoped>
+.bg {
+  background: #f2f2f2;
+}
 #h1 {
   width: 184px;
   height: 52px;
@@ -372,6 +377,13 @@ export default {
 }
 .btn-cancel {
   margin-left: 10px;
+}
+#thumbnail {
+  width: 100%;
+  height: 60%;
+
+  border: 0.5px dashed black;
+  border-radius: 3%;
 }
 #radio {
   height: 40px;
