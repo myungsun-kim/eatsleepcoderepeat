@@ -79,14 +79,14 @@
             />
           </div>
           <div id="warning3" style="display: none">
-            올바르지 않은 이름입니다.
+            올바르지 않은 '이름'입니다.
             <br />
             한글 이름은 1~7자 이내, 영문 이름은 2~10자 이내로 작성해주세요.(혼용
             불가)
           </div>
 
           <div id="warning4" style="display: none">
-            올바르지 않은 닉네임입니다.
+            올바르지 않은 '닉네임'입니다.
             <br />
             한글, 영문, 숫자만 가능합니다.(혼용가능) 닉네임 길이는 2~7자 이내로
             작성해주세요
@@ -648,7 +648,6 @@ export default {
         store
           .dispatch('auth/checkNickName', state.form.nickname)
           .then((res) => {
-            console.log(res.data);
             if (res.data == false) {
               // alert('사용가능한 닉네임 입니다!');
               warning4.style = 'display:none';
@@ -898,11 +897,23 @@ export default {
 
     // 회원가입 요청
     const signUp = function () {
-      // modules의 auth.js에서 signUp 액션을 dispatch함
-      store.dispatch('auth/signUp', state.form);
-      alert('회원가입이 성공적으로 완료되었습니다!');
-      window.location = '/noheader/signin';
-      console.log(state.form);
+      // modules의 auth.js에서 signIn 액션을 dispatch함
+      store
+        .dispatch('auth/signUp', state.form)
+        .then((res) => {
+          if (res.status == 200) {
+            alert('회원가입이 성공적으로 완료되었습니다!');
+            window.location = '/noheader/signin';
+          } else {
+            alert('회원가입에 실패하였습니다.');
+            window.location = '/noheader/signup';
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          alert('회원가입에 실패하였습니다.');
+          window.location = '/noheader/signup';
+        });
     };
     return {
       store,
