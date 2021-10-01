@@ -10,20 +10,23 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudyArticleCreateRequestDto {
-    @ApiModelProperty(name = "boardid", example = "3")
-    @ApiParam(value = "게시판 id", required = true)
-    private Integer boardId;
+    @ApiModelProperty(name = "articleid", example = "3")
+    @ApiParam(value = "게시물 id", required = true)
+    private Integer articleId;
 
     @ApiModelProperty(name = "title", example = "게시물 제목")
-    @ApiParam(value = "게시판 제목", required = true)
+    @ApiParam(value = "게시물 제목", required = true)
     private String title;
+
+    @ApiModelProperty(name = "content", example = "내용~~~~")
+    @ApiParam(value = "게시물내용")
+    private String content;
 
     public StudyArticle toStudyBoard(Member member, StudyBoard studyBoard) {
         return StudyArticle.builder()
