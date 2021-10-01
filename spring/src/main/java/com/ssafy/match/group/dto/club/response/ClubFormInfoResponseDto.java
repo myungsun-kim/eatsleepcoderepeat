@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
+import javax.persistence.Lob;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,7 +44,14 @@ public class ClubFormInfoResponseDto {
 
     private List<String> beginnerTechstack;
     private String bio;
-    private DBFile dbFile;
+
+    @ApiModelProperty(name = "fileDownloadUri", example = "http://localhost:8080/api/downloadFile/97534f05-7e7f-425d-ac3e-aae8acee8a42")
+    private String fileDownloadUri;
+
+    public void setFileDownloadUri(DBFile dbFile){
+        if(dbFile == null) return;
+        this.fileDownloadUri = dbFile.getDownload_uri();
+    }
 
     @Builder
     public ClubFormInfoResponseDto(ClubApplicationForm form, List<String> experiencedTechstack, List<String> beginnerTechstack){
@@ -58,6 +66,6 @@ public class ClubFormInfoResponseDto {
         this.experiencedTechstack = experiencedTechstack;
         this.beginnerTechstack = beginnerTechstack;
         this.bio = form.getBio();
-        this.dbFile = form.getDbFile();
+        setFileDownloadUri(form.getDbFile());
     }
 }

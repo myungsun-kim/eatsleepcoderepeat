@@ -111,9 +111,7 @@ public class ClubServiceImpl implements ClubService {
         for (Club club : clubs) {
             ClubInfoResponseDto dto = new ClubInfoResponseDto(club);
             dto.setHost(new MemberDto(club.getMember()));
-            dto.setMemberDtos(findMemberInClub(club));
-            System.out.println("fsdfd");
-            dto.setDbFile(club.getDbFile());
+            dto.setMemberDtos(makeMemberDtos(findMemberInClub(club)));
 
             clubInfoResponseDtos.add(dto);
         }
@@ -132,7 +130,7 @@ public class ClubServiceImpl implements ClubService {
 
         ClubInfoResponseDto dto = new ClubInfoResponseDto(club);
         dto.setHost(new MemberDto(club.getMember()));
-        dto.setMemberDtos(findMemberInClub(club));
+        dto.setMemberDtos(makeMemberDtos(findMemberInClub(club)));
 
         return dto;
     }
@@ -196,6 +194,7 @@ public class ClubServiceImpl implements ClubService {
         return member;
     }
 
+    // 생성 및 업데이트에 사용
     public DBFile findDBFile(String uuid) {
         if (uuid == null) {
             return null;
@@ -205,8 +204,19 @@ public class ClubServiceImpl implements ClubService {
     }
 
     // 현재 클럽에 속한 멤버 리스트
-    public List<MemberDto> findMemberInClub(Club club) {
+    public List<Member> findMemberInClub(Club club) {
         return memberClubRepository.findMemberInClub(club);
+    }
+
+    // 멤버의 id, name, nickname만 가져옴 (org.springframework.core.convert.ConverterNotFoundException 방지)
+    public List<MemberDto> makeMemberDtos(List<Member> members) {
+        List<MemberDto> memberDtos = new ArrayList<>();
+
+        for (Member member : members) {
+            memberDtos.add(new MemberDto(member));
+        }
+
+        return memberDtos;
     }
 
     public void validCity(String city) throws Exception {
@@ -221,8 +231,8 @@ public class ClubServiceImpl implements ClubService {
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         Club club = findClub(clubId);
 
-        List<MemberDto> memberList = findMemberInClub(club);
-        for (MemberDto mem : memberList) {
+        List<Member> memberList = findMemberInClub(club);
+        for (Member mem : memberList) {
             if (SecurityUtil.getCurrentMemberId().equals(mem.getId())) {
                 throw new Exception("이미 가입한 멤버입니다.");
             }
@@ -230,6 +240,7 @@ public class ClubServiceImpl implements ClubService {
 
         InfoForApplyClubFormResponseDto dto = InfoForApplyClubFormResponseDto.builder()
             .nickname(member.getNickname())
+            .city(member.getCity())
             .experiencedTechstack(memberExperiencedTechstackRepository.findTechstackByMemberName(member))
             .beginnerTechstack(memberBeginnerTechstackRepository.findTechstackByMemberName(member))
             .build();
@@ -271,19 +282,6 @@ public class ClubServiceImpl implements ClubService {
 
         ClubApplicationForm clubApplicationForm = new ClubApplicationForm(cmp, dto);
 
-        if (dto.getGit() != null) {
-            clubApplicationForm.setGit(dto.getGit());
-        }
-        if (dto.getTwitter() != null) {
-            clubApplicationForm.setTwitter(dto.getTwitter());
-        }
-        if (dto.getFacebook() != null) {
-            clubApplicationForm.setFacebook(dto.getFacebook());
-        }
-        if (dto.getBackjoon() != null) {
-            clubApplicationForm.setBackjoon(dto.getBackjoon());
-        }
-
         clubApplicationForm.setDbFile(findDBFile(dto.getUuid()));
 
         clubApplicationFormRepository.save(clubApplicationForm);
@@ -309,6 +307,7 @@ public class ClubServiceImpl implements ClubService {
                 .beginnerTechstack(memberBeginnerTechstackRepository
                     .findTechstackByMemberName(form.getCompositeMemberClub().getMember()))
                 .build());
+
         }
 
         return clubFormInfoResponseDtos;
@@ -364,10 +363,10 @@ public class ClubServiceImpl implements ClubService {
         if (!SecurityUtil.getCurrentMemberId().equals(club.getMember().getId())) {
             throw new Exception("승인 권한이 없습니다");
         }
-        List<MemberDto> memberDtos = findMemberInClub(club);
+        List<Member> memberList = findMemberInClub(club);
         Member member = findMember(memberId);
 
-        for (MemberDto mem : memberDtos) {
+        for (Member mem : memberList) {
             if (mem.getId().equals(memberId)) {
                 throw new Exception("이미 가입되어있는 회원입니다.");
             }
@@ -396,23 +395,4 @@ public class ClubServiceImpl implements ClubService {
         return HttpStatus.OK;
     }
 
-//    public List<ClubDto> makeClubDtos(List<Club> hostClub) {
-//        List<ClubDto> clubDtos = new ArrayList<>();
-//
-//        for (Club club : hostClub) {
-//            clubDtos.add(new ClubDto(club));
-//        }
-//
-//        return clubDtos;
-//    }
-//
-//    public List<MemberDto> makeMemberDtos(List<Member> members) {
-//        List<MemberDto> memberDtos = new ArrayList<>();
-//
-//        for (Member member : members) {
-//            memberDtos.add(new MemberDto(member));
-//        }
-//
-//        return memberDtos;
-//    }
 }

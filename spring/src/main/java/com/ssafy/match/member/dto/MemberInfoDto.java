@@ -38,10 +38,10 @@ public class MemberInfoDto {
     private String position;
 
     @ApiModelProperty(name = "cover_pic", example = "사진 데이터")
-    private DBFile cover_pic;
+    private String cover_pic;
 
     @ApiModelProperty(name = "portfolio", example = "사진 데이터")
-    private DBFile portfolio;
+    private String portfolio;
 
     @ApiModelProperty(name = "portfolio_uri", example = "https://naver.com")
     private String portfolio_uri;
@@ -86,7 +86,7 @@ public class MemberInfoDto {
     }
 
     @Builder
-    public MemberInfoDto(String email, String name, String nickname, String tel, String bio, String city, String position, DBFile cover_pic, DBFile portfolio, String portfolio_uri) {
+    public MemberInfoDto(String email, String name, String nickname, String tel, String bio, String city, String position, String cover_pic, String portfolio, String portfolio_uri) {
         this.email = email;
         this.name = name;
         this.nickname = nickname;

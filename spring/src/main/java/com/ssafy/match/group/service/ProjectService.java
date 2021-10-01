@@ -29,7 +29,7 @@ public interface ProjectService {
 
     ProjectInfoForUpdateResponseDto getInfoForUpdateProject(Long projectId) throws Exception;
 
-    List<Project> projectInMember(Long memberId) throws Exception;
+    List<ProjectInfoResponseDto> projectInMember(Long memberId) throws Exception;
 
     void addMember(Project project, Member member, String role) throws Exception;
 
