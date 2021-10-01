@@ -96,8 +96,10 @@ public class MemberService {
         List<String> begTechList = memberBeginnerTechstackRepository.findTechstackByMemberName(member);
         List<MemberSns> snsList = memberSnsRepository.findAllByMember(member);
         List<Position> dpositionList = positionRepository.findAllByMember(member);
-        memberInfoDto.setCover_pic(member.getCover_pic());
-        memberInfoDto.setPortfolio(member.getPortfolio());
+        DBFile cover_pic = member.getCover_pic();
+        DBFile portpolio = member.getPortfolio();
+        memberInfoDto.setCover_pic(cover_pic.getDownload_uri());
+        memberInfoDto.setPortfolio(portpolio.getDownload_uri());
         memberInfoDto.setMyStudyList(myStudyList);
         memberInfoDto.setMyProjectList(myProjectList);
         memberInfoDto.setMyClubList(myClubList);
@@ -122,8 +124,16 @@ public class MemberService {
         List<String> begTechList = memberBeginnerTechstackRepository.findTechstackByMemberName(member);
         List<MemberSns> snsList = memberSnsRepository.findAllByMember(member);
         List<Position> dpositionList = positionRepository.findAllByMember(member);
-        memberInfoDto.setCover_pic(member.getCover_pic());
-        memberInfoDto.setPortfolio(member.getPortfolio());
+//        memberInfoDto.setCover_pic(member.getCover_pic());
+//        memberInfoDto.setPortfolio(member.getPortfolio());
+        if (member.getCover_pic() != null) {
+            DBFile cover_pic = member.getCover_pic();
+            memberInfoDto.setCover_pic(cover_pic.getDownload_uri());
+        }
+        if (member.getPortfolio() != null) {
+            DBFile portpolio = member.getPortfolio();
+            memberInfoDto.setPortfolio(portpolio.getDownload_uri());
+        }
         memberInfoDto.setMyStudyList(myStudyList);
         memberInfoDto.setMyProjectList(myProjectList);
         memberInfoDto.setMyClubList(myClubList);
