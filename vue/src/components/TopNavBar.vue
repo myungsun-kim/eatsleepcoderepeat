@@ -61,14 +61,14 @@
         ><el-col :span="2"></el-col
         ><el-col :span="5">
           <el-button
-            v-if="store.state.auth.isLogin == false"
+            v-if="!token"
             class="top-nav-btn font-s-md"
             type="text"
             @click="clickLogIn"
             >로그인</el-button
           >
           <el-button
-            v-else
+            v-if="token"
             class="top-nav-btn font-s-md"
             type="text"
             @click="clickLogOut"
@@ -123,7 +123,7 @@ export default {
       localStorage.removeItem('accessToken');
       window.location = '/';
     };
-
+    const token = localStorage.getItem('accessToken');
     return {
       store,
       router,
@@ -135,6 +135,7 @@ export default {
       clickMyPage,
       clickLogIn,
       clickLogOut,
+      token,
     };
   },
 };
