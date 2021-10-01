@@ -1,13 +1,10 @@
 package com.ssafy.match.group.dto.club.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.match.file.entity.DBFile;
-import com.ssafy.match.group.dto.FileDto;
 import com.ssafy.match.group.dto.MemberDto;
 import com.ssafy.match.group.entity.club.Club;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import java.util.List;
 import javax.persistence.Lob;
 import lombok.Builder;
