@@ -92,22 +92,10 @@
             </div>
             <div id="box4">
               <label id="h2">프로필 사진 등록</label>
-              <el-upload
-                ref="upload"
-                class="upload-demo"
-                drag
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :file-list="fileList"
-                :before-upload="beforeUpload"
-              >
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">
-                  파일을 드래그 하거나
-                  <br />
-                  <em>클릭해서 업로드 하세요</em>
-                </div>
-              </el-upload>
+              <div style="width: 100%; height: 80%">
+                <img class="previewImg" />
+              </div>
+              <el-upload :before-upload="beforeUpload">업로드</el-upload>
             </div>
           </div>
           <div id="box1">
@@ -214,9 +202,21 @@ export default {
     // const clubList = ['사과', '배클럽', '우주', '공장'];
     // const clubId = [31, 32, 33, 34];
 
+    // 사진 업로드
     const beforeUpload = (file) => {
       let formData = new FormData();
       formData.append('file', file);
+
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function (e) {
+        // var image = document.createElement('img');
+        var image = document.querySelector('.previewImg');
+        image.src = e.target.result; //blob 매핑
+        image.width = 250;
+        image.height = 200;
+        image.alt = 'here should be some image';
+      };
 
       const res = store.dispatch('uploadFile', formData);
       res.then((res) => {
@@ -414,5 +414,10 @@ export default {
   height: 40px;
   display: flex;
   vertical-align: middle;
+}
+.previewImg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
 }
 </style>

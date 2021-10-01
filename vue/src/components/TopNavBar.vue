@@ -59,8 +59,16 @@
             >마이페이지</el-button
           ></el-col
         ><el-col :span="2"></el-col
-        ><el-col :span="5"
-          ><el-button
+        ><el-col :span="5">
+          <el-button
+            v-if="!token"
+            class="top-nav-btn font-s-md"
+            type="text"
+            @click="clickLogIn"
+            >로그인</el-button
+          >
+          <el-button
+            v-if="token"
             class="top-nav-btn font-s-md"
             type="text"
             @click="clickLogOut"
@@ -108,11 +116,14 @@ export default {
     const clickMyPage = function () {
       router.push({ path: '/nosubheader/readmypage' });
     };
+    const clickLogIn = function () {
+      router.push({ path: '/noheader/signin' });
+    };
     const clickLogOut = function () {
       localStorage.removeItem('accessToken');
       window.location = '/';
     };
-
+    const token = localStorage.getItem('accessToken');
     return {
       store,
       router,
@@ -122,7 +133,9 @@ export default {
       clickMain,
       clickChat,
       clickMyPage,
+      clickLogIn,
       clickLogOut,
+      token,
     };
   },
 };
