@@ -33,15 +33,15 @@
 
     <el-col :span="2"></el-col>
     <el-col :span="5"
-      ><el-row class="height100 logo-div"
-        ><img
-          src="../assets/Item/logo.png"
-          class="logo"
-          @click="clickMain" /></el-row></el-col
+      ><el-row class="height100 logo-div">
+        <img src="../assets/Item/logo.png" class="logo" @click="clickMain" />
+      </el-row> </el-col
     ><el-col :span="3"></el-col
     ><el-col :span="6"
       ><el-row class="height100">
-        <el-col :span="2"> <i class="el-icon-search"></i></el-col>
+        <el-col :span="2" id="search"
+          ><i class="el-icon-search" id="search-icon"></i
+        ></el-col>
         <el-col :span="3"></el-col
         ><el-col :span="3"
           ><el-button
@@ -153,9 +153,21 @@ export default {
   vertical-align: middle;
 }
 .logo {
+  cursor: pointer;
   width: 80%;
   object-fit: cover;
   vertical-align: middle;
+}
+#search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-icon {
+  margin-top: 7%;
+  font-size: 130%;
+  cursor: pointer;
+  color: white;
 }
 .top-nav-btn {
   font-size: 18px;

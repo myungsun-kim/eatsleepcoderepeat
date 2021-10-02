@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="bg">
     <el-row :gutter="0">
       <el-col :span="5" :offset="0">
-        <div class="height100">1</div>
+        <div class="height100"></div>
       </el-col>
       <el-col :span="13" :offset="0">
         <div class="height100">
@@ -11,10 +11,11 @@
           <div id="box1">
             <label id="h2">스터디 이름</label>
             <input
-              v-model="state.form.name"
-              type="text"
-              placeholder="이름을 입력하세요."
               id="name"
+              class="input"
+              type="text"
+              v-model="state.form.name"
+              placeholder="이름을 입력하세요."
               onfocus="this.placeholder=''"
               onblur="this.placeholder='이름을 입력하세요'"
             />
@@ -23,9 +24,10 @@
             <label id="h2">기술스택</label>
             <!-- v-model="state.form.techList" -->
             <input
+              class="input"
+              id="techList"
               type="text"
               placeholder="사용하는 기술 스택을 입력하세요."
-              id="techList"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='사용하는 기술 스택을 입력하세요'"
             />
@@ -35,10 +37,11 @@
               <div id="box1">
                 <label id="h2">일정</label>
                 <input
-                  v-model="state.form.schedule"
-                  type="text"
-                  placeholder="스터디 일정을 입력하세요"
                   id="schedule"
+                  class="input1"
+                  type="text"
+                  v-model="state.form.schedule"
+                  placeholder="스터디 일정을 입력하세요"
                   onfocus="this.placeholder=''"
                   onblur="this.placeholder='스터디 일정을 입력하세요'"
                 />
@@ -46,10 +49,11 @@
               <div id="box1">
                 <label id="h2">스터디 기간(단위: 주)</label>
                 <input
-                  v-model="state.form.period"
-                  type="text"
-                  placeholder="숫자를 입력하세요"
                   id="period"
+                  class="input1"
+                  type="text"
+                  v-model="state.form.period"
+                  placeholder="숫자를 입력하세요"
                   onfocus="this.placeholder=''"
                   onblur="this.placeholder='숫자를 입력하세요'"
                 />
@@ -57,10 +61,11 @@
               <div id="box1">
                 <label id="h2">인원</label>
                 <input
-                  v-model="state.form.maxCount"
-                  type="text"
-                  placeholder="숫자를 입력하세요"
                   id="maxCount"
+                  class="input1"
+                  type="text"
+                  v-model="state.form.maxCount"
+                  placeholder="숫자를 입력하세요"
                   onfocus="this.placeholder=''"
                   onblur="this.placeholder='숫자를 입력하세요'"
                 />
@@ -92,15 +97,17 @@
             </div>
             <div id="box4">
               <label id="h2">프로필 사진 등록</label>
-              <div style="width: 100%; height: 80%">
+              <div id="thumbnail">
                 <img class="previewImg" />
               </div>
-              <el-upload :before-upload="beforeUpload">업로드</el-upload>
+              <el-upload :before-upload="beforeUpload">
+                <button>사진 업로드</button>
+              </el-upload>
             </div>
           </div>
           <div id="box1">
             <label id="h2">지역</label>
-            <select id="city" v-model="state.form.city">
+            <select id="city" v-model="state.form.city" class="input3">
               <option value="">지역을 선택하세요</option>
               <option value="서울">서울</option>
               <option value="부산">부산</option>
@@ -124,9 +131,8 @@
 
           <div id="box1">
             <label id="h2">소속 클럽</label>
-            <select id="clubId" v-model="state.form.clubId">
+            <select id="clubId" v-model="state.form.clubId" class="input3">
               <!-- 내가 속한 각 클럽 목록을 받아서 뿌려줘야 함 -->
-
               <option
                 :value="clubId[index]"
                 v-for="(item, index) in clubList"
@@ -134,23 +140,19 @@
               >
                 {{ item }}
               </option>
-              <!-- <option value="none">없음</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-              <option value="D">D</option> -->
             </select>
           </div>
           <div id="box1">
             <label id="h2">소개</label>
             <textarea
-              v-model="state.form.bio"
-              type="textarea"
-              placeholder="해당 스터디에 대해 소개해주세요"
               id="bio"
+              class="input4"
+              type="textarea"
+              v-model="state.form.bio"
+              placeholder="해당 스터디에 대해 소개해주세요"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='해당 스터디에 대해 소개해주세요'"
               maxlength="300"
-              show-word-limit
             />
           </div>
           <div id="btn">
@@ -160,7 +162,7 @@
         </div>
       </el-col>
       <el-col :span="6" :offset="0">
-        <div class="height100">3</div>
+        <div class="height100"></div>
       </el-col>
     </el-row>
   </div>
@@ -177,16 +179,8 @@ export default {
     const router = useRouter();
     const store = useStore();
 
-    const mypage = store.dispatch('member/readMyPage');
-    mypage.then((mypage) => {
-      store.commit('setMember', mypage.data);
-    });
+    store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
-    // console.log(user.value);
-    // console.log(user.value.city);
-    // console.log(user.value.myClubList);
-    // console.log(user.value.myClubList.length);
-    // console.log(user.value.myClubList[0]);
 
     let clubList = [];
     let clubId = [];
@@ -196,11 +190,9 @@ export default {
         clubId[index] = user.value.myClubList[index].id;
       }
     } else {
-      clubList[0] = '없음';
+      clubList[0] = '무관';
       clubId[0] = null;
     }
-    // const clubList = ['사과', '배클럽', '우주', '공장'];
-    // const clubId = [31, 32, 33, 34];
 
     // 사진 업로드
     const beforeUpload = (file) => {
@@ -256,7 +248,6 @@ export default {
       goIntroduce,
       goHome,
       store,
-      mypage,
       user,
       clubList,
       clubId,
@@ -267,6 +258,9 @@ export default {
 };
 </script>
 <style scoped>
+.bg {
+  background: #f2f2f2;
+}
 #h1 {
   width: 184px;
   height: 52px;
@@ -296,7 +290,7 @@ export default {
   text-align: left;
   color: #000000;
 }
-#input {
+.input {
   width: 782px;
   height: 50px;
 
@@ -318,7 +312,7 @@ export default {
 
   color: #919191;
 }
-#input1 {
+.input1 {
   width: 363px;
   height: 50px;
 
@@ -340,7 +334,7 @@ export default {
 
   color: #919191;
 }
-#input2 {
+.input2 {
   width: 782px;
   height: 200px;
 
@@ -365,7 +359,7 @@ export default {
 
   color: #919191;
 }
-#region {
+.input3 {
   cursor: pointer;
   width: 794px;
   height: 52px;
@@ -385,6 +379,31 @@ export default {
   line-height: 16px;
   /* identical to box height, or 114% */
   text-align: left;
+
+  color: #919191;
+}
+.input4 {
+  width: 782px;
+  height: 200px;
+
+  background: #e8e8e8;
+  border-radius: 10px;
+  border: 0px;
+  margin-bottom: 10px;
+  margin-left: 2px;
+  padding-top: 15px;
+  padding-left: 10px;
+
+  /* 비밀번호확인 텍스트 */
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  text-align: left;
+  align-content: flex-start;
+  resize: none;
 
   color: #919191;
 }
@@ -409,6 +428,13 @@ export default {
 }
 .btn-cancel {
   margin-left: 10px;
+}
+#thumbnail {
+  width: 100%;
+  height: 60%;
+
+  border: 0.5px dashed black;
+  border-radius: 3%;
 }
 #radio {
   height: 40px;

@@ -16,6 +16,7 @@
             id="email"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='이메일'"
+            @keyup.enter="signIn()"
           />
         </div>
         <div class="height10">
