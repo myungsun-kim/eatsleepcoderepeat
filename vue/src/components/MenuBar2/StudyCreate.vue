@@ -243,8 +243,8 @@ export default {
         .dispatch('study/createStudy', state.form)
 
         .then(
-          alert('asdf'),
-          router.push({ path: '/subheader/study/introduce' })
+          (window.location = '/subheader/study/introduce')
+          // router.push({ path: '/subheader/study/introduce' })
         );
     };
     const goHome = function () {
