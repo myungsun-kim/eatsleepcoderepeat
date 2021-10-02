@@ -194,7 +194,6 @@ export default {
       clubId[0] = null;
     }
 
-
     // 사진 업로드
     const beforeUpload = (file) => {
       let formData = new FormData();
@@ -235,6 +234,7 @@ export default {
     });
 
     const goIntroduce = function () {
+      console.log('스터디 생성 테스트!!!!!!!!!');
       console.log(state.form);
       // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다?)
 
