@@ -4,18 +4,62 @@ const BASE_URL = '';
 export const member = {
   // 모듈별로 구분이 가능하게 하기 위해(독립적이기 위해) vuex namespaced: true
   namespaced: true,
+  state: {
+    mypage: {},
+  },
+  mutations: {
+    updateMypage(state, payload) {
+      console.log('SAVE MY PAGE');
+      console.log(payload);
+      state.mypage = payload;
+    },
+  },
   actions: {
-    readMyPage() {
-      console.log('?');
-      // const token = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0NiIsImF1dGgiOiJST0xFX1VTRVIiLCJleHAiOjE2MzQ1OTA4OTV9.Ahg3zPGMPIdB8qHERI8W3_fOi3P6aq6df0hGhmeFTZOW-caVv980V2Jc8buS2V0_WBjlgXtsEt4eFzXeJq7ZjQ`;
-      const token = localStorage.getItem('accessToken');
-      console.log(token);
-      const res = axios.get(BASE_URL + '/api/member/mypage', {
+    readMyPage({ commit }) {
+      const res = axios
+        .get(BASE_URL + `/api/member/mypage`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        })
+        .then((res) => {
+          console.log('READ MY PAGE');
+          console.log(res);
+          console.log(res.data);
+          commit('updateMypage', res.data);
+        });
+
+      return res;
+    },
+    checkPassword({ commit }, form) {
+      console.log('데이터');
+      console.log(JSON.stringify(form));
+      console.log('form');
+      console.log(form);
+      console.log(localStorage.getItem('accessToken'));
+      const res = axios.post(BASE_URL + `/api/member/check/password`, form, {
         headers: {
-          Authorization: 'Bearer ' + token,
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       });
       return res;
+    },
+    updateMember({ commit }, form) {
+      console.log(JSON.stringify(form));
+      const res = axios.put(BASE_URL + `/api/member`, form, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+      });
+      return res;
+    },
+  },
+  getters: {
+    mypageGetter: (state) => {
+      return state.mypage;
+    },
+    myStudyListGetter: (state) => {
+      return state.mypage.myStudyList;
     },
   },
   modules: {},

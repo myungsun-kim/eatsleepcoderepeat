@@ -3,6 +3,7 @@ package com.ssafy.match.group.dto.project.response;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.dto.MemberDto;
 import com.ssafy.match.group.dto.club.ClubDto;
+import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.entity.study.Study;
 import io.swagger.annotations.ApiModel;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.Lob;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -79,9 +81,9 @@ public class ProjectInfoForUpdateResponseDto {
     @ApiParam(value = "소속된 클럽 정보")
     private ClubDto club;
 
-    @ApiModelProperty(name = "dbFile")
-    @ApiParam(value = "사진 정보")
-    private DBFile dbFile;
+    @ApiModelProperty(name = "data", example = "사진을 보이기 위한 바이트")
+    @Lob // DBFile 객체 반환시 InvalidDefinitionException: No serializer found for class
+    private byte[] data;
 
     @ApiModelProperty(name = "modifyDate", example = "2021-09-06 06:57:37.667537")
     @ApiParam(value = "마지막 수정일")
@@ -103,6 +105,16 @@ public class ProjectInfoForUpdateResponseDto {
     @ApiParam(value = "해당 프로젝트에 속한 멤버 조회", required = true)
     private List<MemberDto> memberDtos;
 
+    public void setClub(Club club){
+        if(club == null) return;
+        this.club = new ClubDto(club);
+    }
+
+    public void setData(DBFile dbFile){
+        if(dbFile == null) return;
+        this.data = dbFile.getData();
+    }
+
     @Builder
     public ProjectInfoForUpdateResponseDto(Project project) {
         this.name = project.getName();
@@ -118,7 +130,8 @@ public class ProjectInfoForUpdateResponseDto {
         this.isParticipate = project.getIsParticipate();
         this.city = project.getCity().name();
         this.status = project.getStatus().name();
-        this.dbFile = project.getDbFile();
+        setClub(project.getClub());
+        setData(project.getDbFile());
         this.modifyDate = project.getModifyDate();
         this.bio = project.getBio();
     }

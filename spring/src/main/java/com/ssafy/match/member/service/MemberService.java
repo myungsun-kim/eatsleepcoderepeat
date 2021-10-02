@@ -1,12 +1,15 @@
 package com.ssafy.match.member.service;
 
+import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.group.entity.study.Study;
+import com.ssafy.match.group.repository.club.MemberClubRepository;
+import com.ssafy.match.group.repository.study.MemberStudyRepository;
 import com.ssafy.match.member.dto.*;
 import com.ssafy.match.db.entity.*;
 import com.ssafy.match.db.entity.embedded.CompositeMemberTechstack;
 import com.ssafy.match.db.repository.*;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
-import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.repository.project.MemberProjectRepository;
 import com.ssafy.match.member.entity.*;
@@ -41,6 +44,7 @@ public class MemberService {
     private final PositionRepository positionRepository;
     private final TechstackRepository techstackRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MemberStudyRepository memberStudyRepository;
 //    private final MemberService memberService;
 //    @Transactional(readOnly = true)
 //    public MemberResponseDto getMemberInfo(String email) {
@@ -87,12 +91,50 @@ public class MemberService {
                 .orElseThrow(() -> new NullPointerException("유저가 없습니다."));
         List<Club> myClubList = memberClubRepository.findClubByMember(member);
         List<Project> myProjectList = memberProjectRepository.projectInMember(member);
+        List<Study> myStudyList = memberStudyRepository.studyInMember(member);
         List<String> expTechList = memberExperiencedTechstackRepository.findTechstackByMemberName(member);
         List<String> begTechList = memberBeginnerTechstackRepository.findTechstackByMemberName(member);
         List<MemberSns> snsList = memberSnsRepository.findAllByMember(member);
         List<Position> dpositionList = positionRepository.findAllByMember(member);
-        memberInfoDto.setCover_pic(member.getCover_pic());
-        memberInfoDto.setPortfolio(member.getPortfolio());
+        DBFile cover_pic = member.getCover_pic();
+        DBFile portpolio = member.getPortfolio();
+        memberInfoDto.setCover_pic(cover_pic.getDownload_uri());
+        memberInfoDto.setPortfolio(portpolio.getDownload_uri());
+        memberInfoDto.setMyStudyList(myStudyList);
+        memberInfoDto.setMyProjectList(myProjectList);
+        memberInfoDto.setMyClubList(myClubList);
+        memberInfoDto.setExpTechList(expTechList);
+        memberInfoDto.setBeginTechList(begTechList);
+        memberInfoDto.setSnsList(snsList);
+        memberInfoDto.setDpositionList(dpositionList);
+        return memberInfoDto;
+    }
+
+    @Transactional(readOnly = true)
+    public MemberInfoDto getMyPage() {
+        MemberInfoDto memberInfoDto = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .map(MemberInfoDto::of)
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
+                .orElseThrow(() -> new NullPointerException("유저가 없습니다."));
+        List<Club> myClubList = memberClubRepository.findClubByMember(member);
+        List<Project> myProjectList = memberProjectRepository.projectInMember(member);
+        List<Study> myStudyList = memberStudyRepository.studyInMember(member);
+        List<String> expTechList = memberExperiencedTechstackRepository.findTechstackByMemberName(member);
+        List<String> begTechList = memberBeginnerTechstackRepository.findTechstackByMemberName(member);
+        List<MemberSns> snsList = memberSnsRepository.findAllByMember(member);
+        List<Position> dpositionList = positionRepository.findAllByMember(member);
+//        memberInfoDto.setCover_pic(member.getCover_pic());
+//        memberInfoDto.setPortfolio(member.getPortfolio());
+        if (member.getCover_pic() != null) {
+            DBFile cover_pic = member.getCover_pic();
+            memberInfoDto.setCover_pic(cover_pic.getDownload_uri());
+        }
+        if (member.getPortfolio() != null) {
+            DBFile portpolio = member.getPortfolio();
+            memberInfoDto.setPortfolio(portpolio.getDownload_uri());
+        }
+        memberInfoDto.setMyStudyList(myStudyList);
         memberInfoDto.setMyProjectList(myProjectList);
         memberInfoDto.setMyClubList(myClubList);
         memberInfoDto.setExpTechList(expTechList);

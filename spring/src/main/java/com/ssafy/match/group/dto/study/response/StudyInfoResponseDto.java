@@ -3,12 +3,14 @@ package com.ssafy.match.group.dto.study.response;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.dto.MemberDto;
 import com.ssafy.match.group.dto.club.ClubDto;
+import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.study.Study;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.Lob;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,82 +20,128 @@ import lombok.Setter;
 @Setter
 public class StudyInfoResponseDto {
 
+    @ApiModelProperty(name = "id", example = "4")
+    private Long id;
+
     @ApiModelProperty(name = "name", example = "알고리즘 스터디")
-    @ApiParam(value = "스터디명", required = true)
     private String name;
 
     @ApiModelProperty(name = "schedule", example = "매주 화, 수 6시")
-    @ApiParam(value = "작업 시간", required = true)
     private String schedule;
 
     @ApiModelProperty(name = "period", example = "7")
-    @ApiParam(value = "기간(주 단위)", required = true)
     private int period;
 
     @ApiModelProperty(name = "host", example = "[\"id\": 3, \"name\": \"문일민\", \"nickname\": \"장난꾸러기\"]")
-    @ApiParam(value = "스터디장 정보(id, name, nickname)", required = true)
     private MemberDto host;
 
     @ApiModelProperty(name = "memberCount", example = "3")
-    @ApiParam(value = "현재 인원", required = true)
     private int memberCount;
 
     @ApiModelProperty(name = "maxCount", example = "3")
-    @ApiParam(value = "최대 인원", required = true)
     private int maxCount;
 
     @ApiModelProperty(name = "isPublic", example = "false")
-    @ApiParam(value = "공개 비공개", required = true)
     private Boolean isPublic;
 
     @ApiModelProperty(name = "isParticipate", example = "false")
-    @ApiParam(value = "참여 가능 여부", required = true)
     private Boolean isParticipate;
 
-    @ApiModelProperty(name = "city", example = "구미")
-    @ApiParam(value = "지역", required = true)
+    @ApiModelProperty(name = "city", example = "서울")
     private String city;
 
     @ApiModelProperty(name = "status", example = "모집, 진행, 종료 중 하나")
     @ApiParam(value = "스터디 상태", required = true)
     private String status;
 
-    @ApiModelProperty(name = "clubId", example = "[\"id\": 3, \"name\": \"SSAFY\"]")
-    @ApiParam(value = "소속된 클럽 정보")
+    @ApiModelProperty(name = "club", example = "[\"id\": 3, \"name\": \"SSAFY\"]")
     private ClubDto club;
 
-    @ApiModelProperty(name = "dbFile")
-    @ApiParam(value = "사진 정보")
-    private DBFile dbFile;
+    @ApiModelProperty(name = "cover_pic", example = "커버사진 uri")
+//    @Lob // DBFile 객체 반환시 InvalidDefinitionException: No serializer found for class
+    private String cover_pic;
 
-    @ApiModelProperty(name = "modifyDate", example = "2021-09-06 06:57:37.667537")
-    @ApiParam(value = "마지막 수정일")
-    private LocalDateTime modifyDate;
+    @ApiModelProperty(name = "modifiedDate", example = "2021-09-06 06:57:37.667537")
+    private LocalDateTime modifiedDate;
 
     @ApiModelProperty(name = "bio", example = "알고리즘 스터디입니다.")
-    @ApiParam(value = "스터디 소개", required = true)
     private String bio;
 
     @ApiModelProperty(name = "projectMember", example = "[{\"id\": 3, \"name\": \"문일민\", \"nickname\": \"별명\"}, {\"id\": 4, \"name\": \"박범진\", \"nickname\": \"내별명\"}]")
-    @ApiParam(value = "해당 스터디에 속한 멤버 조회", required = true)
     private List<MemberDto> memberDtos;
 
     @ApiModelProperty(name = "techList", example = "[\"java\", \"python\"]")
-    @ApiParam(value = "스터디 기술 스택", required = true)
     private List<String> techList;
 
-    @Builder
-    public StudyInfoResponseDto(Study study) {
-        this.name = study.getName();
-        this.schedule = study.getSchedule();
-        this.period = study.getPeriod();
-        this.maxCount = study.getMaxCount();
-        this.isPublic = study.getIsPublic();
-        this.isParticipate = study.getIsParticipate();
-        this.city = study.getCity().name();
-        this.status = study.getStatus().name();
-        this.dbFile = study.getDbFile();
-        this.modifyDate = study.getModifyDate();
-        this.bio = study.getBio();
+    public void setClub(Club club){
+        if(club == null) return;
+        this.club = new ClubDto(club);
     }
+
+    public void setData(DBFile dbFile){
+        if(dbFile == null) return;
+        this.cover_pic = dbFile.getDownload_uri();
+    }
+
+    public static StudyInfoResponseDto of(Study study) {
+        return StudyInfoResponseDto.builder()
+                .id(study.getId())
+                .name(study.getName())
+                .schedule(study.getSchedule())
+                .period(study.getPeriod())
+                .host(new MemberDto(study.getMember()))
+                .memberCount(study.getMemberCount())
+                .maxCount(study.getMaxCount())
+                .isPublic(study.getIsPublic())
+                .isParticipate(study.getIsParticipate())
+                .city(study.getCity().name())
+                .status(study.getStatus().name())
+                .club((study.getClub() == null) ? null : new ClubDto(study.getClub()))
+                .cover_pic((study.getDbFile() == null) ? null : study.getDbFile().getDownload_uri())
+                .modifiedDate(study.getModifyDate())
+                .bio(study.getBio())
+//                .memberDtos(new MemberDto(study.getMember()))
+//                .techList(new )
+//                여기부터 수정
+                .build();
+    }
+
+    @Builder
+    public StudyInfoResponseDto(Long id, String name, String schedule, int period, MemberDto host, int memberCount, int maxCount, Boolean isPublic, Boolean isParticipate, String city, String status, ClubDto club, String cover_pic, LocalDateTime modifiedDate, String bio) {
+        this.id = id;
+        this.name = name;
+        this.schedule = schedule;
+        this.period = period;
+        this.host = host;
+        this.memberCount = memberCount;
+        this.maxCount = maxCount;
+        this.isPublic = isPublic;
+        this.isParticipate = isParticipate;
+        this.city = city;
+        this.status = status;
+        this.club = club;
+        this.cover_pic = cover_pic;
+        this.modifiedDate = modifiedDate;
+        this.bio = bio;
+//        this.memberDtos = memberDtos;
+//        this.techList =techList;
+    }
+
+//    @Builder
+//    public StudyInfoResponseDto(Study study) {
+//        this.id = study.getId();
+//        this.name = study.getName();
+//        this.schedule = study.getSchedule();
+//        this.period = study.getPeriod();
+//        this.memberCount = study.getMemberCount();
+//        this.maxCount = study.getMaxCount();
+//        this.isPublic = study.getIsPublic();
+//        this.isParticipate = study.getIsParticipate();
+//        this.city = study.getCity().name();
+//        this.status = study.getStatus().name();
+//        setClub(study.getClub());
+//        setData(study.getDbFile());
+//        this.modifyDate = study.getModifyDate();
+//        this.bio = study.getBio();
+//    }
 }

@@ -1,6 +1,5 @@
-package com.ssafy.match.db.entity.embedded;
+package com.ssafy.match.group.entity.club;
 
-import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.member.entity.Member;
 import java.io.Serializable;
 import javax.persistence.Embeddable;

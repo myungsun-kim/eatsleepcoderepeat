@@ -4,66 +4,12 @@
     <router-link to="/about">Main</router-link>
   </div> -->
 
-  <!-- <el-form enctype="multipart/form-data">
-    <el-upload
-      ref="upload"
-      class="upload-demo"
-      :before-upload="beforeUpload"
-      :auto-upload="false"
-    >
-      <template #trigger>
-        <el-button size="small" type="primary">select file</el-button>
-      </template>
-      <el-button
-        style="margin-left: 10px"
-        size="small"
-        type="success"
-        @click="submitUpload"
-        >upload to server</el-button
-      >
-      <template #tip>
-        <div class="el-upload__tip">
-          jpg/png files with a size less than 500kb
-        </div>
-      </template>
-    </el-upload>
-  </el-form> -->
-
   <div class="bg-color">
     <router-view />
   </div>
 </template>
-<script lang="ts">
-// import axios from 'axios';
-export default {
-  // methods: {
-  //   submitUpload() {
-  //     console.log('7');
-  //     this.$refs.upload.submit();
-  //     // this.$refs.upload.submit();
-  //   },
-  //   beforeUpload: function (file) {
-  //     console.log('1');
-  //     console.log(file);
-  //     let formData = new FormData();
-  //     formData.append('file', file);
-  //     console.log('2');
-  //     console.log(localStorage.getItem('accessToken'));
-  //     console.log("'Bearer ' + localStorage.getItem('accessToken')");
-  //     console.log('3');
-  //     const res = axios.post('/api/file/uploadFile', formData, {
-  //       headers: {
-  //         // auth가 제대로 안넘어가면 401 error 발생
-  //         // 이해가 안되면 최민수에게 문의
-  //         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-  //         'Content-Type': 'multipart/form-data',
-  //       },
-  //     });
-  //     console.log(res);
-  //     console.log('4');
-  //   },
-  // },
-};
+<script>
+export default {};
 </script>
 <style>
 body {
@@ -132,6 +78,7 @@ body {
 .test-border {
   /* border: 1px solid black; */
   box-sizing: border-box;
+  padding: 0 3px 0 3px;
 }
 .test-router-border {
   /* border: 5px solid springgreen; */
@@ -216,6 +163,14 @@ body {
   /* border: 3px solid rgb(0, 255, 111); */
   box-sizing: border-box;
   height: 1%;
+}
+.item-border {
+  border: 0.5px solid rgba(0, 0, 0, 0.2);
+  box-sizing: border-box;
+  border-radius: 5px;
+  background: #ffffff;
+  filter: drop-shadow(2px 4px 4px rgba(0, 0, 0, 0.25));
+  padding: 0px;
 }
 
 /* buttons */
@@ -345,6 +300,12 @@ body {
 .flex-container {
   display: flex;
   align-content: center;
+}
+
+/* 아이콘 높이 가운데 정렬: introduceStudy 참고 */
+.flex-items {
+  display: flex;
+  align-items: center;
 }
 /* 정렬 끝 */
 </style>

@@ -21,7 +21,11 @@ public interface MemberStudyRepository extends JpaRepository<MemberStudy, Compos
     List<Member> findMemberInStudy(@Param("study") Study study);
 
     // 특정 멤버가 가지고 있는 활성화 스터디
-    @Query(value = "select ms.compositeMemberStudy.member from matching.member_study ms "
+    @Query(value = "select ms.compositeMemberStudy.study from matching.member_study ms "
         + "where ms.compositeMemberStudy.member = :member and ms.isActive = true")
     List<Study> studyInMember(@Param("member") Member member);
+
+    @Query(value = "select ms.compositeMemberStudy.member from matching.member_study ms "
+            + "where ms.compositeMemberStudy.study.id = :id and ms.isActive = true")
+    List<Member> findMemberByStudyId(@Param("id") Long id);
 }

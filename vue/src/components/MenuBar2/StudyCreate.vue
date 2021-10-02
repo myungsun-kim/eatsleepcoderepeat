@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="bg">
     <el-row :gutter="0">
       <el-col :span="5" :offset="0">
-        <div class="height100">1</div>
+        <div class="height100"></div>
       </el-col>
       <el-col :span="13" :offset="0">
         <div class="height100">
@@ -11,19 +11,23 @@
           <div id="box1">
             <label id="h2">스터디 이름</label>
             <input
+              id="name"
+              class="input"
               type="text"
+              v-model="state.form.name"
               placeholder="이름을 입력하세요."
-              id="input"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='이름을 입력하세요'"
             />
           </div>
           <div id="box1">
             <label id="h2">기술스택</label>
+            <!-- v-model="state.form.techList" -->
             <input
+              class="input"
+              id="techList"
               type="text"
               placeholder="사용하는 기술 스택을 입력하세요."
-              id="input"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='사용하는 기술 스택을 입력하세요'"
             />
@@ -33,9 +37,11 @@
               <div id="box1">
                 <label id="h2">일정</label>
                 <input
+                  id="schedule"
+                  class="input1"
                   type="text"
+                  v-model="state.form.schedule"
                   placeholder="스터디 일정을 입력하세요"
-                  id="input1"
                   onfocus="this.placeholder=''"
                   onblur="this.placeholder='스터디 일정을 입력하세요'"
                 />
@@ -43,9 +49,11 @@
               <div id="box1">
                 <label id="h2">스터디 기간(단위: 주)</label>
                 <input
+                  id="period"
+                  class="input1"
                   type="text"
+                  v-model="state.form.period"
                   placeholder="숫자를 입력하세요"
-                  id="input1"
                   onfocus="this.placeholder=''"
                   onblur="this.placeholder='숫자를 입력하세요'"
                 />
@@ -53,9 +61,11 @@
               <div id="box1">
                 <label id="h2">인원</label>
                 <input
+                  id="maxCount"
+                  class="input1"
                   type="text"
+                  v-model="state.form.maxCount"
                   placeholder="숫자를 입력하세요"
-                  id="input1"
                   onfocus="this.placeholder=''"
                   onblur="this.placeholder='숫자를 입력하세요'"
                 />
@@ -65,11 +75,21 @@
                 <div id="radio">
                   <!-- radio 타입은 name명이 같을 경우 하나만 선택된다. -->
                   <label>
-                    <input type="radio" name="study" value="open" />
+                    <input
+                      type="radio"
+                      name="study"
+                      value="true"
+                      v-model="state.form.isPublic"
+                    />
                     공개
                   </label>
                   <label>
-                    <input type="radio" name="study" value="private" />
+                    <input
+                      type="radio"
+                      name="study"
+                      value="false"
+                      v-model="state.form.isPublic"
+                    />
                     비공개
                   </label>
                 </div>
@@ -77,53 +97,62 @@
             </div>
             <div id="box4">
               <label id="h2">프로필 사진 등록</label>
-              <el-upload
-                class="upload-demo"
-                drag
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :file-list="fileList"
-                multiple
-              >
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">
-                  파일을 드래그 하거나
-                  <br />
-                  <em>클릭해서 업로드 하세요</em>
-                </div>
+              <div id="thumbnail">
+                <img class="previewImg" />
+              </div>
+              <el-upload :before-upload="beforeUpload">
+                <button>사진 업로드</button>
               </el-upload>
             </div>
           </div>
           <div id="box1">
             <label id="h2">지역</label>
-            <select id="region">
-              <option value="1">11</option>
-              <option value="2">22</option>
-              <option value="3">33</option>
-              <option value="4">44</option>
+            <select id="city" v-model="state.form.city" class="input3">
+              <option value="">지역을 선택하세요</option>
+              <option value="서울">서울</option>
+              <option value="부산">부산</option>
+              <option value="대구">대구</option>
+              <option value="인천">인천</option>
+              <option value="광주">광주</option>
+              <option value="대전">대전</option>
+              <option value="울산">울산</option>
+              <option value="세종">세종</option>
+              <option value="경기">경기</option>
+              <option value="강원">강원</option>
+              <option value="충북">충북</option>
+              <option value="충남">충남</option>
+              <option value="전북">전북</option>
+              <option value="전남">전남</option>
+              <option value="경북">경북</option>
+              <option value="경남">경남</option>
+              <option value="제주">제주</option>
             </select>
           </div>
 
           <div id="box1">
             <label id="h2">소속 클럽</label>
-            <select id="region">
-              <option value="none">없음</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-              <option value="D">D</option>
+            <select id="clubId" v-model="state.form.clubId" class="input3">
+              <!-- 내가 속한 각 클럽 목록을 받아서 뿌려줘야 함 -->
+              <option
+                :value="clubId[index]"
+                v-for="(item, index) in clubList"
+                :key="index"
+              >
+                {{ item }}
+              </option>
             </select>
           </div>
           <div id="box1">
             <label id="h2">소개</label>
             <textarea
+              id="bio"
+              class="input4"
               type="textarea"
+              v-model="state.form.bio"
               placeholder="해당 스터디에 대해 소개해주세요"
-              id="input2"
               onfocus="this.placeholder=''"
               onblur="this.placeholder='해당 스터디에 대해 소개해주세요'"
               maxlength="300"
-              show-word-limit
             />
           </div>
           <div id="btn">
@@ -133,29 +162,84 @@
         </div>
       </el-col>
       <el-col :span="6" :offset="0">
-        <div class="height100">3</div>
+        <div class="height100"></div>
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
 import { useRouter } from 'vue-router';
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
   name: 'studyCreate',
+  methods: {},
   setup() {
     const router = useRouter();
     const store = useStore();
-    // 독립적인 반응형 값 생성 ref()
-    // const create = ref(null);
+
+    store.dispatch('member/readMyPage');
+    const user = computed(() => store.getters['member/mypageGetter']);
+
+    let clubList = [];
+    let clubId = [];
+    if (user.value.myClubList.length > 0) {
+      for (let index = 0; index < user.value.myClubList.length; index++) {
+        clubList[index] = user.value.myClubList[index].name;
+        clubId[index] = user.value.myClubList[index].id;
+      }
+    } else {
+      clubList[0] = '무관';
+      clubId[0] = null;
+    }
+
+    // 사진 업로드
+    const beforeUpload = (file) => {
+      let formData = new FormData();
+      formData.append('file', file);
+
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function (e) {
+        // var image = document.createElement('img');
+        var image = document.querySelector('.previewImg');
+        image.src = e.target.result; //blob 매핑
+        image.width = 250;
+        image.height = 200;
+        image.alt = 'here should be some image';
+      };
+
+      const res = store.dispatch('uploadFile', formData);
+      res.then((res) => {
+        // console.log(res.data.id);
+        // console.log(res.data.fileDownloadUri);
+        state.form.uuid = res.data.id;
+      });
+    };
+
     const state = reactive({
-      form: {},
+      form: {
+        bio: '', //소개
+        city: '', //도시
+        clubId: null, //소속 클럽 id
+        isPublic: false, //공개 여부
+        maxCount: 0, //최대 인원수
+        name: '', //스터디 이름
+        period: 7, //기간
+        schedule: '', //일정 String
+        techList: ['java', 'python'], //기술 목록
+        uuid: null, //사진 uuid
+      },
     });
 
     const goIntroduce = function () {
-      router.push({ path: '/subheader/introduce' });
+      console.log('스터디 생성 테스트!!!!!!!!!');
+      console.log(state.form);
+      // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다?)
+
+      store.dispatch('study/createStudy', state.form);
+      router.push({ path: '/subheader/study/introduce' });
     };
     const goHome = function () {
       router.push({ path: '/nosubheader/home' });
@@ -165,12 +249,19 @@ export default {
       goIntroduce,
       goHome,
       store,
+      user,
+      clubList,
+      clubId,
+      beforeUpload,
       state,
     };
   },
 };
 </script>
 <style scoped>
+.bg {
+  background: #f2f2f2;
+}
 #h1 {
   width: 184px;
   height: 52px;
@@ -200,7 +291,7 @@ export default {
   text-align: left;
   color: #000000;
 }
-#input {
+.input {
   width: 782px;
   height: 50px;
 
@@ -222,7 +313,7 @@ export default {
 
   color: #919191;
 }
-#input1 {
+.input1 {
   width: 363px;
   height: 50px;
 
@@ -244,7 +335,7 @@ export default {
 
   color: #919191;
 }
-#input2 {
+.input2 {
   width: 782px;
   height: 200px;
 
@@ -269,7 +360,7 @@ export default {
 
   color: #919191;
 }
-#region {
+.input3 {
   cursor: pointer;
   width: 794px;
   height: 52px;
@@ -289,6 +380,31 @@ export default {
   line-height: 16px;
   /* identical to box height, or 114% */
   text-align: left;
+
+  color: #919191;
+}
+.input4 {
+  width: 782px;
+  height: 200px;
+
+  background: #e8e8e8;
+  border-radius: 10px;
+  border: 0px;
+  margin-bottom: 10px;
+  margin-left: 2px;
+  padding-top: 15px;
+  padding-left: 10px;
+
+  /* 비밀번호확인 텍스트 */
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  text-align: left;
+  align-content: flex-start;
+  resize: none;
 
   color: #919191;
 }
@@ -314,9 +430,21 @@ export default {
 .btn-cancel {
   margin-left: 10px;
 }
+#thumbnail {
+  width: 100%;
+  height: 60%;
+
+  border: 0.5px dashed black;
+  border-radius: 3%;
+}
 #radio {
   height: 40px;
   display: flex;
   vertical-align: middle;
+}
+.previewImg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
 }
 </style>

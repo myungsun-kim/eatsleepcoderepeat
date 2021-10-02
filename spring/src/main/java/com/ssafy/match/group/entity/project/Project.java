@@ -1,12 +1,12 @@
 package com.ssafy.match.group.entity.project;
 
 import com.ssafy.match.db.entity.City;
+import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.dto.project.request.ProjectCreateRequestDto;
 import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
-import com.ssafy.match.group.entity.club.Club;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -108,20 +108,16 @@ public class Project {
     }
 
     public void setClub(Club club){
-        if(club == null) {
-            this.club = null;
-        }
+        if(club == null) return;
         this.club = club;
     }
 
     public void setDBFile(DBFile dbFile){
-        if(dbFile == null) {
-            this.dbFile = null;
-        }
+        if(dbFile == null) return;
         this.dbFile = dbFile;
     }
 
-    public void update(ProjectUpdateRequestDto dto) {
+    public void update(ProjectUpdateRequestDto dto, Club club, DBFile dbFile) {
         this.name = dto.getName();
         this.schedule = dto.getSchedule();
         this.period = dto.getPeriod();
@@ -134,9 +130,11 @@ public class Project {
         this.status = Status.from(dto.getStatus());
         this.isPublic = dto.getIsPublic();
         this.isParticipate = dto.getIsParticipate();
+        setDBFile(dbFile);
+        setClub(club);
     }
 
-    public Project(ProjectCreateRequestDto dto) {
+    public Project(ProjectCreateRequestDto dto, Club club, DBFile dbFile) {
         this.name = dto.getName();
         this.schedule = dto.getSchedule();
         this.period = dto.getPeriod();
@@ -154,5 +152,7 @@ public class Project {
         this.isActive = true;
         this.isPublic = dto.getIsPublic();
         this.isParticipate = true;
+        setDBFile(dbFile);
+        setClub(club);
     }
 }

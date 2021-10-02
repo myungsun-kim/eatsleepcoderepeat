@@ -3,6 +3,7 @@ package com.ssafy.match.member.dto;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
+import com.ssafy.match.group.entity.study.Study;
 import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.member.entity.MemberSns;
 import com.ssafy.match.member.entity.Position;
@@ -36,11 +37,11 @@ public class MemberInfoDto {
     @ApiModelProperty(name = "position", example = "개발자")
     private String position;
 
-    @ApiModelProperty(name = "cover_pic", example = "사진 데이터")
-    private DBFile cover_pic;
+    @ApiModelProperty(name = "cover_pic", example = "사진 uri")
+    private String cover_pic;
 
-    @ApiModelProperty(name = "portfolio", example = "사진 데이터")
-    private DBFile portfolio;
+    @ApiModelProperty(name = "portfolio", example = "포트폴리오 uri")
+    private String portfolio;
 
     @ApiModelProperty(name = "portfolio_uri", example = "https://naver.com")
     private String portfolio_uri;
@@ -49,6 +50,7 @@ public class MemberInfoDto {
     private List<Club> myClubList = new ArrayList<>();
     @ApiModelProperty(name = "myProjectList", example = "[\"python\",\"java\"]")
     private List<Project> myProjectList = new ArrayList<>();
+    private List<Study> myStudyList = new ArrayList<>();
     @ApiModelProperty(name = "expTechList", example = "[\"python\",\"java\"]")
     private List<String> expTechList = new ArrayList<>();
     @ApiModelProperty(name = "beginTechList", example = "[\"python\",\"java\"]")
@@ -84,7 +86,7 @@ public class MemberInfoDto {
     }
 
     @Builder
-    public MemberInfoDto(String email, String name, String nickname, String tel, String bio, String city, String position, DBFile cover_pic, DBFile portfolio, String portfolio_uri) {
+    public MemberInfoDto(String email, String name, String nickname, String tel, String bio, String city, String position, String cover_pic, String portfolio, String portfolio_uri) {
         this.email = email;
         this.name = name;
         this.nickname = nickname;

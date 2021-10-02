@@ -18,6 +18,8 @@ import javax.validation.Valid;
 public class MemberController {
     private final MemberService memberService;
 
+//    @GetMapping("")
+
     @PostMapping("/check/password")
     @ApiOperation(value = "비밀번호 체크")
     @ApiResponses({
@@ -31,6 +33,12 @@ public class MemberController {
     @ApiOperation(value = "마이 페이지")
     public ResponseEntity<MemberInfoDto> getMyPage(@PathVariable("email") String email) {
         return ResponseEntity.ok(memberService.getMyPage(email));
+    }
+
+    @GetMapping("/mypage")
+    @ApiOperation(value = "마이 페이지")
+    public ResponseEntity<MemberInfoDto> getMyPage() {
+        return ResponseEntity.ok(memberService.getMyPage());
     }
 
     @PutMapping

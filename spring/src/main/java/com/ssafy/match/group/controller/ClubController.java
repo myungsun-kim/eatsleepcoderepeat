@@ -1,19 +1,16 @@
 package com.ssafy.match.group.controller;
 
-import com.ssafy.match.member.entity.Member;
-import com.ssafy.match.member.repository.MemberRepository;
-import com.ssafy.match.file.repository.DBFileRepository;
-import com.ssafy.match.group.dto.club.ClubRequestDto;
-import com.ssafy.match.group.entity.club.Club;
-import com.ssafy.match.group.repository.club.ClubRepository;
+import com.ssafy.match.group.dto.club.request.ClubCreateRequestDto;
+import com.ssafy.match.group.dto.club.request.ClubUpdateRequestDto;
+import com.ssafy.match.group.dto.club.response.ClubInfoResponseDto;
+import com.ssafy.match.group.service.ClubService;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import java.time.LocalDateTime;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,79 +19,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/club")
 public class ClubController {
 
-    @Autowired
-    DBFileRepository dbFileRepository;
-    @Autowired
-    ClubRepository clubRepository;
-    @Autowired
-    MemberRepository memberRepository;
+    private final ClubService clubService;
 
-    @PostMapping("/")
+    @PostMapping
     @ApiOperation(value = "클럽 생성", notes = "<strong>받은 클럽 정보</strong>를 사용해서 클럽을 생성한다.")
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "성공"),
-    })
-    public ResponseEntity<?> createClub(@RequestBody ClubRequestDto dto){
-
-        Member member = memberRepository.getById(dto.getHost_id());
-
-        Club club = new Club(dto.getName(), member, LocalDateTime.now(), dto.getBio(),
-            dto.getCity(), 1, dto.getMax_count(), dto.is_public(), true, null);
-
-        if (dto.getUuid() != null) {
-            club.setDbFile(dbFileRepository.getById(dto.getUuid()));
-        }
-
-        clubRepository.save(club);
-
-        return ResponseEntity.ok(HttpStatus.OK);
+    public ResponseEntity<Long> create(@RequestBody ClubCreateRequestDto dto) throws Exception {
+        return ResponseEntity.ok(clubService.create(dto));
     }
 
-    @PatchMapping("/{id}")
-    @ApiOperation(value = "클럽 수정", notes = "<strong>받은 클럽 정보</strong>를 사용해서 클럽을 수정한다.")
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "성공"),
-    })
-    public ResponseEntity<?> updateClub(@RequestBody ClubRequestDto dto, @PathVariable("id") Long id){
-
-        Club club = clubRepository.getById(id);
-
-        Member member = memberRepository.getById(dto.getHost_id());
-
-        club.setName(dto.getName());
-        club.setMember(member);
-        club.setBio(dto.getBio());
-        club.setCity(dto.getCity());
-        club.setMax_count(dto.getMax_count());
-        club.set_public(dto.is_public());
-
-        if (dto.getUuid() != null) {
-            club.setDbFile(dbFileRepository.getById(dto.getUuid()));
-        } else {
-            club.setDbFile(null);
-        }
-
-        clubRepository.save(club);
-
-        return ResponseEntity.ok(HttpStatus.OK);
+    @PatchMapping("/{clubId}")
+    @ApiOperation(value = "클럽 수정", notes = "<strong>받은 클럽 정보</strong>를 사용해서 클럽를 수정한다.")
+    public ResponseEntity<HttpStatus> update(@PathVariable("clubId") Long clubId,
+        @RequestBody ClubUpdateRequestDto dto) throws Exception {
+        return ResponseEntity.ok(clubService.update(clubId, dto));
     }
 
-    @DeleteMapping("/{id}")
-    @ApiOperation(value = "클럽 삭제", notes = "<strong>받은 클럽 Id</strong>로 클럽을 삭제한다.")
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "성공"),
-    })
-    public ResponseEntity deleteClub(@PathVariable("id") Long id){
+    @DeleteMapping("/{clubId}")
+    @ApiOperation(value = "클럽 삭제", notes = "<strong>받은 클럽 Id</strong>로 클럽와 포함된 멤버관계를 삭제한다.")
+    public ResponseEntity<HttpStatus> delete(@PathVariable("clubId") Long clubId)
+        throws Exception {
+        return ResponseEntity.ok(clubService.delete(clubId));
+    }
 
-        Club club = clubRepository.getById(id);
-        club.set_active(false);
+    @DeleteMapping("/{clubId}/member")
+    @ApiOperation(value = "클럽 탈퇴", notes = "<strong>받은 클럽 id</strong>로 클럽에서 탈퇴한다.")
+    public ResponseEntity<HttpStatus> deleteMember(@PathVariable("clubId") Long clubId) throws Exception {
+        return ResponseEntity.ok(clubService.removeMember(clubId));
+    }
 
-        clubRepository.save(club);
+    @GetMapping
+    @ApiOperation(value = "모든 클럽 조회", notes = "모든 클럽를 작성일 기준 내림차순으로 받는다")
+    public ResponseEntity<List<ClubInfoResponseDto>> getAllClub() throws Exception {
+        return ResponseEntity.ok(clubService.getAllClub());
+    }
 
-        return ResponseEntity.ok(HttpStatus.OK);
+    @GetMapping("/{clubId}")
+    @ApiOperation(value = "클럽 상세정보 조회",
+        notes = "<strong>받은 클럽 id</strong>로 해당 클럽 정보 + 수정을 위한 정보(사용자 클럽 리스트, 지역, 상태 리스트 등")
+    public ResponseEntity<ClubInfoResponseDto> getOneClub(@PathVariable("clubId") Long clubId)
+        throws Exception {
+        return ResponseEntity.ok(clubService.getOneClub(clubId));
     }
 
 }

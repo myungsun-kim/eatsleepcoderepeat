@@ -1,7 +1,17 @@
 <template>
   <el-row style="height: 85%">
     <el-col :span="3"></el-col>
-    <el-col :span="18">회원목록테이블</el-col>
+    <el-col :span="18">
+      회원목록테이블
+      <el-row>
+        <el-col :span="4"></el-col>
+        <el-col :span="2">리스트</el-col>
+        <el-col :span="10"><CheckApplicationModal /></el-col>
+        <el-col :span="2"><MemberAcceptModal /></el-col>
+        <el-col :span="2"><MemberRejectModal /></el-col>
+        <el-col :span="4"></el-col>
+      </el-row>
+    </el-col>
     <el-col :span="3"></el-col>
   </el-row>
   <el-row style="height: 15%">
@@ -16,9 +26,9 @@
       <el-row style="height: 35%">
         <el-col :span="4"></el-col>
         <el-col :span="2">리스트</el-col>
-        <el-col :span="10"><CheckApplicationModal /></el-col>
-        <el-col :span="2"><MemberAcceptModal /></el-col>
-        <el-col :span="2"><MemberRejectModal /></el-col>
+        <el-col :span="10"></el-col>
+        <el-col :span="2"></el-col>
+        <el-col :span="2"></el-col>
         <el-col :span="4"></el-col>
       </el-row>
       <el-row class="height10"> </el-row>

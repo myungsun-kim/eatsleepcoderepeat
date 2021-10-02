@@ -1,9 +1,12 @@
 package com.ssafy.match.group.entity.club;
 
 import com.ssafy.match.db.entity.City;
-import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.file.entity.DBFile;
+import com.ssafy.match.group.dto.club.request.ClubCreateRequestDto;
+import com.ssafy.match.group.dto.club.request.ClubUpdateRequestDto;
+import com.ssafy.match.member.entity.Member;
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -26,39 +29,69 @@ import lombok.Setter;
 public class Club {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "host_id")
-    private Member member;
-    private LocalDateTime create_date;
+    private String topic;
     private String bio;
+    @Column(name = "member_count")
+    private int memberCount;
+    @Column(name = "max_count")
+    private int maxCount;
 
     @Enumerated(EnumType.STRING)
     private City city;
-    private int member_count;
-    private int max_count;
-    private boolean is_public;
-    private boolean is_active;
+    @Column(name = "create_Date")
+    private LocalDateTime createDate;
+
+    @Column(name = "is_active")
+    private Boolean isActive;
+    @Column(name = "is_public")
+    private Boolean isPublic;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "host_id")
+    private Member member;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cover_pic")
     private DBFile dbFile;
 
-    public Club(String name, Member member, LocalDateTime create_date, String bio,
-        City city, int member_count, int max_count, boolean is_public, boolean is_active,
-        DBFile dbFile) {
-        this.name = name;
-        this.member = member;
-        this.create_date = create_date;
-        this.bio = bio;
-        this.city = city;
-        this.member_count = member_count;
-        this.max_count = max_count;
-        this.is_public = is_public;
-        this.is_active = is_active;
-        this.dbFile = dbFile;
+    public void addMember(){
+        this.memberCount++;
     }
+
+    public void removeMember(){
+        this.memberCount--;
+    }
+
+    public void changeMember(Member member) throws Exception {
+        if(member == null){
+            throw new Exception("프로젝트장은 존재해야합니다.");
+        }
+        this.member = member;
+    }
+
+    public void update(ClubUpdateRequestDto dto) {
+        this.name = dto.getName();
+        this.topic = dto.getTopic();
+        this.bio = dto.getBio();
+        this.maxCount = dto.getMaxCount();
+        this.city = City.from(dto.getCity());
+        this.isPublic = dto.getIsPublic();
+    }
+
+    public Club(ClubCreateRequestDto dto) {
+        this.name = dto.getName();
+        this.topic = dto.getTopic();
+        this.bio = dto.getBio();
+        this.memberCount = 0;
+        this.maxCount = dto.getMaxCount();
+        this.city = City.from(dto.getCity());
+        this.createDate = LocalDateTime.now();
+        this.isActive = true;
+        this.isPublic = dto.getIsPublic();
+    }
+
 }

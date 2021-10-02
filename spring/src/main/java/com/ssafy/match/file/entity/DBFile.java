@@ -24,6 +24,8 @@ public class DBFile {
     private String file_name;
     private String file_type;
 
+    private String download_uri;
+
     @Lob
     private byte[] data;
 

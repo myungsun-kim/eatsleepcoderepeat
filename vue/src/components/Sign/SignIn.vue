@@ -16,6 +16,7 @@
             id="email"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='이메일'"
+            @keyup.enter="signIn()"
           />
         </div>
         <div class="height10">
@@ -26,6 +27,7 @@
             id="password"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='비밀번호'"
+            @keyup.enter="signIn()"
           />
         </div>
         <div class="height5">
@@ -48,7 +50,7 @@
         </div>
         <div class="height5"></div>
         <div class="height5">
-          <el-button id="signin" @click="goSignUp">회원가입</el-button>
+          <el-button id="signin" @click="goSignUp()">회원가입</el-button>
         </div>
         <div class="height5"></div>
         <div class="height30"></div>
@@ -87,7 +89,6 @@ export default {
         .then((res) => {
           if (res.status == 200) {
             localStorage.setItem('accessToken', res.data.accessToken);
-            console.log('바로밑이 토큰 저장!!!!!!!!!');
             console.log(localStorage.getItem('accessToken'));
             console.log(jwt_decode(res.data.accessToken));
             window.location = '/';

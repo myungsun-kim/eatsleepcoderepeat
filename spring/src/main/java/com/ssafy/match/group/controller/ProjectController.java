@@ -30,7 +30,7 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-    @GetMapping("/infoforcreate")
+    @GetMapping("/myclublist")
     @ApiOperation(value = "프로젝트 생성을 위한 정보", notes = "<strong>프로젝트를 생성하기 위한</strong> 생성할 멤버의 클럽을 받는다")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -76,17 +76,17 @@ public class ProjectController {
         return ResponseEntity.ok(projectService.delete(projectId));
     }
 
-    @DeleteMapping("/{projectId}/{memberId}")
-    @ApiOperation(value = "프로젝트 탈퇴", notes = "<strong>받은 프로젝트 id, 멤버 id</strong>로 프로젝트에서 탈퇴한다.")
+    @DeleteMapping("/{projectId}/member")
+    @ApiOperation(value = "프로젝트 탈퇴", notes = "<strong>받은 프로젝트 id</strong>로 프로젝트에서 탈퇴한다.")
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public void deleteMember(@PathVariable("projectId") Long projectId, @PathVariable("memberId") Long memberId)
+    public void deleteMember(@PathVariable("projectId") Long projectId)
         throws Exception {
-        projectService.removeMember(projectId, memberId);
+        projectService.removeMember(projectId);
     }
 
-    @GetMapping("/detail/{projectId}")
+    @GetMapping("/{projectId}")
     @ApiOperation(value = "프로젝트 상세정보 조회",
         notes = "<strong>받은 프로젝트 Id</strong>로 해당 프로젝트를 조회 + 전체 기술스택, 역할별 인원 닉네임, 전체 지역 정보, 포함 인원 등")
     @ApiResponses({
@@ -102,7 +102,7 @@ public class ProjectController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
     })
-    public ResponseEntity<List<Project>> projectInMember(@PathVariable("memberId") Long memberId)
+    public ResponseEntity<List<ProjectInfoResponseDto>> projectInMember(@PathVariable("memberId") Long memberId)
         throws Exception {
         return ResponseEntity.ok(projectService.projectInMember(memberId));
     }
