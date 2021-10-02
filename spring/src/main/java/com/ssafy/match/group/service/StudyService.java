@@ -26,7 +26,7 @@ public interface StudyService {
 
     HttpStatus delete(Long studyId) throws Exception;
 
-    List<StudyInfoResponseDto> getAllStudy(Pageable pageable);
+    Page<StudyInfoResponseDto> getAllStudy(Pageable pageable);
 
     StudyInfoResponseDto getOneStudy(Long studyId) throws Exception;
 
