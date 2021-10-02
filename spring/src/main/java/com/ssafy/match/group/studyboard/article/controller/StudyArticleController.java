@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/boards")
+@RequestMapping("/studyboards")
 public class StudyArticleController {
     private final StudyArticleService studyArticleService;
 

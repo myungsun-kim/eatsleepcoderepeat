@@ -118,6 +118,27 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public Docket clubBoardApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+//            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
+            .globalRequestParameters(headers)
+            .apiInfo(apiInfo)
+            .groupName("ClubBoard")
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.clubboard"))
+
+            // api 필요한 클래스패스 추가하기
+            .paths(
+                PathSelectors.ant("/**/club/**")
+                    .or(PathSelectors.ant("/**/clubboards/**"))
+                    .or(PathSelectors.ant("/**/clubcomment/**"))
+//                PathSelectors.any()
+            )
+            .build()
+            .useDefaultResponseMessages(false);
+    }
+
+    @Bean
     public Docket studyBoardApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .globalRequestParameters(headers)
