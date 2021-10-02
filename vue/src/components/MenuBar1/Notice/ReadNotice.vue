@@ -184,6 +184,10 @@ export default {
 }
 #select:hover {
   border: 1px solid #409eff;
-  background: #409eff;
+  color: #409eff;
+}
+#select:visited {
+  border: 1px solid black;
+  color: black;
 }
 </style>
