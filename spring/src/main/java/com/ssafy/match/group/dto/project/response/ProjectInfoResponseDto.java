@@ -93,13 +93,13 @@ public class ProjectInfoResponseDto {
     @ApiParam(value = "소속된 클럽 정보")
     private ClubDto club;
 
-    @ApiModelProperty(name = "data", example = "사진을 보이기 위한 바이트")
-    @Lob // DBFile 객체 반환시 InvalidDefinitionException: No serializer found for class
-    private byte[] data;
+    @ApiModelProperty(name = "cover_pic", example = "사진 uri")
+//    @Lob // DBFile 객체 반환시 InvalidDefinitionException: No serializer found for class
+    private String cover_pic;
 
     @ApiModelProperty(name = "modifyDate", example = "2021-09-06 06:57:37.667537")
     @ApiParam(value = "마지막 수정일")
-    private LocalDateTime modifyDate;
+    private LocalDateTime modifiedDate;
 
     @ApiModelProperty(name = "bio", example = "Git 매칭 프로젝트입니다.")
     @ApiParam(value = "프로젝트 소개", required = true)
@@ -113,35 +113,82 @@ public class ProjectInfoResponseDto {
     @ApiParam(value = "프로젝트 기술 스택", required = true)
     private List<String> techList;
 
-    public void setClub(Club club){
-        if(club == null) return;
-        this.club = new ClubDto(club);
-    }
-
-    public void setData(DBFile dbFile){
-        if(dbFile == null) return;
-        this.data = dbFile.getData();
+    public static ProjectInfoResponseDto of(Project project) {
+        return ProjectInfoResponseDto.builder()
+                .id(project.getId())
+                .name(project.getName())
+                .schedule(project.getSchedule())
+                .period(project.getPeriod())
+                .host(new MemberDto(project.getMember()))
+                .developerCount(project.getDeveloperCount())
+                .developerMaxCount(project.getDeveloperMaxCount())
+                .designerCount(project.getDesignerCount())
+                .designerMaxCount(project.getDesignerMaxCount())
+                .plannerCount(project.getPlannerCount())
+                .plannerMaxCount(project.getPlannerMaxCount())
+                .isPublic(project.getIsPublic())
+                .isParticipate(project.getIsParticipate())
+                .city(project.getCity().name())
+                .status(project.getStatus().name())
+                .club((project.getClub() == null) ? null : new ClubDto(project.getClub()))
+                .cover_pic((project.getDbFile() == null) ? null : project.getDbFile().getDownload_uri())
+                .modifiedDate(project.getModifyDate())
+                .bio(project.getBio())
+                .build();
     }
 
     @Builder
-    public ProjectInfoResponseDto(Project project) {
-        this.id = project.getId();
-        this.developerCount = project.getDeveloperCount();
-        this.developerMaxCount = project.getDeveloperMaxCount();
-        this.designerCount = project.getDesignerCount();
-        this.designerMaxCount = project.getDesignerMaxCount();
-        this.plannerCount = project.getPlannerCount();
-        this.plannerMaxCount = project.getPlannerMaxCount();
-        this.name = project.getName();
-        this.schedule = project.getSchedule();
-        this.period = project.getPeriod();
-        this.isPublic = project.getIsPublic();
-        this.isParticipate = project.getIsParticipate();
-        this.city = project.getCity().name();
-        this.status = project.getStatus().name();
-        setClub(project.getClub());
-        setData(project.getDbFile());
-        this.modifyDate = project.getModifyDate();
-        this.bio = project.getBio();
+    public ProjectInfoResponseDto(Long id, String name, String schedule, int period, MemberDto host, int developerCount, int developerMaxCount, int designerCount, int designerMaxCount, int plannerCount, int plannerMaxCount, Boolean isPublic, Boolean isParticipate, String city, String status, ClubDto club, String cover_pic, LocalDateTime modifiedDate, String bio) {
+        this.id = id;
+        this.name = name;
+        this.schedule = schedule;
+        this.period = period;
+        this.host = host;
+        this.developerCount = developerCount;
+        this.developerMaxCount = developerMaxCount;
+        this.designerCount = designerCount;
+        this.designerMaxCount = designerMaxCount;
+        this.plannerCount = plannerCount;
+        this.plannerMaxCount = plannerMaxCount;
+        this.isPublic = isPublic;
+        this.isParticipate = isParticipate;
+        this.city = city;
+        this.status = status;
+        this.club = club;
+        this.cover_pic = cover_pic;
+        this.modifiedDate = modifiedDate;
+        this.bio = bio;
     }
+
+//    public void setClub(Club club){
+//        if(club == null) return;
+//        this.club = new ClubDto(club);
+//    }
+//
+//    public void setData(DBFile dbFile){
+//        if(dbFile == null) return;
+//        this.data = dbFile.getData();
+//    }
+//
+//    @Builder
+//    public ProjectInfoResponseDto(Project project) {
+//        this.id = project.getId();
+//        this.developerCount = project.getDeveloperCount();
+//        this.developerMaxCount = project.getDeveloperMaxCount();
+//        this.designerCount = project.getDesignerCount();
+//        this.designerMaxCount = project.getDesignerMaxCount();
+//        this.plannerCount = project.getPlannerCount();
+//        this.plannerMaxCount = project.getPlannerMaxCount();
+//        this.name = project.getName();
+//        this.schedule = project.getSchedule();
+//        this.period = project.getPeriod();
+//        this.isPublic = project.getIsPublic();
+//        this.isParticipate = project.getIsParticipate();
+//        this.city = project.getCity().name();
+//        this.status = project.getStatus().name();
+//        setClub(project.getClub());
+//        setData(project.getDbFile());
+//        this.modifyDate = project.getModifyDate();
+//        this.bio = project.getBio();
+//    }
 }
