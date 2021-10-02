@@ -49,7 +49,7 @@ export default {
     const store = useStore();
     const router = useRouter();
     const modalOpen = computed(() => store.getters['scrollGetter']);
-    const user = computed(() => store.getters['member/mypageGetter']);
+    const user = computed(() => store.state.user);
 
     const state = reactive({
       form: {

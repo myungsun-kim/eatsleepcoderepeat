@@ -37,8 +37,8 @@ export const member = {
       console.log(form);
       const res = axios.get(form, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          'Content-Type': 'image/png',
+          // Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          // 'Content-Type': 'image/png',
         },
       });
       return res;
@@ -65,11 +65,15 @@ export const member = {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       });
+      console.log('수정..?');
+      console.log(res);
       return res.data;
     },
   },
   getters: {
     mypageGetter: (state) => {
+      console.log('getter');
+      console.log(state.mypage);
       return state.mypage;
     },
     myStudyListGetter: (state) => {
