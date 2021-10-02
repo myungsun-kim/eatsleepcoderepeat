@@ -148,6 +148,21 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public Docket studyBoardArticleCommentApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .globalRequestParameters(headers)
+                .apiInfo(apiInfo)
+                .groupName("StudyArticleComment")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard.comment.controller"))
+                .paths(
+                        PathSelectors.ant("/**/studycomment/**")
+                )
+                .build()
+                .useDefaultResponseMessages(false);
+    }
+
+    @Bean
     public Docket fileApi() {
         return new Docket(DocumentationType.SWAGGER_2)
 //            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
