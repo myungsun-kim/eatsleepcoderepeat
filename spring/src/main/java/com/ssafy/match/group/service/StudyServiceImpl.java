@@ -140,7 +140,7 @@ public class StudyServiceImpl implements StudyService {
     }
 
     public Page<StudyInfoResponseDto> getAllStudy(Pageable pageable) {
-        Page<StudyInfoResponseDto> studyInfoResponseDtos = studyRepository.findByIsActiveAndIsPublicAndStatusIsNot(Boolean.TRUE, Boolean.FALSE, Status.종료, pageable)
+        Page<StudyInfoResponseDto> studyInfoResponseDtos = studyRepository.findByIsActiveAndIsPublicAndStatusIsNot(Boolean.TRUE, Boolean.TRUE, Status.종료, pageable)
                 .map(StudyInfoResponseDto::of);
         for (StudyInfoResponseDto studyInfoResponseDto: studyInfoResponseDtos.getContent()) {
             studyInfoResponseDto.setMemberDtos(makeMemberDtos(memberStudyRepository.findMemberByStudyId(studyInfoResponseDto.getId())));

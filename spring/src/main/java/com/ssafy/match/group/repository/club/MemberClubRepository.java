@@ -7,6 +7,8 @@ import com.ssafy.match.group.entity.club.CompositeMemberClub;
 import com.ssafy.match.group.entity.club.MemberClub;
 import com.ssafy.match.member.entity.Member;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -27,4 +29,7 @@ public interface MemberClubRepository extends JpaRepository<MemberClub, Composit
         + "where mc.compositeMemberClub.member = :member and mc.isActive = true")
     List<Club> findClubByMember(@Param("member") Member member);
 
+    @Query(value = "select mc.compositeMemberClub.member from matching.member_club mc "
+            + "where mc.compositeMemberClub.club.id = :id and mc.isActive = true")
+    List<Member> findMemberByClubId(@Param("id") Long id);
 }

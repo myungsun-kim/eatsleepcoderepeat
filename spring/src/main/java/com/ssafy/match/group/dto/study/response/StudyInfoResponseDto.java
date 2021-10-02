@@ -58,7 +58,6 @@ public class StudyInfoResponseDto {
     private ClubDto club;
 
     @ApiModelProperty(name = "cover_pic", example = "커버사진 uri")
-//    @Lob // DBFile 객체 반환시 InvalidDefinitionException: No serializer found for class
     private String cover_pic;
 
     @ApiModelProperty(name = "modifiedDate", example = "2021-09-06 06:57:37.667537")
@@ -100,9 +99,6 @@ public class StudyInfoResponseDto {
                 .cover_pic((study.getDbFile() == null) ? null : study.getDbFile().getDownload_uri())
                 .modifiedDate(study.getModifyDate())
                 .bio(study.getBio())
-//                .memberDtos(new MemberDto(study.getMember()))
-//                .techList(new )
-//                여기부터 수정
                 .build();
     }
 
@@ -123,25 +119,5 @@ public class StudyInfoResponseDto {
         this.cover_pic = cover_pic;
         this.modifiedDate = modifiedDate;
         this.bio = bio;
-//        this.memberDtos = memberDtos;
-//        this.techList =techList;
     }
-
-//    @Builder
-//    public StudyInfoResponseDto(Study study) {
-//        this.id = study.getId();
-//        this.name = study.getName();
-//        this.schedule = study.getSchedule();
-//        this.period = study.getPeriod();
-//        this.memberCount = study.getMemberCount();
-//        this.maxCount = study.getMaxCount();
-//        this.isPublic = study.getIsPublic();
-//        this.isParticipate = study.getIsParticipate();
-//        this.city = study.getCity().name();
-//        this.status = study.getStatus().name();
-//        setClub(study.getClub());
-//        setData(study.getDbFile());
-//        this.modifyDate = study.getModifyDate();
-//        this.bio = study.getBio();
-//    }
 }

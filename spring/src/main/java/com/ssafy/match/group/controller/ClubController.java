@@ -7,6 +7,11 @@ import com.ssafy.match.group.service.ClubService;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,9 +57,9 @@ public class ClubController {
     }
 
     @GetMapping
-    @ApiOperation(value = "모든 클럽 조회", notes = "모든 클럽를 작성일 기준 내림차순으로 받는다")
-    public ResponseEntity<List<ClubInfoResponseDto>> getAllClub() throws Exception {
-        return ResponseEntity.ok(clubService.getAllClub());
+    @ApiOperation(value = "모든 클럽 조회", notes = "(isPublic :True, isActive:True)를 만족하는 클럽들을 작성일 기준 내림차순으로 받는다")
+    public ResponseEntity<Page<ClubInfoResponseDto>> getAllClub(@PageableDefault(size = 10) @SortDefault(sort = "createDate", direction= Sort.Direction.DESC) Pageable pageable) throws Exception {
+        return ResponseEntity.ok(clubService.getAllClub(pageable));
     }
 
     @GetMapping("/{clubId}")

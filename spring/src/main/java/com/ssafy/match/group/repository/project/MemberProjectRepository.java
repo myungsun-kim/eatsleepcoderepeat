@@ -1,5 +1,6 @@
 package com.ssafy.match.group.repository.project;
 
+import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.group.entity.project.CompositeMemberProject;
 import com.ssafy.match.group.entity.project.MemberProject;
@@ -36,4 +37,12 @@ public interface MemberProjectRepository extends JpaRepository<MemberProject, Co
     @Query(value = "select mp.compositeMemberProject.project from matching.member_project mp "
         + "where mp.compositeMemberProject.member = :member and mp.isActive = true")
     List<Project> projectInMember(@Param("member") Member member);
+
+    @Query(value = "select mp.compositeMemberProject.member from matching.member_project mp "
+            + "where mp.compositeMemberProject.project.id = :id and mp.isActive = true")
+    List<Member> findMemberByProjectId(@Param("id") Long id);
+
+    @Query(value = "select mp.compositeMemberProject.project from matching.member_project mp "
+            + "where mp.compositeMemberProject.member = :member and mp.isActive = true and mp.compositeMemberProject.project.status <> :status")
+    List<Project> getProjectsByMemberAndStatus(@Param("member") Member member, @Param("status") Enum<Status> status);
 }

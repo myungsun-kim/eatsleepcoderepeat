@@ -11,6 +11,9 @@ import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
 import com.ssafy.match.group.dto.project.request.ProjectUpdateRequestDto;
 import com.ssafy.match.group.entity.project.Project;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
 public interface ProjectService {
@@ -23,7 +26,7 @@ public interface ProjectService {
 
     HttpStatus delete(Long projectId) throws Exception;
 
-    List<ProjectInfoResponseDto> getAllProject();
+    Page<ProjectInfoResponseDto> getAllProject(Pageable pageable);
 
     ProjectInfoResponseDto getOneProject(Long projectId) throws Exception;
 
