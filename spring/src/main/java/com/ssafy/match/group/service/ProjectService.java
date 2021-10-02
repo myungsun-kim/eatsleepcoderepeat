@@ -33,7 +33,7 @@ public interface ProjectService {
 
     void addMember(Project project, Member member, String role) throws Exception;
 
-    void removeMember(Long projectId, Long memberId) throws Exception;
+    void removeMember(Long projectId) throws Exception;
 
     void changeRole(Project project, Member member, String role) throws Exception;
 

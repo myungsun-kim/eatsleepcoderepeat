@@ -269,19 +269,16 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Transactional
-    public void removeMember(Long projectId, Long memberId) throws Exception {
+    public void removeMember(Long projectId) throws Exception {
         Project project = findProject(projectId);
-        Member member = findMember(memberId);
-
-        if(project.getMember().getId().equals(memberId)){
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new NullPointerException("잘못된 사용자 입니다.(사용자 없음)"));
+        if(project.getMember().getId().equals(member.getId())){
             throw new Exception("프로젝트장은 탈퇴할 수 없습니다.");
         }
-
         CompositeMemberProject compositeMemberProject = new CompositeMemberProject(member, project);
         // DB에 해당 멤버 기록이 없다면 새로 생성
         MemberProject memberProject = memberProjectRepository.findById(compositeMemberProject)
             .orElseThrow(() -> new NullPointerException("이미 탈퇴된 멤버입니다."));
-
         memberProject.deactivation();
         changeRole(project, member, "");
     }

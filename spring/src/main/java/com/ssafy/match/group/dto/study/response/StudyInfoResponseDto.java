@@ -57,12 +57,12 @@ public class StudyInfoResponseDto {
     @ApiModelProperty(name = "club", example = "[\"id\": 3, \"name\": \"SSAFY\"]")
     private ClubDto club;
 
-    @ApiModelProperty(name = "data", example = "사진을 보이기 위한 바이트")
-    @Lob // DBFile 객체 반환시 InvalidDefinitionException: No serializer found for class
-    private byte[] data;
+    @ApiModelProperty(name = "cover_pic", example = "커버사진 uri")
+//    @Lob // DBFile 객체 반환시 InvalidDefinitionException: No serializer found for class
+    private String cover_pic;
 
-    @ApiModelProperty(name = "modifyDate", example = "2021-09-06 06:57:37.667537")
-    private LocalDateTime modifyDate;
+    @ApiModelProperty(name = "modifiedDate", example = "2021-09-06 06:57:37.667537")
+    private LocalDateTime modifiedDate;
 
     @ApiModelProperty(name = "bio", example = "알고리즘 스터디입니다.")
     private String bio;
@@ -80,24 +80,68 @@ public class StudyInfoResponseDto {
 
     public void setData(DBFile dbFile){
         if(dbFile == null) return;
-        this.data = dbFile.getData();
+        this.cover_pic = dbFile.getDownload_uri();
+    }
+
+    public static StudyInfoResponseDto of(Study study) {
+        return StudyInfoResponseDto.builder()
+                .id(study.getId())
+                .name(study.getName())
+                .schedule(study.getSchedule())
+                .period(study.getPeriod())
+                .host(new MemberDto(study.getMember()))
+                .memberCount(study.getMemberCount())
+                .maxCount(study.getMaxCount())
+                .isPublic(study.getIsPublic())
+                .isParticipate(study.getIsParticipate())
+                .city(study.getCity().name())
+                .status(study.getStatus().name())
+                .club((study.getClub() == null) ? null : new ClubDto(study.getClub()))
+                .cover_pic((study.getDbFile() == null) ? null : study.getDbFile().getDownload_uri())
+                .modifiedDate(study.getModifyDate())
+                .bio(study.getBio())
+//                .memberDtos(new MemberDto(study.getMember()))
+//                .techList(new )
+//                여기부터 수정
+                .build();
     }
 
     @Builder
-    public StudyInfoResponseDto(Study study) {
-        this.id = study.getId();
-        this.name = study.getName();
-        this.schedule = study.getSchedule();
-        this.period = study.getPeriod();
-        this.memberCount = study.getMemberCount();
-        this.maxCount = study.getMaxCount();
-        this.isPublic = study.getIsPublic();
-        this.isParticipate = study.getIsParticipate();
-        this.city = study.getCity().name();
-        this.status = study.getStatus().name();
-        setClub(study.getClub());
-        setData(study.getDbFile());
-        this.modifyDate = study.getModifyDate();
-        this.bio = study.getBio();
+    public StudyInfoResponseDto(Long id, String name, String schedule, int period, MemberDto host, int memberCount, int maxCount, Boolean isPublic, Boolean isParticipate, String city, String status, ClubDto club, String cover_pic, LocalDateTime modifiedDate, String bio) {
+        this.id = id;
+        this.name = name;
+        this.schedule = schedule;
+        this.period = period;
+        this.host = host;
+        this.memberCount = memberCount;
+        this.maxCount = maxCount;
+        this.isPublic = isPublic;
+        this.isParticipate = isParticipate;
+        this.city = city;
+        this.status = status;
+        this.club = club;
+        this.cover_pic = cover_pic;
+        this.modifiedDate = modifiedDate;
+        this.bio = bio;
+//        this.memberDtos = memberDtos;
+//        this.techList =techList;
     }
+
+//    @Builder
+//    public StudyInfoResponseDto(Study study) {
+//        this.id = study.getId();
+//        this.name = study.getName();
+//        this.schedule = study.getSchedule();
+//        this.period = study.getPeriod();
+//        this.memberCount = study.getMemberCount();
+//        this.maxCount = study.getMaxCount();
+//        this.isPublic = study.getIsPublic();
+//        this.isParticipate = study.getIsParticipate();
+//        this.city = study.getCity().name();
+//        this.status = study.getStatus().name();
+//        setClub(study.getClub());
+//        setData(study.getDbFile());
+//        this.modifyDate = study.getModifyDate();
+//        this.bio = study.getBio();
+//    }
 }

@@ -37,8 +37,8 @@ public class StudyCreateRequestDto {
     @ApiModelProperty(name = "club_id", example = "3")
     private Long clubId;
 
-    @ApiModelProperty(name = "uuid", example = "3fads23-fdfd13-23d2")
-    private String uuid;
+    @ApiModelProperty(name = "coverpic_uuid", example = "3fads23-fdfd13-23d2")
+    private String coverpic_uuid;
 
     @ApiModelProperty(name = "bio", example = "알고리즘 스터디입니다.")
     private String bio;

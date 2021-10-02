@@ -1,5 +1,6 @@
 package com.ssafy.match.group.repository.study;
 
+import com.ssafy.match.db.entity.Status;
 import com.ssafy.match.group.entity.study.Study;
 import java.util.List;
 
@@ -14,6 +15,6 @@ public interface StudyRepository extends JpaRepository<Study, Long> {
     @Query("select s from matching.study s where s.isActive = true and s.isPublic = true")
     List<Study> findAllStudy();
 
-    Slice<Study> findByIsActiveAndIsPublic(Boolean isActive, Boolean isPublic, Pageable pageable);
+    Page<Study> findByIsActiveAndIsPublicAndStatusIsNot(Boolean isActive, Boolean isPublic, Enum<Status> status, Pageable pageable);
 
 }

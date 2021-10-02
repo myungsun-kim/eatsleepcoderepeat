@@ -103,7 +103,14 @@ export default {
       router.push({ path: '/subheader/board' });
     };
 
-    const clickManage = function () {
+    const clickManageStudy = function () {
+      router.push({ path: '/subheader/manage' });
+    };
+
+    const clickManageProject = function () {
+      router.push({ path: '/subheader/manage' });
+    };
+    const clickManageClub = function () {
       router.push({ path: '/subheader/manage' });
     };
 
@@ -115,7 +122,9 @@ export default {
       clickIntroduceClub,
       clickNotice,
       clickBoard,
-      clickManage,
+      clickManageStudy,
+      clickManageProject,
+      clickManageClub,
     };
   },
 };

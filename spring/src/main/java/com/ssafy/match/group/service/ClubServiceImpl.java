@@ -153,19 +153,15 @@ public class ClubServiceImpl implements ClubService {
     }
 
     @Transactional
-    public HttpStatus removeMember(Long clubId, Long memberId) throws Exception {
+    public HttpStatus removeMember(Long clubId) throws Exception {
         Club club = findClub(clubId);
-        Member member = findMember(memberId);
-
-        if (club.getMember().getId().equals(memberId)) {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new NullPointerException("잘못된 사용자 입니다.(사용자 없음)"));
+        if (club.getMember().getId().equals(member.getId())) {
             throw new Exception("클럽장은 탈퇴할 수 없습니다.");
         }
-
         CompositeMemberClub compositeMemberClub = new CompositeMemberClub(member, club);
-
         MemberClub memberClub = memberClubRepository.findById(compositeMemberClub)
             .orElseThrow(() -> new NullPointerException("가입 기록이 없습니다."));
-
         memberClub.deActivation();
         club.removeMember();
         return HttpStatus.OK;

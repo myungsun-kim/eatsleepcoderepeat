@@ -84,7 +84,7 @@ public class StudyServiceImpl implements StudyService {
         Member member = findMember(SecurityUtil.getCurrentMemberId());
         study.setMember(member);
         study.setClub(findClub(dto.getClubId()));
-        study.setDBFile(findDBFile(dto.getUuid()));
+        study.setDBFile(findDBFile(dto.getCoverpic_uuid()));
         studyRepository.save(study);
 
         addTechstack(study, dto.getTechList());
@@ -139,20 +139,13 @@ public class StudyServiceImpl implements StudyService {
         return HttpStatus.OK;
     }
 
-    public List<StudyInfoResponseDto> getAllStudy(Pageable pageable) {
-        Slice<Study> page = studyRepository.findByIsActiveAndIsPublic(Boolean.TRUE, Boolean.FALSE, pageable);
-        List<Study> studies = page.getContent();
-        List<StudyInfoResponseDto> studyInfoResponseDtos = new ArrayList<>();
-
-        for (Study study: studies) {
-            if(study.getStatus().equals(Status.종료)) continue;
-            StudyInfoResponseDto dto = new StudyInfoResponseDto(study);
-            dto.setHost(new MemberDto(study.getMember()));
-            dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
-            dto.setTechList(studyTechstackName(study));
-            studyInfoResponseDtos.add(dto);
+    public Page<StudyInfoResponseDto> getAllStudy(Pageable pageable) {
+        Page<StudyInfoResponseDto> studyInfoResponseDtos = studyRepository.findByIsActiveAndIsPublicAndStatusIsNot(Boolean.TRUE, Boolean.FALSE, Status.종료, pageable)
+                .map(StudyInfoResponseDto::of);
+        for (StudyInfoResponseDto studyInfoResponseDto: studyInfoResponseDtos.getContent()) {
+            studyInfoResponseDto.setMemberDtos(makeMemberDtos(memberStudyRepository.findMemberByStudyId(studyInfoResponseDto.getId())));
+            studyInfoResponseDto.setTechList(studyTechstackRepository.findStudyTechstackNameByStudyId(studyInfoResponseDto.getId()));
         }
-
         return studyInfoResponseDtos;
     }
 
@@ -164,14 +157,10 @@ public class StudyServiceImpl implements StudyService {
             && !study.getIsPublic()) {
             throw new Exception("비공개된 스터디입니다.");
         }
-
-        StudyInfoResponseDto dto = new StudyInfoResponseDto(study);
-        dto.setHost(new MemberDto(study.getMember()));
-        dto.setMemberDtos(makeMemberDtos(findMemberInStudy(study)));
-
-        dto.setTechList(studyTechstackName(study));
-
-        return dto;
+        StudyInfoResponseDto studyInfoResponseDto = studyRepository.findById(studyId).map(StudyInfoResponseDto::of).orElseThrow(() -> new NullPointerException("스터디가 없습니다."));
+        studyInfoResponseDto.setMemberDtos(makeMemberDtos(memberStudyRepository.findMemberByStudyId(studyInfoResponseDto.getId())));
+        studyInfoResponseDto.setTechList(studyTechstackRepository.findStudyTechstackNameByStudyId(studyInfoResponseDto.getId()));
+        return studyInfoResponseDto;
     }
 
     // 스터디 업데이트를 위한 정보(기존 정보 + 기술 스택 리스트, 호스트의 클럽 정보, 지역 리스트)
@@ -250,19 +239,15 @@ public class StudyServiceImpl implements StudyService {
     }
 
     @Transactional
-    public HttpStatus removeMember(Long studyId, Long memberId) throws Exception {
+    public HttpStatus removeMember(Long studyId) throws Exception {
         Study study = findStudy(studyId);
-        Member member = findMember(memberId);
-
-        if (study.getMember().getId().equals(memberId)) {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new NullPointerException("잘못된 사용자 입니다.(사용자 없음)"));
+        if (study.getMember().getId().equals(member.getId())) {
             throw new Exception("스터디장은 탈퇴할 수 없습니다.");
         }
-
         CompositeMemberStudy compositeMemberStudy = new CompositeMemberStudy(member, study);
-
         MemberStudy memberStudy = memberStudyRepository.findById(compositeMemberStudy)
             .orElseThrow(() -> new NullPointerException("가입 기록이 없습니다."));
-
         memberStudy.deActivation();
         study.removeMember();
         return HttpStatus.OK;

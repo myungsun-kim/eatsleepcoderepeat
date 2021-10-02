@@ -31,7 +31,7 @@ public interface ClubService {
 
     ClubInfoResponseDto getOneClub(Long clubId) throws Exception;
 
-    HttpStatus removeMember(Long studyId, Long memberId) throws Exception;
+    HttpStatus removeMember(Long studyId) throws Exception;
 
     InfoForApplyClubFormResponseDto getInfoForApply(Long clubId) throws Exception;
 
