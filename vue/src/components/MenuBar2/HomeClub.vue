@@ -188,7 +188,7 @@ export default {
     const router = useRouter();
 
     const goCreate = function () {
-      router.push({ path: '/nosubheader/create' });
+      router.push({ path: '/nosubheader/club/create' });
     };
 
     const goIntroduce = function () {

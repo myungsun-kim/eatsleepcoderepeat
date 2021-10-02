@@ -33,15 +33,15 @@
 
     <el-col :span="2"></el-col>
     <el-col :span="5"
-      ><el-row class="height100 logo-div"
-        ><img
-          src="../assets/Item/logo.png"
-          class="logo"
-          @click="clickMain" /></el-row></el-col
+      ><el-row class="height100 logo-div">
+        <img src="../assets/Item/logo.png" class="logo" @click="clickMain" />
+      </el-row> </el-col
     ><el-col :span="3"></el-col
     ><el-col :span="6"
       ><el-row class="height100">
-        <el-col :span="2"> <i class="el-icon-search"></i></el-col>
+        <el-col :span="2" id="search"
+          ><i class="el-icon-search" id="search-icon"></i
+        ></el-col>
         <el-col :span="3"></el-col
         ><el-col :span="3"
           ><el-button
@@ -59,8 +59,16 @@
             >마이페이지</el-button
           ></el-col
         ><el-col :span="2"></el-col
-        ><el-col :span="5"
-          ><el-button
+        ><el-col :span="5">
+          <el-button
+            v-if="!token"
+            class="top-nav-btn font-s-md"
+            type="text"
+            @click="clickLogIn"
+            >로그인</el-button
+          >
+          <el-button
+            v-if="token"
             class="top-nav-btn font-s-md"
             type="text"
             @click="clickLogOut"
@@ -108,11 +116,14 @@ export default {
     const clickMyPage = function () {
       router.push({ path: '/nosubheader/readmypage' });
     };
+    const clickLogIn = function () {
+      router.push({ path: '/noheader/signin' });
+    };
     const clickLogOut = function () {
       localStorage.removeItem('accessToken');
       window.location = '/';
     };
-
+    const token = localStorage.getItem('accessToken');
     return {
       store,
       router,
@@ -122,7 +133,9 @@ export default {
       clickMain,
       clickChat,
       clickMyPage,
+      clickLogIn,
       clickLogOut,
+      token,
     };
   },
 };
@@ -140,9 +153,21 @@ export default {
   vertical-align: middle;
 }
 .logo {
+  cursor: pointer;
   width: 80%;
   object-fit: cover;
   vertical-align: middle;
+}
+#search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#search-icon {
+  margin-top: 7%;
+  font-size: 130%;
+  cursor: pointer;
+  color: white;
 }
 .top-nav-btn {
   font-size: 18px;

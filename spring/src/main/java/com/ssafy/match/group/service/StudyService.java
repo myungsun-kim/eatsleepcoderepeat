@@ -11,6 +11,9 @@ import com.ssafy.match.group.dto.study.response.StudyInfoForUpdateResponseDto;
 import com.ssafy.match.group.dto.study.response.StudyInfoResponseDto;
 import com.ssafy.match.group.entity.study.Study;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
 public interface StudyService {
@@ -23,7 +26,7 @@ public interface StudyService {
 
     HttpStatus delete(Long studyId) throws Exception;
 
-    List<StudyInfoResponseDto> getAllStudy();
+    Page<StudyInfoResponseDto> getAllStudy(Pageable pageable);
 
     StudyInfoResponseDto getOneStudy(Long studyId) throws Exception;
 

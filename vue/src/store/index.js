@@ -1,7 +1,10 @@
 import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
+import axios from 'axios';
+
 import { auth } from '@/store/modules/auth';
 import { member } from '@/store/modules/member';
+import { study } from '@/store/modules/study';
 
 export default createStore({
   state: {
@@ -34,6 +37,21 @@ export default createStore({
     changeScrollModal({ commit }, payload) {
       commit('setScrollModal', payload);
     },
+    uploadFile({ commit }, formData) {
+      const BASE_URL = '';
+      const header = {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      };
+      const res = axios.post(
+        BASE_URL + '/api/file/uploadFile',
+        formData,
+        header
+      );
+      return res;
+    },
   },
   getters: {
     scrollGetter: (state) => {
@@ -46,6 +64,7 @@ export default createStore({
   modules: {
     auth,
     member,
+    study,
   },
 
   plugins: [createPersistedState()],

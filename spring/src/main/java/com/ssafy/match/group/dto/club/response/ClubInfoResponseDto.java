@@ -5,8 +5,8 @@ import com.ssafy.match.group.dto.MemberDto;
 import com.ssafy.match.group.entity.club.Club;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import java.util.List;
+import javax.persistence.Lob;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,45 +16,51 @@ import lombok.Setter;
 @Setter
 public class ClubInfoResponseDto {
 
+    @ApiModelProperty(name = "id", example = "4")
+    private Long id;
+
     @ApiModelProperty(name = "name", example = "알고리즘 클럽")
-    @ApiParam(value = "클럽명", required = true)
     private String name;
 
+    private int memberCount;
+
     @ApiModelProperty(name = "maxCount", example = "3")
-    @ApiParam(value = "최대 인원", required = true)
     private int maxCount;
 
     @ApiModelProperty(name = "isPublic", example = "false")
-    @ApiParam(value = "공개 비공개", required = true)
     private Boolean isPublic;
 
     @ApiModelProperty(name = "city", example = "구미")
-    @ApiParam(value = "지역", required = true)
     private String city;
 
-    @ApiModelProperty(name = "dbFile")
-    @ApiParam(value = "사진 정보")
-    private DBFile dbFile;
+    @ApiModelProperty(name = "data", example = "사진을 보이기 위한 바이트")
+    @Lob // DBFile 객체 반환시 InvalidDefinitionException: No serializer found for class
+    private byte[] data;
 
     @ApiModelProperty(name = "bio", example = "매칭 클럽입니다.")
-    @ApiParam(value = "클럽 소개", required = true)
     private String bio;
 
     @ApiModelProperty(name = "host", example = "{\"id\": 3, \"name\": \"박범진\", \"nickname\": \"BJP\"}")
-    @ApiParam(value = "클럽장 정보(id, name, nickname)", required = true)
     private MemberDto host;
 
     @ApiModelProperty(name = "memberDtos", example = "[{\"id\": 3, \"name\": \"문일민\", \"nickname\": \"별명\"}, {\"id\": 4, \"name\": \"박범진\", \"nickname\": \"내별명\"}]")
-    @ApiParam(value = "해당 클럽에 속한 멤버 조회", required = true)
     private List<MemberDto> memberDtos;
+
+    // 사진 보여줄 때 사용
+    public void setData(DBFile dbFile){
+        if(dbFile == null) return;
+        this.data = dbFile.getData();
+    }
 
     @Builder
     public ClubInfoResponseDto(Club club) {
+        this.id = club.getId();
         this.name = club.getName();
+        this.memberCount = club.getMemberCount();
         this.maxCount = club.getMaxCount();
         this.isPublic = club.getIsPublic();
         this.city = club.getCity().name();
-        this.dbFile = club.getDbFile();
         this.bio = club.getBio();
+        setData(club.getDbFile());
     }
 }

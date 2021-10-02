@@ -9,6 +9,11 @@ import com.ssafy.match.group.service.StudyService;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,6 +33,7 @@ public class StudyController {
     private final StudyService studyService;
 
     @GetMapping("/infoforcreate")
+    @ApiOperation(value = "스터디 생성을 위한 정보", notes = "스터디 생성을 위해 사용자의 클럽 정보를 조회")
     public ResponseEntity<StudyInfoForCreateResponseDto> getInfoForCreate() throws Exception {
         return ResponseEntity.ok(studyService.getInfoForCreate());
     }
@@ -69,11 +75,11 @@ public class StudyController {
 
     @GetMapping
     @ApiOperation(value = "모든 스터디 조회", notes = "모든 스터디를 작성일 기준 내림차순으로 받는다")
-    public ResponseEntity<List<StudyInfoResponseDto>> getAllStudy() throws Exception {
-        return ResponseEntity.ok(studyService.getAllStudy());
+    public ResponseEntity<Page<StudyInfoResponseDto>> getAllStudy(@PageableDefault(size = 10) @SortDefault(sort = "createDate", direction= Sort.Direction.DESC) Pageable pageable) throws Exception {
+        return ResponseEntity.ok(studyService.getAllStudy(pageable));
     }
 
-    @GetMapping("/one/{studyId}")
+    @GetMapping("/{studyId}")
     @ApiOperation(value = "스터디 상세정보 조회",
         notes = "<strong>받은 스터디 id</strong>로 해당 스터디 정보 + 수정을 위한 정보(사용자 클럽 리스트, 지역, 상태 리스트 등")
     public ResponseEntity<StudyInfoResponseDto> getOneStudy(@PathVariable("studyId") Long studyId)

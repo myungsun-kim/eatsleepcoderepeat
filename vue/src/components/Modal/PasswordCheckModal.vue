@@ -14,7 +14,7 @@
         <el-row class="height10">
           <el-col :span="8" class="font-noto-bold font-20"> 비밀번호 </el-col>
           <el-col :span="16" class="font-noto-bold font-20">
-            <el-input v-model="temp" size=""></el-input>
+            <el-input type="password" v-model="state.form.password"></el-input>
           </el-col>
         </el-row>
         <el-row class="height10">
@@ -41,7 +41,7 @@
   </teleport>
 </template>
 <script>
-import { computed } from 'vue';
+import { computed, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 export default {
@@ -49,6 +49,15 @@ export default {
     const store = useStore();
     const router = useRouter();
     const modalOpen = computed(() => store.getters['scrollGetter']);
+    const user = computed(() => store.getters['getUserInfo']);
+    console.log('유저');
+    console.log(user.value);
+    const state = reactive({
+      form: {
+        email: '',
+        password: '',
+      },
+    });
 
     const changemodalOpen = function () {
       store.dispatch('changeScrollModal', !modalOpen.value);
@@ -57,7 +66,24 @@ export default {
     const goUpdateMyPage = function () {
       store.dispatch('changeScrollModal', false);
       console.log(modalOpen.value);
-      router.push({ path: '/nosubheader/updatemypage' });
+      console.log('이메일');
+      state.form.email = user.value.email;
+      console.log(user.value.email);
+      console.log('인풋값' + state.form.password);
+
+      const res = store
+        .dispatch('member/checkPassword', state.form)
+        .then((res) => {
+          if (res.status == 200) {
+            console.log(res);
+            router.push({ path: '/nosubheader/updatemypage' });
+          }
+        })
+        .catch((err) => {
+          alert('잘못된 비밀번호를 입력하셨습니다');
+        });
+
+      // router.push({ path: '/nosubheader/updatemypage' });
     };
 
     return {
@@ -66,6 +92,8 @@ export default {
       modalOpen,
       changemodalOpen,
       goUpdateMyPage,
+      state,
+      user,
     };
   },
 };
