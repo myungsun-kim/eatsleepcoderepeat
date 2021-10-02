@@ -49,7 +49,10 @@
             type="text"
             @click="clickChat"
             >채팅</el-button
-          ></el-col
+          ><el-button
+            >{{ chatUnreadCounts }}</el-button
+          >
+          </el-col
         ><el-col :span="3"></el-col
         ><el-col :span="6"
           ><el-button
@@ -76,10 +79,13 @@
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
+import { computed } from 'vue';
+
 export default {
   setup() {
     const store = useStore();
     const router = useRouter();
+    const chatUnreadCounts = computed(() => store.getters['chat/getUnreadCounts']);
 
     const clickStudy = function () {
       store.commit('setCategory', 1);
@@ -116,6 +122,7 @@ export default {
     return {
       store,
       router,
+      chatUnreadCounts,
       clickStudy,
       clickProject,
       clickClub,

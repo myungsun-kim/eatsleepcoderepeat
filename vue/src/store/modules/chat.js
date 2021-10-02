@@ -25,6 +25,9 @@ export const chat = {
         getCurrentUserId: (state) => {
             return state.currentUserId;
         },
+        getUnreadCounts: (state) => {
+            return state.unreadCounts;
+        }
     },
     state: {
         chatlist: {},
@@ -35,6 +38,8 @@ export const chat = {
         stompClient: {},
         connected: false,
         socket: {},
+        unreadSession : {},
+        unreadCounts : 0,
 
         //     // category 1:스터디 2:프로젝트 3:클럽
         //     category: null,
@@ -49,8 +54,75 @@ export const chat = {
         //     },
     },
     mutations: {
+        cleanup(state){
+            state.chatlist = {};
+            state.chatordered = [];
+            state.chatdetail = {};
+            state.currentCounterpart = 0;
+            state.currentUserId = 1;
+            state.stompClient = {};
+            state.connected = false;
+            state.socket = {};
+            state.unreadSession = {};
+            state.unreadCounts = 0;
+        },
+        setUnreadFlag(state,payload){
+            console.log("SETUNREADSTART");
+            if(state.unreadSession[payload] === undefined || 
+                state.unreadSession[payload] == false){
+
+                console.log("SETUNREAD");
+                console.log(payload);
+                console.log(state.unreadSession);
+                console.log(state.unreadSession[payload])  
+                state.unreadCounts++;
+                state.unreadSession[payload] = true;
+            }
+        },
+        setReadFlag(state,payload){
+            if(state.unreadSession[payload] === true){
+
+                state.unreadCounts--;
+                state.unreadSession[payload] = false;
+            }
+        },
+        readMyMessage(state, payload){
+            let counterpart = payload.receiverId;
+            let sessionMsgs = state.chatdetail[counterpart];
+            console.log(sessionMsgs);
+            for(let i = sessionMsgs.length-1; i >= 0; i--){
+                console.log(sessionMsgs[i]);
+                
+                if(sessionMsgs[i].senderId == state.currentUserId){
+                    continue;
+                }
+                if(sessionMsgs[i].read_time != 1000){
+                    break;
+                }
+                sessionMsgs[i].read_time = payload.sent_time;
+            }
+        },
+        readSignal(state, payload){
+            if(payload.senderId == state.currentUserId){
+                return;
+            }
+            let counterpart = payload.senderId;
+            let sessionMsgs = state.chatdetail[counterpart];
+            console.log(sessionMsgs);
+            for(let i = sessionMsgs.length-1; i >= 0; i--){
+                console.log(sessionMsgs[i]);
+                
+                if(sessionMsgs[i].receiverId == state.currentUserId){
+                    continue;
+                }
+                if(sessionMsgs[i].read_time != 1000){
+                    break;
+                }
+                sessionMsgs[i].read_time = payload.sent_time;
+            }
+        },
         setCurrentId(state, payload){
-            state.currentUserId = payload;
+            state.currentUserId = Number(payload);
         },
         setSocket(state, payload) {
             if (!state.connected) {
@@ -96,6 +168,11 @@ export const chat = {
             // console.log(state.chatlist);
         },
         initMessages(state, payload) {
+            for(let i = 0; i < payload.length; i++){
+                console.log(payload[i]);
+                payload[i].read_time = new Date(payload[i].read_time).getTime();
+                payload[i].sent_time = new Date(payload[i].sent_time).getTime();
+            }
             state.chatdetail[`${state.currentCounterpart}`] = payload;
         },
         addMessage(state, payload){
@@ -120,7 +197,9 @@ export const chat = {
         },
     },
     actions: {
-
+        cleanup(commit){
+            commit('cleanup');
+        },
         sendMessage({state}, msg){
             if(!state.connected){
                 //예외처리
@@ -153,7 +232,10 @@ export const chat = {
                     stompClient.subscribe(
                         '/sub/' + `${state.currentUserId}`, (res) => {
                         const item = JSON.parse(res.body);
+                        // item.read_time = new Date(item.read_time);
+                        // item.sent_time = new Date(item.sent_time);
                         switch (item.type) {
+                            
                             case 1: // 일반 메세지
                                 // let counterpart = dispatch('getCounterpart', item)
                                 // .then((res) =>{
@@ -169,11 +251,36 @@ export const chat = {
                                 console.log(counterpart.value);
                                 console.log(item);
                                 console.log('message done');
-                                commit('addSession',{item, counterpart})
+                                // item.read_time = new Date(item.read_time);
+                                // item.sent_time = new Date(item.sent_time);
+                
+                                commit('addSession',{item, counterpart});
                                 commit('addMessage', {item, counterpart});
+                                if(item.senderId == state.currentCounterpart){
+                                    console.log("!!!!");
+                                    dispatch('sendMessage', {
+                                        type : 2,
+                                        senderId : state.currentUserId,
+                                        receiverId : state.currentCounterpart,
+                                        sent_time : 1000,
+                                        read_time : 1000,
+                                        content : "",
+                                    });
+                                    // 메세지 보내서 읽고있음을 알려주기
+                                    // unreadflag 설정 ㄴㄴ
+                                }else{
+                                    commit('setUnreadFlag', counterpart);
+                                }
                                 break;
                             case 2:
-                            // 여기서 읽음처리, 메세지 푸쉬 ㄴㄴ 자료구조 고민할 것
+                                
+                                console.log("readSignal");
+                                if(item.receiverId == state.currentUserId){
+                                    commit('readSignal', item);
+                                }else{
+                                    commit('readMyMessage', item);
+                                    commit('setReadFlag', item.receiverId);
+                                }
                                 break;
                             default:
                                 break;
@@ -205,9 +312,29 @@ export const chat = {
                 console.log(response, state.currentId);
                 response.data.forEach((item) => {
                     let counterpart =
-                    item['senderId'] === state.currentUserId
+                    item['senderId'] == state.currentUserId
                         ? item['receiverId']
                         : item['senderId'];
+                    console.log(item);
+                    item.read_time = new Date(item.read_time).getTime();
+                    item.sent_time = new Date(item.sent_time).getTime();
+                    
+                    if(item.receiverId == state.currentUserId &&
+                        item.read_time == 1000){
+                        let counterpart = 
+                            item.senderId == state.currentUserId ?
+                            item.receiverId :
+                            item.senderId;            
+                        this.commit('chat/setUnreadFlag', counterpart);
+                    }
+                    // console.log("------------");
+                    // console.log(state.currentUserId);
+                    // console.log(item['senderId']);
+                    // console.log(item['senderId']==state.currentUserId);
+                    // console.log(item['senderId']===state.currentUserId);
+                    // console.log(item);
+                    // console.log(counterpart);
+                    // console.log("------------");
                 // console.log(item);
                 commit('addSession', { counterpart, item });
                 });
@@ -222,12 +349,12 @@ export const chat = {
                     '/' +
                     `${state.currentCounterpart}`,
                 // JSON.stringify(form),
-                { headers: { 'Content-Type': 'application/json' } }
+                    { headers: { 'Content-Type': 'application/json' } }
                 )
                 .then((response) => {
                     console.log(response.data);
-                commit('initMessages', response.data);
-                console.log(response.data);
+                    commit('initMessages', response.data);
+                    console.log(response.data);
             });
         },
         loadMoreMessages({ state, commit }, pk) {

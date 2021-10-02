@@ -48,7 +48,11 @@ export default createStore({
     auth,
     member,
     chat,
+    /* 만약 모듈을 추가하실 필요가 있다면 
+    아래 path 프로퍼티에 작성해주시기 바랍니다. */
   },
 
-  plugins: [createPersistedState()],
+  plugins: [createPersistedState({
+    paths: ['auth', 'member']
+  })],
 });
