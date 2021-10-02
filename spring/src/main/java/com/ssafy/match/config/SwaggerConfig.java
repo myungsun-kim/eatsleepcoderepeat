@@ -139,6 +139,27 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public Docket projectBoardApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+//            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
+            .globalRequestParameters(headers)
+            .apiInfo(apiInfo)
+            .groupName("ProjectBoard")
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.projectboard"))
+
+            // api 필요한 클래스패스 추가하기
+            .paths(
+                PathSelectors.ant("/**/project/**")
+                    .or(PathSelectors.ant("/**/projectboards/**"))
+                    .or(PathSelectors.ant("/**/projectcomment/**"))
+//                PathSelectors.any()
+            )
+            .build()
+            .useDefaultResponseMessages(false);
+    }
+
+    @Bean
     public Docket studyBoardApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .globalRequestParameters(headers)
