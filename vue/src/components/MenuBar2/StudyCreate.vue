@@ -194,7 +194,6 @@ export default {
       clubId[0] = null;
     }
 
-
     // 사진 업로드
     const beforeUpload = (file) => {
       let formData = new FormData();
