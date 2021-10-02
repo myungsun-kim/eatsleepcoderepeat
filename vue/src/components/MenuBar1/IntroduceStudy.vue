@@ -147,8 +147,12 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
+
+    console.log(44444444444444);
     const studyId = computed(() => store.getters['study/studyIdGetter']);
     console.log('studyId: ' + studyId.value);
+
+    console.log(5555555555555);
     store.dispatch('study/introduce', studyId.value);
     const studyIntroduce = computed(
       () => store.getters['study/studyIntroduceGetter']

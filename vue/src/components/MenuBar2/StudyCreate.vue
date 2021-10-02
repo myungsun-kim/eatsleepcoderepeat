@@ -238,9 +238,14 @@ export default {
       console.log(state.form);
       // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다?)
 
+      console.log(111111111111111);
       store
         .dispatch('study/createStudy', state.form)
-        .then(router.push({ path: '/subheader/study/introduce' }));
+
+        .then(
+          alert('asdf'),
+          router.push({ path: '/subheader/study/introduce' })
+        );
     };
     const goHome = function () {
       router.push({ path: '/nosubheader/home' });
