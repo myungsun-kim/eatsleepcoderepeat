@@ -36,11 +36,11 @@ public class StudyBoardService {
     }
 
     @Transactional
-    public Integer createBoard(StudyBoardCreateRequestDto studyBoardCreateRequestDto) throws Exception {
-        if (!studyRepository.existsById(studyBoardCreateRequestDto.getStudyId())) {
+    public Integer createBoard(Long studyId, StudyBoardCreateRequestDto studyBoardCreateRequestDto) throws Exception {
+        if (!studyRepository.existsById(studyId)) {
             throw new RuntimeException("존재하지 않는 study입니다.");
         }
-        Study study = studyRepository.getById(studyBoardCreateRequestDto.getStudyId());
+        Study study = studyRepository.getById(studyId);
         StudyBoard studyBoard = studyBoardCreateRequestDto.toStudyBoard(study);
         StudyBoard ret = studyBoardRepository.save(studyBoard);
         return ret.getId();

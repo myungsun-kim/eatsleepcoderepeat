@@ -16,10 +16,10 @@ import javax.validation.constraints.NotEmpty;
 @NoArgsConstructor
 public class StudyBoardCreateRequestDto {
 
-    @ApiModelProperty(name = "studyId", example = "3")
-    @ApiParam(value = "스터디 id", required = true)
-    @NotEmpty
-    private Long studyId;
+//    @ApiModelProperty(name = "studyId", example = "3")
+//    @ApiParam(value = "스터디 id", required = true)
+//    @NotEmpty
+//    private Long studyId;
 
     @ApiModelProperty(name = "name", example = "일정게시판")
     @ApiParam(value = "게시판 이름", required = true)

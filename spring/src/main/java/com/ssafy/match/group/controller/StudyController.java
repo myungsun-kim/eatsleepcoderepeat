@@ -9,6 +9,11 @@ import com.ssafy.match.group.service.StudyService;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -70,8 +75,8 @@ public class StudyController {
 
     @GetMapping
     @ApiOperation(value = "모든 스터디 조회", notes = "모든 스터디를 작성일 기준 내림차순으로 받는다")
-    public ResponseEntity<List<StudyInfoResponseDto>> getAllStudy() throws Exception {
-        return ResponseEntity.ok(studyService.getAllStudy());
+    public ResponseEntity<List<StudyInfoResponseDto>> getAllStudy(@PageableDefault(size = 10) @SortDefault(sort = "createDate", direction= Sort.Direction.DESC) Pageable pageable) throws Exception {
+        return ResponseEntity.ok(studyService.getAllStudy(pageable));
     }
 
     @GetMapping("/one/{studyId}")

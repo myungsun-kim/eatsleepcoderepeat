@@ -116,35 +116,27 @@
       </el-row>
       <el-row>
         <el-col :span="7"></el-col>
-        <el-col :span="2">
-          <el-button class="btn-1747C9 font-14" @click="goUpdate">
+        <el-col :span="2" v-if="auth == 2">
+          <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
             수정
           </el-button>
         </el-col>
-        <el-col :span="2">
-          <StudyDeleteModal />
-        </el-col>
-        <el-col :span="2">
-          <StudyQuitModal />
+        <el-col :span="2" v-if="auth == 2"> <StudyDeleteModal /> </el-col>
+        <el-col :span="2" v-if="auth == 1"> <StudyQuitModal /> </el-col>
+        <el-col :span="2" v-if="auth == 0">
+          <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
+            돌아가기
+          </el-button>
         </el-col>
         <el-col :span="10"></el-col>
         <el-col :span="3"></el-col>
-        <!-- <el-col :span="9"></el-col
-        ><el-col :span="2"><el-button>신청</el-button></el-col
-        ><el-col :span="1"></el-col
-        ><el-col :span="2"><el-button>취소</el-button></el-col
-        ><el-col :span="10"></el-col> <el-col :span="3"></el-col
-      > -->
-        <!-- <el-col :span="11"></el-col
-        ><el-col :span="2"><el-button>탈퇴</el-button></el-col
-        ><el-col :span="10"></el-col>  -->
       </el-row>
     </el-col>
     <el-col :span="3"></el-col>
   </el-row>
 </template>
 <script>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import MemberListModal from '../Modal/MemberListModal.vue';
@@ -162,6 +154,24 @@ export default {
       () => store.getters['study/studyIntroduceGetter']
     );
     console.log('studyIntroduce: ' + studyIntroduce.value);
+
+    store.dispatch('member/readMyPage');
+    const user = computed(() => store.getters['member/mypageGetter']);
+
+    //스터디 장-host2, 팀원-mystudylist에 있음1, 외부인-없음0
+    const auth = ref(0);
+    //스터디 장인지 아닌지는
+    //api/auth/check/nickname/에다가
+    //내 토큰이랑 스터디 장의 별명을 넣어서 일치하는지 확인
+    if (store.dispatch('study/checkHost', studyIntroduce.value.host.nickname)) {
+      auth.value = 2;
+    } else {
+      for (let index = 0; index < user.value.myStudyList.length; index++) {
+        if (user.value.myStudyList[index].id == studyId) {
+          auth.value = 1;
+        }
+      }
+    }
 
     // const state = reactive({
     //   form: {
@@ -186,11 +196,16 @@ export default {
     const goUpdate = function () {
       router.push({ path: '/nosubheader/study/update' });
     };
+    const goHome = function () {
+      router.push({ path: '/nosubheader/study/home' });
+    };
     return {
       store,
       router,
       studyIntroduce,
+      auth,
       goUpdate,
+      goHome,
     };
   },
   components: {

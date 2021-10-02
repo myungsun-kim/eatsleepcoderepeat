@@ -97,11 +97,14 @@
 
           <div id="box1">
             <label id="h2">소속 클럽</label>
-            <select id="region">
-              <option value="none">없음</option>
-              <option value="B">B</option>
-              <option value="C">C</option>
-              <option value="D">D</option>
+            <select id="clubId" v-model="state.form.clubId" class="input3">
+              <option
+                :value="clubId[index]"
+                v-for="(item, index) in clubList"
+                :key="index"
+              >
+                {{ item }}
+              </option>
             </select>
           </div>
           <div id="box1">
@@ -150,7 +153,7 @@
           </div>
           <div id="btn">
             <el-button class="btn-create" @click="goIntroduce">생성</el-button>
-            <el-button class="btn-cancel" @click="goHome">취소</el-button>
+            <el-button class="btn-cancel" @click="goIntroduce">취소</el-button>
           </div>
         </div>
       </el-col>
@@ -161,10 +164,9 @@
   </div>
 </template>
 <script>
-// import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'studyUpdate',
@@ -172,17 +174,42 @@ export default {
   setup() {
     const router = useRouter();
     const store = useStore();
-    // 독립적인 반응형 값 생성 ref()
-    // const update = ref(null);
+
+    const studyId = computed(() => store.getters['study/studyIdGetter']);
+    console.log('studyId: ' + studyId.value);
+
+    store.dispatch('member/readMyPage');
+    const user = computed(() => store.getters['member/mypageGetter']);
+
+    let clubList = [];
+    let clubId = [];
+    if (user.value.myClubList.length > 0) {
+      for (let index = 0; index < user.value.myClubList.length; index++) {
+        clubList[index] = user.value.myClubList[index].name;
+        clubId[index] = user.value.myClubList[index].id;
+      }
+    } else {
+      clubList[0] = '무관';
+      clubId[0] = null;
+    }
+
     const state = reactive({
-      form: {},
+      form: {
+        bio: '', //소개
+        city: '', //도시
+        clubId: null, //소속 클럽 id
+        isPublic: false, //공개 여부
+        maxCount: 0, //최대 인원수
+        name: '', //스터디 이름
+        period: 7, //기간
+        schedule: '', //일정 String
+        techList: ['java', 'python'], //기술 목록
+        uuid: null, //사진 uuid
+      },
     });
 
     const goIntroduce = function () {
-      router.push({ path: '/subheader/introduce' });
-    };
-    const goHome = function () {
-      router.push({ path: '/nosubheader/home' });
+      router.push({ path: '/subheader/study/introduce' });
     };
 
     // 사진 업로드
@@ -222,11 +249,16 @@ export default {
     };
 
     return {
+      store,
+      router,
+      studyId,
+      user,
+      clubList,
+      clubId,
+      state,
       goIntroduce,
       goHome,
       beforeUpload,
-      store,
-      state,
     };
   },
 };
@@ -330,6 +362,29 @@ export default {
   text-align: left;
   align-content: flex-start;
   resize: none;
+
+  color: #919191;
+}
+.input3 {
+  cursor: pointer;
+  width: 794px;
+  height: 52px;
+
+  background: #e8e8e8;
+  border-radius: 10px;
+  border: 0px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  margin-left: 2px;
+
+  /* 텍스트 */
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  /* identical to box height, or 114% */
+  text-align: left;
 
   color: #919191;
 }
