@@ -96,34 +96,20 @@
 
 <script>
 import { useStore } from 'vuex';
-import {created, onMounted, ref, computed} from 'vue';
+import {onMounted, ref, computed} from 'vue';
 
 
 
 export default {
   components: {},
-  created(){
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!")
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!")
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!")
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!")
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!")
-  },
+
   setup(){
     // created(() => {
     //   console.log(this);
 
     //   }),
     onMounted(() => {
-      window.addEventListener('beforeunload', (e)=>{
-        e.preventDefault();
-        store.dispatch('chat/cleanup');
-        e.returnValue = '!';
-        localStorage.clear();
-      });
-      console.log(chatList);
-      store.dispatch('chat/connectSocket');
-      store.dispatch('chat/initSession', currentId);
+
       // initSession();
       // connect();
       // 현재 보고 있다는 신호
@@ -141,10 +127,6 @@ export default {
     
     const toId = ref('');
 
-    const cleanup = (e) => {
-      e.preventDefault();
-      return "asdf";
-    };
 
     const changeMyId = () => {
       console.log(toId.value);
@@ -240,7 +222,7 @@ export default {
       loadMessages,
       changeSession,
       getCounterPart,
-      cleanup,
+
       
 
     };

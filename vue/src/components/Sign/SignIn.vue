@@ -63,7 +63,6 @@
 import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
 import { useStore } from 'vuex';
-import jwt_decode from "jwt-decode";
 
 export default {
   name: 'signIn',
@@ -90,8 +89,7 @@ export default {
           if (res.status == 200) {
             localStorage.setItem('accessToken', res.data.accessToken);
             console.log(localStorage.getItem('accessToken'));
-            console.log(jwt_decode(res.data.accessToken));
-            window.location = '/';
+            window.location = '/?logined=true';
           } else if (res.status == 404) {
             alert('해당 아이디가 존재하지 않습니다.');
             state.form.email = '';

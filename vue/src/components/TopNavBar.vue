@@ -43,7 +43,7 @@
           ><i class="el-icon-search" id="search-icon"></i
         ></el-col>
         <el-col :span="3"></el-col
-        ><el-col :span="3"
+        ><el-col v-if="chatCurrentId != 0" :span="3"
           ><el-button
             class="top-nav-btn font-s-md"
             type="text"
@@ -94,7 +94,7 @@ export default {
     const store = useStore();
     const router = useRouter();
     const chatUnreadCounts = computed(() => store.getters['chat/getUnreadCounts']);
-
+    const chatCurrentId = computed(() => store.getters['chat/getCurrentUserId']);
     const clickStudy = function () {
       store.commit('setCategory', 1);
       router.push({ path: '/nosubheader/study/home' });
@@ -127,6 +127,7 @@ export default {
     };
     const clickLogOut = function () {
       localStorage.removeItem('accessToken');
+      store.dispatch('chat/cleanup');
       window.location = '/';
     };
     const token = localStorage.getItem('accessToken');
@@ -134,6 +135,7 @@ export default {
       store,
       router,
       chatUnreadCounts,
+      chatCurrentId,
       clickStudy,
       clickProject,
       clickClub,

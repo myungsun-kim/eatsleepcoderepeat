@@ -34,7 +34,7 @@ export const chat = {
         chatordered : [],
         chatdetail: {},
         currentCounterpart: 0,
-        currentUserId: 1,
+        currentUserId: 0,
         stompClient: {},
         connected: false,
         socket: {},
@@ -59,7 +59,7 @@ export const chat = {
             state.chatordered = [];
             state.chatdetail = {};
             state.currentCounterpart = 0;
-            state.currentUserId = 1;
+            state.currentUserId = 0;
             state.stompClient = {};
             state.connected = false;
             state.socket = {};
@@ -123,6 +123,7 @@ export const chat = {
         },
         setCurrentId(state, payload){
             state.currentUserId = Number(payload);
+            console.log(state.currentUserId);
         },
         setSocket(state, payload) {
             if (!state.connected) {
@@ -197,9 +198,16 @@ export const chat = {
         },
     },
     actions: {
-        cleanup(commit){
+        cleanup({commit}){
             commit('cleanup');
         },
+        startup({ dispatch, commit }, pk){
+            commit('setCurrentId', pk);
+            dispatch('connectSocket');
+            dispatch('initSession', pk);
+            // alert("!")
+        },
+
         sendMessage({state}, msg){
             if(!state.connected){
                 //예외처리
@@ -232,6 +240,7 @@ export const chat = {
                     stompClient.subscribe(
                         '/sub/' + `${state.currentUserId}`, (res) => {
                         const item = JSON.parse(res.body);
+                        console.log("stomp on");
                         // item.read_time = new Date(item.read_time);
                         // item.sent_time = new Date(item.sent_time);
                         switch (item.type) {
@@ -288,6 +297,7 @@ export const chat = {
                     });
                 },
                 (error) => {
+                    console.log("stomperr");
                 // 소켓 연결 실패
                 }
             );

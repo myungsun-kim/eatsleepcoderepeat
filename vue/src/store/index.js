@@ -70,6 +70,6 @@ export default createStore({
   },
 
   plugins: [createPersistedState({
-    paths: ['auth', 'member'] // <<<<<<여기!
+    paths: ['auth', 'member', 'chat', 'study'] // <<<<<<여기!
   })],
 });
