@@ -14,6 +14,7 @@ export const study = {
     totalStudyList: [],
     studyId: '',
     studyIntroduce: {},
+    studyApplications: [],
   },
   mutations: {
     updateTotalStudyList(state, payload) {
@@ -27,6 +28,11 @@ export const study = {
       // console.log('넘겨준 STUDY INTRODUCE 값');
       // console.log(payload);
       state.studyIntroduce = payload;
+    },
+    updateStudyApplications(state, payload) {
+      console.log('넘겨준 STUDY APPLICATION 값');
+      console.log(payload);
+      state.studyApplications = payload;
     },
   },
   actions: {
@@ -76,6 +82,19 @@ export const study = {
       );
       return res.data;
     },
+    applicationAll({ commit }, data) {
+      const res = axios.get(
+        BASE_URL + '/api/studyapplication/all/' + data,
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 application ALL 조회 결과');
+        console.log(res);
+        console.log(res.data);
+        commit('updateStudyApplications', res.data);
+      });
+      return res.data;
+    },
   },
   getters: {
     totalStudyGetter: (state) => {
@@ -85,9 +104,14 @@ export const study = {
       return state.studyId;
     },
     studyIntroduceGetter: (state) => {
-      console.log('Introduce GETTER');
-      console.log(state.studyIntroduce);
+      // console.log('Introduce GETTER');
+      // console.log(state.studyIntroduce);
       return state.studyIntroduce;
+    },
+    studyApplicationsGetter: (state) => {
+      console.log('APPLICATION ALL GETTER');
+      console.log(state.studyApplications);
+      return state.studyApplications;
     },
   },
   modules: {},
