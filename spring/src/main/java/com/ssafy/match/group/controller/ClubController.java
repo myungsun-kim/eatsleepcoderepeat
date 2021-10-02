@@ -45,11 +45,10 @@ public class ClubController {
         return ResponseEntity.ok(clubService.delete(clubId));
     }
 
-    @DeleteMapping("/{clubId}/{memberId}")
-    @ApiOperation(value = "클럽 탈퇴", notes = "<strong>받은 클럽 id와 멤버 id</strong>로 클럽에서 탈퇴한다.")
-    public ResponseEntity<HttpStatus> deleteMember(@PathVariable("clubId") Long clubId,
-        @PathVariable("memberId") Long memberId) throws Exception {
-        return ResponseEntity.ok(clubService.removeMember(clubId, memberId));
+    @DeleteMapping("/{clubId}/member")
+    @ApiOperation(value = "클럽 탈퇴", notes = "<strong>받은 클럽 id</strong>로 클럽에서 탈퇴한다.")
+    public ResponseEntity<HttpStatus> deleteMember(@PathVariable("clubId") Long clubId) throws Exception {
+        return ResponseEntity.ok(clubService.removeMember(clubId));
     }
 
     @GetMapping
@@ -58,7 +57,7 @@ public class ClubController {
         return ResponseEntity.ok(clubService.getAllClub());
     }
 
-    @GetMapping("/one/{clubId}")
+    @GetMapping("/{clubId}")
     @ApiOperation(value = "클럽 상세정보 조회",
         notes = "<strong>받은 클럽 id</strong>로 해당 클럽 정보 + 수정을 위한 정보(사용자 클럽 리스트, 지역, 상태 리스트 등")
     public ResponseEntity<ClubInfoResponseDto> getOneClub(@PathVariable("clubId") Long clubId)

@@ -239,19 +239,15 @@ public class StudyServiceImpl implements StudyService {
     }
 
     @Transactional
-    public HttpStatus removeMember(Long studyId, Long memberId) throws Exception {
+    public HttpStatus removeMember(Long studyId) throws Exception {
         Study study = findStudy(studyId);
-        Member member = findMember(memberId);
-
-        if (study.getMember().getId().equals(memberId)) {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new NullPointerException("잘못된 사용자 입니다.(사용자 없음)"));
+        if (study.getMember().getId().equals(member.getId())) {
             throw new Exception("스터디장은 탈퇴할 수 없습니다.");
         }
-
         CompositeMemberStudy compositeMemberStudy = new CompositeMemberStudy(member, study);
-
         MemberStudy memberStudy = memberStudyRepository.findById(compositeMemberStudy)
             .orElseThrow(() -> new NullPointerException("가입 기록이 없습니다."));
-
         memberStudy.deActivation();
         study.removeMember();
         return HttpStatus.OK;
