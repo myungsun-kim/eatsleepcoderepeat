@@ -193,6 +193,7 @@ export default {
       clubList[0] = '무관';
       clubId[0] = null;
     }
+<<<<<<< HEAD
     // let clubList = [];
     // let clubId = [];
     // if (user.value.myClubList.length > 0) {
@@ -206,6 +207,8 @@ export default {
     // }
     // const clubList = ['사과', '배클럽', '우주', '공장'];
     // const clubId = [31, 32, 33, 34];
+=======
+>>>>>>> c8540afbcfd7a9f09d519cb09f495a11d760ffdd
 
     // 사진 업로드
     const beforeUpload = (file) => {
@@ -247,6 +250,7 @@ export default {
     });
 
     const goIntroduce = function () {
+      console.log('스터디 생성 테스트!!!!!!!!!');
       console.log(state.form);
       // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다?)
 
