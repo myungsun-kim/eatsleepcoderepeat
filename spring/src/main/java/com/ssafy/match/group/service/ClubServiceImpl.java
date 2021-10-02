@@ -6,6 +6,8 @@ import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.db.repository.TechstackRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
+import com.ssafy.match.group.clubboard.board.entity.ClubBoard;
+import com.ssafy.match.group.clubboard.board.repository.ClubBoardRepository;
 import com.ssafy.match.group.dto.MemberDto;
 import com.ssafy.match.group.dto.club.ClubDto;
 import com.ssafy.match.group.dto.club.request.ClubApplicationRequestDto;
@@ -19,9 +21,11 @@ import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.club.ClubApplicationForm;
 import com.ssafy.match.group.entity.club.CompositeMemberClub;
 import com.ssafy.match.group.entity.club.MemberClub;
+import com.ssafy.match.group.entity.study.Study;
 import com.ssafy.match.group.repository.club.ClubApplicationFormRepository;
 import com.ssafy.match.group.repository.club.ClubRepository;
 import com.ssafy.match.group.repository.club.MemberClubRepository;
+import com.ssafy.match.group.studyboard.board.entity.StudyBoard;
 import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.member.entity.MemberSns;
 import com.ssafy.match.member.repository.MemberBeginnerTechstackRepository;
@@ -56,6 +60,7 @@ public class ClubServiceImpl implements ClubService {
     private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
     private final MemberSnsRepository memberSnsRepository;
+    private final ClubBoardRepository clubBoardRepository;
 
     @Transactional
     public Long create(ClubCreateRequestDto dto) throws Exception {
@@ -67,6 +72,7 @@ public class ClubServiceImpl implements ClubService {
         club.setDbFile(findDBFile(dto.getUuid()));
         clubRepository.save(club);
 
+        makeBasicBoards(club);
         addMember(club, member);
 
         return club.getId();
@@ -160,6 +166,12 @@ public class ClubServiceImpl implements ClubService {
         memberClub.deActivation();
         club.removeMember();
         return HttpStatus.OK;
+    }
+
+    @Transactional
+    public void makeBasicBoards(Club club){
+        clubBoardRepository.save(new ClubBoard("공지사항", club));
+        clubBoardRepository.save(new ClubBoard("게시판", club));
     }
 
     // 클럽 존재 유무 확인

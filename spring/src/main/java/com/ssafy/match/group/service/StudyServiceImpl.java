@@ -2,6 +2,8 @@ package com.ssafy.match.group.service;
 
 import com.ssafy.match.db.entity.City;
 import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.group.studyboard.board.entity.StudyBoard;
+import com.ssafy.match.group.studyboard.board.repository.StudyBoardRepository;
 import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.member.entity.MemberSns;
 import com.ssafy.match.db.entity.Status;
@@ -66,6 +68,7 @@ public class StudyServiceImpl implements StudyService {
     private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
     private final MemberSnsRepository memberSnsRepository;
+    private final StudyBoardRepository studyBoardRepository;
 
     // 스터디 생성을 위한 정보(호스트의 클럽 정보)
     public StudyInfoForCreateResponseDto getInfoForCreate() throws Exception {
@@ -87,6 +90,7 @@ public class StudyServiceImpl implements StudyService {
         study.setDBFile(findDBFile(dto.getCoverpic_uuid()));
         studyRepository.save(study);
 
+        makeBasicBoards(study);
         addTechstack(study, dto.getTechList());
         addMember(study, member);
 
@@ -253,6 +257,12 @@ public class StudyServiceImpl implements StudyService {
         return HttpStatus.OK;
     }
 
+    @Transactional
+    public void makeBasicBoards(Study study){
+        studyBoardRepository.save(new StudyBoard("공지사항", study));
+        studyBoardRepository.save(new StudyBoard("게시판", study));
+    }
+
     public Study findStudy(Long studyId) throws Exception {
         Study study = studyRepository.findById(studyId)
             .orElseThrow(() -> new NullPointerException("스터디 정보가 없습니다."));
@@ -330,6 +340,7 @@ public class StudyServiceImpl implements StudyService {
 
         return clubDtos;
     }
+
 
     public List<MemberDto> makeMemberDtos(List<Member> members) {
         List<MemberDto> memberDtos = new ArrayList<>();
