@@ -27,8 +27,13 @@ spring:
 #        show_sql: true # JPA, 하이버네이트가 생성하는 SQL이 로그에 생성 (sysout)
 #        format_sql: true
     database-platform: org.hibernate.dialect.MySQL8Dialect
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 100
 
-#  kafka:
+  #  kafka:
 #    consumer:
 #      bootstrap-servers: localhost:29092
 #      group-id: test-group

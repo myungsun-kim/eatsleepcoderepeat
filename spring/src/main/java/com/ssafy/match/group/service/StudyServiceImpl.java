@@ -43,6 +43,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -138,8 +139,9 @@ public class StudyServiceImpl implements StudyService {
         return HttpStatus.OK;
     }
 
-    public List<StudyInfoResponseDto> getAllStudy() {
-        List<Study> studies = studyRepository.findAllStudy();
+    public List<StudyInfoResponseDto> getAllStudy(Pageable pageable) {
+        Slice<Study> page = studyRepository.findByIsActiveAndIsPublic(Boolean.TRUE, Boolean.FALSE, pageable);
+        List<Study> studies = page.getContent();
         List<StudyInfoResponseDto> studyInfoResponseDtos = new ArrayList<>();
 
         for (Study study: studies) {

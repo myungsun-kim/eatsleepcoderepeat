@@ -15,6 +15,7 @@ public class StudyFormInfoResponseDto {
 
     private Long studyId;
     private Long memberId;
+    private String email;
     private String nickname;
     private String city;
     private String git;
@@ -36,6 +37,7 @@ public class StudyFormInfoResponseDto {
     public StudyFormInfoResponseDto(StudyApplicationForm form, List<String> strong, List<String> knowledgeable){
         this.studyId = form.getCompositeMemberStudy().getStudy().getId();
         this.memberId = form.getCompositeMemberStudy().getMember().getId();
+        this.email = form.getCompositeMemberStudy().getMember().getEmail();
         this.nickname = form.getNickname();
         this.city = form.getCity().name();
         this.git = form.getGit();
