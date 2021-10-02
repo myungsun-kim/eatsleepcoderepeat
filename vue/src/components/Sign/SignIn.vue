@@ -61,6 +61,7 @@
 import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
 import { useStore } from 'vuex';
+import jwt_decode from "jwt-decode";
 
 export default {
   name: 'signIn',
@@ -88,6 +89,7 @@ export default {
             localStorage.setItem('accessToken', res.data.accessToken);
             console.log('바로밑이 토큰 저장!!!!!!!!!');
             console.log(localStorage.getItem('accessToken'));
+            console.log(jwt_decode(res.data.accessToken));
             window.location = '/';
           } else if (res.status == 404) {
             alert('해당 아이디가 존재하지 않습니다.');
