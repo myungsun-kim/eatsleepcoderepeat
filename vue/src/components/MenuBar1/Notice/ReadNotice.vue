@@ -61,24 +61,23 @@
         <el-row class="height20"></el-row>
         <!-- dropdown -->
         <el-row style="height: 35%" class="footer">
-          <el-col :span="2" :offset="4">
+          <el-col :span="2" :offset="4" id="footer1">
             <select id="select" v-model="state.select">
               <option value="" class="option1">제목</option>
               <option value="작성자" class="option1">작성자</option>
               <option value="작성일" class="option1">작성일</option>
             </select>
           </el-col>
-          <el-col :span="12">
-            <el-input
+          <el-col :span="12" id="footer2">
+            <input
+              class="input"
               placeholder="검색어를 입력하세요"
               v-model="temp"
               size="middle"
-            ></el-input>
+            />
           </el-col>
-          <el-col :span="2">
-            <el-button class="btn-ghost font-noto-bold" id="button1"
-              >검색</el-button
-            >
+          <el-col :span="2" id="footer3">
+            <button id="button1">검색</button>
           </el-col>
           <el-col :span="4"></el-col>
         </el-row>
@@ -161,18 +160,78 @@ export default {
   flex-flow: column;
   justify-content: space-between;
 }
+.input {
+  width: 100%;
+  height: 36px;
+  border: 1px solid black;
+  border-radius: 4px;
+  padding-left: 10px;
+}
+.input:hover {
+  border: 1px solid #409eff;
+}
+.input:focus {
+  border: 1px solid #409eff;
+}
+/* 각 박스 클릭 시 나오는 테두리 없애기 */
+input:focus {
+  outline: none;
+}
+select:focus {
+  outline: none;
+}
+button:focus {
+  outline: none;
+}
 #button1 {
+  cursor: pointer;
   font-size: 15px;
   width: 70px;
-  height: 30px;
+  height: 40px;
+  border: 1px solid black;
+  border-radius: 4px;
+
+  text-align: center;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+}
+#button1:hover {
+  cursor: pointer;
+  color: #409eff;
+  border: 1px solid #409eff;
+  border-radius: 4px;
+}
+#button1:active {
+  /* border-style: groove; */
+  border: 3px solid #409eff;
 }
 .footer {
   align-items: center;
 }
+#footer1 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  margin-right: 10px;
+}
+#footer2 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-right: 10px;
+}
+#footer3 {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  margin-right: 10px;
+}
 #select {
   cursor: pointer;
   width: 70px;
-  height: 36px;
+  height: 40px;
   border: 1px solid black;
   border-radius: 4px;
   /* 텍스트 */
@@ -184,10 +243,8 @@ export default {
 }
 #select:hover {
   border: 1px solid #409eff;
-  color: #409eff;
 }
-#select:visited {
-  border: 1px solid black;
-  color: black;
+#select:active {
+  border: 3px solid #409eff;
 }
 </style>
