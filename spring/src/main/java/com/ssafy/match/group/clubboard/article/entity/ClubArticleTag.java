@@ -24,5 +24,5 @@ public class ClubArticleTag {
     ClubArticle clubArticle;
 
     private String name;
-    
+
 }
