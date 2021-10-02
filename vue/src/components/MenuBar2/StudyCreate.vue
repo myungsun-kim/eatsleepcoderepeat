@@ -193,6 +193,19 @@ export default {
       clubList[0] = '무관';
       clubId[0] = null;
     }
+    // let clubList = [];
+    // let clubId = [];
+    // if (user.value.myClubList.length > 0) {
+    //   for (let index = 0; index < user.value.myClubList.length; index++) {
+    //     clubList[index] = user.value.myClubList[index].name;
+    //     clubId[index] = user.value.myClubList[index].id;
+    //   }
+    // } else {
+    //   clubList[0] = '무관';
+    //   clubId[0] = null;
+    // }
+    // const clubList = ['사과', '배클럽', '우주', '공장'];
+    // const clubId = [31, 32, 33, 34];
 
     // 사진 업로드
     const beforeUpload = (file) => {
