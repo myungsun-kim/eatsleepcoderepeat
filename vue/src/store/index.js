@@ -1,9 +1,8 @@
 import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
-import axios from 'axios';
-
 import { auth } from '@/store/modules/auth';
 import { member } from '@/store/modules/member';
+import { chat } from '@/store/modules/chat'
 import { study } from '@/store/modules/study';
 
 export default createStore({
@@ -64,8 +63,13 @@ export default createStore({
   modules: {
     auth,
     member,
+    chat,
+    /* 만약 모듈을 추가하실 필요가 있다면 
+    아래 path 프로퍼티에 작성해주시기 바랍니다. */
     study,
   },
 
-  plugins: [createPersistedState()],
+  plugins: [createPersistedState({
+    paths: ['auth', 'member', 'chat', 'study'] // <<<<<<여기!
+  })],
 });
