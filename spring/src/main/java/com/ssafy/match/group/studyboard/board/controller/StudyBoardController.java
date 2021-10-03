@@ -24,21 +24,21 @@ public class StudyBoardController {
         return ResponseEntity.ok(studyBoardService.getStudyBoards(studyid));
     }
 
-    @PostMapping("/boards")
+    @PostMapping("/{studyid}/boards")
     @ApiOperation(value = "(스터디)게시판 생성", notes = "<strong>받은 스터디 id</strong>를 사용해서 게시판을 생성한다.")
-    public ResponseEntity<Integer> create(@RequestBody StudyBoardCreateRequestDto studyBoardCreateRequestDto) throws Exception {
-        return ResponseEntity.ok(studyBoardService.createBoard(studyBoardCreateRequestDto));
+    public ResponseEntity<Integer> create(@PathVariable("studyid") Long studyid, @RequestBody StudyBoardCreateRequestDto studyBoardCreateRequestDto) throws Exception {
+        return ResponseEntity.ok(studyBoardService.createBoard(studyid, studyBoardCreateRequestDto));
     }
 
-    @DeleteMapping("/boards/{boardid}")
+    @DeleteMapping("/{studyid}/boards/{boardid}")
     @ApiOperation(value = "(스터디)게시판 삭제", notes = "<strong>받은 게시판 id</strong>를 사용해서 게시판을 삭제한다.")
-    public ResponseEntity<Boolean> deleteBoard(@PathVariable("boardid") Integer boardid) throws Exception {
+    public ResponseEntity<Boolean> deleteBoard(@PathVariable("studyid") Long studyid, @PathVariable("boardid") Integer boardid) throws Exception {
         return ResponseEntity.ok(studyBoardService.deleteBoard(boardid));
     }
 
-    @PutMapping("/boards/{boardid}")
+    @PutMapping("/{studyid}/boards/{boardid}")
     @ApiOperation(value = "(스터디)게시판 수정", notes = "<strong>받은 게시판 id</strong>를 사용해서 게시판을 수정한다.")
-    public ResponseEntity<Boolean> updateBoard(@PathVariable("boardid") Integer boardid, @RequestBody StudyBoardUpdateDto studyBoardUpdateDto) throws Exception {
+    public ResponseEntity<Boolean> updateBoard(@PathVariable("studyid") Long studyid, @PathVariable("boardid") Integer boardid, @RequestBody StudyBoardUpdateDto studyBoardUpdateDto) throws Exception {
         return ResponseEntity.ok(studyBoardService.updateBoard(boardid, studyBoardUpdateDto));
     }
 }

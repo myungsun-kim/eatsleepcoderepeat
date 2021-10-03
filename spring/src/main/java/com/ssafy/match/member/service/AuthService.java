@@ -59,8 +59,8 @@ public class AuthService {
         }
         Member member = memberRequestDto.toMember(passwordEncoder);
         Member ret = memberRepository.save(member);
-        setCoverPic(member, memberRequestDto.getCover_pic());
-        setPortfolioUuid(member, memberRequestDto.getPortfolio_uuid());
+//        DBFile coverPic = setCoverPic(memberRequestDto.getCover_pic());
+//        DBFile portfolio = setPortfolioUuid(memberRequestDto.getPortfolio_uuid());
 
         if (memberRequestDto.getExpTechList() != null){
             for (String techExp : memberRequestDto.getExpTechList()) {
@@ -101,6 +101,8 @@ public class AuthService {
                 positionRepository.save(innerDposition);
             }
         }
+//        member.setCover_pic(coverPic);
+//        member.setPortfolio(portfolio);
         return MemberResponseDto.of(ret);
     }
 
@@ -161,22 +163,23 @@ public class AuthService {
         return tokenDto;
     }
 
-    public void setCoverPic(Member member, String uuid) {
-        if(uuid == null) {
-            member.setCover_pic(null);
-            return;
-        }
+    public DBFile setCoverPic(String uuid) {
+//        if(uuid == null) {
+//            member.setCover_pic(null);
+//            return;
+//        }
         DBFile dbFile = dbFileRepository.getById(uuid);
-        member.setCover_pic(dbFile);
+        return dbFile;
     }
 
     @Transactional
-    public void setPortfolioUuid(Member member, String uuid) {
-        if(uuid == null) {
-            member.setPortfolio(null);
-            return;
-        }
+    public DBFile setPortfolioUuid(String uuid) {
+//        if(uuid == null) {
+//            member.setPortfolio(null);
+//            return;
+//        }
         DBFile dbFile = dbFileRepository.getById(uuid);
-        member.setPortfolio(dbFile);
+//        member.setPortfolio(dbFile);
+        return dbFile;
     }
 }

@@ -16,9 +16,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudyArticleCreateRequestDto {
-    @ApiModelProperty(name = "articleid", example = "3")
-    @ApiParam(value = "게시물 id", required = true)
-    private Integer articleId;
+//    @ApiModelProperty(name = "articleid", example = "3")
+//    @ApiParam(value = "게시물 id", required = true)
+//    private Integer articleId;
 
     @ApiModelProperty(name = "title", example = "게시물 제목")
     @ApiParam(value = "게시물 제목", required = true)
