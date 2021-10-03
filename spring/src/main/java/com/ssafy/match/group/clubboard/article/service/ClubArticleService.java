@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,14 +46,13 @@ public class ClubArticleService {
     }
 
     @Transactional(readOnly = true)
-    public List<ClubArticleListDto> getClubArticles(Integer boardId) throws Exception {
+    public Page<ClubArticleListDto> getClubArticles(Integer boardId, Pageable pageable) throws Exception {
         if (!clubBoardRepository.existsById(boardId)) {
             throw new RuntimeException("존재하지 않는 게시판입니다");
         }
         ClubBoard clubBoard = clubBoardRepository.getById(boardId);
-        List<ClubArticleListDto> clubArticleListDtos = clubArticleRepository.findAllByClubBoard(clubBoard).stream()
-                .map(ClubArticleListDto::of)
-                .collect(Collectors.toList());
+        Page<ClubArticleListDto> clubArticleListDtos = clubArticleRepository.findAllByClubBoard(clubBoard, pageable)
+                .map(ClubArticleListDto::of);
         return clubArticleListDtos;
     }
 
