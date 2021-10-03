@@ -88,8 +88,8 @@ public class StudyServiceImpl implements StudyService {
         study.setMember(member);
         study.setClub(findClub(dto.getClubId()));
         study.setDBFile(findDBFile(dto.getCoverpic_uuid()));
-        studyRepository.save(study);
 
+        studyRepository.save(study);
         makeBasicBoards(study);
         addTechstack(study, dto.getTechList());
         addMember(study, member);
