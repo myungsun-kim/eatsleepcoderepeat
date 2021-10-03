@@ -21,7 +21,7 @@ export const study = {
       state.totalStudyList = payload;
     },
     updateStudyId(state, payload) {
-      // console.log('넘겨준 STUDY ID 값' + payload);
+      console.log('넘겨준 STUDY ID 값' + payload);
       state.studyId = payload;
     },
     updateStudyIntroduce(state, payload) {
@@ -57,8 +57,10 @@ export const study = {
         header
       );
       res.then((res) => {
-        // console.log('스터디 생성 결과');
-        // console.log(res);
+        console.log('스터디 생성 결과');
+        console.log(res);
+        console.log(res.data);
+        commit('updateStudyId', res.data);
       });
     },
     callUpdateStudyId({ commit }, data) {

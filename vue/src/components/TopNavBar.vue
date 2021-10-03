@@ -43,13 +43,16 @@
           ><i class="el-icon-search" id="search-icon"></i
         ></el-col>
         <el-col :span="3"></el-col
-        ><el-col :span="3"
+        ><el-col v-if="chatCurrentId != 0" :span="3"
           ><el-button
             class="top-nav-btn font-s-md"
             type="text"
             @click="clickChat"
             >채팅</el-button
-          ></el-col
+          ><el-button
+            >{{ chatUnreadCounts }}</el-button
+          >
+          </el-col
         ><el-col :span="3"></el-col
         ><el-col :span="6"
           ><el-button
@@ -84,11 +87,14 @@
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
+import { computed } from 'vue';
+
 export default {
   setup() {
     const store = useStore();
     const router = useRouter();
-
+    const chatUnreadCounts = computed(() => store.getters['chat/getUnreadCounts']);
+    const chatCurrentId = computed(() => store.getters['chat/getCurrentUserId']);
     const clickStudy = function () {
       store.commit('setCategory', 1);
       router.push({ path: '/nosubheader/study/home' });
@@ -121,12 +127,15 @@ export default {
     };
     const clickLogOut = function () {
       localStorage.removeItem('accessToken');
+      store.dispatch('chat/cleanup');
       window.location = '/';
     };
     const token = localStorage.getItem('accessToken');
     return {
       store,
       router,
+      chatUnreadCounts,
+      chatCurrentId,
       clickStudy,
       clickProject,
       clickClub,
