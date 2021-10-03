@@ -17,6 +17,9 @@ import com.ssafy.match.group.dto.study.response.StudyInfoResponseDto;
 import com.ssafy.match.group.entity.study.Study;
 import com.ssafy.match.member.entity.Member;
 import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
 public interface ClubService {
@@ -27,11 +30,11 @@ public interface ClubService {
 
     HttpStatus delete(Long clubId) throws Exception;
 
-    List<ClubInfoResponseDto> getAllClub();
+    Page<ClubInfoResponseDto> getAllClub(Pageable pageable);
 
     ClubInfoResponseDto getOneClub(Long clubId) throws Exception;
 
-    HttpStatus removeMember(Long studyId, Long memberId) throws Exception;
+    HttpStatus removeMember(Long studyId) throws Exception;
 
     InfoForApplyClubFormResponseDto getInfoForApply(Long clubId) throws Exception;
 

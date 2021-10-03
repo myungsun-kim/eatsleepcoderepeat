@@ -7,6 +7,11 @@ import com.ssafy.match.group.service.ClubService;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,20 +50,19 @@ public class ClubController {
         return ResponseEntity.ok(clubService.delete(clubId));
     }
 
-    @DeleteMapping("/{clubId}/{memberId}")
-    @ApiOperation(value = "클럽 탈퇴", notes = "<strong>받은 클럽 id와 멤버 id</strong>로 클럽에서 탈퇴한다.")
-    public ResponseEntity<HttpStatus> deleteMember(@PathVariable("clubId") Long clubId,
-        @PathVariable("memberId") Long memberId) throws Exception {
-        return ResponseEntity.ok(clubService.removeMember(clubId, memberId));
+    @DeleteMapping("/{clubId}/member")
+    @ApiOperation(value = "클럽 탈퇴", notes = "<strong>받은 클럽 id</strong>로 클럽에서 탈퇴한다.")
+    public ResponseEntity<HttpStatus> deleteMember(@PathVariable("clubId") Long clubId) throws Exception {
+        return ResponseEntity.ok(clubService.removeMember(clubId));
     }
 
     @GetMapping
-    @ApiOperation(value = "모든 클럽 조회", notes = "모든 클럽를 작성일 기준 내림차순으로 받는다")
-    public ResponseEntity<List<ClubInfoResponseDto>> getAllClub() throws Exception {
-        return ResponseEntity.ok(clubService.getAllClub());
+    @ApiOperation(value = "모든 클럽 조회", notes = "(isPublic :True, isActive:True)를 만족하는 클럽들을 작성일 기준 내림차순으로 받는다")
+    public ResponseEntity<Page<ClubInfoResponseDto>> getAllClub(@PageableDefault(size = 10) @SortDefault(sort = "createDate", direction= Sort.Direction.DESC) Pageable pageable) throws Exception {
+        return ResponseEntity.ok(clubService.getAllClub(pageable));
     }
 
-    @GetMapping("/one/{clubId}")
+    @GetMapping("/{clubId}")
     @ApiOperation(value = "클럽 상세정보 조회",
         notes = "<strong>받은 클럽 id</strong>로 해당 클럽 정보 + 수정을 위한 정보(사용자 클럽 리스트, 지역, 상태 리스트 등")
     public ResponseEntity<ClubInfoResponseDto> getOneClub(@PathVariable("clubId") Long clubId)

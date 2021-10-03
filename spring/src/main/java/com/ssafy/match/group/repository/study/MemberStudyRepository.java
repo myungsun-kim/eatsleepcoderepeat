@@ -24,4 +24,8 @@ public interface MemberStudyRepository extends JpaRepository<MemberStudy, Compos
     @Query(value = "select ms.compositeMemberStudy.study from matching.member_study ms "
         + "where ms.compositeMemberStudy.member = :member and ms.isActive = true")
     List<Study> studyInMember(@Param("member") Member member);
+
+    @Query(value = "select ms.compositeMemberStudy.member from matching.member_study ms "
+            + "where ms.compositeMemberStudy.study.id = :id and ms.isActive = true")
+    List<Member> findMemberByStudyId(@Param("id") Long id);
 }

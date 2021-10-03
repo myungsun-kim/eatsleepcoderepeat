@@ -43,6 +43,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -134,18 +136,12 @@ public class ProjectServiceImpl implements ProjectService {
         return HttpStatus.OK;
     }
 
-    public List<ProjectInfoResponseDto> getAllProject() {
-        List<Project> projects = projectRepository.findAllProject();
-        List<ProjectInfoResponseDto> projectInfoResponseDtos = new ArrayList<>();
-
-        for (Project project: projects) {
-            if(project.getStatus().equals(Status.종료)) continue;
-            ProjectInfoResponseDto dto = new ProjectInfoResponseDto(project);
-            dto.setHost(new MemberDto(project.getMember()));
-            dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
-            projectInfoResponseDtos.add(dto);
+    public Page<ProjectInfoResponseDto> getAllProject(Pageable pageable) {
+        Page<ProjectInfoResponseDto> projectInfoResponseDtos = projectRepository.findByIsActiveAndIsPublicAndStatusIsNot(Boolean.TRUE, Boolean.TRUE, Status.종료, pageable)
+                .map(ProjectInfoResponseDto::of);
+        for (ProjectInfoResponseDto projectInfoResponseDto: projectInfoResponseDtos.getContent()) {
+            projectInfoResponseDto.setMemberDtos(makeMemberDtos(memberProjectRepository.findMemberByProjectId(projectInfoResponseDto.getId())));
         }
-
         return projectInfoResponseDtos;
     }
 
@@ -161,22 +157,19 @@ public class ProjectServiceImpl implements ProjectService {
 
     // 현재 프로젝트 정보 리턴
     public ProjectInfoResponseDto getOneProject(Long projectId) throws Exception {
-
         Project project = findProject(projectId);
         if (!SecurityUtil.getCurrentMemberId().equals(project.getMember().getId())
             && !project.getIsPublic()) {
             throw new Exception("비공개된 프로젝트입니다.");
         }
+        ProjectInfoResponseDto projectInfoResponseDto = projectRepository.findById(projectId).map(ProjectInfoResponseDto::of).orElseThrow(() -> new NullPointerException("프로젝트가 존재하지 않습니다."));
+        projectInfoResponseDto.setMemberDtos(makeMemberDtos(memberProjectRepository.findMemberByProjectId(projectId)));
+        projectInfoResponseDto.setDeveloperNicknames(memberNicknames(projectId, "개발자"));
+        projectInfoResponseDto.setDesignerNicknames(memberNicknames(projectId, "디자이너"));
+        projectInfoResponseDto.setPlannerNicknames(memberNicknames(projectId, "기획자"));
+        projectInfoResponseDto.setTechList(projectTechstackName(project));
 
-        ProjectInfoResponseDto dto = new ProjectInfoResponseDto(project);
-        dto.setHost(new MemberDto(project.getMember()));
-        dto.setDeveloperNicknames(memberNicknames(projectId, "개발자"));
-        dto.setDesignerNicknames(memberNicknames(projectId, "디자이너"));
-        dto.setPlannerNicknames(memberNicknames(projectId, "기획자"));
-        dto.setTechList(projectTechstackName(project));
-        dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
-
-        return dto;
+        return projectInfoResponseDto;
     }
 
     public ProjectInfoForUpdateResponseDto getInfoForUpdateProject(Long projectId) throws Exception {
@@ -207,15 +200,25 @@ public class ProjectServiceImpl implements ProjectService {
 
     // 특정 멤버의 활성화 프로젝트 리스트
     public List<ProjectInfoResponseDto> projectInMember(Long memberId) throws Exception {
-        List<ProjectInfoResponseDto> projectInfoResponseDtos = new ArrayList<>();
-
-        for (Project project: memberProjectRepository.projectInMember(findMember(memberId))) {
-            if(project.getStatus().equals(Status.종료)) continue;
-            ProjectInfoResponseDto dto = new ProjectInfoResponseDto(project);
-            dto.setHost(new MemberDto(project.getMember()));
-            dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
-            projectInfoResponseDtos.add(dto);
+//        List<ProjectInfoResponseDto> projectInfoResponseDtos = new ArrayList<>();
+        System.out.println(memberProjectRepository.getProjectsByMemberAndStatus(findMember(memberId), Status.종료));
+        List<Project> projects = memberProjectRepository.getProjectsByMemberAndStatus(findMember(memberId), Status.종료);
+        System.out.println("!!!!!!!!!!!!");
+        System.out.println(projects);
+//        projects.ma
+        List<ProjectInfoResponseDto> projectInfoResponseDtos = projects.stream().map(ProjectInfoResponseDto::of).collect(Collectors.toList());
+        System.out.println("here!!!!!!!!!!!!!!!");
+        System.out.println(projectInfoResponseDtos);
+        for (ProjectInfoResponseDto projectInfoResponseDto: projectInfoResponseDtos) {
+            projectInfoResponseDto.setMemberDtos(makeMemberDtos(memberProjectRepository.findMemberByProjectId(projectInfoResponseDto.getId())));
         }
+//        for (Project project: memberProjectRepository.projectInMember(findMember(memberId))) {
+//            if(project.getStatus().equals(Status.종료)) continue;
+//            ProjectInfoResponseDto dto = new ProjectInfoResponseDto(project);
+//            dto.setHost(new MemberDto(project.getMember()));
+//            dto.setMemberDtos(makeMemberDtos(findMemberInProject(project)));
+//            projectInfoResponseDtos.add(dto);
+//        }
         return projectInfoResponseDtos;
     }
 
@@ -269,19 +272,16 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Transactional
-    public void removeMember(Long projectId, Long memberId) throws Exception {
+    public void removeMember(Long projectId) throws Exception {
         Project project = findProject(projectId);
-        Member member = findMember(memberId);
-
-        if(project.getMember().getId().equals(memberId)){
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new NullPointerException("잘못된 사용자 입니다.(사용자 없음)"));
+        if(project.getMember().getId().equals(member.getId())){
             throw new Exception("프로젝트장은 탈퇴할 수 없습니다.");
         }
-
         CompositeMemberProject compositeMemberProject = new CompositeMemberProject(member, project);
         // DB에 해당 멤버 기록이 없다면 새로 생성
         MemberProject memberProject = memberProjectRepository.findById(compositeMemberProject)
             .orElseThrow(() -> new NullPointerException("이미 탈퇴된 멤버입니다."));
-
         memberProject.deactivation();
         changeRole(project, member, "");
     }
