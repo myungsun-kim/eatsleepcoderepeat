@@ -1,7 +1,7 @@
-package com.ssafy.match.group.clubboard.article.entity;
+package com.ssafy.match.group.projectboard.article.entity;
 
 
-import com.ssafy.match.group.clubboard.article.entity.ClubArticle;
+import com.ssafy.match.group.projectboard.article.entity.ProjectArticle;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,24 +19,24 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity(name = "matching.club_content")
+@Entity(name = "matching.project_content")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ClubContent {
+public class ProjectContent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 //    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JoinColumn(name = "club_article_id")
-    private ClubArticle clubArticle;
+    @JoinColumn(name = "project_article_id")
+    private ProjectArticle projectArticle;
 
     @Column(name = "content")
     private String content;
 
     @Builder
-    public ClubContent(ClubArticle clubArticle, String content) {
-        this.clubArticle = clubArticle;
+    public ProjectContent(ProjectArticle projectArticle, String content) {
+        this.projectArticle = projectArticle;
         this.content = content;
     }
 

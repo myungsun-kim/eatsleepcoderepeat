@@ -1,8 +1,8 @@
-package com.ssafy.match.group.clubboard.article.dto;
+package com.ssafy.match.group.projectboard.article.dto;
 
 
-import com.ssafy.match.group.clubboard.article.entity.ClubArticle;
-import com.ssafy.match.group.clubboard.board.entity.ClubBoard;
+import com.ssafy.match.group.projectboard.article.entity.ProjectArticle;
+import com.ssafy.match.group.projectboard.board.entity.ProjectBoard;
 import com.ssafy.match.member.entity.Member;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClubArticleCreateRequestDto {
+public class ProjectArticleCreateRequestDto {
 //    @ApiModelProperty(name = "articleid", example = "3")
 //    @ApiParam(value = "게시물 id", required = true)
 //    private Integer articleId;
@@ -27,10 +27,10 @@ public class ClubArticleCreateRequestDto {
     @ApiParam(value = "게시물내용")
     private String content;
 
-    public ClubArticle toClubBoard(Member member, ClubBoard clubBoard) {
-        return ClubArticle.builder()
+    public ProjectArticle toProjectBoard(Member member, ProjectBoard projectBoard) {
+        return ProjectArticle.builder()
                 .title(title)
-                .clubBoard(clubBoard)
+                .projectBoard(projectBoard)
                 .viewCount(0)
                 .member(member)
                 .createDate(LocalDateTime.now())
