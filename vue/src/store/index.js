@@ -10,7 +10,6 @@ export default createStore({
   state: {
     category: null,
     user: {},
-    profile: '',
     scrollModal: 'false',
     // category 1:스터디 2:프로젝트 3:클럽
     form: {
@@ -53,28 +52,14 @@ export default createStore({
       );
       return res;
     },
-    printImg({ commit }, formData) {
-      const res = axios
-        .get(user.value.cover_pic, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-        });
-    },
   },
   getters: {
     scrollGetter: (state) => {
       return state.scrollModal;
     },
-    getProfile: (state) => {
-      return state.profile;
+    getUserInfo: (state) => {
+      return state.user;
     },
-    // getUserInfo: (state) => {
-    //   return state.user;
-    // },
   },
   modules: {
     auth,

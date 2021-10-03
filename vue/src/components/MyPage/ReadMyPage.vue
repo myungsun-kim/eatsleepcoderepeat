@@ -199,7 +199,7 @@
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
-        <el-col :span="7" class="test-border"> Beginner </el-col>
+        <el-col :span="7" class="test-border"> Beginner</el-col>
         <el-col :span="16" :offset="1" class="info">
           <span v-for="item in user.beginTechList" :key="item"
             >{{ item }}&nbsp;</span
@@ -268,6 +268,7 @@ import ServiceQuitModal from '../Modal/ServiceQuitModal.vue';
 import { useStore } from 'vuex';
 import { reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 export default {
   name: 'ReadMyPage',
@@ -279,12 +280,20 @@ export default {
     const store = useStore();
     const router = useRouter();
 
+    console.log('2-1');
     // store.dispatch('member/readMyPage').then((res) => {
-    //   store.state.user = res.data;
+    //   console.log('2-25');
+    //   // store.state.user = res.data;
     // });
-    // const user = computed(() => store.state.user);
+    console.log('2-7');
+    const user = computed(() => store.getters['member/mypageGetter']);
+    console.log('2-8');
 
-    const res = store.dispatch('member/readMyPage');
+    // console.log('11');
+    // const res = store.dispatch('member/readMyPage');
+    // console.log('44');
+    // const user = computed(() => store.getters['member/mypageGetter']);
+    // console.log('55');
 
     // const user = computed(() => store.getters['getUserInfo']);
 
@@ -292,7 +301,6 @@ export default {
     // mypage.then((mypage) => {
     //   store.commit('setMember', mypage.data);
     // });
-    const user = computed(() => store.getters['member/mypageGetter']);
 
     // const res = store.dispatch('member/readMyPage');
     // res.then((res) => {

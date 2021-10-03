@@ -10,12 +10,15 @@ export const member = {
   mutations: {
     updateMypage(state, payload) {
       console.log('SAVE MY PAGE');
+      console.log('2-4');
       console.log(payload);
       state.mypage = payload;
+      console.log('2-5');
     },
   },
   actions: {
     readMyPage({ commit }) {
+      console.log('2-2');
       const res = axios
         .get(BASE_URL + `/api/member/mypage`, {
           headers: {
@@ -24,9 +27,11 @@ export const member = {
         })
         .then((res) => {
           console.log('READ MY PAGE');
+          console.log('2-3');
           console.log(res);
           console.log(res.data);
           commit('updateMypage', res.data);
+          console.log('2-6');
         });
 
       return res;

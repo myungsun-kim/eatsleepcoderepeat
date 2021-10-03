@@ -205,10 +205,11 @@ export default {
     // const user = computed(() => store.getters['member/mypageGetter']);
 
     const res = store.dispatch('member/readMyPage');
-    res.then((res) => {
-      tore.state.user = res.data;
-    });
-    const user = computed(() => store.state.user);
+    // res.then((res) => {
+    //   store.state.user = res.data;
+    // });
+    const user = computed(() => store.getters['member/mypageGetter']);
+
     console.log('유저정보');
     console.log(user);
     console.log(user.value);

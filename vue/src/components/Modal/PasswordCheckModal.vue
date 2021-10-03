@@ -49,11 +49,11 @@ export default {
     const store = useStore();
     const router = useRouter();
     const modalOpen = computed(() => store.getters['scrollGetter']);
-    const user = computed(() => store.state.user);
+    const user = computed(() => store.getters['member/mypageGetter']);
 
     const state = reactive({
       form: {
-        email: '',
+        email: user.value.email,
         password: '',
       },
     });
@@ -66,8 +66,8 @@ export default {
       store.dispatch('changeScrollModal', false);
       console.log(modalOpen.value);
       console.log('이메일');
-      state.form.email = user.value.email;
-      console.log(user.value.email);
+      // state.form.email = user.value.email;
+      console.log(state.form.email);
       console.log('인풋값' + state.form.password);
 
       const res = store
