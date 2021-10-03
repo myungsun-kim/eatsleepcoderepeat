@@ -1,6 +1,4 @@
 <template>
-  <input id="text" type="test" style="display: none" />
-
   <el-row :gutter="0" class="height100" id="signup">
     <el-col :span="9" :offset="0" id="left">
       <div class="height100">
@@ -168,82 +166,8 @@
       </form>
     </el-col>
 
-    <!-- Step2 포트폴리오 -->
-    <el-col :span="15" :offset="0" id="step2" v-else-if="state.step == 2">
-      <div class="height100">
-        <div class="height20"></div>
-        <div class="height5" id="H1">
-          <p id="h1">회원가입</p>
-        </div>
-        <div class="height10" id="H2">
-          <p id="h2">Step2-포트폴리오</p>
-        </div>
-        <div class="height5"></div>
-        <div class="height30">
-          <el-row :gutter="0" class="height100">
-            <el-col :span="11" :offset="0">
-              <div class="height100">
-                <div id="H4">
-                  <p id="h4">포트폴리오 파일 등록</p>
-                </div>
-                <div id="upload">
-                  <el-upload
-                    class="upload-demo"
-                    drag
-                    action="https://jsonplaceholder.typicode.com/posts/"
-                    :on-preview="handlePreview"
-                    :on-remove="handleRemove"
-                    :file-list="fileList"
-                    multiple
-                  >
-                    <i class="el-icon-upload"></i>
-                    <div class="el-upload__text">
-                      파일을 드래그 하거나
-                      <br />
-                      <em>클릭해서 업로드 하세요</em>
-                    </div>
-                    <template #tip>
-                      <div class="el-upload__tip">(최대 100MB)</div>
-                    </template>
-                  </el-upload>
-                </div>
-              </div>
-            </el-col>
-            <el-col :span="1" :offset="0">
-              <div class="height100" id="H5">
-                <p id="h5">또는</p>
-              </div>
-            </el-col>
-            <el-col :span="12" :offset="0">
-              <div class="height100" id="H6">
-                <p>포트폴리오 url 등록</p>
-                <input
-                  type="text"
-                  placeholder="url경로를 입력하세요."
-                  id="portfolio"
-                  onfocus="this.placeholder=''"
-                  onblur="this.placeholder='url경로를 입력하세요.'"
-                />
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-        <div class="height5"></div>
-        <div class="height10" id="button">
-          <el-row :gutter="0">
-            <el-col :span="12" :offset="0"></el-col>
-            <el-col :span="12" :offset="0"></el-col>
-          </el-row>
-
-          <el-button id="previous" @click="previousStep">이전</el-button>
-          <el-button id="skip" @click="skipStep">건너뛰기</el-button>
-          <el-button id="next" @click="nextStep">다음</el-button>
-        </div>
-      </div>
-    </el-col>
-
-    <!-- Step3 개발수준 -->
-    <el-col :span="15" :offset="0" id="step3" v-else-if="state.step == 3">
+    <!-- Step2 개발수준 -->
+    <el-col :span="15" :offset="0" id="step3" v-else-if="state.step == 2">
       <div class="height100">
         <div class="height20"></div>
         <div class="height5" id="H1">
@@ -353,7 +277,7 @@
       </div>
     </el-col>
 
-    <!-- Step4 세부정보 -->
+    <!-- Step3 세부정보 -->
     <el-col :span="15" :offset="0" id="step4" v-else>
       <div class="height100">
         <div class="height20"></div>
@@ -1579,85 +1503,7 @@ export default {
   color: #919191;
 }
 
-/*---------------------------------------------------------------Step2----------------------------- */
-#H4 {
-  display: flex;
-  align-items: center;
-  justify-content: left;
-}
-#h4 {
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
-  /* identical to box height, or 114% */
-
-  text-align: center;
-  margin-left: 180px;
-
-  color: #000000;
-}
-#upload {
-  display: flex;
-  flex-flow: column;
-  justify-content: left;
-  margin-left: 180px;
-  margin-right: 100px;
-}
-.upload-demo .el-upload {
-  width: 500px;
-  height: 500px;
-}
-.el-upload__tip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 360px;
-}
-#H5 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-#h5 {
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
-  /* identical to box height, or 114% */
-
-  text-align: center;
-
-  color: #000000;
-}
-#H6 {
-}
-#h6 {
-}
-#portfolio {
-  width: 400px;
-  height: 48px;
-
-  background: #e8e8e8;
-  border-radius: 10px;
-  border: 0px;
-  padding-left: 10px;
-
-  /* 지역 선택 텍스트 */
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
-  /* identical to box height, or 114% */
-  text-align: left;
-
-  color: #919191;
-}
-
-/* -------------------------------------Step3----------------------------- */
+/* -------------------------------------Step2----------------------------- */
 #H7 {
   display: flex;
 }
@@ -1803,7 +1649,7 @@ export default {
 
   cursor: pointer;
 }
-/* --------------------------------------------Step4-------------------------------------------- */
+/* --------------------------------------------Step3-------------------------------------------- */
 #H8 {
   display: flex;
   flex-flow: column;

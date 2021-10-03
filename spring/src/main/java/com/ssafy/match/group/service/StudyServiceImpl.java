@@ -2,6 +2,8 @@ package com.ssafy.match.group.service;
 
 import com.ssafy.match.db.entity.City;
 import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.group.studyboard.board.entity.StudyBoard;
+import com.ssafy.match.group.studyboard.board.repository.StudyBoardRepository;
 import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.member.entity.MemberSns;
 import com.ssafy.match.db.entity.Status;
@@ -66,6 +68,7 @@ public class StudyServiceImpl implements StudyService {
     private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
     private final MemberSnsRepository memberSnsRepository;
+    private final StudyBoardRepository studyBoardRepository;
 
     // 스터디 생성을 위한 정보(호스트의 클럽 정보)
     public StudyInfoForCreateResponseDto getInfoForCreate() throws Exception {
@@ -87,6 +90,7 @@ public class StudyServiceImpl implements StudyService {
         study.setDBFile(findDBFile(dto.getCoverpic_uuid()));
         studyRepository.save(study);
 
+        makeBasicBoards(study);
         addTechstack(study, dto.getTechList());
         addMember(study, member);
 
@@ -140,7 +144,7 @@ public class StudyServiceImpl implements StudyService {
     }
 
     public Page<StudyInfoResponseDto> getAllStudy(Pageable pageable) {
-        Page<StudyInfoResponseDto> studyInfoResponseDtos = studyRepository.findByIsActiveAndIsPublicAndStatusIsNot(Boolean.TRUE, Boolean.FALSE, Status.종료, pageable)
+        Page<StudyInfoResponseDto> studyInfoResponseDtos = studyRepository.findByIsActiveAndIsPublicAndStatusIsNot(Boolean.TRUE, Boolean.TRUE, Status.종료, pageable)
                 .map(StudyInfoResponseDto::of);
         for (StudyInfoResponseDto studyInfoResponseDto: studyInfoResponseDtos.getContent()) {
             studyInfoResponseDto.setMemberDtos(makeMemberDtos(memberStudyRepository.findMemberByStudyId(studyInfoResponseDto.getId())));
@@ -239,22 +243,24 @@ public class StudyServiceImpl implements StudyService {
     }
 
     @Transactional
-    public HttpStatus removeMember(Long studyId, Long memberId) throws Exception {
+    public HttpStatus removeMember(Long studyId) throws Exception {
         Study study = findStudy(studyId);
-        Member member = findMember(memberId);
-
-        if (study.getMember().getId().equals(memberId)) {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new NullPointerException("잘못된 사용자 입니다.(사용자 없음)"));
+        if (study.getMember().getId().equals(member.getId())) {
             throw new Exception("스터디장은 탈퇴할 수 없습니다.");
         }
-
         CompositeMemberStudy compositeMemberStudy = new CompositeMemberStudy(member, study);
-
         MemberStudy memberStudy = memberStudyRepository.findById(compositeMemberStudy)
             .orElseThrow(() -> new NullPointerException("가입 기록이 없습니다."));
-
         memberStudy.deActivation();
         study.removeMember();
         return HttpStatus.OK;
+    }
+
+    @Transactional
+    public void makeBasicBoards(Study study){
+        studyBoardRepository.save(new StudyBoard("공지사항", study));
+        studyBoardRepository.save(new StudyBoard("게시판", study));
     }
 
     public Study findStudy(Long studyId) throws Exception {
@@ -334,6 +340,7 @@ public class StudyServiceImpl implements StudyService {
 
         return clubDtos;
     }
+
 
     public List<MemberDto> makeMemberDtos(List<Member> members) {
         List<MemberDto> memberDtos = new ArrayList<>();

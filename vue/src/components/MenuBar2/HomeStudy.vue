@@ -16,7 +16,7 @@
     </el-col>
   </el-row>
 
-  <el-row class="height25">
+  <el-row class="height25" v-if="myStudyList">
     <el-col :span="2" class="test-border"></el-col>
     <!-- Item 리스트 1개씩 v-for로 -->
     <el-col

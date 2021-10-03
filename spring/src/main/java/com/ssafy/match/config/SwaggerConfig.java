@@ -118,6 +118,48 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public Docket clubBoardApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+//            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
+            .globalRequestParameters(headers)
+            .apiInfo(apiInfo)
+            .groupName("ClubBoard")
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.clubboard"))
+
+            // api 필요한 클래스패스 추가하기
+            .paths(
+                PathSelectors.ant("/**/club/**")
+                    .or(PathSelectors.ant("/**/clubboards/**"))
+                    .or(PathSelectors.ant("/**/clubcomment/**"))
+//                PathSelectors.any()
+            )
+            .build()
+            .useDefaultResponseMessages(false);
+    }
+
+    @Bean
+    public Docket projectBoardApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+//            .globalRequestParameters(aParameters) // 글로벌 파라미터 필요시 추가하기
+            .globalRequestParameters(headers)
+            .apiInfo(apiInfo)
+            .groupName("ProjectBoard")
+            .select()
+            .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.projectboard"))
+
+            // api 필요한 클래스패스 추가하기
+            .paths(
+                PathSelectors.ant("/**/project/**")
+                    .or(PathSelectors.ant("/**/projectboards/**"))
+                    .or(PathSelectors.ant("/**/projectcomment/**"))
+//                PathSelectors.any()
+            )
+            .build()
+            .useDefaultResponseMessages(false);
+    }
+
+    @Bean
     public Docket studyBoardApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .globalRequestParameters(headers)
@@ -141,7 +183,22 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard.article.controller"))
                 .paths(
-                        PathSelectors.ant("/**/boards/**")
+                        PathSelectors.ant("/**/studyboards/**")
+                )
+                .build()
+                .useDefaultResponseMessages(false);
+    }
+
+    @Bean
+    public Docket studyBoardArticleCommentApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .globalRequestParameters(headers)
+                .apiInfo(apiInfo)
+                .groupName("StudyArticleComment")
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard.comment.controller"))
+                .paths(
+                        PathSelectors.ant("/**/studycomment/**")
                 )
                 .build()
                 .useDefaultResponseMessages(false);

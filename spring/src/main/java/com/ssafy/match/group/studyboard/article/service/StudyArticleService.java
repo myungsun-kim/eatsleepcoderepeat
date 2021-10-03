@@ -15,6 +15,8 @@ import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.member.repository.MemberRepository;
 import com.ssafy.match.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,14 +48,13 @@ public class StudyArticleService {
     }
 
     @Transactional(readOnly = true)
-    public List<StudyArticleListDto> getStudyArticles(Integer boardId) throws Exception {
+    public Page<StudyArticleListDto> getStudyArticles(Integer boardId, Pageable pageable) throws Exception {
         if (!studyBoardRepository.existsById(boardId)) {
             throw new RuntimeException("존재하지 않는 게시판입니다");
         }
         StudyBoard studyBoard = studyBoardRepository.getById(boardId);
-        List<StudyArticleListDto> studyArticleListDtos = studyArticleRepository.findAllByStudyBoard(studyBoard).stream()
-                .map(StudyArticleListDto::of)
-                .collect(Collectors.toList());
+        Page<StudyArticleListDto> studyArticleListDtos = studyArticleRepository.findAllByStudyBoard(studyBoard, pageable)
+                .map(StudyArticleListDto::of);
         return studyArticleListDtos;
     }
 

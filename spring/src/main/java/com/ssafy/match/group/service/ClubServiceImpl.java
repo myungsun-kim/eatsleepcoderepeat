@@ -6,6 +6,8 @@ import com.ssafy.match.db.entity.Techstack;
 import com.ssafy.match.db.repository.TechstackRepository;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.repository.DBFileRepository;
+import com.ssafy.match.group.clubboard.board.entity.ClubBoard;
+import com.ssafy.match.group.clubboard.board.repository.ClubBoardRepository;
 import com.ssafy.match.group.dto.MemberDto;
 import com.ssafy.match.group.dto.club.ClubDto;
 import com.ssafy.match.group.dto.club.request.ClubApplicationRequestDto;
@@ -14,13 +16,16 @@ import com.ssafy.match.group.dto.club.request.ClubUpdateRequestDto;
 import com.ssafy.match.group.dto.club.response.ClubFormInfoResponseDto;
 import com.ssafy.match.group.dto.club.response.ClubInfoResponseDto;
 import com.ssafy.match.group.dto.club.response.InfoForApplyClubFormResponseDto;
+import com.ssafy.match.group.dto.study.response.StudyInfoResponseDto;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.club.ClubApplicationForm;
 import com.ssafy.match.group.entity.club.CompositeMemberClub;
 import com.ssafy.match.group.entity.club.MemberClub;
+import com.ssafy.match.group.entity.study.Study;
 import com.ssafy.match.group.repository.club.ClubApplicationFormRepository;
 import com.ssafy.match.group.repository.club.ClubRepository;
 import com.ssafy.match.group.repository.club.MemberClubRepository;
+import com.ssafy.match.group.studyboard.board.entity.StudyBoard;
 import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.member.entity.MemberSns;
 import com.ssafy.match.member.repository.MemberBeginnerTechstackRepository;
@@ -35,6 +40,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +60,7 @@ public class ClubServiceImpl implements ClubService {
     private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
     private final MemberSnsRepository memberSnsRepository;
+    private final ClubBoardRepository clubBoardRepository;
 
     @Transactional
     public Long create(ClubCreateRequestDto dto) throws Exception {
@@ -64,6 +72,7 @@ public class ClubServiceImpl implements ClubService {
         club.setDbFile(findDBFile(dto.getUuid()));
         clubRepository.save(club);
 
+        makeBasicBoards(club);
         addMember(club, member);
 
         return club.getId();
@@ -104,18 +113,13 @@ public class ClubServiceImpl implements ClubService {
         return HttpStatus.OK;
     }
 
-    public List<ClubInfoResponseDto> getAllClub() {
-        List<Club> clubs = clubRepository.findAllClub();
-        List<ClubInfoResponseDto> clubInfoResponseDtos = new ArrayList<>();
+    public Page<ClubInfoResponseDto> getAllClub(Pageable pageable) {
+        Page<ClubInfoResponseDto> clubInfoResponseDtos = clubRepository.findByIsActiveAndIsPublic(Boolean.TRUE, Boolean.TRUE, pageable)
+                .map(ClubInfoResponseDto::of);
 
-        for (Club club : clubs) {
-            ClubInfoResponseDto dto = new ClubInfoResponseDto(club);
-            dto.setHost(new MemberDto(club.getMember()));
-            dto.setMemberDtos(makeMemberDtos(findMemberInClub(club)));
-
-            clubInfoResponseDtos.add(dto);
+        for (ClubInfoResponseDto clubInfoResponseDto: clubInfoResponseDtos.getContent()) {
+            clubInfoResponseDto.setMemberDtos(makeMemberDtos(memberClubRepository.findMemberByClubId(clubInfoResponseDto.getId())));
         }
-
         return clubInfoResponseDtos;
     }
 
@@ -127,12 +131,9 @@ public class ClubServiceImpl implements ClubService {
             && !club.getIsPublic()) {
             throw new Exception("비공개된 클럽입니다.");
         }
-
-        ClubInfoResponseDto dto = new ClubInfoResponseDto(club);
-        dto.setHost(new MemberDto(club.getMember()));
-        dto.setMemberDtos(makeMemberDtos(findMemberInClub(club)));
-
-        return dto;
+        ClubInfoResponseDto clubInfoResponseDto = clubRepository.findById(clubId).map(ClubInfoResponseDto::of).orElseThrow(() -> new NullPointerException("클럽이 존재하지 않습니다"));
+        clubInfoResponseDto.setMemberDtos(makeMemberDtos(memberClubRepository.findMemberByClubId(clubInfoResponseDto.getId())));
+        return clubInfoResponseDto;
     }
 
     @Transactional
@@ -153,22 +154,24 @@ public class ClubServiceImpl implements ClubService {
     }
 
     @Transactional
-    public HttpStatus removeMember(Long clubId, Long memberId) throws Exception {
+    public HttpStatus removeMember(Long clubId) throws Exception {
         Club club = findClub(clubId);
-        Member member = findMember(memberId);
-
-        if (club.getMember().getId().equals(memberId)) {
+        Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId()).orElseThrow(() -> new NullPointerException("잘못된 사용자 입니다.(사용자 없음)"));
+        if (club.getMember().getId().equals(member.getId())) {
             throw new Exception("클럽장은 탈퇴할 수 없습니다.");
         }
-
         CompositeMemberClub compositeMemberClub = new CompositeMemberClub(member, club);
-
         MemberClub memberClub = memberClubRepository.findById(compositeMemberClub)
             .orElseThrow(() -> new NullPointerException("가입 기록이 없습니다."));
-
         memberClub.deActivation();
         club.removeMember();
         return HttpStatus.OK;
+    }
+
+    @Transactional
+    public void makeBasicBoards(Club club){
+        clubBoardRepository.save(new ClubBoard("공지사항", club));
+        clubBoardRepository.save(new ClubBoard("게시판", club));
     }
 
     // 클럽 존재 유무 확인

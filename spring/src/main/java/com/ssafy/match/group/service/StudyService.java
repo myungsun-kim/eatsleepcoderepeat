@@ -34,7 +34,7 @@ public interface StudyService {
 
     void addMember(Study study, Member member) throws Exception;
 
-    HttpStatus removeMember(Long studyId, Long memberId) throws Exception;
+    HttpStatus removeMember(Long studyId) throws Exception;
 
     InfoForApplyStudyFormResponseDto getInfoForApply(Long studyId) throws Exception;
 
