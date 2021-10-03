@@ -49,10 +49,7 @@
             type="text"
             @click="clickChat"
             >채팅</el-button
-          ><el-button
-            >{{ chatUnreadCounts }}</el-button
-          >
-          </el-col
+          ><el-button>{{ chatUnreadCounts }}</el-button> </el-col
         ><el-col :span="3"></el-col
         ><el-col :span="6"
           ><el-button
@@ -93,22 +90,38 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
-    const chatUnreadCounts = computed(() => store.getters['chat/getUnreadCounts']);
-    const chatCurrentId = computed(() => store.getters['chat/getCurrentUserId']);
+    const chatUnreadCounts = computed(
+      () => store.getters['chat/getUnreadCounts']
+    );
+    const chatCurrentId = computed(
+      () => store.getters['chat/getCurrentUserId']
+    );
     const clickStudy = function () {
-      store.commit('setCategory', 1);
-      router.push({ path: '/nosubheader/study/home' });
+      if (token) {
+        store.commit('setCategory', 1);
+        router.push({ path: '/nosubheader/study/home' });
+      } else {
+        router.push({ path: '/noheader/signin' });
+      }
     };
 
     const clickProject = function () {
-      store.commit('setCategory', 2);
-      router.push({ path: '/nosubheader/project/home' });
+      if (token) {
+        store.commit('setCategory', 2);
+        router.push({ path: '/nosubheader/project/home' });
+      } else {
+        router.push({ path: '/noheader/signin' });
+      }
     };
 
     const clickClub = function () {
-      store.commit('setCategory', 3);
-      router.push({ path: '/nosubheader/club/home' });
-      // console.log(store.state.category);
+      if (token) {
+        store.commit('setCategory', 3);
+        router.push({ path: '/nosubheader/club/home' });
+        // console.log(store.state.category);
+      } else {
+        router.push({ path: '/noheader/signin' });
+      }
     };
 
     const clickMain = function () {
@@ -116,11 +129,19 @@ export default {
     };
 
     const clickChat = function () {
-      router.push({ path: '/nosubheader/chat' });
+      if (token) {
+        router.push({ path: '/nosubheader/chat' });
+      } else {
+        router.push({ path: '/noheader/signin' });
+      }
     };
 
     const clickMyPage = function () {
-      router.push({ path: '/nosubheader/readmypage' });
+      if (token) {
+        router.push({ path: '/nosubheader/readmypage' });
+      } else {
+        router.push({ path: '/noheader/signin' });
+      }
     };
     const clickLogIn = function () {
       router.push({ path: '/noheader/signin' });
