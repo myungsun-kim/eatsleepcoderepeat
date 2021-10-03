@@ -73,7 +73,7 @@ public class StudyController {
     }
 
     @GetMapping
-    @ApiOperation(value = "모든 스터디 조회", notes = "모든 스터디를 작성일 기준 내림차순으로 받는다")
+    @ApiOperation(value = "모든 스터디 조회", notes = "(isPublic :True, isActive:True)를 만족하는 스터디들을 작성일 기준 내림차순으로 받는다")
     public ResponseEntity<Page<StudyInfoResponseDto>> getAllStudy(@PageableDefault(size = 10) @SortDefault(sort = "createDate", direction= Sort.Direction.DESC) Pageable pageable) throws Exception {
         return ResponseEntity.ok(studyService.getAllStudy(pageable));
     }
