@@ -226,7 +226,8 @@ export const chat = {
     },
     connectSocket({ state, dispatch, commit }) {
       console.log('connect socket' + state.connected);
-      const serverURL = 'http://114.129.238.179:8080/api/socket/chat'; // 서버 채팅 주소
+      //   const serverURL = 'http://localhost:8080/api/socket/chat'; // 서버 채팅 주소
+      const serverURL = 'http://localhost:8080/api/socket/chat'; // 서버 채팅 주소
       let socket = new SockJS(serverURL);
       commit('setSocket', socket);
 
@@ -311,6 +312,7 @@ export const chat = {
       // currentId += 0;
       // currentId = "asdf";
       axios
+        //   의도한 부분인가?? @김대연
         .get(
           'http://:8080/api/chat/sessions/' + `${state.currentUserId}`,
           // JSON.stringify(form),
@@ -354,7 +356,8 @@ export const chat = {
       console.log(`loadMessages`);
       const res = axios
         .get(
-          'http://114.129.238.179:8080/api/chat/messages/' +
+          // const serverURL = 'http://114.129.238.179:8080/api/socket/chat';
+          'http://localhost:8080/api/chat/messages/' +
             `${state.currentUserId}` +
             '/' +
             `${state.currentCounterpart}`,
@@ -371,7 +374,8 @@ export const chat = {
       console.log(`loadMessages`);
       const res = axios
         .get(
-          'http://114.129.238.179:8080/api/chat/messages/' +
+          // const serverURL = 'http://114.129.238.179:8080/api/socket/chat';
+          'http://localhost:8080/api/chat/messages/' +
             `${state.currentUserId}` +
             '/' +
             `${state.currentCounterpart}` +
