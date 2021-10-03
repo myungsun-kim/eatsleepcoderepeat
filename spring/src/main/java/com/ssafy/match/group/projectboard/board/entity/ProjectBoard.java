@@ -1,7 +1,7 @@
-package com.ssafy.match.group.clubboard.board.entity;
+package com.ssafy.match.group.projectboard.board.entity;
 
 
-import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.group.entity.project.Project;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,25 +19,25 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Entity(name = "matching.club_board")
+@Entity(name = "matching.project_board")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ClubBoard {
+public class ProjectBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
 //    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "club_id")
-    private Club club;
+    @JoinColumn(name = "project_id")
+    private Project project;
 
     @NotEmpty
     @Column(name = "name")
     private String name;
 
     @Builder
-    public ClubBoard(String name, Club club) {
+    public ProjectBoard(String name, Project project) {
         this.name = name;
-        this.club = club;
+        this.project = project;
     }
 }

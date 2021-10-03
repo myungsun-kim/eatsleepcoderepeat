@@ -1,7 +1,10 @@
 package com.ssafy.match.group.service;
 
 import com.ssafy.match.db.entity.City;
+import com.ssafy.match.group.clubboard.board.repository.ClubBoardRepository;
 import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.group.entity.club.Club;
+import com.ssafy.match.group.clubboard.board.entity.ClubBoard;
 import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.member.entity.MemberSns;
 import com.ssafy.match.db.entity.Status;
@@ -66,6 +69,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final MemberExperiencedTechstackRepository memberExperiencedTechstackRepository;
     private final MemberBeginnerTechstackRepository memberBeginnerTechstackRepository;
     private final MemberSnsRepository memberSnsRepository;
+//    private final ProjectBoardRepository projectBoardRepository;
 
     public ProjectInfoForCreateResponseDto getInfoForCreate() throws Exception {
         return ProjectInfoForCreateResponseDto.builder()
@@ -85,6 +89,7 @@ public class ProjectServiceImpl implements ProjectService {
 
         projectRepository.save(project);
 
+//        makeBasicBoards(project);
         addTechstack(project, dto.getTechList());
         addMember(project, member, dto.getHostRole());
 
@@ -285,6 +290,12 @@ public class ProjectServiceImpl implements ProjectService {
         memberProject.deactivation();
         changeRole(project, member, "");
     }
+
+//    @Transactional
+//    public void makeBasicBoards(Club club){
+//        projectBoardRepository.save(new ProjectBoard("공지사항", project));
+//        projectBoardRepository.save(new ProjectBoard("게시판", project));
+//    }
 
     public Project findProject(Long projectId) throws Exception {
         Project project = projectRepository.findById(projectId)
