@@ -14,7 +14,7 @@ public class CorsConfig implements WebMvcConfigurer {
 //            .allowedOrigins("http://jxy.me") // http://jxy.me/websocket-debug-tool/
 //            .allowCredentials(false);
                 .allowedMethods("*")
-                .allowedOrigins("http://localhost:8081", "http://jxy.me")
+                .allowedOrigins("*")
                 .allowedHeaders("*")
                 .maxAge(3600);
     }
