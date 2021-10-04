@@ -6,6 +6,8 @@ export const member = {
   namespaced: true,
   state: {
     mypage: {},
+    userEmail: '', //어떤 유저의 정보를 보고 싶은지
+    userInfo: {}, //보고자하는 유저의 정보
   },
   mutations: {
     updateMypage(state, payload) {
@@ -13,8 +15,19 @@ export const member = {
       console.log(payload);
       state.mypage = payload;
     },
+    updateUserEmail(state, payload) {
+      console.log('updateUserEmail');
+      console.log(payload);
+      state.userEmail = payload;
+    },
+    updateUserInfo(state, payload) {
+      console.log('update User Info');
+      console.log(payload);
+      state.userInfo = payload;
+    },
   },
   actions: {
+    // 마이페이지 정보
     readMyPage({ commit }) {
       const res = axios
         .get(BASE_URL + `/api/member/mypage`, {
@@ -26,16 +39,34 @@ export const member = {
           console.log('READ MY PAGE');
           console.log(res);
           console.log(res.data);
-          commit('updateMypage', res.data);
+          commit('updateUserInfo', res.data);
         });
-
       return res;
     },
+    // 다른 회원 정보 가져오기
+    readInfoPage({ commit }, form) {
+      console.log('readIn');
+      // form = encodeURIComponent(form);
+      const res = axios
+        .get(BASE_URL + `/api/member/mypage/${encodeURI(form)}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        })
+        .then((res) => {
+          console.log('READ MY PAGE');
+          console.log(res);
+          console.log(res.data);
+          commit('updateMypage', res.data);
+        });
+      return res;
+    },
+    // 비밀번호 체크
     checkPassword({ commit }, form) {
-      console.log('데이터');
-      console.log(JSON.stringify(form));
-      console.log('form');
-      console.log(form);
+      // console.log('데이터');
+      // console.log(JSON.stringify(form));
+      // console.log('form');
+      // console.log(form);
       console.log(localStorage.getItem('accessToken'));
       const res = axios.post(BASE_URL + `/api/member/check/password`, form, {
         headers: {
@@ -44,13 +75,18 @@ export const member = {
       });
       return res;
     },
+    // 회원 정보 수정
     updateMember({ commit }, form) {
       console.log(JSON.stringify(form));
-      const res = axios.put(BASE_URL + `/api/member`, form, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-        },
-      });
+      const res = axios
+        .put(BASE_URL + `/api/member`, form, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        })
+        .then((res) => {
+          commit('updateMypage', res.data);
+        });
       return res;
     },
   },
@@ -60,6 +96,16 @@ export const member = {
     },
     myStudyListGetter: (state) => {
       return state.mypage.myStudyList;
+    },
+    userEmailGetter: (state) => {
+      console.log('userEmailGetter');
+      console.log(state.userEmail);
+      return state.userEmail;
+    },
+    userInfoGetter: (state) => {
+      console.log('userInfoGetter');
+      console.log(state.userInfo);
+      return state.userInfo;
     },
   },
   modules: {},
