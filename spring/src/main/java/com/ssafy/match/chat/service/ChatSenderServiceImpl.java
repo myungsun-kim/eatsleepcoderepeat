@@ -19,9 +19,15 @@ public class ChatSenderServiceImpl {
 //    private final KafkaTemplate<String, ChatMessage> kafkaTemplate;
     private final ChatPersistentServiceImpl chatPersistentService;
 
+
+
     public void send(ChatMessage data) {
 //        LOGGER.info("sending data='{}' to topic='{}'", data, topic);
-        chatPersistentService.setMessage(data);
+        if(data.getType() == 2){
+            chatPersistentService.setReadSignal(data);
+        }else{
+            chatPersistentService.setMessage(data);
+        }
         System.out.println(data);
         try{
             chatReceiverService.receive(data);
