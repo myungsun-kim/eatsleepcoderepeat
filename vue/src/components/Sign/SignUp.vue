@@ -388,7 +388,7 @@ export default {
     // 독립적인 반응형 값 생성 ref()
     // const signUp = ref(null);
     const state = reactive({
-      step: 2,
+      step: 1,
       form: {
         email: '',
         name: '',
