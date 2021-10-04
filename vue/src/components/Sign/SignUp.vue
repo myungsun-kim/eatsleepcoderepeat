@@ -174,7 +174,7 @@
           <p id="h1">회원가입</p>
         </div>
         <div class="height10" id="H2">
-          <p id="h2">Step3-개발수준</p>
+          <p id="h2">Step2-개발수준</p>
         </div>
         <div class="height40" id="circle">
           <div id="H7">
@@ -184,7 +184,7 @@
               (이해가 깊음)
             </div>
             <div id="H8">
-              <div id="box-text1">(최대 5개)</div>
+              <div id="box-text1">(최대 5개) (영어로 입력)</div>
               <div id="box1">
                 <div
                   v-for="techStack in state.form.expTechList"
@@ -196,15 +196,31 @@
                 </div>
               </div>
               <div id="box4">
-                <input
-                  v-model="state.exp"
-                  type="text"
-                  placeholder="기술스택을 입력하세요."
-                  id="stack1"
-                  onfocus="this.placeholder=''"
-                  onblur="this.placeholder='기술스택을 입력하세요'"
-                  @keyup.enter="addEx()"
-                />
+                <div id="box7">
+                  <input
+                    v-model="state.exp"
+                    @input="stackAutoComplete()"
+                    type="text"
+                    placeholder="기술스택을 입력하세요."
+                    id="stack1"
+                    onfocus="this.placeholder=''"
+                    onblur="this.placeholder='기술스택을 입력하세요'"
+                    @keyup.enter="addEx()"
+                  />
+                  <ul id="autocomplete">
+                    <div
+                      @click="addStack1(techStack1)"
+                      v-for="techStack1 in state.result"
+                      class="autocomplete1"
+                      style="cursor: pointer"
+                      :key="techStack1"
+                    >
+                      <span>
+                        {{ techStack1 }}
+                      </span>
+                    </div>
+                  </ul>
+                </div>
                 <div id="box5">
                   <div id="warning8" style="display: none">
                     값을 입력해주세요.
@@ -227,7 +243,7 @@
               (경험해본적 있음)
             </div>
             <div>
-              <div id="box-text1">(최대 5개)</div>
+              <div id="box-text1">(최대 5개) (영어로 입력)</div>
               <div id="box2">
                 <div
                   v-for="techStack in state.form.beginTechList"
@@ -285,7 +301,7 @@
           <p id="h1">회원가입</p>
         </div>
         <div class="height10" id="H2">
-          <p id="h2">Step4-세부정보</p>
+          <p id="h2">Step3-세부정보</p>
         </div>
         <div class="height40" id="H8">
           <p id="h8">세부 포지션 (최대 5개)</p>
@@ -339,6 +355,7 @@
 import { onUnmounted, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import techstacks from '@/autocomplete/techstack.js';
 
 export default {
   name: 'SignUp',
@@ -349,8 +366,7 @@ export default {
     // 독립적인 반응형 값 생성 ref()
     // const signUp = ref(null);
     const state = reactive({
-      // step: 1,
-      step: 1,
+      step: 2,
       form: {
         email: '',
         name: '',
@@ -366,6 +382,8 @@ export default {
       exp: '',
       beg: '',
       dp: '',
+      result: null,
+      autoCompleteList: [],
     });
     // Step1~4 간의 이동시 이동하는 페이지에 기존에 입력해놨던 값이 하나라도 있었다면 모조리 불러온다.(=값을 입력했으나 unMounted 된 적이 없는 경우)
     // router.push로 해당 페이지로 이동했을 때 store.auth.state.form에 저장되어 있는 내용이 있다면 해당 내용을 불러온다.
@@ -622,6 +640,7 @@ export default {
       var warning8 = document.getElementById('warning8');
       var warning9 = document.getElementById('warning9');
       var warning10 = document.getElementById('warning10');
+
       // 값을 입력하지 않았고 추가되어있는 techStack이 5개 미만일떄
       if (!state.exp && state.form.expTechList.length < 5) {
         warning8.style = '';
@@ -672,6 +691,34 @@ export default {
         state.exp = '';
       }
     };
+    const stackAutoComplete = function () {
+      // const autocomplete = document.querySelector('.autocomplete');
+      const autocomplete = document.getElementById('autocomplete');
+      if (state.exp) {
+        // autocomplete.classList.remove('disabled');
+        autocomplete.style = '';
+        // techstack.js 에서 해당 글자로 시작하는 키워드들을 필터링해 state.result에 담는다.
+        state.result = techstacks.filter((stack) => {
+          // 해당 글자로 시작하는 키워드를 뽑아내기 위해 '^' 를 사용
+          // 대소문자 구분 없이 찾아내기 위해 'i' 옵션을 사용
+          return stack.match(new RegExp('^' + state.exp, 'i'));
+        });
+      } else {
+        // autocomplete.classList.add('disabled');
+        autocomplete.style = 'display:none';
+      }
+    };
+
+    // 내가 클릭한 것: clickedTechStack
+    const addStack1 = function (clickedTechStack) {
+      // const autocomplete = document.querySelector('.autocomplete');
+      const autocomplete = document.getElementById('autocomplete');
+      state.exp = clickedTechStack;
+      // autocomplete.classList.add('disabled');
+      autocomplete.style = 'display:none';
+      console.log(state.exp);
+    };
+
     // const addEx = function () {
     //   console.log('addEx');
     //   // 1.추가할 값을 input태그에서 읽어온다
@@ -878,6 +925,8 @@ export default {
       handleClick,
       handleClick1,
       handleClick2,
+      stackAutoComplete,
+      addStack1,
     };
   },
 };
@@ -1574,7 +1623,7 @@ export default {
   display: flex;
   margin-left: 65px;
   margin-top: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 
   /* 기술스택 텍스트 */
   font-family: Noto Sans KR;
@@ -1648,6 +1697,34 @@ export default {
   font-style: normal;
 
   cursor: pointer;
+}
+#box7 {
+  display: flex;
+  flex-flow: column;
+}
+#autocomplete {
+  position: absolute;
+  display: none;
+  display: flex;
+  flex-flow: column;
+  height: 300px;
+  overflow: auto;
+  margin-top: 60px;
+  margin-left: 30px;
+  border-radius: 4px;
+}
+.autocomplete1 {
+  width: 200px;
+  background: lightgray;
+  /* border-bottom: 1px solid black; */
+}
+.autocomplete1:hover {
+  width: 200px;
+  background: grey;
+}
+.autocomplete1:active {
+  width: 200px;
+  background: black;
 }
 /* --------------------------------------------Step3-------------------------------------------- */
 #H8 {

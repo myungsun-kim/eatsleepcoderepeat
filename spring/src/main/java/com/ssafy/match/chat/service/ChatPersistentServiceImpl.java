@@ -52,6 +52,11 @@ public class ChatPersistentServiceImpl {
         }
         return ret;
     }
+    public void setReadSignal(ChatMessage msg){
+        messageRepository.updateRead(msg.getSent_time(), msg.getSenderId(), msg.getReceiverId());
+        setMessageToRedisInit(msg.getSenderId(), msg.getReceiverId());
+        setMessageToRedisInit(msg.getReceiverId(), msg.getSenderId());
+    }
     public void setMessage(ChatMessage msg){
         System.out.println(msg.getType());
         // 만약 특정 메세지를 읽었다는 표시를 할 경우 저장하지 않고 db 업데이트를 수행함
