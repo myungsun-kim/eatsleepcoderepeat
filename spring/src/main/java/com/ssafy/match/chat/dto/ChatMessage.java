@@ -36,5 +36,5 @@ public class ChatMessage implements Serializable {
     long receiverId;
     Timestamp sent_time;
     Timestamp read_time;
-    String content;
+    String content;;
 }

@@ -5,6 +5,7 @@ import com.ssafy.match.chat.dto.ChatMessage;
 import com.ssafy.match.chat.service.ChatReceiverServiceImpl;
 import com.ssafy.match.chat.service.ChatSenderServiceImpl;
 import com.ssafy.match.util.SecurityUtil;
+import java.sql.Timestamp;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -46,27 +47,7 @@ public class MessageSocketController {
             LOGGER.error("Destination Variable toUserPk is not int");
             return;
         }
-        message.setId(destPk);
-//        message.setId(SecurityUtil.getCurrentMemberId());
+        message.setSent_time(new Timestamp(System.currentTimeMillis()));
         sender.send(/*BOOT_TOPIC,*/ message);
     }
-
-    //// "url/app/message"로 들어오는 메시지를 "/topic/public"을 구독하고있는 사람들에게 송신
-//    @MessageMapping("/pub/dm")//@MessageMapping works for WebSocket protocol communication. This defines the URL mapping.
-//    public void pubMessage(@Payload ChatMessage message) throws Exception {
-//        message.setId(SecurityUtil.getCurrentMemberId());
-//        sender.send(/*BOOT_TOPIC,*/ message);
-//    }
-
-//    @MessageMapping("/file")
-//    @SendTo("/topic/chatting")
-//    public ChattingMessage sendFile(ChattingMessage message) throws Exception {
-//        return new ChattingMessage(message.getFileName(), message.getRawData(), message.getUser());
-//    }
-
-
-
-//    private final SimpMessagingTemplate simpMessagingTemplate;
-
-
 }
