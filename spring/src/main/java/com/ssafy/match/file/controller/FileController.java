@@ -3,9 +3,12 @@ package com.ssafy.match.file.controller;
 import com.ssafy.match.file.dto.UploadFileResponse;
 import com.ssafy.match.file.entity.DBFile;
 import com.ssafy.match.file.service.DBFileStorageService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.http.client.methods.HttpPost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,8 +32,8 @@ public class FileController {
     @Autowired
     private DBFileStorageService dbFileStorageService;
 
-    @PostMapping("/uploadFile")
-    public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping(value = "/uploadFile")
+    public UploadFileResponse uploadFile(@RequestPart("file") MultipartFile file) {
 
         DBFile dbFile = dbFileStorageService.storeFile(file);
 

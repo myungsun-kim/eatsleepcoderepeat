@@ -166,39 +166,11 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo)
                 .groupName("StudyBoard")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard.board.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard"))
                 .paths(
                         PathSelectors.ant("/**/study/**")
-                )
-                .build()
-                .useDefaultResponseMessages(false);
-    }
-
-    @Bean
-    public Docket studyBoardArticleApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .globalRequestParameters(headers)
-                .apiInfo(apiInfo)
-                .groupName("StudyArticle")
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard.article.controller"))
-                .paths(
-                        PathSelectors.ant("/**/studyboards/**")
-                )
-                .build()
-                .useDefaultResponseMessages(false);
-    }
-
-    @Bean
-    public Docket studyBoardArticleCommentApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .globalRequestParameters(headers)
-                .apiInfo(apiInfo)
-                .groupName("StudyArticleComment")
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ssafy.match.group.studyboard.comment.controller"))
-                .paths(
-                        PathSelectors.ant("/**/studycomment/**")
+                            .or(PathSelectors.ant("/**/studyboards/**"))
+                            .or(PathSelectors.ant("/**/studycomment/**"))
                 )
                 .build()
                 .useDefaultResponseMessages(false);

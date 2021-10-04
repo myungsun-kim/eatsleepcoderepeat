@@ -35,32 +35,18 @@ public interface MessageRepository extends JpaRepository<ChatMessage, Integer> {
         + "group by t.id, t.sender_id, t.receiver_id; ",
         nativeQuery = true)
     List<ChatMessage> findSessions(long id);
-//    SELECT *
-//    FROM(
-//        SELECT *
-//        FROM matching.message
-//        WHERE (sender_id, receiver_id,  id) in (
-//    SELECT sender_id, receiver_id,  max(id) as id
-//    from matching.message
-//    WHERE type != 2
-//    group by sender_id, receiver_id
-//	)
-//        ) t
-//    group by t.id, t.sender_id, t.receiver_id;
 
-
-//    List<ChatMessage> findTop
+//        List<ChatMessage> findTop
 //     select * from matching.message where str_to_date(read_time, "%Y-%m-%d %H:%i:%s") < "1970-01-01 09:00:02" AND PK <  ;
-//    @Transactional // update 실행시 필수
-//    @Modifying(clearAutomatically = true)
-//    @Query(value =
-//        "update matching.message "
-//            + "set read_time = ?1 "
-//            + "WHERE sender_id = ?2 "
-//            + "AND str_to_date(read_time, \"%Y-%m-%d %H:%i:%s\") = \"1970-01-01 09:00:01\""
-//            + "AND sent_time <= ?1",
-//        nativeQuery = true
-//    )
-//
-//    void updateRead(Timestamp read_time, long id);
+    @Transactional // update 실행시 필수
+    @Modifying(clearAutomatically = true)
+    @Query(value =
+        "update matching.message "
+            + "set read_time = ?1 "
+            + "WHERE receiver_id = ?2 AND sender_id = ?3 "
+            + "AND str_to_date(read_time, \"%Y-%m-%d %H:%i:%s\") < \"1970-01-01 09:00:03\" "
+            + "AND sent_time <= ?1 ",
+        nativeQuery = true
+    )
+    void updateRead(Timestamp read_time, long id1, long id2);
 }
