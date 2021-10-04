@@ -174,7 +174,7 @@
           <p id="h1">회원가입</p>
         </div>
         <div class="height10" id="H2">
-          <p id="h2">Step3-개발수준</p>
+          <p id="h2">Step2-개발수준</p>
         </div>
         <div class="height40" id="circle">
           <div id="H7">
@@ -184,7 +184,7 @@
               (이해가 깊음)
             </div>
             <div id="H8">
-              <div id="box-text1">(최대 5개)</div>
+              <div id="box-text1">(최대 5개) (영어로 입력)</div>
               <div id="box1">
                 <div
                   v-for="techStack in state.form.expTechList"
@@ -196,18 +196,37 @@
                 </div>
               </div>
               <div id="box4">
-                <input
-                  v-model="state.exp"
-                  type="text"
-                  placeholder="기술스택을 입력하세요."
-                  id="stack1"
-                  onfocus="this.placeholder=''"
-                  onblur="this.placeholder='기술스택을 입력하세요'"
-                  @keyup.enter="addEx()"
-                />
+                <div id="box7">
+                  <input
+                    v-model="state.exp"
+                    @input="stackAutoComplete()"
+                    type="text"
+                    placeholder="기술스택을 입력하세요."
+                    id="stack1"
+                    onfocus="this.placeholder=''"
+                    onblur="this.placeholder='기술스택을 입력하세요'"
+                    @keyup.enter="addEx()"
+                  />
+                  <ul id="autocomplete">
+                    <div
+                      @click="addStack1(techStack1)"
+                      v-for="techStack1 in state.result"
+                      class="autocomplete1"
+                      style="cursor: pointer"
+                      :key="techStack1"
+                    >
+                      <span>
+                        {{ techStack1 }}
+                      </span>
+                    </div>
+                  </ul>
+                </div>
                 <div id="box5">
                   <div id="warning8" style="display: none">
                     값을 입력해주세요.
+                  </div>
+                  <div id="warning8_1" style="display: none">
+                    유효하지 않은 기술스택입니다.
                   </div>
                   <div id="warning9" style="display: none">
                     이미 포함되어 있습니다.
@@ -227,7 +246,7 @@
               (경험해본적 있음)
             </div>
             <div>
-              <div id="box-text1">(최대 5개)</div>
+              <div id="box-text1">(최대 5개) (영어로 입력)</div>
               <div id="box2">
                 <div
                   v-for="techStack in state.form.beginTechList"
@@ -239,18 +258,37 @@
                 </div>
               </div>
               <div id="box4">
-                <input
-                  v-model="state.beg"
-                  type="text"
-                  placeholder="기술스택을 입력하세요."
-                  id="stack2"
-                  onfocus="this.placeholder=''"
-                  onblur="this.placeholder='기술스택을 입력하세요'"
-                  @keyup.enter="addBe()"
-                />
+                <div id="box7">
+                  <input
+                    v-model="state.beg"
+                    @input="stackAutoComplete1()"
+                    type="text"
+                    placeholder="기술스택을 입력하세요."
+                    id="stack2"
+                    onfocus="this.placeholder=''"
+                    onblur="this.placeholder='기술스택을 입력하세요'"
+                    @keyup.enter="addBe()"
+                  />
+                  <ul id="autocomplete1">
+                    <div
+                      @click="addStack2(techStack2)"
+                      v-for="techStack2 in state.result1"
+                      class="autocomplete1"
+                      style="cursor: pointer"
+                      :key="techStack2"
+                    >
+                      <span>
+                        {{ techStack2 }}
+                      </span>
+                    </div>
+                  </ul>
+                </div>
                 <div id="box5">
                   <div id="warning11" style="display: none">
                     값을 입력해주세요.
+                  </div>
+                  <div id="warning11_1" style="display: none">
+                    유효하지 않은 기술스택입니다.
                   </div>
                   <div id="warning12" style="display: none">
                     이미 포함되어 있습니다.
@@ -285,7 +323,7 @@
           <p id="h1">회원가입</p>
         </div>
         <div class="height10" id="H2">
-          <p id="h2">Step4-세부정보</p>
+          <p id="h2">Step3-세부정보</p>
         </div>
         <div class="height40" id="H8">
           <p id="h8">세부 포지션 (최대 5개)</p>
@@ -339,6 +377,7 @@
 import { onUnmounted, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+import techstacks from '@/autocomplete/techstack.js';
 
 export default {
   name: 'SignUp',
@@ -349,8 +388,7 @@ export default {
     // 독립적인 반응형 값 생성 ref()
     // const signUp = ref(null);
     const state = reactive({
-      // step: 1,
-      step: 1,
+      step: 2,
       form: {
         email: '',
         name: '',
@@ -366,6 +404,12 @@ export default {
       exp: '',
       beg: '',
       dp: '',
+      result: null,
+      result1: null,
+      result2: null,
+      autoCompleteList: [],
+      autoCompleteList1: [],
+      autoCompleteList2: [],
     });
     // Step1~4 간의 이동시 이동하는 페이지에 기존에 입력해놨던 값이 하나라도 있었다면 모조리 불러온다.(=값을 입력했으나 unMounted 된 적이 없는 경우)
     // router.push로 해당 페이지로 이동했을 때 store.auth.state.form에 저장되어 있는 내용이 있다면 해당 내용을 불러온다.
@@ -617,61 +661,140 @@ export default {
       }
     };
 
-    // Step3 박스에 요소 추가(Experience)
+    // Step3 입력한 값을 박스에 추가(Experience)
     const addEx = function () {
       var warning8 = document.getElementById('warning8');
+      var warning8_1 = document.getElementById('warning8_1');
       var warning9 = document.getElementById('warning9');
       var warning10 = document.getElementById('warning10');
-      // 값을 입력하지 않았고 추가되어있는 techStack이 5개 미만일떄
-      if (!state.exp && state.form.expTechList.length < 5) {
-        warning8.style = '';
-        warning9.style = 'display:none';
-        warning10.style = 'display:none';
+
+      // 입력한 값이 유효한 기술스택 목록에 있을 경우
+      if (techstacks.includes(state.exp)) {
+        // 값을 입력하지 않았고 추가되어있는 techStack이 5개 미만일떄
+        if (!state.exp && state.form.expTechList.length < 5) {
+          warning8.style = '';
+          warning9.style = 'display:none';
+          warning10.style = 'display:none';
+        }
+        // 값을 입력하지 않았고 추가되어있는 techStack이 5개 이상일떄
+        else if (!state.exp && state.form.expTechList.length >= 5) {
+          warning8.style = '';
+          warning9.style = 'display:none';
+          warning10.style = '';
+        }
+        // 기술스택 개수가 5개미만이고 추가되어있는 techStack일때
+        else if (
+          state.form.expTechList.length < 5 &&
+          state.form.expTechList.includes(state.exp)
+        ) {
+          warning8.style = 'display:none';
+          warning9.style = '';
+          warning10.style = 'display:none';
+        }
+        // 기술스택 개수가 5개이상이고 추가되어있지 않은 techStack일때
+        else if (
+          state.form.expTechList.length >= 5 &&
+          !state.form.expTechList.includes(state.exp)
+        ) {
+          warning8.style = 'display:none';
+          warning9.style = 'display:none';
+          warning10.style = '';
+        }
+        // 기술스택 개수가 5개 이상이고 추가되어있는 techStack일때
+        else if (
+          state.form.expTechList.length >= 5 &&
+          state.form.expTechList.includes(state.exp)
+        ) {
+          warning8.style = 'display:none';
+          warning9.style = '';
+          warning10.style = '';
+        }
+        // 기술스택 개수가 5개 미만이고 추가되어있지 않은 techStack일때
+        else {
+          // 회원가입할때 보낼 data값
+          state.form.expTechList.push(state.exp);
+          console.log(state.form, 'exp찍을거임!');
+          warning8.style = 'display:none';
+          warning8_1.style = 'display:none';
+          warning9.style = 'display:none';
+          warning10.style = 'display:none';
+          state.exp = '';
+        }
       }
-      // 값을 입력하지 않았고 추가되어있는 techStack이 5개 이상일떄
-      else if (!state.exp && state.form.expTechList.length >= 5) {
-        warning8.style = '';
-        warning9.style = 'display:none';
-        warning10.style = '';
+      // 입력한 값이 유효한 기술스택 목록에 없을 경우
+      else {
+        warning8_1.style = '';
       }
-      // 기술스택 개수가 5개이하이고 추가되어있는 techStack일때
-      else if (
+    };
+
+    // Exp자동완성 목록을 보여주는 함수
+    const stackAutoComplete = function () {
+      // const autocomplete = document.querySelector('.autocomplete');
+      const autocomplete = document.getElementById('autocomplete');
+      if (state.exp) {
+        // autocomplete.classList.remove('disabled');
+        autocomplete.style = '';
+        // techstack.js 에서 해당 글자로 시작하는 키워드들을 필터링해 state.result에 담는다.
+        state.result = techstacks.filter((stack) => {
+          // 해당 글자로 시작하는 키워드를 뽑아내기 위해 '^' 를 사용
+          // 대소문자 구분 없이 찾아내기 위해 'i' 옵션을 사용
+          return stack.match(new RegExp('^' + state.exp, 'i'));
+        });
+      } else {
+        // autocomplete.classList.add('disabled');
+        autocomplete.style = 'display:none';
+      }
+    };
+
+    // 자동완성 목록중에서 내가 클릭한 것을 박스에 추가하는 함수
+    // 내가 클릭한 것: clickedTechStack
+    const addStack1 = function (clickedTechStack) {
+      const autocomplete = document.getElementById('autocomplete');
+      const warning8_1 = document.getElementById('warning8_1');
+      const warning9 = document.getElementById('warning9');
+      const warning10 = document.getElementById('warning10');
+
+      // 기술스택 개수가 5개미만이고 추가되어있는 techStack일때
+      if (
         state.form.expTechList.length < 5 &&
-        state.form.expTechList.includes(state.exp)
+        state.form.expTechList.includes(clickedTechStack)
       ) {
-        warning8.style = 'display:none';
+        warning8_1.style = 'display:none';
         warning9.style = '';
         warning10.style = 'display:none';
       }
       // 기술스택 개수가 5개이상이고 추가되어있지 않은 techStack일때
       else if (
         state.form.expTechList.length >= 5 &&
-        !state.form.expTechList.includes(state.exp)
+        !state.form.expTechList.includes(clickedTechStack)
       ) {
-        warning8.style = 'display:none';
+        warning8_1.style = 'display:none';
         warning9.style = 'display:none';
         warning10.style = '';
       }
       // 기술스택 개수가 5개 이상이고 추가되어있는 techStack일때
       else if (
         state.form.expTechList.length >= 5 &&
-        state.form.expTechList.includes(state.exp)
+        state.form.expTechList.includes(clickedTechStack)
       ) {
-        warning8.style = 'display:none';
+        warning8_1.style = 'display:none';
         warning9.style = '';
         warning10.style = '';
       }
       // 기술스택 개수가 5개 미만이고 추가되어있지 않은 techStack일때
       else {
         // 회원가입할때 보낼 data값
-        state.form.expTechList.push(state.exp);
-        console.log(state.form, 'exp찍을거임!');
-        warning8.style = 'display:none';
+        state.form.expTechList.push(clickedTechStack);
+        console.log(`${state.form.expTechList}이 추가되었다!`);
+
+        warning8_1.style = 'display:none';
         warning9.style = 'display:none';
         warning10.style = 'display:none';
+        autocomplete.style = 'display:none';
         state.exp = '';
       }
     };
+
     // const addEx = function () {
     //   console.log('addEx');
     //   // 1.추가할 값을 input태그에서 읽어온다
@@ -695,58 +818,137 @@ export default {
 
     const addBe = function () {
       var warning11 = document.getElementById('warning11');
+      var warning11_1 = document.getElementById('warning11_1');
       var warning12 = document.getElementById('warning12');
       var warning13 = document.getElementById('warning13');
-      // 값을 입력하지 않았고 추가되어있는 techStack이 5개 미만일떄
-      if (!state.beg && state.form.beginTechList.length < 5) {
-        warning11.style = '';
-        warning12.style = 'display:none';
-        warning13.style = 'display:none';
+
+      // 입력한 값이 유효한 기술스택 목록에 있을 경우
+      if (techstacks.includes(state.beg)) {
+        // 값을 입력하지 않았고 추가되어있는 techStack이 5개 미만일떄
+        if (!state.beg && state.form.beginTechList.length < 5) {
+          warning11.style = '';
+          warning12.style = 'display:none';
+          warning13.style = 'display:none';
+        }
+        // 값을 입력하지 않았고 추가되어있는 techStack이 5개 이상일떄
+        else if (!state.beg && state.form.beginTechList.length >= 5) {
+          warning11.style = '';
+          warning12.style = 'display:none';
+          warning13.style = '';
+        }
+        // 기술스택 개수가 5개미만이고 추가되어있는 techStack일때
+        else if (
+          state.form.beginTechList.length < 5 &&
+          state.form.beginTechList.includes(state.beg)
+        ) {
+          warning11.style = 'display:none';
+          warning12.style = '';
+          warning13.style = 'display:none';
+        }
+        // 기술스택 개수가 5개이상이고 추가되어있지 않은 techStack일때
+        else if (
+          state.form.beginTechList.length >= 5 &&
+          !state.form.beginTechList.includes(state.beg)
+        ) {
+          warning11.style = 'display:none';
+          warning12.style = 'display:none';
+          warning13.style = '';
+        }
+        // 기술스택 개수가 5개 이상이고 추가되어있는 techStack일때
+        else if (
+          state.form.beginTechList.length >= 5 &&
+          state.form.beginTechList.includes(state.beg)
+        ) {
+          warning11.style = 'display:none';
+          warning12.style = '';
+          warning13.style = '';
+        }
+        // 기술스택 개수가 5개 미만이고 추가되어있지 않은 techStack일때
+        else {
+          // 회원가입할때 보낼 data값
+          state.form.beginTechList.push(state.beg);
+          console.log(state.form, 'exp찍을거임!');
+          warning11.style = 'display:none';
+          warning11_1.style = 'display:none';
+          warning12.style = 'display:none';
+          warning13.style = 'display:none';
+          state.beg = '';
+        }
       }
-      // 값을 입력하지 않았고 추가되어있는 techStack이 5개 이상일 때
-      else if (!state.beg && state.form.beginTechList.length >= 5) {
-        warning11.style = '';
-        warning12.style = 'display:none';
-        warning13.style = '';
+      // 입력한 값이 유효한 기술스택 목록에 없을 경우
+      else {
+        warning11_1.style = '';
       }
-      // 기술스택 개수가 5개이하이고 추가되어있는 techStack일때
-      else if (
+    };
+
+    // Beg자동완성 목록을 보여주는 함수
+    const stackAutoComplete1 = function () {
+      // const autocomplete = document.querySelector('.autocomplete');
+      const autocomplete = document.getElementById('autocomplete1');
+      if (state.beg) {
+        // autocomplete.classList.remove('disabled');
+        autocomplete.style = '';
+        // techstack.js 에서 해당 글자로 시작하는 키워드들을 필터링해 state.result에 담는다.
+        state.result1 = techstacks.filter((stack) => {
+          // 해당 글자로 시작하는 키워드를 뽑아내기 위해 '^' 를 사용
+          // 대소문자 구분 없이 찾아내기 위해 'i' 옵션을 사용
+          return stack.match(new RegExp('^' + state.beg, 'i'));
+        });
+      } else {
+        // autocomplete.classList.add('disabled');
+        autocomplete.style = 'display:none';
+      }
+    };
+
+    // 자동완성 목록중에서 내가 클릭한 것을 박스에 추가하는 함수
+    // 내가 클릭한 것: clickedTechStack
+    const addStack2 = function (clickedTechStack) {
+      const autocomplete = document.getElementById('autocomplete1');
+      const warning11_1 = document.getElementById('warning11_1');
+      const warning12 = document.getElementById('warning12');
+      const warning13 = document.getElementById('warning13');
+
+      // 기술스택 개수가 5개미만이고 추가되어있는 techStack일때
+      if (
         state.form.beginTechList.length < 5 &&
-        state.form.beginTechList.includes(state.beg)
+        state.form.beginTechList.includes(clickedTechStack)
       ) {
-        warning11.style = 'display:none';
+        warning11_1.style = 'display:none';
         warning12.style = '';
         warning13.style = 'display:none';
       }
       // 기술스택 개수가 5개이상이고 추가되어있지 않은 techStack일때
       else if (
         state.form.beginTechList.length >= 5 &&
-        !state.form.beginTechList.includes(state.beg)
+        !state.form.beginTechList.includes(clickedTechStack)
       ) {
-        warning11.style = 'display:none';
+        warning11_1.style = 'display:none';
         warning12.style = 'display:none';
         warning13.style = '';
       }
       // 기술스택 개수가 5개 이상이고 추가되어있는 techStack일때
       else if (
         state.form.beginTechList.length >= 5 &&
-        state.form.beginTechList.includes(state.beg)
+        state.form.beginTechList.includes(clickedTechStack)
       ) {
-        warning11.style = 'display:none';
+        warning11_1.style = 'display:none';
         warning12.style = '';
         warning13.style = '';
       }
-      // 기술스택 개수가 5개 이하이고 추가되어있지 않은 techStack일때
+      // 기술스택 개수가 5개 미만이고 추가되어있지 않은 techStack일때
       else {
         // 회원가입할때 보낼 data값
-        state.form.beginTechList.push(state.beg);
-        console.log(state.form, 'begin찍을꺼임!!!');
-        warning11.style = 'display:none';
+        state.form.beginTechList.push(clickedTechStack);
+        console.log(`${state.form.beginTechList}이 추가되었다!`);
+
+        warning11_1.style = 'display:none';
         warning12.style = 'display:none';
         warning13.style = 'display:none';
+        autocomplete.style = 'display:none';
         state.beg = '';
       }
     };
+
     // const addBe = function () {
     //   console.log('addBe');
     //   // 1.추가할 값을 input태그에서 읽어온다
@@ -878,6 +1080,10 @@ export default {
       handleClick,
       handleClick1,
       handleClick2,
+      stackAutoComplete,
+      stackAutoComplete1,
+      addStack1,
+      addStack2,
     };
   },
 };
@@ -994,6 +1200,17 @@ export default {
   font-size: 15px;
   color: #ff5757;
 }
+#warning8_1 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
 #warning9 {
   display: flex;
   align-items: center;
@@ -1017,6 +1234,17 @@ export default {
   color: #ff5757;
 }
 #warning11 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning11_1 {
   display: flex;
   align-items: center;
   margin-left: 10px;
@@ -1574,7 +1802,7 @@ export default {
   display: flex;
   margin-left: 65px;
   margin-top: 15px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 
   /* 기술스택 텍스트 */
   font-family: Noto Sans KR;
@@ -1648,6 +1876,62 @@ export default {
   font-style: normal;
 
   cursor: pointer;
+}
+#box7 {
+  display: flex;
+  flex-flow: column;
+}
+#autocomplete {
+  position: absolute;
+  display: none;
+  display: flex;
+  flex-flow: column;
+  height: 150px;
+  overflow: auto;
+  margin-top: 60px;
+  margin-left: 30px;
+  border-radius: 4px;
+}
+#autocomplete1 {
+  position: absolute;
+  display: none;
+  display: flex;
+  flex-flow: column;
+  height: 150px;
+  overflow: auto;
+  margin-top: 60px;
+  margin-left: 30px;
+  border-radius: 4px;
+}
+.autocomplete1 {
+  width: 200px;
+  background: white;
+  /* background: #e8e8e8; */
+}
+.autocomplete1:hover {
+  width: 200px;
+  background: #3f8bfc;
+  /* background: #307ff5; */
+  color: white;
+}
+.autocomplete1:active {
+  width: 200px;
+  background: black;
+}
+.autocomplete2 {
+  width: 200px;
+  background: white;
+  /* background: #e8e8e8; */
+}
+.autocomplete2:hover {
+  width: 200px;
+  background: #3f8bfc;
+  /* background: #307ff5; */
+  color: white;
+}
+.autocomplete2:active {
+  width: 200px;
+  background: black;
 }
 /* --------------------------------------------Step3-------------------------------------------- */
 #H8 {

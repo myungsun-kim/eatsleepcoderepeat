@@ -15,6 +15,9 @@ export const study = {
     studyId: '',
     studyIntroduce: {},
     studyApplications: [],
+    studyBoardIdList: [],
+    studyArticleId: '',
+    studyNoticeArticleList: [],
   },
   mutations: {
     updateTotalStudyList(state, payload) {
@@ -33,6 +36,21 @@ export const study = {
       console.log('넘겨준 STUDY APPLICATION 값');
       console.log(payload);
       state.studyApplications = payload;
+    },
+    updateBoardIdList(state, payload) {
+      // console.log('넘겨준 updateBoardIdList 값');
+      // console.log(payload);
+      state.studyBoardIdList = payload;
+    },
+    updateArticleId(state, payload) {
+      // console.log('넘겨준 updateArticleId 값');
+      // console.log(payload);
+      state.studyArticleId = payload;
+    },
+    updateNoticeArticleList(state, payload) {
+      // console.log('넘겨준 updateArticleId 값');
+      // console.log(payload);
+      state.studyNoticeArticleList = payload;
     },
   },
   actions: {
@@ -68,7 +86,7 @@ export const study = {
       commit('updateStudyId', data);
     },
     introduce({ commit }, data) {
-      const res = axios.get(BASE_URL + '/api/study/one/' + data, header);
+      const res = axios.get(BASE_URL + '/api/study/' + data, header);
       res.then((res) => {
         // console.log('스터디 introduice 조회 결과');
         // console.log(res);
@@ -97,6 +115,39 @@ export const study = {
       });
       return res.data;
     },
+    getBoardId({ commit }, data) {
+      const res = axios.get(BASE_URL + `/api/study/${data}/boards`, header);
+      res.then((res) => {
+        console.log('getBoardId 조회 결과');
+        console.log(res.data);
+        commit('updateBoardIdList', res.data);
+      });
+      // return res.data;
+    },
+    createArticle({ commit }, data) {
+      const res = axios.post(
+        BASE_URL + `/api/studyboards/${data}/articles`,
+        header
+      );
+      res.then((res) => {
+        console.log('createArticle 조회 결과');
+        console.log(res.data);
+        commit('updateArticleId', res.data);
+      });
+      // return res.data;
+    },
+    getNoticeArticleList({ commit }, data) {
+      const res = axios.get(
+        BASE_URL + `/api/studyboards/${data}/articles`,
+        header
+      );
+      res.then((res) => {
+        console.log('getNoticeArticleList 조회 결과');
+        console.log(res.data);
+        commit('updateNoticeArticleList', res.data);
+      });
+      // return res.data;
+    },
   },
   getters: {
     totalStudyGetter: (state) => {
@@ -114,6 +165,16 @@ export const study = {
       console.log('APPLICATION ALL GETTER');
       console.log(state.studyApplications);
       return state.studyApplications;
+    },
+    studyBoardIdListGetter: (state) => {
+      console.log('studyBoardIdList GETTER');
+      console.log(state.studyBoardIdList);
+      return state.studyBoardIdList;
+    },
+    studyNoticeArticleListGetter: (state) => {
+      console.log('studyNoticeArticleList GETTER');
+      console.log(state.studyNoticeArticleList);
+      return state.studyNoticeArticleList;
     },
   },
   modules: {},
