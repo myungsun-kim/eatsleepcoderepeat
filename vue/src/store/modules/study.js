@@ -13,8 +13,10 @@ export const study = {
   state: {
     totalStudyList: [],
     studyId: '',
+    memberNickname: '', //어떤 회원의 정보를 조회할지
     studyIntroduce: {},
     studyApplications: [],
+    studyApplication: {},
   },
   mutations: {
     updateTotalStudyList(state, payload) {
@@ -23,6 +25,10 @@ export const study = {
     updateStudyId(state, payload) {
       console.log('넘겨준 STUDY ID 값' + payload);
       state.studyId = payload;
+    },
+    updateStudyMemberNickname(state, payload) {
+      console.log('넘겨준 회원의 닉네임' + payload);
+      state.memberNickname = payload;
     },
     updateStudyIntroduce(state, payload) {
       // console.log('넘겨준 STUDY INTRODUCE 값');
@@ -33,6 +39,11 @@ export const study = {
       console.log('넘겨준 STUDY APPLICATION 값');
       console.log(payload);
       state.studyApplications = payload;
+    },
+    updateStudyApplication(state, payload) {
+      console.log('해당 회원의 STUDY APPLICATION');
+      console.log(payload);
+      state.studyApplication = payload;
     },
   },
   actions: {
@@ -84,6 +95,7 @@ export const study = {
       );
       return res.data;
     },
+    // 해당 스터디 전체 신청서 조회
     applicationAll({ commit }, data) {
       const res = axios.get(
         BASE_URL + '/api/studyapplication/all/' + data,
@@ -97,6 +109,20 @@ export const study = {
       });
       return res.data;
     },
+    // 해당 스터디 특정 회원 신청서 조회
+    applicationOne({ commit }, data1, data2) {
+      const res = axios.get(
+        BASE_URL + `/api/studyapplication/all/${data1}/${data2}`,
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 application 조회');
+        console.log(res);
+        console.log(res.data);
+        commit('updateStudyApplication', res.data);
+      });
+      return res.data;
+    },
   },
   getters: {
     totalStudyGetter: (state) => {
@@ -104,6 +130,9 @@ export const study = {
     },
     studyIdGetter: (state) => {
       return state.studyId;
+    },
+    studyMemberNicknameGetter: (state) => {
+      return state.memberNickname;
     },
     studyIntroduceGetter: (state) => {
       // console.log('Introduce GETTER');
@@ -114,6 +143,11 @@ export const study = {
       console.log('APPLICATION ALL GETTER');
       console.log(state.studyApplications);
       return state.studyApplications;
+    },
+    studyApplicationGetter: (state) => {
+      console.log('APPLICATION ALL GETTER');
+      console.log(state.studyApplication);
+      return state.studyApplication;
     },
   },
   modules: {},
