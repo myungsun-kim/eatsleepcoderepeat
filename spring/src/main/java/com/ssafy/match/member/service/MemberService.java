@@ -98,8 +98,8 @@ public class MemberService {
         List<Position> dpositionList = positionRepository.findAllByMember(member);
         DBFile cover_pic = member.getCover_pic();
         DBFile portpolio = member.getPortfolio();
-        memberInfoDto.setCover_pic(cover_pic.getDownload_uri());
-        memberInfoDto.setPortfolio(portpolio.getDownload_uri());
+        memberInfoDto.setCover_pic((cover_pic == null) ? null : cover_pic.getDownload_uri());
+        memberInfoDto.setPortfolio((portpolio == null) ? null : portpolio.getDownload_uri());
         memberInfoDto.setMyStudyList(myStudyList);
         memberInfoDto.setMyProjectList(myProjectList);
         memberInfoDto.setMyClubList(myClubList);

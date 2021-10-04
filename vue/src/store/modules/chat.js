@@ -314,7 +314,7 @@ export const chat = {
       axios
         //   의도한 부분인가?? @김대연
         .get(
-          'http://:8080/api/chat/sessions/' + `${state.currentUserId}`,
+          'http://localhost:8080/api/chat/sessions/' + `${state.currentUserId}`,
           // JSON.stringify(form),
           { headers: { 'Content-Type': 'application/json' } }
         )
