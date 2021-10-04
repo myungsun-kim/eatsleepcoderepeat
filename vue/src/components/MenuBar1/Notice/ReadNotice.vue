@@ -27,7 +27,6 @@
             label="Author"
             width="100"
             align="center"
-            @click="event"
           >
           </el-table-column>
           <el-table-column prop="date" label="Date" width="100" align="center">
@@ -141,10 +140,6 @@ export default {
       this.currentRow.value = val;
       console.log('click one item@');
     };
-    const event = function () {
-      // 게시글 클릭 이벤트 하려고 했으나 실패함.
-      console.log('click one item@');
-    };
 
     const tableData = [
       {
@@ -180,7 +175,6 @@ export default {
       handleCurrentChange,
       tableData,
       currentRow,
-      event,
     };
   },
 };

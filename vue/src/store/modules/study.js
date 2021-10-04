@@ -52,7 +52,6 @@ export const study = {
       // console.log(payload);
       state.studyNoticeArticleList = payload;
     },
-
   },
   actions: {
     // 전체 스터디 목록
@@ -87,7 +86,7 @@ export const study = {
       commit('updateStudyId', data);
     },
     introduce({ commit }, data) {
-      const res = axios.get(BASE_URL + '/api/study/one/' + data, header);
+      const res = axios.get(BASE_URL + '/api/study/' + data, header);
       res.then((res) => {
         // console.log('스터디 introduice 조회 결과');
         // console.log(res);
@@ -177,9 +176,6 @@ export const study = {
       console.log(state.studyNoticeArticleList);
       return state.studyNoticeArticleList;
     },
-
-
-    
   },
   modules: {},
 };
