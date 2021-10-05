@@ -125,7 +125,7 @@
         <el-col :span="3"> <StudyDeleteModal /> </el-col>
         <el-col :span="3"> <StudyQuitModal /> </el-col>
         <el-col :span="3">
-          <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
+          <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
             돌아가기
           </el-button>
         </el-col>
@@ -146,7 +146,7 @@
         <el-col :span="2" v-if="auth == 2"> <StudyDeleteModal /> </el-col>
         <el-col :span="2" v-if="auth == 1"> <StudyQuitModal /> </el-col>
         <el-col :span="2" v-if="auth == 0">
-          <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
+          <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
             돌아가기
           </el-button>
           <CreateApplicationModal />
