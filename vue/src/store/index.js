@@ -8,11 +8,10 @@ import axios from 'axios';
 
 export default createStore({
   state: {
-    category: null,
+    category: null, // category 1:스터디 2:프로젝트 3:클럽
     user: {},
     scrollModal: 'false',
     infoModal: 'false',
-    // category 1:스터디 2:프로젝트 3:클럽
     rejectModal: 'false',
     acceptModal: 'false',
     applicationModal: 'false',
@@ -99,6 +98,11 @@ export default createStore({
     },
     applicationModalGetter: (state) => {
       return state.applicationModal;
+    },
+    categoryGetter: (state) => {
+      console.log('GET 카테고리');
+      console.log(state.category);
+      return state.category;
     },
   },
   modules: {
