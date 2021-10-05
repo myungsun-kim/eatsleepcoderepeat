@@ -6,6 +6,7 @@
         필요
       </el-col>
       <el-col :span="18">
+        <!-- :data="articleList" -->
         <el-table
           :data="tableData"
           stripe
@@ -26,7 +27,6 @@
             label="Author"
             width="100"
             align="center"
-            @click="event"
           >
           </el-table-column>
           <el-table-column prop="date" label="Date" width="100" align="center">
@@ -89,29 +89,55 @@
 </template>
 
 <script>
-// import { useStore } from 'vuex';
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-
 export default {
   setup() {
-    // const store = useStore();
+    const store = useStore();
     const router = useRouter();
     const currentRow = ref('1');
     const state = reactive({
       form: {},
       select: '',
     });
+
+    // 1. 스터디 id를 가져와야 함.
+    const studyId = 3;
+
+    // 2. 현재 이 게시판 board id를 가져와야 함.
+    // 1번 매커니즘 고치면 stidyId.value로 바꿔야 할 듯.
+    store.dispatch('study/getBoardId', studyId);
+    const boardIdList = computed(
+      () => store.getters['study/studyBoardIdListGetter']
+    );
+    // 0: {id: 1, name: '공지사항'}
+    // 1: {id: 2, name: '게시판'}
+    console.log('boardIdList: ');
+    console.log(boardIdList);
+
+    // 3. 보드 id 가져오기
+    const boardId = 1;
+    for (let index = 0; index < boardIdList.length; index++) {
+      console.log('@@@@@');
+      console.log(boardIdList[index]);
+      // 여기 안에 안들어가면  .value 지워보기
+      if (boardIdList[index].value.name == '공지사항') {
+        boardId = index;
+      }
+    }
+    //  4. 게시판 목록 가져오기
+    store.dispatch('study/getNoticeArticleList', boardId);
+    const articleList = computed(
+      () => store.getters['study/studyNoticeArticleListGetter']
+    );
+
     const goCreateNotice = function () {
       router.push({ path: '/subheader/notice/create' });
     };
 
     const handleCurrentChange = function (val) {
       this.currentRow.value = val;
-      console.log('click one item@');
-    };
-    const event = function () {
-      // 게시글 클릭 이벤트 하려고 했으나 실패함.
       console.log('click one item@');
     };
 
@@ -142,13 +168,13 @@ export default {
       },
     ];
     return {
+      store,
       router,
       state,
       goCreateNotice,
       handleCurrentChange,
       tableData,
       currentRow,
-      event,
     };
   },
 };

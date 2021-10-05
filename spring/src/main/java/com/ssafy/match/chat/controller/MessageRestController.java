@@ -78,11 +78,14 @@ public class MessageRestController {
     }
 
     @PostMapping("/sessions/start")
-    public ResponseEntity<?> findSessions(@RequestBody ChatMessage msg){
+
+    public ResponseEntity<?> startSessions(@RequestBody ChatMessage msg){
+
 //        long userId = SecurityUtil.getCurrentMemberId();
         try{
             msgSender.send(msg);
         }catch(Exception e){
+            e.printStackTrace();
             return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<Void>(HttpStatus.OK);

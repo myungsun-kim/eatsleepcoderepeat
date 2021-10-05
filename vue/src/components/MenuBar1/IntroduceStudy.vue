@@ -91,8 +91,8 @@
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
-        {{ studyIntroduce.modifyDate.substr(2, 8) }}&nbsp;
-        {{ studyIntroduce.modifyDate.substr(11, 8) }}
+        {{ studyIntroduce.modifiedDate.substr(2, 8) }}&nbsp;
+        {{ studyIntroduce.modifiedDate.substr(11, 8) }}
         <!-- ???? 왜 역으로 가야되는거지 -->
       </el-row>
       <el-row class="height1"> </el-row>
@@ -136,7 +136,7 @@
   </el-row>
 </template>
 <script>
-import { computed, ref } from 'vue';
+import { computed, ref, watch, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import MemberListModal from '../Modal/MemberListModal.vue';
@@ -148,12 +148,46 @@ export default {
     const store = useStore();
     const router = useRouter();
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    console.log('studyId: ' + studyId.value);
-    store.dispatch('study/introduce', studyId.value);
+    console.log(111111111111111);
+    console.log(studyId);
     const studyIntroduce = computed(
       () => store.getters['study/studyIntroduceGetter']
     );
-    console.log('studyIntroduce: ' + studyIntroduce.value);
+    // 1. 새롭게 스터디 id가 바뀌는 것을 감지
+    watch(studyId, () => {
+      console.log(222222222222222222);
+      console.log(studyId.value);
+      // 감지 성공
+      console.log(33333333333333);
+      // 해당 id로 재조회 << 현재 가져오지 못하고 있음
+      store.dispatch('study/introduce', studyId.value);
+
+      console.log(44444444444444);
+      // 값을 getter로 가져옴 << 현재 가져오지 못하고 있음
+      // studyIntroduce = store.getters['study/studyIntroduceGetter'];
+      console.log(555555555555555);
+      console.log(studyIntroduce);
+    });
+    console.log(123123123);
+    console.log(studyIntroduce);
+    console.log(studyIntroduce.id);
+    console.log(123123123);
+    // watch(studyIntroduce, () => {
+    //   console.log(7777777777777777777);
+    //   console.log(studyIntroduce);
+    //   console.log(studyIntroduce.id);
+    //   console.log(studyIntroduce.value);
+    // });
+    // watch(studyIntroduce.value.id, () => {
+    //   console.log(666666666666666);
+    //   console.log(studyIntroduce);
+    //   console.log(studyIntroduce.id);
+    // });
+    console.log('studyId: ' + studyId.value);
+    // const studyId = 3;
+    // const studyIntroduce = reactive({});
+
+    console.log('studyIntroduce: ' + studyIntroduce);
 
     store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
@@ -163,6 +197,7 @@ export default {
     //스터디 장인지 아닌지는
     //api/auth/check/nickname/에다가
     //내 토큰이랑 스터디 장의 별명을 넣어서 일치하는지 확인
+
     if (store.dispatch('study/checkHost', studyIntroduce.value.host.nickname)) {
       auth.value = 2;
     } else {
