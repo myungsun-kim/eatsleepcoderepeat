@@ -22,7 +22,7 @@
             />
           </div>
           <div id="box1">
-            <label id="h2">기술스택</label>
+            <label id="h2">기술스택 (1개만 입력 가능합니다)</label>
             <div id="box5">
               <!-- v-model="state.form.techList" -->
               <input

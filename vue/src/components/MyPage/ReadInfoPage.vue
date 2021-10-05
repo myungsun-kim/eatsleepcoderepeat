@@ -223,6 +223,7 @@
           <span v-if="user.bio">{{ user.bio }}</span>
         </el-col>
       </el-row>
+
       <el-row class="test-border align-center"></el-row>
     </el-col>
 
@@ -275,7 +276,6 @@ export default {
     const router = useRouter();
 
     console.log('2-1');
-
     console.log('2-7');
     const user = computed(() => store.getters['member/mypageGetter']);
     console.log('2-8');

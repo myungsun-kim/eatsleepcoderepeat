@@ -24,6 +24,8 @@ export const study = {
   mutations: {
     updateTotalStudyList(state, payload) {
       state.totalStudyList = payload;
+      console.log('저장된 모든 스터디 목록');
+      console.log(state.totalStudyList);
     },
     updateStudyId(state, payload) {
       console.log('넘겨준 STUDY ID 값' + payload);
@@ -71,8 +73,8 @@ export const study = {
       res.then((res) => {
         // console.log('스터디 목록 조회 결과');
         // console.log(res);
-        // console.log(res.data);
-        commit('updateTotalStudyList', res.data);
+        // console.log(res.data.content);
+        commit('updateTotalStudyList', res.data.content);
       });
       return res;
     },
@@ -233,6 +235,8 @@ export const study = {
   },
   getters: {
     totalStudyGetter: (state) => {
+      console.log('###########################');
+      console.log(state.totalStudyList);
       return state.totalStudyList;
     },
     studyIdGetter: (state) => {
