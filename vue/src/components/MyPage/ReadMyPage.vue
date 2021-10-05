@@ -1,5 +1,6 @@
 <template>
   <el-row class="height5">
+    유저: {{ user }}
     <el-col :span="1"></el-col>
     <el-col :span="21" class="test-border title">
       마이페이지
@@ -498,15 +499,14 @@ export default {
     const store = useStore();
     const router = useRouter();
 
+    store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
 
-    store.dispatch('member/readMyPage');
-
-    watch(user, () => {
-      console.log('지켜봄');
-      console.log(user);
-      store.dispatch('member/readMyPage');
-    });
+    // watch(user, () => {
+    //   console.log('지켜봄');
+    //   console.log(user);
+    //   store.dispatch('member/readMyPage');
+    // });
 
     // console.log('11');
     // const res = store.dispatch('member/readMyPage');
