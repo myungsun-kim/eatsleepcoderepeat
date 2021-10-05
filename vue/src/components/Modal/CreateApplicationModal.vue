@@ -1,9 +1,9 @@
 <template>
-  <el-button @click="modalOpen = true" class="">
-    (지원자 입장) Create Application Modal
+  <el-button @click="changemodalOpen" class="btn-ghost-blue font-noto-bold">
+    신청
   </el-button>
   <teleport to="body">
-    <div v-if="modalOpen" class="modal">
+    <div v-if="!modalOpen" class="modal">
       <div class="height40 flex-parent" style="width: 50%">
         <el-row class="height10"></el-row>
         <el-row class="height10">
@@ -94,10 +94,60 @@
   </teleport>
 </template>
 <script>
+import { useRouter } from 'vue-router';
+import { reactive, computed } from 'vue';
+import { useStore } from 'vuex';
+
 export default {
-  data() {
+  setup() {
+    const router = useRouter();
+    const store = useStore();
+    const modalOpen = computed(() => store.getters['applicationModalGetter']);
+    console.log('모달' + modalOpen.value);
+    const state = reactive({
+      form: {
+        studyId: 3,
+        backjoon: 'qjawlsqjacks',
+        bio: '설명ㅇㅇㅇㅇ',
+        city: '서울',
+        facebook: 'facebook.com',
+        git: 'BEOMKING',
+        nickname: 'BJP',
+        twitter: 'twitter.com',
+        uuid: '3fads23-fdfd13-23d2',
+      },
+    });
+
+    // 스터디 ID 가져오기
+    const studyId = computed(() => store.getters['study/studyIdGetter']);
+
+    // 해당 참가자 정보 가져오기
+    store.dispatch('member/readMyPage');
+    const user = computed(() => store.getters['member/mypageGetter']);
+
+    store.dispatch('study/applicationOne', state.form);
+
+    const changemodalOpen = function () {
+      store.dispatch('changeApplicationModal', !modalOpen.value);
+    };
+
+    // 수락 누를 시
+    const goManage = function () {
+      store.dispatch('study/approvalStudy', state.form); //신청서 수락
+      store.dispatch('changeApplicationModal', !modalOpen.value);
+      router.push({ path: '/subheader/study/manage' });
+    };
+
     return {
-      modalOpen: false,
+      store,
+      router,
+      state,
+      modalOpen,
+      goManage,
+      changemodalOpen,
+      user,
+
+      studyId,
     };
   },
 };
