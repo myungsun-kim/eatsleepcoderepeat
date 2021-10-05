@@ -5,7 +5,7 @@
         <div class="height100"></div>
       </el-col>
       <el-col :span="13" :offset="0">
-        <div class="height100">
+        <div>
           <div id="h1">스터디 수정</div>
           <hr />
           <div id="box1">
