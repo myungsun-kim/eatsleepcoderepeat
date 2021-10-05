@@ -208,8 +208,8 @@ export const study = {
         header
       );
       res.then((res) => {
-        console.log('getNoticeArticleList 조회 결과');
-        console.log(res.data);
+        // console.log('getNoticeArticleList 조회 결과');
+        // console.log(res.data);
         commit('updateNoticeArticleList', res.data);
       });
       // return res.data;
@@ -270,13 +270,15 @@ export const study = {
     },
     // 특정 게시글 하나 조회
     getArticleDetail({ commit }, form) {
-      console.log(form);
+      // console.log(form);
+      console.log('상세조회, 글 id, 보드 id');
       console.log(form.articleid);
+      console.log(form.boardid);
 
       const res = axios.get(
         BASE_URL +
           // `/api/studyboards/${form.articleid}/articles/${form.boardid}`,
-          `/api/studyboards/${form.boardid}/articles/${form.articleId}`,
+          `/api/studyboards/${form.boardid}/articles/${form.articleid}`,
         header
       );
       res.then((res) => {
