@@ -18,7 +18,7 @@ export const study = {
     studyApplications: [],
     studyApplication: {},
     studyBoardIdList: [],
-    studyArticleId: '',
+    studyArticleId: '', // 스터디 게시글 아이디
     studyNoticeArticleList: [],
     studyNoticeBoardId: '', //스터디 공지사항 보드 ID
     studyNormalBoardId: '', // 스터디 게시판 보드 ID
@@ -118,6 +118,10 @@ export const study = {
     callUpdateStudyId({ commit }, data) {
       // console.log('넘겨줄 STUDY ID 값' + data);
       commit('updateStudyId', data);
+    },
+    callUpdateArticleId({ commit }, data) {
+      // console.log('넘겨줄 Article ID 값' + data);
+      commit('updateArticleId', data);
     },
     introduce({ commit }, data) {
       console.log('###############');
@@ -272,7 +276,7 @@ export const study = {
       const res = axios.get(
         BASE_URL +
           // `/api/studyboards/${form.articleid}/articles/${form.boardid}`,
-          `/api/studyboards/${form.boardid}/articles/${form.articleid}`,
+          `/api/studyboards/${form.boardid}/articles/${form.articleId}`,
         header
       );
       res.then((res) => {

@@ -12,8 +12,9 @@
           stripe
           style="width: 100%"
           highlight-current-row
-          @cell-click="handleCurrentChange2"
-        >
+          @cell-click="goArticle"
+          ><el-table-column prop="articleId" label="No" width="" align="center">
+          </el-table-column>
           <el-table-column prop="title" label="Title" width="" align="center">
           </el-table-column>
           <el-table-column
@@ -158,7 +159,7 @@ export default {
     // studyBoard: "공지사항"
     // title: "ㅁㄴㅇㅁㅇㅁ"
     // viewCount: 0
-    console.log(articleList.value.content[0].title);
+    // console.log(articleList.value.content[0].title);
 
     const tableData = articleList.value.content;
 
@@ -166,12 +167,10 @@ export default {
       router.push({ path: '/subheader/notice/create' });
     };
 
-    const handleCurrentChange2 = function (row, col, cell, event) {
-      console.log(row);
-      console.log(col);
-      console.log(cell);
-      console.log(event);
-      // router.push({ path: '/subheader/notice/detail' });
+    const goArticle = function (val) {
+      console.log(val.articleId);
+      store.dispatch('study/callUpdateArticleId', val.articleId);
+      router.push({ path: '/subheader/notice/detail' });
     };
 
     return {
@@ -179,7 +178,7 @@ export default {
       router,
       state,
       goCreateNotice,
-      handleCurrentChange2,
+      goArticle,
       tableData,
       currentRow,
     };
