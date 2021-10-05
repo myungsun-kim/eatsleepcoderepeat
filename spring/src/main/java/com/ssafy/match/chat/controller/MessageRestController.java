@@ -78,7 +78,9 @@ public class MessageRestController {
     }
 
     @PostMapping("/sessions/start")
+
     public ResponseEntity<?> startSessions(@RequestBody ChatMessage msg){
+
 //        long userId = SecurityUtil.getCurrentMemberId();
         try{
             msgSender.send(msg);
