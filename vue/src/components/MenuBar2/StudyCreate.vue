@@ -313,7 +313,7 @@ export default {
       router.push({ path: '/subheader/study/introduce' });
     };
     const goHome = function () {
-      router.push({ path: '/nosubheader/home' });
+      router.push({ path: '/nosubheader/study/home' });
     };
 
     return {
