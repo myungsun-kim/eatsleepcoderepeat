@@ -138,6 +138,7 @@ export default {
 
     const clickMyPage = function () {
       if (token) {
+        store.dispatch('member/readMyPage');
         router.push({ path: '/nosubheader/readmypage' });
       } else {
         router.push({ path: '/noheader/signin' });

@@ -54,7 +54,7 @@
           <el-row class="test-border info-size">
             <el-col :span="5" class="test-border"> 지역 </el-col>
             <el-col :span="15" :offset="4" class="info">
-              {{ user.city }}
+              &nbsp;{{ user.city }}
             </el-col>
           </el-row>
         </el-col>
@@ -66,25 +66,33 @@
         <el-col :span="16" :offset="1" class="info">
           <span
             v-if="
-              user.snsList.length > 0 && user.snsList[0].snsName == 'github'
+              user.snsList &&
+              user.snsList.length > 0 &&
+              user.snsList[0].snsName == 'github'
             "
             >{{ user.snsList[0].snsAccount }}</span
           >
           <span
             v-else-if="
-              user.snsList.length > 1 && user.snsList[1].snsName == 'github'
+              user.snsList &&
+              user.snsList.length > 1 &&
+              user.snsList[1].snsName == 'github'
             "
             >{{ user.snsList[1].snsAccount }}</span
           >
           <span
             v-else-if="
-              user.snsList.length > 2 && user.snsList[2].snsName == 'github'
+              user.snsList &&
+              user.snsList.length > 2 &&
+              user.snsList[2].snsName == 'github'
             "
             >{{ user.snsList[2].snsAccount }}</span
           >
           <span
             v-else-if="
-              user.snsList.length > 3 && user.snsList[3].snsName == 'github'
+              user.snsList &&
+              user.snsList.length > 3 &&
+              user.snsList[3].snsName == 'github'
             "
             >{{ user.snsList[3].snsAccount }}</span
           >
@@ -95,25 +103,33 @@
         <el-col :span="16" :offset="1" class="info">
           <span
             v-if="
-              user.snsList.length > 0 && user.snsList[0].snsName == 'twitter'
+              user.snsList &&
+              user.snsList.length > 0 &&
+              user.snsList[0].snsName == 'twitter'
             "
             >{{ user.snsList[0].snsAccount }}</span
           >
           <span
             v-else-if="
-              user.snsList.length > 1 && user.snsList[1].snsName == 'twitter'
+              user.snsList &&
+              user.snsList.length > 1 &&
+              user.snsList[1].snsName == 'twitter'
             "
             >{{ user.snsList[1].snsAccount }}</span
           >
           <span
             v-else-if="
-              user.snsList.length > 2 && user.snsList[2].snsName == 'twitter'
+              user.snsList &&
+              user.snsList.length > 2 &&
+              user.snsList[2].snsName == 'twitter'
             "
             >{{ user.snsList[2].snsAccount }}</span
           >
           <span
             v-else-if="
-              user.snsList.length > 3 && user.snsList[3].snsName == 'twitter'
+              user.snsList &&
+              user.snsList.length > 3 &&
+              user.snsList[3].snsName == 'twitter'
             "
             >{{ user.snsList[3].snsAccount }}</span
           >
@@ -125,25 +141,33 @@
         <el-col :span="16" :offset="1" class="info">
           <span
             v-if="
-              user.snsList.length > 0 && user.snsList[0].snsName == 'facebook'
+              user.snsList &&
+              user.snsList.length > 0 &&
+              user.snsList[0].snsName == 'facebook'
             "
             >{{ user.snsList[0].snsAccount }}</span
           >
           <span
             v-else-if="
-              user.snsList.length > 1 && user.snsList[1].snsName == 'facebook'
+              user.snsList &&
+              user.snsList.length > 1 &&
+              user.snsList[1].snsName == 'facebook'
             "
             >{{ user.snsList[1].snsAccount }}</span
           >
           <span
             v-else-if="
-              user.snsList.length > 2 && user.snsList[2].snsName == 'facebook'
+              user.snsList &&
+              user.snsList.length > 2 &&
+              user.snsList[2].snsName == 'facebook'
             "
             >{{ user.snsList[2].snsAccount }}</span
           >
           <span
             v-else-if="
-              user.snsList.length > 3 && user.snsList[3].snsName == 'facebook'
+              user.snsList &&
+              user.snsList.length > 3 &&
+              user.snsList[3].snsName == 'facebook'
             "
             >{{ user.snsList[3].snsAccount }}</span
           >
@@ -154,25 +178,33 @@
         <el-col :span="16" :offset="1" class="info">
           <span
             v-if="
-              user.snsList.length > 0 && user.snsList[0].snsName == 'backjoon'
+              user.snsList &&
+              user.snsList.length > 0 &&
+              user.snsList[0].snsName == 'backjoon'
             "
             >{{ user.snsList[0].snsAccount }}</span
           >
           <span
             v-else-if="
-              user.snsList.length > 1 && user.snsList[1].snsName == 'backjoon'
+              user.snsList &&
+              user.snsList.length > 1 &&
+              user.snsList[1].snsName == 'backjoon'
             "
             >{{ user.snsList[1].snsAccount }}</span
           >
           <span
             v-else-if="
-              user.snsList.length > 2 && user.snsList[2].snsName == 'backjoon'
+              user.snsList &&
+              user.snsList.length > 2 &&
+              user.snsList[2].snsName == 'backjoon'
             "
             >{{ user.snsList[2].snsAccount }}</span
           >
           <span
             v-else-if="
-              user.snsList.length > 3 && user.snsList[3].snsName == 'backjoon'
+              user.snsList &&
+              user.snsList.length > 3 &&
+              user.snsList[3].snsName == 'backjoon'
             "
             >{{ user.snsList[3].snsAccount }}</span
           >
@@ -345,7 +377,7 @@
             <el-col
               :span="12"
               class="test-border item-small-content left-content"
-              >작성일: {{ item.modifiedDate.substr(2, 8) }}</el-col
+              >작성일: {{ item.modifyDate.substr(2, 8) }}</el-col
             >
             <el-col :span="12" class="test-border right-content">
               <div
@@ -468,11 +500,12 @@ export default {
 
     const user = computed(() => store.getters['member/mypageGetter']);
 
-    // store.dispatch('member/readMyPage');
+    store.dispatch('member/readMyPage');
+
     watch(user, () => {
       console.log('지켜봄');
+      console.log(user);
       store.dispatch('member/readMyPage');
-      console.log('dd');
     });
 
     // console.log('11');
@@ -493,13 +526,6 @@ export default {
     //   store.state.user = res.data;
     // });
     // const user = computed(() => store.getters['member/mypageGetter']);
-
-    console.log('유저정보');
-    console.log(user);
-    console.log(user.value);
-    // console.log(user.value.email);
-    // console.log(user.value.name);
-    // console.log(user.value.nickname);
 
     return { store, router, user };
   },
