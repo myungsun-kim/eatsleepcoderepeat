@@ -11,11 +11,11 @@ export const member = {
   },
   mutations: {
     updateMypage(state, payload) {
-      console.log('SAVE MY PAGE');
-      console.log('2-4');
-      console.log(payload);
+      // console.log('SAVE MY PAGE');
+      // console.log('2-4');
+      // console.log(payload);
       state.mypage = payload;
-      console.log('2-5');
+      // console.log('2-5');
     },
     updateUserEmail(state, payload) {
       console.log('updateUserEmail');
@@ -31,7 +31,7 @@ export const member = {
   actions: {
     // 마이페이지 정보
     readMyPage({ commit }) {
-      console.log('2-2');
+      // console.log('2-2');
       const res = axios
         .get(BASE_URL + `/api/member/mypage`, {
           headers: {
@@ -61,8 +61,12 @@ export const member = {
           console.log('READ MY PAGE');
           console.log(res);
           console.log(res.data);
+          // console.log('READ MY PAGE');
+          // console.log('2-3');
+          // console.log(res);
+          // console.log(res.data);
           commit('updateMypage', res.data);
-          console.log('2-6');
+          // console.log('2-6');
         });
       return res;
     },

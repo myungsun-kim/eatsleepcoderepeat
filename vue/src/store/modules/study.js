@@ -34,8 +34,8 @@ export const study = {
       state.memberNickname = payload;
     },
     updateStudyIntroduce(state, payload) {
-      // console.log('넘겨준 STUDY INTRODUCE 값');
-      // console.log(payload);
+      console.log('넘겨준 STUDY INTRODUCE 값');
+      console.log(payload);
       state.studyIntroduce = payload;
     },
     updateStudyApplications(state, payload) {
@@ -97,11 +97,12 @@ export const study = {
       commit('updateStudyId', data);
     },
     introduce({ commit }, data) {
+      console.log('###############');
       const res = axios.get(BASE_URL + '/api/study/' + data, header);
       res.then((res) => {
         // console.log('스터디 introduce 조회 결과');
         // console.log(res);
-        // console.log(res.data);
+        console.log(res.data);
         commit('updateStudyIntroduce', res.data);
       });
       return res;
@@ -236,13 +237,15 @@ export const study = {
     },
     studyIdGetter: (state) => {
       return state.studyId;
+      // return state.filter((studyId) => studyId.done);
+      // return state.studyId.filter((todo) => todo.done);
     },
     studyMemberNicknameGetter: (state) => {
       return state.memberNickname;
     },
     studyIntroduceGetter: (state) => {
-      // console.log('Introduce GETTER');
-      // console.log(state.studyIntroduce);
+      console.log('Introduce GETTER');
+      console.log(state.studyIntroduce);
       return state.studyIntroduce;
     },
     studyApplicationsGetter: (state) => {
