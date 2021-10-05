@@ -78,6 +78,16 @@ public class StudyController {
         return ResponseEntity.ok(studyService.getAllStudy(pageable));
     }
 
+    @GetMapping("/recommend")
+    @ApiOperation(value = "모든 스터디 조회", notes = "추천 하는 스터디들을 리턴한다")
+    public ResponseEntity<Page<StudyInfoResponseDto>> getAllStudyWithRecommend(@SortDefault.SortDefaults({
+//            @SortDefault(sort = "createDate", direction= Sort.Direction.DESC),
+            @SortDefault(sort = "period", direction = Sort.Direction.DESC),
+            @SortDefault(sort = "maxCount", direction = Sort.Direction.DESC)
+    }) @PageableDefault(size = 10) Pageable pageable) throws Exception {
+        return ResponseEntity.ok(studyService.getAllStudy(pageable));
+    }
+
     @GetMapping("/{studyId}")
     @ApiOperation(value = "스터디 상세정보 조회",
         notes = "<strong>받은 스터디 id</strong>로 해당 스터디 정보 + 수정을 위한 정보(사용자 클럽 리스트, 지역, 상태 리스트 등")
