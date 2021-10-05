@@ -19,7 +19,7 @@
             </div>
             <div class="box3">
               <div class="box4">
-                <div class="label1">ID</div>
+                <div class="label1">이메일</div>
                 <input
                   type="text"
                   id="email"
@@ -339,13 +339,13 @@ export default {
     console.log('유저정보');
     console.log(user);
     console.log(user.value);
-    let tmp = Object.values(user.value.dpositionList);
-    let tmp1 = [];
-    tmp.forEach(function (item) {
-      tmp1.push(item.name);
+    // user.value.dpositionList의 형태가 {0, {"id"= 1, "name"="프론트앤드"}}처럼 들어오기때문에
+    // 해당 객체를 반복문으로 돌면서 name의 value값만 모아서 dpList1에 저장
+    let dpList = Object.values(user.value.dpositionList);
+    let dpList1 = [];
+    dpList.forEach(function (item) {
+      dpList1.push(item.name);
     });
-    console.log(tmp1);
-    console.log(tmp, '111111111111');
 
     const state = reactive({
       form: {
@@ -374,7 +374,7 @@ export default {
         // portfolio_uri: user.value.portfolio_uri, //포트폴리오 주소
         expTechList: user.value.expTechList, //Experinced
         beginTechList: user.value.beginTechList, //beginner
-        dpositionList: tmp, //세부 포지션
+        dpositionList: dpList1, //세부 포지션
         bio: user.value.bio, // 자기소개
         tel: '', //연락처
       },
@@ -406,6 +406,7 @@ export default {
           state.form.snsHashMap.backjoon = user.value.snsList[i].snsAccount;
         }
       }
+      console.log(user.value, '@@@@@@@@@@@@@@@@@@@');
     });
 
     // 프로필 사진 업로드
@@ -992,7 +993,7 @@ export default {
   flex-flow: column;
 }
 .box3 {
-  margin-left: 150px;
+  margin-left: 50px;
   width: 300px;
   height: 50px;
 }
@@ -1066,7 +1067,7 @@ export default {
   font-size: 16px;
 }
 .input1 {
-  width: 200px;
+  width: 300px;
   height: 50px;
   border: none;
   border-radius: 4px;

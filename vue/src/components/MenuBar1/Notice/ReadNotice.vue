@@ -3,7 +3,8 @@
     <el-row style="maxheight: 85%">
       <el-col :span="3">
         element-plus tablem 일정 개수를 넘어가면 다음 페이지로 넘어가는 알고리즘
-        필요
+        필요 <br />
+        보드 아이디: {{ boardId }}
       </el-col>
       <el-col :span="18">
         <!-- :data="articleList" -->
@@ -36,7 +37,7 @@
       <el-col :span="3"></el-col>
     </el-row>
 
-    <!-- pagination -->
+    <!-- 하단 부분: pagination + 겸색 등 -->
     <el-row style="height: 15%">
       <el-col :span="3"></el-col>
       <el-col :span="18">
@@ -115,10 +116,14 @@ export default {
       () => store.getters['study/studyBoardIdListGetter']
     );
 
-    // console.log('boardIdList: ');
-    // console.log(boardIdList);
-    // console.log(boardIdList.value);
-
+    watch(boardIdList.length, () => {
+      console.log('boardIdList length 바뀜');
+      store.dispatch('study/getNoticeArticleList', boardId);
+    });
+    watch(boardIdList, () => {
+      console.log('boardIdList 바뀜');
+      store.dispatch('study/getNoticeArticleList', boardId);
+    });
     // 0: {id: 1, name: '공지사항'}
     // 1: {id: 2, name: '게시판'}
 
@@ -147,11 +152,19 @@ export default {
     const articleList = computed(
       () => store.getters['study/studyNoticeArticleListGetter']
     );
+    // watch(articleList.value, () => {
+    //   console.log('articleList 바뀜');
+    //   store.dispatch('study/getNoticeArticleList', boardId);
+    // });
+    // watch(articleList.value.content.length, () => {
+    //   console.log('articleList.value.content.length 바뀜');
+    //   store.dispatch('study/getNoticeArticleList', boardId);
+    // });
     console.log('articleList 출력');
-    console.log(articleList);
-    console.log(articleList.value);
+    // console.log(articleList);
+    // console.log(articleList.value);
     console.log(articleList.value.content);
-    console.log(articleList.value.content[0]);
+    // console.log(articleList.value.content[0]);
     // articleId: 8
     // createdDate: "2021-10-05T16:08:11.246601"
     // createdMember: "별명"
@@ -162,6 +175,10 @@ export default {
     // console.log(articleList.value.content[0].title);
 
     const tableData = articleList.value.content;
+    // watch(tableData, () => {
+    //   console.log('tableData 바뀜');
+    //   // store.dispatch('study/getNoticeArticleList', boardId);
+    // });
 
     const goCreateNotice = function () {
       router.push({ path: '/subheader/notice/create' });
@@ -177,6 +194,7 @@ export default {
       store,
       router,
       state,
+      boardId,
       goCreateNotice,
       goArticle,
       tableData,
