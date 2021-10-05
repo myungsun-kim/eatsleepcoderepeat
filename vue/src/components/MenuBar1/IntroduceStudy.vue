@@ -114,6 +114,28 @@
       <el-row class="height92 font-20">
         {{ studyIntroduce.bio }}
       </el-row>
+      <el-row :gutter="20">
+        (이 row은 테스트 끝나면 다 제거할 것임) 현재 권한: {{ auth }} <br />
+        2가 팀장(수정, 삭제), 1이 팀원(탈퇴), 0이 외부인(돌아가기, 신청) <br />
+        <el-col :span="3">
+          <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
+            수정
+          </el-button>
+        </el-col>
+        <el-col :span="3"> <StudyDeleteModal /> </el-col>
+        <el-col :span="3"> <StudyQuitModal /> </el-col>
+        <el-col :span="3">
+          <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
+            돌아가기
+          </el-button>
+        </el-col>
+        <el-col :span="3">
+          <CreateApplicationModal />
+        </el-col>
+        <el-col :span="10"></el-col>
+        <el-col :span="3"></el-col>
+      </el-row>
+
       <el-row>
         <el-col :span="7"></el-col>
         <el-col :span="2" v-if="auth == 2">
@@ -124,9 +146,10 @@
         <el-col :span="2" v-if="auth == 2"> <StudyDeleteModal /> </el-col>
         <el-col :span="2" v-if="auth == 1"> <StudyQuitModal /> </el-col>
         <el-col :span="2" v-if="auth == 0">
-          <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
+          <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
             돌아가기
           </el-button>
+          <CreateApplicationModal />
         </el-col>
         <el-col :span="10"></el-col>
         <el-col :span="3"></el-col>
@@ -142,6 +165,7 @@ import { useRouter } from 'vue-router';
 import MemberListModal from '../Modal/MemberListModal.vue';
 import StudyDeleteModal from '../Modal/StudyDeleteModal.vue';
 import StudyQuitModal from '../Modal/StudyQuitModal.vue';
+import CreateApplicationModal from '../Modal/CreateApplicationModal.vue';
 
 export default {
   setup() {
@@ -155,37 +179,10 @@ export default {
     );
     // 1. 새롭게 스터디 id가 바뀌는 것을 감지
     watch(studyId, () => {
-      console.log(222222222222222222);
-      console.log(studyId.value);
-      // 감지 성공
-      console.log(33333333333333);
-      // 해당 id로 재조회 << 현재 가져오지 못하고 있음
       store.dispatch('study/introduce', studyId.value);
-
-      console.log(44444444444444);
-      // 값을 getter로 가져옴 << 현재 가져오지 못하고 있음
-      // studyIntroduce = store.getters['study/studyIntroduceGetter'];
-      console.log(555555555555555);
-      console.log(studyIntroduce);
     });
-    console.log(123123123);
-    console.log(studyIntroduce);
-    console.log(studyIntroduce.id);
-    console.log(123123123);
-    // watch(studyIntroduce, () => {
-    //   console.log(7777777777777777777);
-    //   console.log(studyIntroduce);
-    //   console.log(studyIntroduce.id);
-    //   console.log(studyIntroduce.value);
-    // });
-    // watch(studyIntroduce.value.id, () => {
-    //   console.log(666666666666666);
-    //   console.log(studyIntroduce);
-    //   console.log(studyIntroduce.id);
-    // });
+
     console.log('studyId: ' + studyId.value);
-    // const studyId = 3;
-    // const studyIntroduce = reactive({});
 
     console.log('studyIntroduce: ' + studyIntroduce);
 
@@ -197,6 +194,7 @@ export default {
     //스터디 장인지 아닌지는
     //api/auth/check/nickname/에다가
     //내 토큰이랑 스터디 장의 별명을 넣어서 일치하는지 확인
+    console.log(auth.value);
 
     if (store.dispatch('study/checkHost', studyIntroduce.value.host.nickname)) {
       auth.value = 2;
@@ -247,6 +245,7 @@ export default {
     MemberListModal,
     StudyQuitModal,
     StudyDeleteModal,
+    CreateApplicationModal,
   },
 };
 </script>

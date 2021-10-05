@@ -15,7 +15,6 @@
       <p class="itemlist-title-left">내 스터디 목록</p>
     </el-col>
   </el-row>
-
   <el-row class="height25" v-if="myStudyList">
     <el-col :span="2" class="test-border"></el-col>
     <!-- Item 리스트 1개씩 v-for로 -->
@@ -91,14 +90,13 @@
   </el-row>
 
   <!-- 아이템 목록 시작 -->
-  <el-row class="height25">
+  <!-- <el-row class="height25" v-if="totalStudyList">
     <el-col :span="2" class="test-border"></el-col>
-    <!-- Item 리스트 1개씩 v-for로 -->
     <el-col
       :span="4"
       :offset="1"
       class="test-border item-border"
-      v-for="(item, index) in totalStudyList.slice(0, 4)"
+      v-for="(item, index) in totalStudyList"
       :key="index"
       @click="goIntroduce(item.id)"
     >
@@ -148,7 +146,7 @@
       </el-row>
     </el-col>
     <el-col :span="2" class="test-border"></el-col>
-  </el-row>
+  </el-row> -->
   <!-- 아이템 목록 끝 -->
 
   <el-row class="height5">
@@ -164,7 +162,7 @@
   </el-row>
 
   <!-- 아이템 목록 시작 -->
-  <el-row class="height25">
+  <el-row class="height25" v-if="totalStudyList">
     <el-col :span="2" class="test-border"></el-col>
     <!-- Item 리스트 1개씩 v-for로 -->
     <el-col
@@ -202,7 +200,7 @@
       </el-row>
       <el-row class="height10">
         <el-col :span="12" class="test-border item-small-content left-content"
-          >작성일: {{ item.modifyDate.substr(2, 8) }}</el-col
+          >작성일: {{ item.modifiedDate.substr(2, 8) }}</el-col
         >
         <el-col :span="12" class="test-border right-content">
           <div
@@ -234,7 +232,7 @@
   </el-row>
 </template>
 <script>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -254,6 +252,10 @@ export default {
       () => store.getters['member/myStudyListGetter']
     );
 
+    // watch(myStudyList, () => {
+    //   console.log('변했다!asdfa!!!!!!!!');
+    // });
+
     const goCreate = function () {
       router.push({ path: '/nosubheader/study/create' });
     };
@@ -263,6 +265,7 @@ export default {
       router.push({ path: '/subheader/study/introduce' });
     };
 
+    // 누가 만드신거죠? 어디 쓰는거지?
     const tempArray = ['a', 'BBB'];
     return {
       store,
