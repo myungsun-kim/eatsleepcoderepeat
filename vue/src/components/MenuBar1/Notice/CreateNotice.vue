@@ -56,7 +56,7 @@
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-import { reactive, computed } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -68,40 +68,29 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    // 1. 스터디 id를 가져와야 함.
-    const studyId = 3;
-
-    // 2. 현재 이 게시판 board id를 가져와야 함.
-    // 1번 매커니즘 고치면 stidyId.value로 바꿔야 할 듯.
-    store.dispatch('study/getBoardId', studyId);
-    const boardIdList = computed(
-      () => store.getters['study/studyBoardIdListGetter']
+    // 1. notice board id를 가져와야 함.
+    const boardId = computed(
+      () => store.getters['study/studyNoticeBoardIdGetter']
     );
-    // 0: {id: 1, name: '공지사항'}
-    // 1: {id: 2, name: '게시판'}
-    console.log('boardIdList: ');
-    console.log(boardIdList);
-    const boardId = 1;
-    for (let index = 0; index < boardIdList.length; index++) {
-      console.log('@@@@@');
-      console.log(boardIdList[index]);
-      // 여기 안에 안들어가면  .value 지워보기
-      if (boardIdList[index].value.name == '공지사항') {
-        boardId = index;
-      }
-    }
 
+    // 값을 넘길 파라미터
     const state = reactive({
       form: {
         title: '', //게시글 제목
-        content: '', //게시글 내용
+        content: '', //게시글 내용ㅊ
+        boardId: boardId.value, //user.memberId
       },
     });
 
+    // 글 작성
     const goReadDetailNotice = function () {
       // 게시글 내용 확인
-      console.log(state.form);
-      store.dispatch('study/createArticle', boardId);
+      // console.log(state.form);
+      // console.log(state.form.title);
+      // console.log(state.form.content);
+      // console.log(state.form.boardId);
+
+      store.dispatch('study/createArticle', state.form);
 
       router.push({ path: '/subheader/notice/detail' });
     };

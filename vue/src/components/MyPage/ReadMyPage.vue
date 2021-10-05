@@ -64,7 +64,7 @@
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> github </el-col>
         <el-col :span="16" :offset="1" class="info">
-          <!-- <span
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'github'
             "
@@ -87,13 +87,13 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'github'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          > -->
+          >
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 트위터 </el-col>
         <el-col :span="16" :offset="1" class="info">
-          <!-- <span
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'twitter'
             "
@@ -116,14 +116,14 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'twitter'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          > -->
+          >
         </el-col>
       </el-row>
 
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 페이스북 </el-col>
         <el-col :span="16" :offset="1" class="info">
-          <!-- <span
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'facebook'
             "
@@ -146,13 +146,13 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'facebook'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          > -->
+          >
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 백준 </el-col>
         <el-col :span="16" :offset="1" class="info">
-          <!-- <span
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'backjoon'
             "
@@ -175,7 +175,7 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'backjoon'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          > -->
+          >
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
@@ -228,32 +228,218 @@
 
     <!-- 우측 -->
     <el-col :span="12" :offset="1" class="test-border">
-      <el-row class="test-border title">내가 속한 클럽</el-row>
+      <el-row class="height5 test-border title">내가 속한 클럽</el-row>
       <el-row class="height5"></el-row>
-      <el-row class="test-border height20">
-        <el-col :span="6" class="test-border"> Item1 </el-col>
-        <el-col :span="6" class="test-border"> Item2 </el-col>
-        <el-col :span="6" class="test-border"> Item3 </el-col>
-        <el-col :span="6" class="test-border"> Item4 </el-col>
+      <!-- 아이템 목록 시작 -->
+      <el-row class="height25" v-if="user.myClubList">
+        <el-col :span="2" class="test-border"></el-col>
+        <!-- Item 리스트 1개씩 v-for로 -->
+        <el-col
+          :span="4"
+          :offset="1"
+          class="test-border item-border"
+          v-for="(item, index) in user.myClubList.slice(0, 4)"
+          :key="index"
+          @click="goIntroduce(item.id)"
+        >
+          <el-row class="height40 item-img"></el-row>
+          <el-row class="height10 item-head-title">{{ item.name }}</el-row>
+          <el-row class="height10 item-content"
+            >기술 스택:&nbsp;
+            <div v-for="(tech, index) in item.techList" :key="index">
+              {{ tech }} &nbsp;
+            </div>
+          </el-row>
+          <el-row class="height10"></el-row>
+          <el-row class="height10 item-content">
+            <el-col :span="12" class="test-border left-content"
+              >지역: {{ item.city }}</el-col
+            >
+            <el-col :span="12" class="test-border right-content">
+              <i
+                v-if="item.isPublic == false"
+                class="el-icon-lock icon-size"
+              ></i>
+            </el-col>
+          </el-row>
+          <el-row class="height10 item-content">
+            <el-col :span="12" class="test-border left-content"
+              >기간: {{ item.period }}주</el-col
+            >
+            <el-col :span="12" class="test-border right-content"
+              >인원: {{ item.memberCount }}/{{ item.maxCount }}</el-col
+            >
+          </el-row>
+          <el-row class="height10">
+            <el-col
+              :span="12"
+              class="test-border item-small-content left-content"
+              >작성일: {{ item.modifiedDate.substr(2, 8) }}</el-col
+            >
+            <el-col :span="12" class="test-border right-content">
+              <div
+                v-if="item.status == '종료'"
+                class="item-state-badge-blue item-small-content"
+              >
+                {{ item.status }}
+              </div>
+              <div v-else class="item-state-badge-blue item-small-content">
+                {{ item.status }}중
+              </div>
+              <div
+                v-if="item.isParticipate == true && item.status == '진행'"
+                class="item-state-badge-blue item-small-content"
+              >
+                참여 가능
+              </div>
+            </el-col>
+          </el-row>
+        </el-col>
+        <el-col :span="2" class="test-border"></el-col>
       </el-row>
+      <!-- 아이템 목록 끝 -->
       <el-row class="height5"></el-row>
-      <el-row class="test-border title">내가 속한 스터디</el-row>
+      <el-row class="height5 test-border title">내가 속한 스터디</el-row>
       <el-row class="height5"></el-row>
-      <el-row class="test-border height20">
-        <el-col :span="6" class="test-border"> Item1 </el-col>
-        <el-col :span="6" class="test-border"> Item2 </el-col>
-        <el-col :span="6" class="test-border"> Item3 </el-col>
-        <el-col :span="6" class="test-border"> Item4 </el-col>
+      <!-- 아이템 목록 시작 -->
+      <el-row class="height25" v-if="user.myStudyList">
+        <el-col :span="2" class="test-border"></el-col>
+        <!-- Item 리스트 1개씩 v-for로 -->
+        <el-col
+          :span="4"
+          :offset="1"
+          class="test-border item-border"
+          v-for="(item, index) in user.myStudyList.slice(0, 4)"
+          :key="index"
+          @click="goIntroduce(item.id)"
+        >
+          <el-row class="height40 item-img"></el-row>
+          <el-row class="height10 item-head-title">{{ item.name }}</el-row>
+          <el-row class="height10 item-content"
+            >기술 스택:&nbsp;
+            <div v-for="(tech, index) in item.techList" :key="index">
+              {{ tech }} &nbsp;
+            </div>
+          </el-row>
+          <el-row class="height10"></el-row>
+          <el-row class="height10 item-content">
+            <el-col :span="12" class="test-border left-content"
+              >지역: {{ item.city }}</el-col
+            >
+            <el-col :span="12" class="test-border right-content">
+              <i
+                v-if="item.isPublic == false"
+                class="el-icon-lock icon-size"
+              ></i>
+            </el-col>
+          </el-row>
+          <el-row class="height10 item-content">
+            <el-col :span="12" class="test-border left-content"
+              >기간: {{ item.period }}주</el-col
+            >
+            <el-col :span="12" class="test-border right-content"
+              >인원: {{ item.memberCount }}/{{ item.maxCount }}</el-col
+            >
+          </el-row>
+          <el-row class="height10">
+            <el-col
+              :span="12"
+              class="test-border item-small-content left-content"
+              >작성일: {{ item.modifiedDate.substr(2, 8) }}</el-col
+            >
+            <el-col :span="12" class="test-border right-content">
+              <div
+                v-if="item.status == '종료'"
+                class="item-state-badge-blue item-small-content"
+              >
+                {{ item.status }}
+              </div>
+              <div v-else class="item-state-badge-blue item-small-content">
+                {{ item.status }}중
+              </div>
+              <div
+                v-if="item.isParticipate == true && item.status == '진행'"
+                class="item-state-badge-blue item-small-content"
+              >
+                참여 가능
+              </div>
+            </el-col>
+          </el-row>
+        </el-col>
+        <el-col :span="2" class="test-border"></el-col>
       </el-row>
+      <!-- 아이템 목록 끝 -->
       <el-row class="height5"></el-row>
-      <el-row class="test-border title">내가 속한 프로젝트</el-row>
+      <el-row class="height5 test-border title">내가 속한 프로젝트</el-row>
       <el-row class="height5"></el-row>
-      <el-row class="test-border height20">
-        <el-col :span="6" class="test-border"> Item1 </el-col>
-        <el-col :span="6" class="test-border"> Item2 </el-col>
-        <el-col :span="6" class="test-border"> Item3 </el-col>
-        <el-col :span="6" class="test-border"> Item4 </el-col>
+      <!-- 아이템 목록 시작 -->
+      <el-row class="height25" v-if="user.myProjectList">
+        <el-col :span="2" class="test-border"></el-col>
+        <!-- Item 리스트 1개씩 v-for로 -->
+        <el-col
+          :span="4"
+          :offset="1"
+          class="test-border item-border"
+          v-for="(item, index) in user.myProjectList.slice(0, 4)"
+          :key="index"
+          @click="goIntroduce(item.id)"
+        >
+          <el-row class="height40 item-img"></el-row>
+          <el-row class="height10 item-head-title">{{ item.name }}</el-row>
+          <el-row class="height10 item-content"
+            >기술 스택:&nbsp;
+            <div v-for="(tech, index) in item.techList" :key="index">
+              {{ tech }} &nbsp;
+            </div>
+          </el-row>
+          <el-row class="height10"></el-row>
+          <el-row class="height10 item-content">
+            <el-col :span="12" class="test-border left-content"
+              >지역: {{ item.city }}</el-col
+            >
+            <el-col :span="12" class="test-border right-content">
+              <i
+                v-if="item.isPublic == false"
+                class="el-icon-lock icon-size"
+              ></i>
+            </el-col>
+          </el-row>
+          <el-row class="height10 item-content">
+            <el-col :span="12" class="test-border left-content"
+              >기간: {{ item.period }}주</el-col
+            >
+            <el-col :span="12" class="test-border right-content"
+              >인원: {{ item.memberCount }}/{{ item.maxCount }}</el-col
+            >
+          </el-row>
+          <el-row class="height10">
+            <el-col
+              :span="12"
+              class="test-border item-small-content left-content"
+              >작성일: {{ item.modifiedDate.substr(2, 8) }}</el-col
+            >
+            <el-col :span="12" class="test-border right-content">
+              <div
+                v-if="item.status == '종료'"
+                class="item-state-badge-blue item-small-content"
+              >
+                {{ item.status }}
+              </div>
+              <div v-else class="item-state-badge-blue item-small-content">
+                {{ item.status }}중
+              </div>
+              <div
+                v-if="item.isParticipate == true && item.status == '진행'"
+                class="item-state-badge-blue item-small-content"
+              >
+                참여 가능
+              </div>
+            </el-col>
+          </el-row>
+        </el-col>
+        <el-col :span="2" class="test-border"></el-col>
       </el-row>
+      <!-- 아이템 목록 끝 -->
       <el-row class="height5"
         ><el-col :span="22"></el-col>
         <el-col :span="2"><ServiceQuitModal /></el-col
@@ -266,7 +452,7 @@
 import PasswordCheckModal from '../Modal/PasswordCheckModal.vue';
 import ServiceQuitModal from '../Modal/ServiceQuitModal.vue';
 import { useStore } from 'vuex';
-import { reactive, computed } from 'vue';
+import { reactive, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 
@@ -280,14 +466,14 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    console.log('2-1');
-    // store.dispatch('member/readMyPage').then((res) => {
-    //   console.log('2-25');
-    //   // store.state.user = res.data;
-    // });
-    console.log('2-7');
     const user = computed(() => store.getters['member/mypageGetter']);
-    console.log('2-8');
+
+    // store.dispatch('member/readMyPage');
+    watch(user, () => {
+      console.log('지켜봄');
+      store.dispatch('member/readMyPage');
+      console.log('dd');
+    });
 
     // console.log('11');
     // const res = store.dispatch('member/readMyPage');
@@ -311,7 +497,6 @@ export default {
     console.log('유저정보');
     console.log(user);
     console.log(user.value);
-    console.log(user.value.email);
     // console.log(user.value.email);
     // console.log(user.value.name);
     // console.log(user.value.nickname);

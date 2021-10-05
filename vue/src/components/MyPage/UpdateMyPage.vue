@@ -72,12 +72,16 @@
           <div class="box5">
             <div class="box4">
               <div class="label2">새 비밀번호</div>
-              <input type="text" class="input2" v-model="state.form.password" />
+              <input
+                type="password"
+                class="input2"
+                v-model="state.form.password"
+              />
             </div>
             <div class="box4">
               <div class="label2">새 비밀번호 확인</div>
               <input
-                type="text"
+                type="password"
                 class="input2"
                 v-model="state.affirmPassword"
               />
@@ -310,7 +314,7 @@
 </template>
 
 <script>
-import { ref, computed, reactive, onBeforeMount } from 'vue';
+import { ref, computed, watch, reactive, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import techstacks from '@/autocomplete/techstack.js';
@@ -326,11 +330,11 @@ export default {
     // });
     // const user = computed(() => store.getters['member/mypageGetter']);
 
-    const res = store.dispatch('member/readMyPage');
-    // res.then((res) => {
-    //   store.state.user = res.data;
-    // });
     const user = computed(() => store.getters['member/mypageGetter']);
+
+    watch(user, () => {
+      store.dispatch('member/readMyPage');
+    });
 
     console.log('유저정보');
     console.log(user);
@@ -897,6 +901,7 @@ export default {
 
     const updateMember = function () {
       store.dispatch('member/updateMember', state.form).then((res) => {
+        store.dispatch('member/readMyPage');
         console.log(res);
       });
     };

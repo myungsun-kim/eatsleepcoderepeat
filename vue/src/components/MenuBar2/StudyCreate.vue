@@ -22,7 +22,7 @@
             />
           </div>
           <div id="box1">
-            <label id="h2">기술스택</label>
+            <label id="h2">기술스택 (1개만 입력 가능합니다)</label>
             <div id="box5">
               <!-- v-model="state.form.techList" -->
               <input
@@ -207,10 +207,15 @@ export default {
     const user = computed(() => store.getters['member/mypageGetter']);
     let clubList = [];
     let clubId = [];
-    if (user.value.myClubList.length > 0) {
-      for (let index = 0; index < user.value.myClubList.length; index++) {
-        clubList[index] = user.value.myClubList[index].name;
-        clubId[index] = user.value.myClubList[index].id;
+    if (user.value.myClubList) {
+      if (user.value.myClubList.length > 0) {
+        for (let index = 0; index < user.value.myClubList.length; index++) {
+          clubList[index] = user.value.myClubList[index].name;
+          clubId[index] = user.value.myClubList[index].id;
+        }
+      } else {
+        clubList[0] = '없음';
+        clubId[0] = null;
       }
     } else {
       clubList[0] = '없음';
@@ -308,7 +313,7 @@ export default {
       router.push({ path: '/subheader/study/introduce' });
     };
     const goHome = function () {
-      router.push({ path: '/nosubheader/home' });
+      router.push({ path: '/nosubheader/study/home' });
     };
 
     return {

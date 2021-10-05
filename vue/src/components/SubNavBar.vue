@@ -1,8 +1,9 @@
 <template>
   <el-row class="height100 font-noto-md">
     <el-col :span="3"></el-col>
-    <el-col :span="11"
-      ><el-row class="height100 sub-nav-bar">
+    <el-col :span="11">
+      {{ store.state.category }} 확인용 나중에 category 알고리즘 다 확인해야함
+      <el-row class="height100 sub-nav-bar">
         <el-col :span="6"
           ><el-button
             v-if="store.state.category == 1"
@@ -75,13 +76,21 @@
 </template>
 
 <script>
-import { useStore } from 'vuex';
+import { useStore, computed, watch } from 'vuex';
 import { useRouter } from 'vue-router';
 
 export default {
   setup() {
     const store = useStore();
     const router = useRouter();
+    // store.getters['categoryGetter'];
+    // const category = computed(() => store.getters['categoryGetter']);
+    // const category = 1;
+    // console.log('카테고리!@#!@');
+    // console.log(category);
+    // watch(category, () => {
+    //   store.dispatch('study/introduce', studyId.value);
+    // });
 
     const clickIntroduceStudy = function () {
       router.push({ path: '/subheader/study/introduce' });
@@ -117,6 +126,7 @@ export default {
     return {
       store,
       router,
+      // category,
       clickIntroduceStudy,
       clickIntroduceProject,
       clickIntroduceClub,

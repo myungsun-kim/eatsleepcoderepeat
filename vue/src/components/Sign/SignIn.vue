@@ -90,6 +90,7 @@ export default {
             localStorage.setItem('accessToken', res.data.accessToken);
             console.log(localStorage.getItem('accessToken'));
             window.location = '/?logined=true';
+            store.dispatch('member/readMyPage');
           } else if (res.status == 404) {
             alert('해당 아이디가 존재하지 않습니다.');
             state.form.email = '';
