@@ -4,79 +4,100 @@
   </el-button>
   <teleport to="body">
     <div v-if="!modalOpen" class="modal">
-      <div class="height40 flex-parent" style="width: 50%">
+      <div class="height50 flex-parent" style="width: 50%">
         <el-row class="height10"></el-row>
         <el-row class="height10">
-          <el-col :span="24" class="font-noto-bold font-20">
-            (스터디 이름) 스터디 신청서
+          <el-col :span="18" :offset="6" class="font-noto-bold font-20">
+            (닉네임)의 (스터디 이름) 스터디 신청서
           </el-col>
         </el-row>
+        <el-row class="height10"></el-row>
         <!-- 세 줄 -->
-        <el-row class="height30">
+        <el-row class="height40">
           <!-- 좌 우 -->
-          <el-col :span="8" :offset="2" class="test-border flex-parent">
-            <el-row class="test-border">
-              <el-col :span="8" class="test-border"> 닉네임 </el-col>
-              <el-col :span="16" class="test-border"> SSAFY </el-col>
+          <el-col :span="12" :offset="3" class="test-border font-14 height100">
+            <el-row class="test-border height25">
+              <el-col :span="3"></el-col>
+              <el-col :span="6" class="test-border"> 닉네임 </el-col>
+              <el-col :span="2"></el-col>
+              <el-col :span="13" class="test-border"> SSAFY </el-col>
             </el-row>
-            <el-row class="test-border">
-              <el-col :span="8" class="test-border"> 지역 </el-col>
-              <el-col :span="16" class="test-border"> SSAFY </el-col>
+            <el-row class="test-border height25">
+              <el-col :span="3"></el-col>
+              <el-col :span="6" class="test-border"> 지역 </el-col>
+              <el-col :span="2"></el-col>
+              <el-col :span="13" class="test-border"> SSAFY </el-col>
             </el-row>
-            <el-row class="test-border">
-              <el-col :span="8" class="test-border"> 깃 </el-col>
-              <el-col :span="16" class="test-border"> Git Twit Fb BJ </el-col>
+            <el-row class="test-border height25">
+              <el-col :span="3"></el-col>
+              <el-col :span="6" class="test-border"> 깃 </el-col>
+              <el-col :span="2"></el-col>
+              <el-col :span="13" class="test-border">
+                <!-- git icon이 현재 동작 안 함
+                <i class="el-icon-github"></i>
+                <i class="el-icon-github-circled"></i>
+                <i class="el-icon-lock lock font-noto-md"></i> -->
+                github
+              </el-col>
             </el-row>
-            <el-row class="test-border">
-              <el-col :span="8" class="test-border"> 트위터 </el-col>
-              <el-col :span="16" class="test-border"> Git Twit Fb BJ </el-col>
+            <el-row class="test-border height25">
+              <el-col :span="3"></el-col>
+              <el-col :span="6" class="test-border"> twitter </el-col>
+              <el-col :span="2"></el-col>
+              <el-col :span="13" class="test-border"> twitter </el-col>
             </el-row>
           </el-col>
-          <el-col :span="12" class="test-border">
-            <el-upload
-              class="upload-demo"
-              drag
-              action="https://jsonplaceholder.typicode.com/posts/"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :file-list="fileList"
-              multiple
-            >
-              <i class="el-icon-upload"></i>
-              <div class="el-upload__text">
-                파일을 드래그 하거나
-                <br />
-                <em>클릭해서 업로드 하세요</em>
+          <!-- 사진 -->
+          <el-col
+            :span="6"
+            class="test-border flex-parent"
+            style="width: 100%; height: 100%"
+          >
+            <el-row class="height100">
+              <div class="profile">
+                <img class="previewImg" />
+                <!-- <img
+                  v-if="user.cover_pic"
+                  :src="`${user.cover_pic}`"
+                  class="previewImg"
+                /> -->
               </div>
-            </el-upload>
+            </el-row>
           </el-col>
+          <el-col :span="3"></el-col>
         </el-row>
 
         <!-- 한 줄 -->
-        <el-row class="height10">
-          <el-col :span="4" :offset="2" class="test-border">페이스북 </el-col>
-          <el-col :span="16" class="test-border">C++</el-col>
-        </el-row>
-        <!-- 한 줄 -->
-        <el-row class="height10">
-          <el-col :span="4" :offset="2" class="test-border">백준 </el-col>
-          <el-col :span="16" class="test-border">C++</el-col>
-        </el-row>
-        <!-- 한 줄 -->
-        <el-row class="height10">
-          <el-col :span="4" :offset="2" class="test-border">Strong </el-col>
-          <el-col :span="16" class="test-border">C++</el-col>
-        </el-row>
-        <!-- 한 줄 -->
-        <el-row class="height10">
+        <el-row class="height10 font-14">
           <el-col :span="4" :offset="2" class="test-border"
-            >Knowledgeable</el-col
+            >&nbsp;facebook
+          </el-col>
+          <el-col :span="16" class="test-border">facebook</el-col>
+        </el-row>
+        <el-row class="height10 font-14">
+          <el-col :span="4" :offset="2" class="test-border"
+            >&nbsp;baekjoon
+          </el-col>
+          <el-col :span="16" class="test-border">baekjoon</el-col>
+        </el-row>
+        <!-- 한 줄 -->
+        <el-row class="height10 font-14">
+          <el-col :span="4" :offset="2" class="test-border">
+            &nbsp;Experienced</el-col
+          >
+          <el-col :span="16" class="test-border">Python</el-col>
+        </el-row>
+        <el-row class="height10 font-14">
+          <el-col :span="4" :offset="2" class="test-border"
+            >&nbsp;Beginner</el-col
           >
           <el-col :span="16" class="test-border">Python</el-col>
         </el-row>
         <!-- 한 줄 -->
-        <el-row class="height30">
-          <el-col :span="4" :offset="2" class="test-border">자기소개</el-col>
+        <el-row class="height10 font-14">
+          <el-col :span="4" :offset="2" class="test-border"
+            >&nbsp;자기소개</el-col
+          >
           <el-col :span="16" class="test-border">내용을 입력해 주세요</el-col>
         </el-row>
         <!-- 한 줄 -->
@@ -85,9 +106,15 @@
         </el-row>
         <!-- 한 줄 -->
         <el-row class="height10">
-          <el-button class="btn-ghost-round-blue-filled">수락</el-button>
-          <el-button class="btn-ghost-round-red">거절</el-button>
-          <el-button class="btn-ghost-round">닫기</el-button>
+          <el-button class="btn-ghost-round-blue-filled" @click="goApplicate"
+            >신청</el-button
+          >
+          <el-button class="btn-ghost-round-red" @click="changemodalOpen"
+            >취소</el-button
+          >
+        </el-row>
+        <el-row class="height20">
+          <!-- 여백 -->
         </el-row>
       </div>
     </div>
@@ -132,10 +159,10 @@ export default {
     };
 
     // 수락 누를 시
-    const goManage = function () {
-      store.dispatch('study/approvalStudy', state.form); //신청서 수락
+    const goApplicate = function () {
+      store.dispatch('study/applicateStudy', state.form); //신청서 수락
       store.dispatch('changeApplicationModal', !modalOpen.value);
-      router.push({ path: '/subheader/study/manage' });
+      router.push({ path: '/subheader/study/introduce' });
     };
 
     return {
@@ -143,7 +170,7 @@ export default {
       router,
       state,
       modalOpen,
-      goManage,
+      goApplicate,
       changemodalOpen,
       user,
 
