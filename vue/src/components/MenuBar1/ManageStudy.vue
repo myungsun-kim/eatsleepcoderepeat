@@ -28,6 +28,7 @@
         highlight-current-row
         @current-change="handleCurrentChange"
         @cell-click="handleCurrentChange2"
+        @cell-dblclick="goInfoPage"
       >
         <el-table-column
           prop="nickname"
@@ -104,7 +105,10 @@ export default {
     const studyId = computed(() => store.getters['study/studyIdGetter']);
     console.log('studyId: ' + studyId.value);
 
+    // 해당 스터디의 모든 신청서 가져오기
     store.dispatch('study/applicationAll', studyId.value);
+    // store.dispatch('changeScrollModal', false);
+
     const studyApplications = computed(
       () => store.getters['study/studyApplicationsGetter']
     );
@@ -119,7 +123,12 @@ export default {
     const handleCurrentChange = function (val) {
       // this.currentRow.value = val;
       console.log('click one item@');
-      console.log(val);
+      console.log(val.nickname);
+      // 선택한 회원의 이메일 정보 저장
+      // store.dispatch('member/updateUserEmail',val.email);
+      // 선택한 회원의 닉네임 정보 저장
+      // store.dispatch('study/updateStudyMemberNickname',val.nickname);
+
       // router.push({ path: '/subheader/notice/detail' });
     };
     const handleCurrentChange2 = function (row, col, cell, event) {
@@ -131,6 +140,13 @@ export default {
       console.log(event);
       // router.push({ path: '/subheader/notice/detail' });
     };
+    // 해당 회원의 정보 페이지로 이동
+    const goInfoPage = function (val) {
+      console.log('goInfoPage');
+      // 선택한 회원의 이메일 정보 저장
+      store.dispatch('member/updateUserEmail', val.email);
+      router.push({ path: '/nosubheader/readinfopage' });
+    };
     const event = function () {
       // 게시글 클릭 이벤트 하려고 했으나 실패함.
       console.log('click one item@');
@@ -141,10 +157,34 @@ export default {
 
     const tableData = [
       {
-        nickname: '공지사항',
+        studyId: 3,
+        memberId: 46,
+        email: 'ms@gmail.com',
+        nickname: 'BJP',
+        city: '서울',
+        git: 'BEOMKING',
+        twitter: 'twitter.com',
+        facebook: 'facebook.com',
+        backjoon: 'qjawlsqjacks',
+        strong: ['python', 'java'],
+        knowledgeable: ['python', 'java'],
+        bio: '설명ㅇㅇㅇㅇ',
+        fileDownloadUri: null,
       },
       {
-        nickname: '공지사항',
+        studyId: 3,
+        memberId: 46,
+        email: 'ms@gmail.com',
+        nickname: 'BJP',
+        city: '서울',
+        git: 'BEOMKING',
+        twitter: 'twitter.com',
+        facebook: 'facebook.com',
+        backjoon: 'qjawlsqjacks',
+        strong: ['python', 'java'],
+        knowledgeable: ['python', 'java'],
+        bio: '설명ㅇㅇㅇㅇ',
+        fileDownloadUri: null,
       },
     ];
     return {
@@ -158,6 +198,7 @@ export default {
       currentRow,
       event,
       clcikEvent,
+      goInfoPage,
     };
   },
 };
