@@ -207,10 +207,12 @@ export default {
     const user = computed(() => store.getters['member/mypageGetter']);
     let clubList = [];
     let clubId = [];
-    if (user.value.myClubList.length > 0) {
-      for (let index = 0; index < user.value.myClubList.length; index++) {
-        clubList[index] = user.value.myClubList[index].name;
-        clubId[index] = user.value.myClubList[index].id;
+    if (user.value.myClubList) {
+      if (user.value.myClubList.length > 0) {
+        for (let index = 0; index < user.value.myClubList.length; index++) {
+          clubList[index] = user.value.myClubList[index].name;
+          clubId[index] = user.value.myClubList[index].id;
+        }
       }
     } else {
       clubList[0] = '없음';
