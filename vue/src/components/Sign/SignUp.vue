@@ -200,6 +200,7 @@
                   <input
                     v-model="state.exp"
                     @input="stackAutoComplete()"
+                    autocomplete="off"
                     type="text"
                     placeholder="기술스택을 입력하세요."
                     id="stack1"
@@ -207,11 +208,11 @@
                     onblur="this.placeholder='기술스택을 입력하세요'"
                     @keyup.enter="addEx()"
                   />
-                  <ul id="autocomplete">
+                  <div id="autocomplete">
                     <div
-                      @click="addStack1(techStack1)"
-                      v-for="techStack1 in state.result"
                       class="autocomplete1"
+                      v-for="techStack1 in state.result"
+                      @click="addStack1(techStack1)"
                       style="cursor: pointer"
                       :key="techStack1"
                     >
@@ -219,7 +220,7 @@
                         {{ techStack1 }}
                       </span>
                     </div>
-                  </ul>
+                  </div>
                 </div>
                 <div id="box5">
                   <div id="warning8" style="display: none">
@@ -260,16 +261,17 @@
               <div id="box4">
                 <div id="box7">
                   <input
+                    id="stack2"
                     v-model="state.beg"
+                    autocomplete="off"
                     @input="stackAutoComplete1()"
                     type="text"
                     placeholder="기술스택을 입력하세요."
-                    id="stack2"
                     onfocus="this.placeholder=''"
                     onblur="this.placeholder='기술스택을 입력하세요'"
                     @keyup.enter="addBe()"
                   />
-                  <ul id="autocomplete1">
+                  <div id="autocomplete1">
                     <div
                       @click="addStack2(techStack2)"
                       v-for="techStack2 in state.result1"
@@ -281,7 +283,7 @@
                         {{ techStack2 }}
                       </span>
                     </div>
-                  </ul>
+                  </div>
                 </div>
                 <div id="box5">
                   <div id="warning11" style="display: none">
@@ -404,12 +406,12 @@ export default {
       exp: '',
       beg: '',
       dp: '',
-      result: null,
-      result1: null,
-      result2: null,
       autoCompleteList: [],
       autoCompleteList1: [],
       autoCompleteList2: [],
+      result: null,
+      result1: null,
+      result2: null,
     });
     // Step1~4 간의 이동시 이동하는 페이지에 기존에 입력해놨던 값이 하나라도 있었다면 모조리 불러온다.(=값을 입력했으나 unMounted 된 적이 없는 경우)
     // router.push로 해당 페이지로 이동했을 때 store.auth.state.form에 저장되어 있는 내용이 있다면 해당 내용을 불러온다.
@@ -746,7 +748,7 @@ export default {
       }
     };
 
-    // 자동완성 목록중에서 내가 클릭한 것을 박스에 추가하는 함수
+    // 자동완성 목록중에서 내가 클릭한 것을 input에 추가하는 함수
     // 내가 클릭한 것: clickedTechStack
     const addStack1 = function (clickedTechStack) {
       const autocomplete = document.getElementById('autocomplete');
@@ -815,7 +817,6 @@ export default {
     // };
 
     // Step3 박스에 요소 추가(Beginner)
-
     const addBe = function () {
       var warning11 = document.getElementById('warning11');
       var warning11_1 = document.getElementById('warning11_1');
@@ -1886,10 +1887,10 @@ export default {
   display: none;
   display: flex;
   flex-flow: column;
-  height: 150px;
+  max-height: 150px;
   overflow: auto;
   margin-top: 60px;
-  margin-left: 30px;
+  margin-left: 66px;
   border-radius: 4px;
 }
 #autocomplete1 {
@@ -1897,10 +1898,10 @@ export default {
   display: none;
   display: flex;
   flex-flow: column;
-  height: 150px;
+  max-height: 150px;
   overflow: auto;
   margin-top: 60px;
-  margin-left: 30px;
+  margin-left: 66px;
   border-radius: 4px;
 }
 .autocomplete1 {
