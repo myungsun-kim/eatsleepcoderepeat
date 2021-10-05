@@ -15,7 +15,6 @@
       <p class="itemlist-title-left">내 스터디 목록</p>
     </el-col>
   </el-row>
-
   <el-row class="height25" v-if="myStudyList">
     <el-col :span="2" class="test-border"></el-col>
     <!-- Item 리스트 1개씩 v-for로 -->
@@ -253,11 +252,8 @@ export default {
       () => store.getters['member/myStudyListGetter']
     );
 
-    // watch(totalStudyList, () => {
-    //   store.dispatch('study/getTotalStudyList');
-    //   store.dispatch('member/readMyPage');
-    //   console.log(111111111);
-    //   console.log(totalStudyList);
+    // watch(myStudyList, () => {
+    //   console.log('변했다!asdfa!!!!!!!!');
     // });
 
     const goCreate = function () {
@@ -269,6 +265,7 @@ export default {
       router.push({ path: '/subheader/study/introduce' });
     };
 
+    // 누가 만드신거죠? 어디 쓰는거지?
     const tempArray = ['a', 'BBB'];
     return {
       store,
