@@ -8,8 +8,7 @@
       <el-row id="article-title"> {{ article.title }} </el-row>
       <el-row class="author-font"> {{ article.createdMember }} </el-row>
       <el-row>
-        <el-col :span="10" class="gray-font">
-          왼쪽정렬 부탁드림
+        <el-col :span="10" class="gray-font left-align">
           {{ article.createdDate.substr(2, 8) }}&nbsp;
           {{ article.createdDate.substr(11, 8) }}
         </el-col>
@@ -19,6 +18,8 @@
         </el-col>
         <el-col :span="2"><ArticleDeleteModal /></el-col>
       </el-row>
+
+      <el-row class="height10"> </el-row>
       <el-row class="gray-font">
         {{ article.content }}
       </el-row>
@@ -160,5 +161,8 @@ export default {
   font-size: 16px;
   line-height: 19px;
   color: #718096;
+}
+.left-align {
+  text-align: left;
 }
 </style>

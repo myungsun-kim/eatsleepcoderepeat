@@ -3,13 +3,13 @@
   <teleport to="body">
     <div v-if="!modalOpen" class="modal">
       <div class="height40">
-        <el-row class="height30"></el-row>
+        <el-row class="height10"></el-row>
         <el-row class="height10">
           <el-col :span="24" class="font-noto-bold font-20">
             {{ article.title }}
           </el-col>
         </el-row>
-        <el-row class="height10">
+        <el-row class="height20">
           <el-col :span="24" class="font-noto-md font-20">
             정말로 삭제하시겠습니까?
           </el-col>
@@ -27,7 +27,7 @@
           <el-col :span="6">
             <el-button
               class="btn-ghost-blue font-noto-bold"
-              @click="modalOpen = false"
+              @click="changemodalOpen"
               style="font-size: 14px"
               >취소</el-button
             >
@@ -39,9 +39,9 @@
   </teleport>
 </template>
 <script>
-import { useRouter } from 'vue-router';
-import { reactive, computed } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   data() {
@@ -108,7 +108,6 @@ export default {
       article,
       modalOpen,
       changemodalOpen,
-      studyIntroduce,
       goNoticeRead,
     };
   },
