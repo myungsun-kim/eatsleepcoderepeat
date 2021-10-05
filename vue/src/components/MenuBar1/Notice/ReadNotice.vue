@@ -12,24 +12,24 @@
           stripe
           style="width: 100%"
           highlight-current-row
-          @current-change="handleCurrentChange"
-        >
-          <el-table-column
-            prop="tag"
-            label="Tag"
-            width="100"
-            align="center"
-          ></el-table-column>
+          @cell-click="goArticle"
+          ><el-table-column prop="articleId" label="No" width="" align="center">
+          </el-table-column>
           <el-table-column prop="title" label="Title" width="" align="center">
           </el-table-column>
           <el-table-column
-            prop="author"
+            prop="createdMember"
             label="Author"
             width="100"
             align="center"
           >
           </el-table-column>
-          <el-table-column prop="date" label="Date" width="100" align="center">
+          <el-table-column
+            prop="createdDate"
+            label="Date"
+            width="300"
+            align="center"
+          >
           </el-table-column>
         </el-table>
       </el-col>
@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from 'vue';
+import { reactive, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 export default {
@@ -103,76 +103,82 @@ export default {
     });
 
     // 1. 스터디 id를 가져와야 함.
-    const studyId = 3;
+    const studyId = computed(() => store.getters['study/studyIdGetter']);
+    watch(studyId, () => {
+      console.log('studyId가 바뀌어서 새로 가져오기');
+      store.dispatch('study/getBoardId', studyId);
+    });
 
     // 2. 현재 이 게시판 board id를 가져와야 함.
     // 1번 매커니즘 고치면 stidyId.value로 바꿔야 할 듯.
-    store.dispatch('study/getBoardId', studyId);
     const boardIdList = computed(
       () => store.getters['study/studyBoardIdListGetter']
     );
+
+    // console.log('boardIdList: ');
+    // console.log(boardIdList);
+    // console.log(boardIdList.value);
+
     // 0: {id: 1, name: '공지사항'}
     // 1: {id: 2, name: '게시판'}
-    console.log('boardIdList: ');
-    console.log(boardIdList);
 
     // 3. 보드 id 가져오기
-    const boardId = 1;
-    for (let index = 0; index < boardIdList.length; index++) {
-      console.log('@@@@@');
-      console.log(boardIdList[index]);
-      // 여기 안에 안들어가면  .value 지워보기
-      if (boardIdList[index].value.name == '공지사항') {
-        boardId = index;
+    // 일단 접근이 잘 안되서 tempList로 옮김
+    let tempList = boardIdList.value;
+    console.log(tempList);
+    let boardId = 1;
+    for (let index = 0; index < tempList.length; index++) {
+      if (tempList[index].name == '공지사항') {
+        boardId = tempList[index].id;
+        console.log(boardId);
+
+        store.commit('study/updateStudyNoticeBoardId', tempList[index].id);
+      } else {
+        store.commit('study/updateStudyNormalBoardId', tempList[index].id);
       }
     }
     //  4. 게시판 목록 가져오기
+    watch(boardId, () => {
+      console.log('boardId 바뀜');
+      store.dispatch('study/getNoticeArticleList', boardId);
+    });
+
     store.dispatch('study/getNoticeArticleList', boardId);
     const articleList = computed(
       () => store.getters['study/studyNoticeArticleListGetter']
     );
+    console.log('articleList 출력');
+    console.log(articleList);
+    console.log(articleList.value);
+    console.log(articleList.value.content);
+    console.log(articleList.value.content[0]);
+    // articleId: 8
+    // createdDate: "2021-10-05T16:08:11.246601"
+    // createdMember: "별명"
+    // modifiedDate: null
+    // studyBoard: "공지사항"
+    // title: "ㅁㄴㅇㅁㅇㅁ"
+    // viewCount: 0
+    // console.log(articleList.value.content[0].title);
+
+    const tableData = articleList.value.content;
 
     const goCreateNotice = function () {
       router.push({ path: '/subheader/notice/create' });
     };
 
-    const handleCurrentChange = function (val) {
-      this.currentRow.value = val;
-      console.log('click one item@');
+    const goArticle = function (val) {
+      console.log(val.articleId);
+      store.dispatch('study/callUpdateArticleId', val.articleId);
+      router.push({ path: '/subheader/notice/detail' });
     };
 
-    const tableData = [
-      {
-        tag: '공지사항',
-        title: '안녕하세요',
-        author: '민수',
-        date: '2016-05-03',
-      },
-      {
-        tag: '공지사항',
-        title: '안녕하세요',
-        author: '민수',
-        date: '2016-05-03',
-      },
-      {
-        tag: '공지사항',
-        title: '안녕하세요',
-        author: '민수',
-        date: '2016-05-03',
-      },
-      {
-        tag: '공지사항',
-        title: '안녕하세요',
-        author: '민수',
-        date: '2016-05-03',
-      },
-    ];
     return {
       store,
       router,
       state,
       goCreateNotice,
-      handleCurrentChange,
+      goArticle,
       tableData,
       currentRow,
     };

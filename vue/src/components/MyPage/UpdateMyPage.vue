@@ -72,12 +72,16 @@
           <div class="box5">
             <div class="box4">
               <div class="label2">새 비밀번호</div>
-              <input type="text" class="input2" v-model="state.form.password" />
+              <input
+                type="password"
+                class="input2"
+                v-model="state.form.password"
+              />
             </div>
             <div class="box4">
               <div class="label2">새 비밀번호 확인</div>
               <input
-                type="text"
+                type="password"
                 class="input2"
                 v-model="state.affirmPassword"
               />
@@ -310,7 +314,7 @@
 </template>
 
 <script>
-import { ref, computed, reactive, onBeforeMount } from 'vue';
+import { ref, computed, watch, reactive, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import techstacks from '@/autocomplete/techstack.js';
@@ -326,17 +330,23 @@ export default {
     // });
     // const user = computed(() => store.getters['member/mypageGetter']);
 
-    const res = store.dispatch('member/readMyPage');
-    // res.then((res) => {
-    //   store.state.user = res.data;
-    // });
     const user = computed(() => store.getters['member/mypageGetter']);
+
+    watch(user, () => {
+      store.dispatch('member/readMyPage');
+    });
 
     console.log('유저정보');
     console.log(user);
     console.log(user.value);
-    console.log(user.value.email);
-    console.log(user.value.portfolio);
+    let tmp = Object.values(user.value.dpositionList);
+    let tmp1 = [];
+    tmp.forEach(function (item) {
+      tmp1.push(item.name);
+    });
+    console.log(tmp1);
+    console.log(tmp, '111111111111');
+
     const state = reactive({
       form: {
         beginAddTechList: [], //추가할 beginner 기술 리스트
@@ -364,7 +374,7 @@ export default {
         // portfolio_uri: user.value.portfolio_uri, //포트폴리오 주소
         expTechList: user.value.expTechList, //Experinced
         beginTechList: user.value.beginTechList, //beginner
-        dpositionList: user.value.dpositionList, //세부 포지션
+        dpositionList: tmp, //세부 포지션
         bio: user.value.bio, // 자기소개
         tel: '', //연락처
       },
@@ -379,8 +389,9 @@ export default {
     onBeforeMount(() => {
       console.log(user.value.portfolio);
       console.log(user.value.portfolio_uuid);
+      // console.log(user.value.cover_pic);
       console.log(user.value.name);
-      console.log(user.value.cover_pic);
+      console.log(state.form.dpositionList);
 
       // 유저 snsList에서 snsName에 따라 snsAccount 계정 설정
       console.log(user.value.snsList.length);
@@ -897,6 +908,7 @@ export default {
 
     const updateMember = function () {
       store.dispatch('member/updateMember', state.form).then((res) => {
+        store.dispatch('member/readMyPage');
         console.log(res);
       });
     };
