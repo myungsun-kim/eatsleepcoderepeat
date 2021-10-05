@@ -64,7 +64,7 @@
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> github </el-col>
         <el-col :span="16" :offset="1" class="info">
-          <!-- <span
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'github'
             "
@@ -87,13 +87,13 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'github'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          > -->
+          >
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 트위터 </el-col>
         <el-col :span="16" :offset="1" class="info">
-          <!-- <span
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'twitter'
             "
@@ -116,14 +116,14 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'twitter'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          > -->
+          >
         </el-col>
       </el-row>
 
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 페이스북 </el-col>
         <el-col :span="16" :offset="1" class="info">
-          <!-- <span
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'facebook'
             "
@@ -146,13 +146,13 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'facebook'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          > -->
+          >
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
         <el-col :span="7" class="test-border"> 백준 </el-col>
         <el-col :span="16" :offset="1" class="info">
-          <!-- <span
+          <span
             v-if="
               user.snsList.length > 0 && user.snsList[0].snsName == 'backjoon'
             "
@@ -175,7 +175,7 @@
               user.snsList.length > 3 && user.snsList[3].snsName == 'backjoon'
             "
             >{{ user.snsList[3].snsAccount }}</span
-          > -->
+          >
         </el-col>
       </el-row>
       <el-row class="test-border info-size">
@@ -228,28 +228,28 @@
     </el-col>
 
     <!-- 우측 -->
-    <el-col :span="12" :offset="1" class="test-border">
-      <el-row class="test-border title">내가 속한 클럽</el-row>
+    <el-col :span="12" :offset="1" class="test-border height100">
+      <!-- <el-row class="height5 test-border title">내가 속한 클럽</el-row>
       <el-row class="height5"></el-row>
-      <el-row class="test-border height20">
+      <el-row class="height5 test-border height20">
+        <el-col :span="6" class="test-border"> Item1 </el-col>
+        <el-col :span="6" class="test-border"> Item2 </el-col>
+        <el-col :span="6" class="test-border"> Item3 </el-col>
+        <el-col :span="6" class="test-border"> Item4 </el-col>
+      </el-row> -->
+      <el-row class="height5"></el-row>
+      <el-row class="height5 test-border title">내가 속한 스터디</el-row>
+      <el-row class="height5"></el-row>
+      <el-row class="height5 test-border height20">
         <el-col :span="6" class="test-border"> Item1 </el-col>
         <el-col :span="6" class="test-border"> Item2 </el-col>
         <el-col :span="6" class="test-border"> Item3 </el-col>
         <el-col :span="6" class="test-border"> Item4 </el-col>
       </el-row>
       <el-row class="height5"></el-row>
-      <el-row class="test-border title">내가 속한 스터디</el-row>
+      <el-row class="height5test-border title">내가 속한 프로젝트</el-row>
       <el-row class="height5"></el-row>
-      <el-row class="test-border height20">
-        <el-col :span="6" class="test-border"> Item1 </el-col>
-        <el-col :span="6" class="test-border"> Item2 </el-col>
-        <el-col :span="6" class="test-border"> Item3 </el-col>
-        <el-col :span="6" class="test-border"> Item4 </el-col>
-      </el-row>
-      <el-row class="height5"></el-row>
-      <el-row class="test-border title">내가 속한 프로젝트</el-row>
-      <el-row class="height5"></el-row>
-      <el-row class="test-border height20">
+      <el-row class="height5 test-border height20">
         <el-col :span="6" class="test-border"> Item1 </el-col>
         <el-col :span="6" class="test-border"> Item2 </el-col>
         <el-col :span="6" class="test-border"> Item3 </el-col>
