@@ -164,7 +164,7 @@
   </div>
 </template>
 <script>
-import { reactive, computed } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -177,6 +177,7 @@ export default {
 
     const studyId = computed(() => store.getters['study/studyIdGetter']);
     console.log('studyId: ' + studyId.value);
+    watch(studyId, () => {});
 
     store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
@@ -257,7 +258,6 @@ export default {
       clubId,
       state,
       goIntroduce,
-      goHome,
       beforeUpload,
     };
   },

@@ -155,37 +155,10 @@ export default {
     );
     // 1. 새롭게 스터디 id가 바뀌는 것을 감지
     watch(studyId, () => {
-      // console.log(222222222222222222);
-      // console.log(studyId.value);
-      // 감지 성공
-      // console.log(33333333333333);
-      // 해당 id로 재조회 << 현재 가져오지 못하고 있음
       store.dispatch('study/introduce', studyId.value);
-
-      // console.log(44444444444444);
-      // 값을 getter로 가져옴 << 현재 가져오지 못하고 있음
-      // studyIntroduce = store.getters['study/studyIntroduceGetter'];
-      // console.log(555555555555555);
-      // console.log(studyIntroduce);
     });
-    console.log(123123123);
-    console.log(studyIntroduce);
-    console.log(studyIntroduce.id);
-    console.log(123123123);
-    // watch(studyIntroduce, () => {
-    //   console.log(7777777777777777777);
-    //   console.log(studyIntroduce);
-    //   console.log(studyIntroduce.id);
-    //   console.log(studyIntroduce.value);
-    // });
-    // watch(studyIntroduce.value.id, () => {
-    //   console.log(666666666666666);
-    //   console.log(studyIntroduce);
-    //   console.log(studyIntroduce.id);
-    // });
+
     console.log('studyId: ' + studyId.value);
-    // const studyId = 3;
-    // const studyIntroduce = reactive({});
 
     console.log('studyIntroduce: ' + studyIntroduce);
 
