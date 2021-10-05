@@ -8,7 +8,7 @@ import axios from 'axios';
 
 export default createStore({
   state: {
-    category: null, // category 1:스터디 2:프로젝트 3:클럽
+    category: '', // category 1:스터디 2:프로젝트 3:클럽
     user: {},
     scrollModal: 'false',
     infoModal: 'false',
@@ -27,6 +27,7 @@ export default createStore({
   },
   mutations: {
     setCategory(state, value) {
+      console.log('SET CATEGORY: ' + value);
       state.category = value;
     },
     setScrollModal(state, value) {
@@ -116,7 +117,7 @@ export default createStore({
 
   plugins: [
     createPersistedState({
-      paths: ['auth', 'member', 'chat', 'study'], // <<<<<<여기!
+      paths: ['auth', 'member', 'chat', 'study', 'category'], // <<<<<<여기!
     }),
   ],
 });
