@@ -25,6 +25,7 @@
             <label id="h2">기술스택 (1개만 입력 가능합니다)</label>
             <div id="box5">
               <!-- v-model="state.form.techList" -->
+              <div class="input"></div>
               <input
                 id="techList"
                 class="input"
@@ -172,9 +173,9 @@
               autocomplete="off"
               type="textarea"
               v-model="state.form.bio"
-              placeholder="해당 스터디에 대해 소개해주세요"
+              placeholder="해당 스터디에 대해 소개해주세요."
               onfocus="this.placeholder=''"
-              onblur="this.placeholder='해당 스터디에 대해 소개해주세요'"
+              onblur="this.placeholder='해당 스터디에 대해 소개해주세요.'"
               maxlength="300"
             />
           </div>
@@ -368,7 +369,7 @@ export default {
   width: 782px;
   height: 50px;
 
-  background: #e8e8e8;
+  /* background: #e8e8e8; */
   border-radius: 10px;
   border: 0px;
   margin-bottom: 10px;
@@ -379,8 +380,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 18px;
   /* identical to box height, or 114% */
   text-align: left;
 
@@ -390,19 +390,19 @@ export default {
   width: 363px;
   height: 50px;
 
-  background: #e8e8e8;
+  /* background: #e8e8e8; */
+  /* background: white; */
   border-radius: 10px;
   border: 0px;
   margin-bottom: 10px;
   padding-left: 10px;
   margin-left: 2px;
 
-  /* 비밀번호확인 텍스트 */
+  /*  텍스트 */
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 18px;
   /* identical to box height, or 114% */
   text-align: left;
 
@@ -412,7 +412,7 @@ export default {
   width: 782px;
   height: 200px;
 
-  background: #e8e8e8;
+  /* background: #e8e8e8; */
   border-radius: 10px;
   border: 0px;
   margin-bottom: 10px;
@@ -424,8 +424,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 18px;
   /* identical to box height, or 114% */
   text-align: left;
   align-content: flex-start;
@@ -438,7 +437,7 @@ export default {
   width: 794px;
   height: 52px;
 
-  background: #e8e8e8;
+  /* background: #e8e8e8; */
   border-radius: 10px;
   border: 0px;
   margin-bottom: 10px;
@@ -449,8 +448,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 18px;
   /* identical to box height, or 114% */
   text-align: left;
 
@@ -460,7 +458,7 @@ export default {
   width: 782px;
   height: 200px;
 
-  background: #e8e8e8;
+  /* background: #e8e8e8; */
   border-radius: 10px;
   border: 0px;
   margin-bottom: 10px;
@@ -472,8 +470,7 @@ export default {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
-  line-height: 16px;
+  font-size: 18px;
   /* identical to box height, or 114% */
   text-align: left;
   align-content: flex-start;
