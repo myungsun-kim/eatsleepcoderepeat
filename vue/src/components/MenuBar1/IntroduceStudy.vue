@@ -91,8 +91,8 @@
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
-        {{ studyIntroduce.modifyDate.substr(2, 8) }}&nbsp;
-        {{ studyIntroduce.modifyDate.substr(11, 8) }}
+        {{ studyIntroduce.modifiedDate.substr(2, 8) }}&nbsp;
+        {{ studyIntroduce.modifiedDate.substr(11, 8) }}
         <!-- ???? 왜 역으로 가야되는거지 -->
       </el-row>
       <el-row class="height1"> </el-row>
@@ -125,7 +125,7 @@
         <el-col :span="2" v-if="auth == 1"> <StudyQuitModal /> </el-col>
         <el-col :span="2" v-if="auth == 0">
           <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
-            돌아가기
+            돌아가기<CreateApplicationModal />
           </el-button>
         </el-col>
         <el-col :span="10"></el-col>
@@ -136,24 +136,32 @@
   </el-row>
 </template>
 <script>
-import { computed, ref } from 'vue';
+import { computed, ref, watch, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import MemberListModal from '../Modal/MemberListModal.vue';
 import StudyDeleteModal from '../Modal/StudyDeleteModal.vue';
 import StudyQuitModal from '../Modal/StudyQuitModal.vue';
+import CreateApplicationModal from '../Modal/CreateApplicationModal.vue';
 
 export default {
   setup() {
     const store = useStore();
     const router = useRouter();
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    console.log('studyId: ' + studyId.value);
-    store.dispatch('study/introduce', studyId.value);
+    console.log(111111111111111);
+    console.log(studyId);
     const studyIntroduce = computed(
       () => store.getters['study/studyIntroduceGetter']
     );
-    console.log('studyIntroduce: ' + studyIntroduce.value);
+    // 1. 새롭게 스터디 id가 바뀌는 것을 감지
+    watch(studyId, () => {
+      store.dispatch('study/introduce', studyId.value);
+    });
+
+    console.log('studyId: ' + studyId.value);
+
+    console.log('studyIntroduce: ' + studyIntroduce);
 
     store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
@@ -163,6 +171,7 @@ export default {
     //스터디 장인지 아닌지는
     //api/auth/check/nickname/에다가
     //내 토큰이랑 스터디 장의 별명을 넣어서 일치하는지 확인
+
     if (store.dispatch('study/checkHost', studyIntroduce.value.host.nickname)) {
       auth.value = 2;
     } else {
@@ -212,6 +221,7 @@ export default {
     MemberListModal,
     StudyQuitModal,
     StudyDeleteModal,
+    CreateApplicationModal,
   },
 };
 </script>

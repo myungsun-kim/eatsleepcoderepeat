@@ -13,8 +13,10 @@ export const study = {
   state: {
     totalStudyList: [],
     studyId: '',
+    memberNickname: '', //어떤 회원의 정보를 조회할지
     studyIntroduce: {},
     studyApplications: [],
+    studyApplication: {},
     studyBoardIdList: [],
     studyArticleId: '',
     studyNoticeArticleList: [],
@@ -22,20 +24,31 @@ export const study = {
   mutations: {
     updateTotalStudyList(state, payload) {
       state.totalStudyList = payload;
+      console.log('저장된 모든 스터디 목록');
+      console.log(state.totalStudyList);
     },
     updateStudyId(state, payload) {
       console.log('넘겨준 STUDY ID 값' + payload);
       state.studyId = payload;
     },
+    updateStudyMemberNickname(state, payload) {
+      console.log('넘겨준 회원의 닉네임' + payload);
+      state.memberNickname = payload;
+    },
     updateStudyIntroduce(state, payload) {
-      // console.log('넘겨준 STUDY INTRODUCE 값');
-      // console.log(payload);
+      console.log('넘겨준 STUDY INTRODUCE 값');
+      console.log(payload);
       state.studyIntroduce = payload;
     },
     updateStudyApplications(state, payload) {
       console.log('넘겨준 STUDY APPLICATION 값');
       console.log(payload);
       state.studyApplications = payload;
+    },
+    updateStudyApplication(state, payload) {
+      console.log('해당 회원의 STUDY APPLICATION');
+      console.log(payload);
+      state.studyApplication = payload;
     },
     updateBoardIdList(state, payload) {
       // console.log('넘겨준 updateBoardIdList 값');
@@ -60,8 +73,8 @@ export const study = {
       res.then((res) => {
         // console.log('스터디 목록 조회 결과');
         // console.log(res);
-        // console.log(res.data);
-        commit('updateTotalStudyList', res.data);
+        // console.log(res.data.content);
+        commit('updateTotalStudyList', res.data.content);
       });
       return res;
     },
@@ -86,11 +99,12 @@ export const study = {
       commit('updateStudyId', data);
     },
     introduce({ commit }, data) {
+      console.log('###############');
       const res = axios.get(BASE_URL + '/api/study/' + data, header);
       res.then((res) => {
-        // console.log('스터디 introduice 조회 결과');
+        // console.log('스터디 introduce 조회 결과');
         // console.log(res);
-        // console.log(res.data);
+        console.log(res.data);
         commit('updateStudyIntroduce', res.data);
       });
       return res;
@@ -102,6 +116,7 @@ export const study = {
       );
       return res.data;
     },
+    // 해당 스터디 전체 신청서 조회
     applicationAll({ commit }, data) {
       const res = axios.get(
         BASE_URL + '/api/studyapplication/all/' + data,
@@ -112,6 +127,21 @@ export const study = {
         console.log(res);
         console.log(res.data);
         commit('updateStudyApplications', res.data);
+      });
+      return res.data;
+    },
+    // 해당 스터디 특정 회원 신청서 조회
+    applicationOne({ commit }, form) {
+      const res = axios.get(
+        BASE_URL +
+          `/api/studyapplication/all/${form.studyId}/${form.memberNickname}`,
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 application 조회');
+        console.log(res);
+        console.log(res.data);
+        commit('updateStudyApplication', res.data);
       });
       return res.data;
     },
@@ -148,23 +178,89 @@ export const study = {
       });
       // return res.data;
     },
+    // 스터디 신청
+    applicateStudy({ commit }, form) {
+      const res = axios.post(
+        BASE_URL + `/api/studyapplication/${form.studyId}`,
+        JSON.stringify(form),
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 신청');
+        console.log(res);
+        console.log(res.data);
+      });
+      return res.data;
+    },
+    // 스터디 신청 거절
+    rejectStudy({ commit }, form) {
+      const res = axios.post(
+        BASE_URL + `/api/studyapplication/${form.studyId}/${form.memberId}`,
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 신청 거절');
+        console.log(res);
+        console.log(res.data);
+      });
+      return res.data;
+    },
+    // 스터디 신청 수락
+    approvalStudy({ commit }, form) {
+      const res = axios.post(
+        BASE_URL +
+          `/api/studyapplication/approval/${form.studyId}/${form.memberId}`,
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 신청 수락');
+        console.log(res);
+        console.log(res.data);
+      });
+      return res.data;
+    },
+    // 스터디 신청 거절
+    rejectStudy({ commit }, form) {
+      const res = axios.post(
+        BASE_URL + `/api/studyapplication/${form.studyId}/${form.memberId}`,
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 신청 거절');
+        console.log(res);
+        console.log(res.data);
+      });
+      return res.data;
+    },
   },
   getters: {
     totalStudyGetter: (state) => {
+      console.log('###########################');
+      console.log(state.totalStudyList);
       return state.totalStudyList;
     },
     studyIdGetter: (state) => {
       return state.studyId;
+      // return state.filter((studyId) => studyId.done);
+      // return state.studyId.filter((todo) => todo.done);
+    },
+    studyMemberNicknameGetter: (state) => {
+      return state.memberNickname;
     },
     studyIntroduceGetter: (state) => {
-      // console.log('Introduce GETTER');
-      // console.log(state.studyIntroduce);
+      console.log('Introduce GETTER');
+      console.log(state.studyIntroduce);
       return state.studyIntroduce;
     },
     studyApplicationsGetter: (state) => {
       console.log('APPLICATION ALL GETTER');
       console.log(state.studyApplications);
       return state.studyApplications;
+    },
+    studyApplicationGetter: (state) => {
+      console.log('APPLICATION ALL GETTER');
+      console.log(state.studyApplication);
+      return state.studyApplication;
     },
     studyBoardIdListGetter: (state) => {
       console.log('studyBoardIdList GETTER');

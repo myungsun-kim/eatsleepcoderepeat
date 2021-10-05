@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { reactive, ref, computed } from 'vue';
+import { reactive, ref, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 export default {
@@ -103,34 +103,48 @@ export default {
     });
 
     // 1. 스터디 id를 가져와야 함.
-    const studyId = 3;
+    const studyId = computed(() => store.getters['study/studyIdGetter']);
+    watch(studyId, () => {
+      console.log('studyId가 바뀌어서 새로 가져오기');
+      store.dispatch('study/getBoardId', studyId);
+    });
 
     // 2. 현재 이 게시판 board id를 가져와야 함.
     // 1번 매커니즘 고치면 stidyId.value로 바꿔야 할 듯.
-    store.dispatch('study/getBoardId', studyId);
     const boardIdList = computed(
       () => store.getters['study/studyBoardIdListGetter']
     );
+
+    // console.log('boardIdList: ');
+    // console.log(boardIdList);
+    // console.log(boardIdList.value);
+
     // 0: {id: 1, name: '공지사항'}
     // 1: {id: 2, name: '게시판'}
-    console.log('boardIdList: ');
-    console.log(boardIdList);
 
     // 3. 보드 id 가져오기
-    const boardId = 1;
-    for (let index = 0; index < boardIdList.length; index++) {
-      console.log('@@@@@');
-      console.log(boardIdList[index]);
-      // 여기 안에 안들어가면  .value 지워보기
-      if (boardIdList[index].value.name == '공지사항') {
-        boardId = index;
+    // 일단 접근이 잘 안되서 tempList로 옮김
+    let tempList = boardIdList.value;
+    console.log(tempList);
+    let boardId = 1;
+    for (let index = 0; index < tempList.length; index++) {
+      if (tempList[index].name == '공지사항') {
+        boardId = tempList[index].id;
+        console.log(boardId);
       }
     }
     //  4. 게시판 목록 가져오기
+    watch(boardId, () => {
+      console.log('boardId 바뀜');
+      store.dispatch('study/getNoticeArticleList', boardId);
+    });
+
     store.dispatch('study/getNoticeArticleList', boardId);
     const articleList = computed(
       () => store.getters['study/studyNoticeArticleListGetter']
     );
+    console.log('articleList 출력');
+    console.log(articleList);
 
     const goCreateNotice = function () {
       router.push({ path: '/subheader/notice/create' });

@@ -1,11 +1,11 @@
 <template>
   <div class="bg">
     <el-row :gutter="0">
-      <el-col :span="5" :offset="0">
+      <el-col :span="6" :offset="0">
         <div class="height100"></div>
       </el-col>
-      <el-col :span="13" :offset="0">
-        <div class="height100">
+      <el-col :span="12" :offset="0">
+        <div>
           <div id="h1">스터디 생성</div>
           <hr />
           <div id="box1">
@@ -13,6 +13,7 @@
             <input
               id="name"
               class="input"
+              autocomplete="off"
               type="text"
               v-model="state.form.name"
               placeholder="이름을 입력하세요."
@@ -21,16 +22,34 @@
             />
           </div>
           <div id="box1">
-            <label id="h2">기술스택</label>
-            <!-- v-model="state.form.techList" -->
-            <input
-              class="input"
-              id="techList"
-              type="text"
-              placeholder="사용하는 기술 스택을 입력하세요."
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='사용하는 기술 스택을 입력하세요'"
-            />
+            <label id="h2">기술스택 (1개만 입력 가능합니다)</label>
+            <div id="box5">
+              <!-- v-model="state.form.techList" -->
+              <input
+                id="techList"
+                class="input"
+                v-model="state.tech"
+                autocomplete="off"
+                @input="stackAutoComplete()"
+                type="text"
+                placeholder="사용하는 기술 스택을 입력하세요."
+                onfocus="this.placeholder=''"
+                onblur="this.placeholder='사용하는 기술 스택을 입력하세요'"
+              />
+              <div id="autocomplete">
+                <div
+                  @click="addStack1(techStack1)"
+                  v-for="techStack1 in state.result"
+                  class="autocomplete1"
+                  style="cursor: pointer"
+                  :key="techStack1"
+                >
+                  <span>
+                    {{ techStack1 }}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
           <div id="box3">
             <div id="box2">
@@ -39,6 +58,7 @@
                 <input
                   id="schedule"
                   class="input1"
+                  autocomplete="off"
                   type="text"
                   v-model="state.form.schedule"
                   placeholder="스터디 일정을 입력하세요"
@@ -51,6 +71,7 @@
                 <input
                   id="period"
                   class="input1"
+                  autocomplete="off"
                   type="text"
                   v-model="state.form.period"
                   placeholder="숫자를 입력하세요"
@@ -63,6 +84,7 @@
                 <input
                   id="maxCount"
                   class="input1"
+                  autocomplete="off"
                   type="text"
                   v-model="state.form.maxCount"
                   placeholder="숫자를 입력하세요"
@@ -147,6 +169,7 @@
             <textarea
               id="bio"
               class="input4"
+              autocomplete="off"
               type="textarea"
               v-model="state.form.bio"
               placeholder="해당 스터디에 대해 소개해주세요"
@@ -171,6 +194,7 @@
 import { useRouter } from 'vue-router';
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
+import techstacks from '@/autocomplete/techstack.js';
 
 export default {
   name: 'studyCreate',
@@ -181,7 +205,6 @@ export default {
 
     store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
-
     let clubList = [];
     let clubId = [];
     if (user.value.myClubList.length > 0) {
@@ -190,7 +213,7 @@ export default {
         clubId[index] = user.value.myClubList[index].id;
       }
     } else {
-      clubList[0] = '무관';
+      clubList[0] = '없음';
       clubId[0] = null;
     }
 
@@ -210,34 +233,77 @@ export default {
         image.alt = 'here should be some image';
       };
 
-      const res = store.dispatch('uploadFile', formData);
-      res.then((res) => {
-        // console.log(res.data.id);
-        // console.log(res.data.fileDownloadUri);
-        state.form.uuid = res.data.id;
-      });
+      store
+        .dispatch('uploadFile', formData)
+        .then((res) => {
+          // console.log(res.data.id);
+          // console.log(res.data.fileDownloadUri);
+          state.form.coverpic_uuid = res.data.id;
+        })
+        .catch(() => {
+          alert('이미지를 불러오지 못했습니다.');
+        });
     };
 
     const state = reactive({
       form: {
         bio: '', //소개
-        city: '', //도시
+        city: '', // 지역
         clubId: null, //소속 클럽 id
-        isPublic: false, //공개 여부
+        coverpic_uuid: null, //사진 uuid
+        isPublic: true, //공개 여부
         maxCount: 0, //최대 인원수
         name: '', //스터디 이름
-        period: 7, //기간
+        techList: [], //기술 목록
         schedule: '', //일정 String
-        techList: ['java', 'python'], //기술 목록
-        uuid: null, //사진 uuid
+        period: '', //기간
       },
+      tech: '',
+      techStack: '',
+      result: null,
     });
 
-    const goIntroduce = function () {
-      console.log('스터디 생성 테스트!!!!!!!!!');
-      console.log(state.form);
-      // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다?)
+    const stackAutoComplete = function () {
+      const autocomplete = document.getElementById('autocomplete');
+      // state.tech에 값을 입력했을 시 자동완성목록 보여주기
+      if (state.tech) {
+        autocomplete.style = '';
+        // techstack.js 에서 해당 글자로 시작하는 키워드들을 필터링해 state.result에 담는다.
+        state.result = techstacks.filter((stack) => {
+          // 해당 글자로 시작하는 키워드를 뽑아내기 위해 '^' 를 사용
+          // 대소문자 구분 없이 찾아내기 위해 'i' 옵션을 사용
+          return stack.match(new RegExp('^' + state.tech, 'i'));
+        });
+        // state.form.techList에 입력한 값이 없다면 즉시 닫히도록
+        if (state.result.length <= 0) {
+          autocomplete.style = 'display:none';
+        }
+      } else {
+        autocomplete.style = 'display:none';
+      }
+    };
+    // 자동완성 목록중에서 내가 클릭한 것을 박스에 추가하는 함수
+    // 내가 클릭한 것: clickedTechStack
+    const addStack1 = function (clickedTechStack) {
+      const autocomplete = document.getElementById('autocomplete');
+      // 회원가입할때 보낼 data값
+      // 기존에 techList에 값이 없었다면 바로 넣는다.
+      state.tech = clickedTechStack;
+      if (!state.form.techList) {
+        state.form.techList.push(clickedTechStack);
+      }
+      // 기존에 techList에 값이 들어있었다면 빼고 넣는다(임시로 하나만 받아야 하기 때문)
+      else {
+        state.form.techList.pop();
+        state.form.techList.push(clickedTechStack);
+      }
+      autocomplete.style = 'display:none';
+      console.log(state.form.techList);
+    };
 
+    const goIntroduce = function () {
+      console.log(state.form, '스터디 생성 테스트!!!');
+      // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다?)
       store.dispatch('study/createStudy', state.form);
       router.push({ path: '/subheader/study/introduce' });
     };
@@ -246,14 +312,16 @@ export default {
     };
 
     return {
-      goIntroduce,
-      goHome,
       store,
+      state,
       user,
+      beforeUpload,
       clubList,
       clubId,
-      beforeUpload,
-      state,
+      goIntroduce,
+      goHome,
+      stackAutoComplete,
+      addStack1,
     };
   },
 };
@@ -424,11 +492,43 @@ export default {
   display: flex;
   flex-flow: column;
 }
+#box5 {
+  display: flex;
+  flex-flow: column;
+}
 #btn {
   margin-top: 50px;
 }
 .btn-cancel {
   margin-left: 10px;
+}
+#autocomplete {
+  position: absolute;
+  display: none;
+  display: flex;
+  flex-flow: column;
+
+  width: 400px;
+  max-height: 150px;
+  margin-top: 54px;
+
+  overflow: auto;
+  margin-left: 0px;
+  background: #919191;
+  border-radius: 4px;
+}
+
+.autocomplete1 {
+  background: white;
+  /* background: #e8e8e8; */
+}
+.autocomplete1:hover {
+  background: #3f8bfc;
+  /* background: #307ff5; */
+  color: white;
+}
+.autocomplete1:active {
+  background: black;
 }
 #thumbnail {
   width: 100%;

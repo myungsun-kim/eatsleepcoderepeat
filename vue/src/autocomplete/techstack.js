@@ -835,7 +835,6 @@ const techStacks = [
   'lippia',
   'waydev',
   'splash',
-  'harbor',
   'spread',
   'kaniko',
   'helios',
