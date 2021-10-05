@@ -287,6 +287,18 @@ export const study = {
       });
       return res.data;
     },
+    deleteStudy({ commit }, form) {
+      // console.log(form);
+
+      const res = axios
+        .delete(BASE_URL + `/api/study/${form}`, header)
+        .then(() => {
+          // console.log('스터디 삭제');
+          // console.log(res);
+          // console.log(res.data);
+          commit('updateStudyId', '');
+        });
+    },
   },
   getters: {
     totalStudyGetter: (state) => {
