@@ -213,6 +213,9 @@ export default {
           clubList[index] = user.value.myClubList[index].name;
           clubId[index] = user.value.myClubList[index].id;
         }
+      } else {
+        clubList[0] = '없음';
+        clubId[0] = null;
       }
     } else {
       clubList[0] = '없음';
@@ -310,7 +313,7 @@ export default {
       router.push({ path: '/subheader/study/introduce' });
     };
     const goHome = function () {
-      router.push({ path: '/nosubheader/home' });
+      router.push({ path: '/nosubheader/study/home' });
     };
 
     return {
