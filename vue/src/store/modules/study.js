@@ -20,6 +20,9 @@ export const study = {
     studyBoardIdList: [],
     studyArticleId: '',
     studyNoticeArticleList: [],
+    studyNoticeBoardId: '', //스터디 공지사항 보드 ID
+    studyNormalBoardId: '', // 스터디 게시판 보드 ID
+    article: {}, //게시글 내용
   },
   mutations: {
     updateTotalStudyList(state, payload) {
@@ -51,19 +54,37 @@ export const study = {
       state.studyApplication = payload;
     },
     updateBoardIdList(state, payload) {
-      // console.log('넘겨준 updateBoardIdList 값');
-      // console.log(payload);
+      console.log('넘겨준 updateBoardIdList 값');
+      console.log(payload);
       state.studyBoardIdList = payload;
     },
     updateArticleId(state, payload) {
-      // console.log('넘겨준 updateArticleId 값');
-      // console.log(payload);
+      console.log('넘겨준 updateArticleId 값');
+      console.log(payload);
       state.studyArticleId = payload;
     },
     updateNoticeArticleList(state, payload) {
       // console.log('넘겨준 updateArticleId 값');
       // console.log(payload);
       state.studyNoticeArticleList = payload;
+    },
+    updateStudyNoticeBoardId(state, payload) {
+      //스터디 공지사항 보드 ID
+      console.log('넘겨준 공지사항 게시판 ID 값');
+      // console.log(payload);
+      state.studyNoticeBoardId = payload;
+    },
+    updateStudyNormalBoardId(state, payload) {
+      // 스터디 게시판 보드 ID
+      console.log('넘겨준 일반 게시판 ID 값');
+      // console.log(payload);
+      state.studyNormalBoardId = payload;
+    },
+    updateArticle(state, payload) {
+      // 스터디 게시판 보드 ID
+      console.log('넘겨준 게시판 내용값');
+      console.log(payload);
+      state.article = payload;
     },
   },
   actions: {
@@ -154,16 +175,27 @@ export const study = {
       });
       // return res.data;
     },
-    createArticle({ commit }, data) {
-      const res = axios.post(
-        BASE_URL + `/api/studyboards/${data}/articles`,
-        header
-      );
-      res.then((res) => {
-        console.log('createArticle 조회 결과');
-        console.log(res.data);
-        commit('updateArticleId', res.data);
-      });
+    createArticle({ commit }, param) {
+      // console.log('보드 ID: ' + param.boardId);
+      // console.log('글 내용: ' + param.content);
+
+      const articleContent = {
+        content: param.content,
+        title: param.title,
+      };
+      // console.log('글 내용 JSON: ' + JSON.stringify(articleContent));
+
+      const res = axios
+        .post(
+          BASE_URL + `/api/studyboards/${param.boardId}/articles`,
+          JSON.stringify(articleContent),
+          header
+        )
+        .then((res) => {
+          console.log('createArticle 조회 결과');
+          console.log(res.data);
+          commit('updateArticleId', res.data);
+        });
       // return res.data;
     },
     getNoticeArticleList({ commit }, data) {
@@ -232,6 +264,25 @@ export const study = {
       });
       return res.data;
     },
+    // 특정 게시글 하나 조회
+    getArticleDetail({ commit }, form) {
+      console.log(form);
+      console.log(form.articleid);
+
+      const res = axios.get(
+        BASE_URL +
+          // `/api/studyboards/${form.articleid}/articles/${form.boardid}`,
+          `/api/studyboards/${form.boardid}/articles/${form.articleid}`,
+        header
+      );
+      res.then((res) => {
+        console.log('게시글 조회');
+        // console.log(res);
+        console.log(res.data);
+        commit('updateArticle', res.data);
+      });
+      return res.data;
+    },
   },
   getters: {
     totalStudyGetter: (state) => {
@@ -248,29 +299,49 @@ export const study = {
       return state.memberNickname;
     },
     studyIntroduceGetter: (state) => {
-      console.log('Introduce GETTER');
-      console.log(state.studyIntroduce);
+      // console.log('Introduce GETTER');
+      // console.log(state.studyIntroduce);
       return state.studyIntroduce;
     },
     studyApplicationsGetter: (state) => {
-      console.log('APPLICATION ALL GETTER');
-      console.log(state.studyApplications);
+      // console.log('APPLICATION ALL GETTER');
+      // console.log(state.studyApplications);
       return state.studyApplications;
     },
     studyApplicationGetter: (state) => {
-      console.log('APPLICATION ALL GETTER');
-      console.log(state.studyApplication);
+      // console.log('APPLICATION ALL GETTER');
+      // console.log(state.studyApplication);
       return state.studyApplication;
     },
     studyBoardIdListGetter: (state) => {
-      console.log('studyBoardIdList GETTER');
-      console.log(state.studyBoardIdList);
+      // console.log('studyBoardIdList GETTER');
+      // console.log(state.studyBoardIdList);
       return state.studyBoardIdList;
     },
     studyNoticeArticleListGetter: (state) => {
-      console.log('studyNoticeArticleList GETTER');
-      console.log(state.studyNoticeArticleList);
+      // console.log('studyNoticeArticleList GETTER');
+      // console.log(state.studyNoticeArticleList);
       return state.studyNoticeArticleList;
+    },
+    studyNoticeBoardIdGetter: (state) => {
+      // console.log('studyNoticeBoardId GETTER');
+      // console.log(state.studyNoticeBoardId);
+      return state.studyNoticeBoardId;
+    },
+    studyNormalBoardIdGetter: (state) => {
+      // console.log('studyNormalBoardIdGetter GETTER');
+      // console.log(state.studyNormalBoardId);
+      return state.studyNormalBoardId;
+    },
+    studyArticleIdGetter: (state) => {
+      console.log('studyArticleId GETTER');
+      console.log(state.studyArticleId);
+      return state.studyArticleId;
+    },
+    articleGetter: (state) => {
+      console.log('article GETTER');
+      console.log(state.article);
+      return state.article;
     },
   },
   modules: {},

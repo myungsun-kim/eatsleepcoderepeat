@@ -12,24 +12,23 @@
           stripe
           style="width: 100%"
           highlight-current-row
-          @current-change="handleCurrentChange"
+          @cell-click="handleCurrentChange2"
         >
-          <el-table-column
-            prop="tag"
-            label="Tag"
-            width="100"
-            align="center"
-          ></el-table-column>
           <el-table-column prop="title" label="Title" width="" align="center">
           </el-table-column>
           <el-table-column
-            prop="author"
+            prop="createdMember"
             label="Author"
             width="100"
             align="center"
           >
           </el-table-column>
-          <el-table-column prop="date" label="Date" width="100" align="center">
+          <el-table-column
+            prop="createdDate"
+            label="Date"
+            width="300"
+            align="center"
+          >
           </el-table-column>
         </el-table>
       </el-col>
@@ -131,6 +130,10 @@ export default {
       if (tempList[index].name == '공지사항') {
         boardId = tempList[index].id;
         console.log(boardId);
+
+        store.commit('study/updateStudyNoticeBoardId', tempList[index].id);
+      } else {
+        store.commit('study/updateStudyNormalBoardId', tempList[index].id);
       }
     }
     //  4. 게시판 목록 가져오기
@@ -145,48 +148,38 @@ export default {
     );
     console.log('articleList 출력');
     console.log(articleList);
+    console.log(articleList.value);
+    console.log(articleList.value.content);
+    console.log(articleList.value.content[0]);
+    // articleId: 8
+    // createdDate: "2021-10-05T16:08:11.246601"
+    // createdMember: "별명"
+    // modifiedDate: null
+    // studyBoard: "공지사항"
+    // title: "ㅁㄴㅇㅁㅇㅁ"
+    // viewCount: 0
+    console.log(articleList.value.content[0].title);
+
+    const tableData = articleList.value.content;
 
     const goCreateNotice = function () {
       router.push({ path: '/subheader/notice/create' });
     };
 
-    const handleCurrentChange = function (val) {
-      this.currentRow.value = val;
-      console.log('click one item@');
+    const handleCurrentChange2 = function (row, col, cell, event) {
+      console.log(row);
+      console.log(col);
+      console.log(cell);
+      console.log(event);
+      // router.push({ path: '/subheader/notice/detail' });
     };
 
-    const tableData = [
-      {
-        tag: '공지사항',
-        title: '안녕하세요',
-        author: '민수',
-        date: '2016-05-03',
-      },
-      {
-        tag: '공지사항',
-        title: '안녕하세요',
-        author: '민수',
-        date: '2016-05-03',
-      },
-      {
-        tag: '공지사항',
-        title: '안녕하세요',
-        author: '민수',
-        date: '2016-05-03',
-      },
-      {
-        tag: '공지사항',
-        title: '안녕하세요',
-        author: '민수',
-        date: '2016-05-03',
-      },
-    ];
     return {
       store,
       router,
       state,
       goCreateNotice,
-      handleCurrentChange,
+      handleCurrentChange2,
       tableData,
       currentRow,
     };
