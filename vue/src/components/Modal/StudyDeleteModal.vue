@@ -16,7 +16,7 @@
         </el-row>
         <el-row class="height8">
           <el-col :span="24" class="font-noto-md font-20"
-            >정말로 탈퇴하시겠습니까</el-col
+            >정말로 삭제하시겠습니까</el-col
           >
         </el-row>
         <el-row class="height8">
@@ -50,7 +50,7 @@
   </teleport>
 </template>
 <script>
-import { computed, ref, watch, reactive } from 'vue';
+import { computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
