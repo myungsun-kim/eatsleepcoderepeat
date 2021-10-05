@@ -3,7 +3,7 @@
     수정페이지로 이동
   </el-button>
   <teleport to="body">
-    <div v-if="modalOpen" class="modal">
+    <div v-if="!modalOpen" class="modal">
       <div class="height40">
         <el-row class="height10"></el-row>
         <el-row class="height10">
