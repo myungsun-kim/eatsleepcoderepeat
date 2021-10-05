@@ -125,7 +125,7 @@
         <el-col :span="2" v-if="auth == 1"> <StudyQuitModal /> </el-col>
         <el-col :span="2" v-if="auth == 0">
           <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
-            돌아가기
+            돌아가기<CreateApplicationModal />
           </el-button>
         </el-col>
         <el-col :span="10"></el-col>
@@ -142,6 +142,7 @@ import { useRouter } from 'vue-router';
 import MemberListModal from '../Modal/MemberListModal.vue';
 import StudyDeleteModal from '../Modal/StudyDeleteModal.vue';
 import StudyQuitModal from '../Modal/StudyQuitModal.vue';
+import CreateApplicationModal from '../Modal/CreateApplicationModal.vue';
 
 export default {
   setup() {
@@ -247,6 +248,7 @@ export default {
     MemberListModal,
     StudyQuitModal,
     StudyDeleteModal,
+    CreateApplicationModal,
   },
 };
 </script>
