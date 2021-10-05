@@ -213,6 +213,9 @@ export default {
           clubList[index] = user.value.myClubList[index].name;
           clubId[index] = user.value.myClubList[index].id;
         }
+      } else {
+        clubList[0] = '없음';
+        clubId[0] = null;
       }
     } else {
       clubList[0] = '없음';

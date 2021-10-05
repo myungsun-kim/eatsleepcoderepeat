@@ -5,7 +5,7 @@ export const member = {
   // 모듈별로 구분이 가능하게 하기 위해(독립적이기 위해) vuex namespaced: true
   namespaced: true,
   state: {
-    mypage: {},
+    mypage: {}, // 내 정보.
     userEmail: '', //어떤 유저의 정보를 보고 싶은지
     userInfo: {}, //보고자하는 유저의 정보
   },
@@ -39,11 +39,10 @@ export const member = {
           },
         })
         .then((res) => {
-          console.log('READ MY PAGE');
-          console.log('2-3');
-          console.log(res);
-          console.log(res.data);
-          commit('updateUserInfo', res.data);
+          // console.log('READ MY PAGE');
+          // console.log(res);
+          // console.log(res.data);
+          commit('updateMypage', res.data);
         });
       return res;
     },
@@ -118,6 +117,9 @@ export const member = {
       return state.mypage;
     },
     myStudyListGetter: (state) => {
+      // console.log('myStudyListGetter 값 조회');
+      // console.log(state.mypage);
+      // console.log(state.mypage.myStudyList);
       return state.mypage.myStudyList;
     },
     userEmailGetter: (state) => {
