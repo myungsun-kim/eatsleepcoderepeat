@@ -35,6 +35,7 @@ import GeneralSearch from '../components/Search/GeneralSearch.vue';
 import AdvancedSearch from '../components/Search/AdvancedSearch.vue';
 import Chat from '../components/Chat.vue';
 import ReadMyPage from '../components/MyPage/ReadMyPage.vue';
+import ReadInfoPage from '../components/MyPage/ReadInfoPage.vue';
 import UpdateMyPage from '../components/MyPage/UpdateMyPage.vue';
 import PasswordCheck from '../components/MyPage/PasswordCheck.vue';
 // no sub header 끝
@@ -205,6 +206,10 @@ const routes = [
           {
             path: '/nosubheader/passwordcheck',
             component: PasswordCheck,
+          },
+          {
+            path: '/nosubheader/readinfopage',
+            component: ReadInfoPage,
           },
         ],
       },
