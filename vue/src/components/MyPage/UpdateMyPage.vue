@@ -314,7 +314,7 @@
 </template>
 
 <script>
-import { ref, computed, watch, reactive, onBeforeMount } from 'vue';
+import { computed, watch, reactive, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import techstacks from '@/autocomplete/techstack.js';
