@@ -1,9 +1,9 @@
 <template>
-  <el-button @click="modalOpen = true" class="btn-ghost-red font-noto-bold">
+  <el-button @click="changemodalOpen" class="btn-ghost-red font-noto-bold">
     삭제
   </el-button>
   <teleport to="body">
-    <div v-if="modalOpen" class="modal">
+    <div v-if="!modalOpen" class="modal">
       <div class="height40">
         <el-row class="height10"></el-row>
         <el-row class="height8">
@@ -76,6 +76,9 @@ export default {
 
     // 모달 처리
     const modalOpen = computed(() => store.getters['scrollGetter']);
+    const changemodalOpen = function () {
+      store.dispatch('changeScrollModal', !modalOpen.value);
+    };
     // 탈퇴 누를 시
     const goStudyHome = function () {
       // console.log(studyId.value);
@@ -85,6 +88,8 @@ export default {
     };
 
     return {
+      modalOpen,
+      changemodalOpen,
       studyIntroduce,
       goStudyHome,
     };
