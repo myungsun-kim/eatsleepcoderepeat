@@ -99,7 +99,7 @@ export const study = {
     introduce({ commit }, data) {
       const res = axios.get(BASE_URL + '/api/study/' + data, header);
       res.then((res) => {
-        // console.log('스터디 introduice 조회 결과');
+        // console.log('스터디 introduce 조회 결과');
         // console.log(res);
         // console.log(res.data);
         commit('updateStudyIntroduce', res.data);
@@ -128,9 +128,10 @@ export const study = {
       return res.data;
     },
     // 해당 스터디 특정 회원 신청서 조회
-    applicationOne({ commit }, data1, data2) {
+    applicationOne({ commit }, form) {
       const res = axios.get(
-        BASE_URL + `/api/studyapplication/all/${data1}/${data2}`,
+        BASE_URL +
+          `/api/studyapplication/all/${form.studyId}/${form.memberNickname}`,
         header
       );
       res.then((res) => {
@@ -173,6 +174,60 @@ export const study = {
         commit('updateNoticeArticleList', res.data);
       });
       // return res.data;
+    },
+    // 스터디 신청
+    applicateStudy({ commit }, form) {
+      const res = axios.post(
+        BASE_URL + `/api/studyapplication/${form.studyId}`,
+        JSON.stringify(form),
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 신청');
+        console.log(res);
+        console.log(res.data);
+      });
+      return res.data;
+    },
+    // 스터디 신청 거절
+    rejectStudy({ commit }, form) {
+      const res = axios.post(
+        BASE_URL + `/api/studyapplication/${form.studyId}/${form.memberId}`,
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 신청 거절');
+        console.log(res);
+        console.log(res.data);
+      });
+      return res.data;
+    },
+    // 스터디 신청 수락
+    approvalStudy({ commit }, form) {
+      const res = axios.post(
+        BASE_URL +
+          `/api/studyapplication/approval/${form.studyId}/${form.memberId}`,
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 신청 수락');
+        console.log(res);
+        console.log(res.data);
+      });
+      return res.data;
+    },
+    // 스터디 신청 거절
+    rejectStudy({ commit }, form) {
+      const res = axios.post(
+        BASE_URL + `/api/studyapplication/${form.studyId}/${form.memberId}`,
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 신청 거절');
+        console.log(res);
+        console.log(res.data);
+      });
+      return res.data;
     },
   },
   getters: {
