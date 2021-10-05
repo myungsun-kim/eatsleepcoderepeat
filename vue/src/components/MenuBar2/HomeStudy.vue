@@ -234,7 +234,7 @@
   </el-row>
 </template>
 <script>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -247,6 +247,13 @@ export default {
     const totalStudyList = computed(
       () => store.getters['study/totalStudyGetter']
     );
+
+    // watch(totalStudyList, () => {
+    //   store.dispatch('study/getTotalStudyList');
+    //   store.dispatch('member/readMyPage');
+    //   console.log(111111111);
+    //   console.log(totalStudyList);
+    // });
 
     // 내가 속한 스터디 목록 받을 것임
     store.dispatch('member/readMyPage');
