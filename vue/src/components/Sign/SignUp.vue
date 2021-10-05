@@ -39,7 +39,7 @@
             id="email"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='이메일'"
-            @input="checkEmail()"
+            @blur="checkEmail()"
             autocomplete="off"
             maxlength="30"
           />
@@ -73,7 +73,7 @@
               onblur="this.placeholder='닉네임'"
               @blur="checkNickName()"
               autocomplete="off"
-              maxlength="7"
+              maxlength="10"
             />
           </div>
           <div id="warning3" style="display: none">
@@ -102,7 +102,7 @@
             id="password"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='비밀번호'"
-            @input="checkPassword()"
+            @blur="checkPassword()"
             autocomplete="off"
             maxlength="255"
           />
@@ -119,7 +119,7 @@
             id="checkpassword"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='비밀번호 확인'"
-            @input="checkAffirmPassword()"
+            @blur="checkAffirmPassword()"
             autocomplete="off"
             maxlength="255"
           />
@@ -348,6 +348,7 @@
               onfocus="this.placeholder=''"
               onblur="this.placeholder='세부 포지션을 입력하세요'"
               @keyup.enter="addPosition()"
+              maxlength="10"
             />
             <div id="box5">
               <div id="warning14" style="display: none">값을 입력해주세요.</div>
