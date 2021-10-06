@@ -15,6 +15,7 @@ export const study = {
     recommendStudyList: [], //추천 스터디 목록
     studyId: '',
     memberNickname: '', //어떤 회원의 정보를 조회할지
+    memberId: '', //어떤 회원의 정보를 조회할지
     studyIntroduce: {},
     studyApplications: [],
     studyApplication: {}, //특정 회원의 지원서
@@ -38,11 +39,15 @@ export const study = {
       state.recommendStudyList = payload;
     },
     updateStudyId(state, payload) {
-      console.log('넘겨준 STUDY ID 값' + payload);
+      // console.log('넘겨준 STUDY ID 값' + payload);
       state.studyId = payload;
     },
     updateStudyMemberNickname(state, payload) {
-      console.log('넘겨준 회원의 닉네임' + payload);
+      // console.log('넘겨준 회원의 닉네임' + payload);
+      state.memberNickname = payload;
+    },
+    updateStudyMemberId(state, payload) {
+      console.log('넘겨준 회원의 id' + payload);
       state.memberNickname = payload;
     },
     updateStudyIntroduce(state, payload) {
@@ -56,9 +61,10 @@ export const study = {
       state.studyApplications = payload;
     },
     updateStudyApplication(state, payload) {
-      console.log('해당 회원의 STUDY APPLICATION');
+      console.log('mutation: updateStudyApplication');
       console.log(payload);
       state.studyApplication = payload;
+      console.log(state.studyApplication);
     },
     updateBoardIdList(state, payload) {
       // console.log('넘겨준 updateBoardIdList 값');
@@ -188,6 +194,24 @@ export const study = {
       });
       return res.data;
     },
+
+    // 지원서 정보 가져오기
+    getStudyApplicationOne({ commit }, para) {
+      axios
+        .get(
+          BASE_URL +
+            `/api/studyapplication/one/${para.studyId}/${para.currentId}`,
+          header
+        )
+        .then((res) => {
+          // console.log('지원서 정보 조회');
+          // console.log(res);
+          // console.log(res.data);
+          commit('updateStudyApplication', res.data);
+        });
+      // return res.data;
+    },
+
     getBoardId({ commit }, data) {
       const res = axios.get(BASE_URL + `/api/study/${data}/boards`, header);
       res.then((res) => {
@@ -353,7 +377,6 @@ export const study = {
   },
   getters: {
     totalStudyGetter: (state) => {
-      // console.log('###########################');
       // console.log(state.totalStudyList);
       return state.totalStudyList;
     },
@@ -418,6 +441,11 @@ export const study = {
       // console.log('article GETTER');
       // console.log(state.article);
       return state.currentPage;
+    },
+    memberIdGetter: (state) => {
+      // console.log('article GETTER');
+      // console.log(state.article);
+      return state.memberId;
     },
   },
   modules: {},

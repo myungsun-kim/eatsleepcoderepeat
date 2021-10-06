@@ -26,8 +26,7 @@
         stripe
         style="width: 100%"
         highlight-current-row
-        @current-change="handleCurrentChange"
-        @cell-click="handleCurrentChange2"
+        @cell-click="cellClickEvent"
         @cell-dblclick="goInfoPage"
       >
         <el-table-column
@@ -43,7 +42,7 @@
           width=""
           align="center"
         >
-          <CheckApplicationModal :propData="state.form.studyId" />
+          <CheckApplicationModal />
         </el-table-column>
         <el-table-column
           prop="manage"
@@ -107,27 +106,13 @@ export default {
 
     // 해당 스터디의 모든 신청서 가져오기
     store.dispatch('study/applicationAll', studyId.value);
-    // store.dispatch('changeScrollModal', false);
+
     const studyApplications = computed(
       () => store.getters['study/studyApplicationsGetter']
     );
-    // console.log('studyApplications: ' + studyApplications.value);
-
-    const currentRow = ref('1');
 
     const goCreateNotice = function () {
       router.push({ path: '/subheader/notice/create' });
-    };
-
-    const handleCurrentChange = function (val) {
-      // this.currentRow.value = val;
-      // console.log('click one item@');
-      // console.log(val.nickname);
-      // 선택한 회원의 이메일 정보 저장
-      // store.dispatch('member/updateUserEmail',val.email);
-      // 선택한 회원의 닉네임 정보 저장
-      // store.dispatch('study/updateStudyMemberNickname',val.nickname);
-      // router.push({ path: '/subheader/notice/detail' });
     };
 
     const state = reactive({
@@ -147,10 +132,10 @@ export default {
       },
     });
 
-    const handleCurrentChange2 = function (val) {
-      // this.currentRow.value = val;
-      console.log('2222222222222');
-      // console.log(val.nickname);
+    const cellClickEvent = function (val) {
+      console.log('셀 클릭');
+      // 선택한 회원의 memberId 정보 저장
+      store.commit('study/updateStudyMemberId', val.memberId);
       //선택한 회원의 이메일 정보 저장
       store.dispatch('member/updateUserEmail', val.email);
       //선택한 회원의 닉네임 정보 저장
@@ -160,21 +145,16 @@ export default {
       state.form.nickname = val.nickname;
 
       //선택한 회원의 지원서 저장하기
-      store.dispatch('study/applicationOne', state.form);
+      // store.dispatch('study/applicationOne', state.form);
       // router.push({ path: '/subheader/notice/detail' });
       const tmp = computed(
         () => store.getters['member/studyApplicationGetter']
-      ).then((res) => {
-        console.log('res');
-        console.log(res);
-      });
-      console.log('클릭시');
-      console.log(tmp);
+      );
     };
 
     watch(state, () => {
-      console.log('bbbbb');
-      store.dispatch('study/applicationOne', state.form);
+      // console.log('bbbbb');
+      // store.dispatch('study/applicationOne', state.form);
     });
 
     //해당 지원자 신청서 가져오기
@@ -184,7 +164,6 @@ export default {
     console.log(application.value);
 
     watch(application, () => {
-      console.log('aaaaaaaaaaaplcaiadfdfdfsafsd');
       console.log(application.value);
     });
     // watch(state, () => {
@@ -209,7 +188,10 @@ export default {
 
     // 해당 회원의 정보 페이지로 이동
     const goInfoPage = function (val) {
-      console.log('goInfoPage');
+      console.log('GO INFO PAGE');
+      // 선택한 회원의 memberId 정보 저장
+      store.commit('study/updateStudyMemberId', val.memberId);
+
       // 선택한 회원의 이메일 정보 저장
       store.dispatch('member/updateUserEmail', val.email);
       // 선택한 회원의 닉네임 정보 저장
@@ -233,10 +215,8 @@ export default {
       state,
       studyApplications,
       goCreateNotice,
-      handleCurrentChange,
-      handleCurrentChange2,
+      cellClickEvent,
       // tableData,
-      currentRow,
       application,
       event,
       clcikEvent,

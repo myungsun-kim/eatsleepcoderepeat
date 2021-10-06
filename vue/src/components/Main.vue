@@ -58,10 +58,8 @@ export default {
     const router = useRouter();
     // 채팅을 위한 준비
     const chatInit = function () {
-      console.log('yeah!');
       console.log(window.location.search);
       if (window.location.search == '?logined=true') {
-        console.log('yeah!');
         // 토큰 decode해서 내 id 알아내는 과정
         store.dispatch(
           'chat/startup',
