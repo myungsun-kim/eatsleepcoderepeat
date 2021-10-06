@@ -39,9 +39,9 @@ export const member = {
           },
         })
         .then((res) => {
-          // console.log('READ MY PAGE');
-          // console.log(res);
-          // console.log(res.data);
+          console.log('READ MY PAGE');
+          console.log(res);
+          console.log(res.data);
           commit('updateMypage', res.data);
         });
       return res;

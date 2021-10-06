@@ -2,105 +2,119 @@
   <el-row class="height100 font-noto-md">
     <el-col :span="3"></el-col>
     <el-col :span="11">
-      {{ store.state.category }} 확인용 나중에 category 알고리즘 다 확인해야함
       <el-row class="height100 sub-nav-bar">
-        <el-col :span="6"
-          ><el-button
-            v-if="store.state.category == 1"
+        <el-col :span="6">
+          <el-button
+            v-if="category == 1"
             class="sub-nav-btn font-noto-md"
             type="text"
             @click="clickIntroduceStudy"
-            >스터디 소개</el-button
-          ><el-button
-            v-else-if="store.state.category == 2"
+          >
+            스터디 소개
+          </el-button>
+          <el-button
+            v-else-if="category == 2"
             class="sub-nav-btn font-noto-md"
             type="text"
             @click="clickIntroduceProject"
-            >프로젝트 소개</el-button
-          ><el-button
-            v-else-if="store.state.category == 3"
+          >
+            프로젝트 소개
+          </el-button>
+          <el-button
+            v-else-if="category == 3"
             class="sub-nav-btn font-noto-md"
             type="text"
             @click="clickIntroduceClub"
-            >클럽 소개</el-button
-          ></el-col
-        >
-        <el-col :span="1"></el-col
-        ><el-col :span="5"
-          ><el-button
+          >
+            클럽 소개
+          </el-button>
+        </el-col>
+        <el-col :span="1"> </el-col>
+        <el-col :span="5">
+          <el-button
             class="sub-nav-btn font-noto-md"
             type="text"
             @click="clickNotice"
-            >공지사항</el-button
-          ></el-col
-        >
-        <el-col :span="1"></el-col
-        ><el-col :span="4"
-          ><el-button
+          >
+            공지사항
+          </el-button>
+        </el-col>
+        <el-col :span="1"> </el-col>
+        <el-col :span="4">
+          <el-button
             class="sub-nav-btn font-noto-md"
             type="text"
             @click="clickBoard"
-            >게시판</el-button
-          ></el-col
-        >
-        <el-col :span="1"></el-col
-        ><el-col :span="6"
-          ><el-button
-            v-if="store.state.category == 1"
+          >
+            게시판
+          </el-button>
+        </el-col>
+        <el-col :span="1"></el-col>
+        <el-col :span="6">
+          <el-button
+            v-if="category == 1"
             class="sub-nav-btn font-noto-md"
             type="text"
             @click="clickManageStudy"
-            >스터디 관리 </el-button
-          ><el-button
-            v-else-if="store.state.category == 2"
+          >
+            스터디 관리
+          </el-button>
+          <el-button
+            v-else-if="category == 2"
             class="sub-nav-btn font-noto-md"
             type="text"
             @click="clickManageProject"
-            >프로젝트 관리 </el-button
-          ><el-button
-            v-if="store.state.category == 3"
+          >
+            프로젝트 관리
+          </el-button>
+          <el-button
+            v-if="category == 3"
             class="sub-nav-btn font-noto-md"
             type="text"
             @click="clickManageClub"
-            >클럽 관리
-          </el-button></el-col
-        >
-      </el-row></el-col
-    >
+          >
+            클럽 관리
+          </el-button>
+        </el-col>
+      </el-row>
+    </el-col>
     <el-col :span="8"> </el-col>
-    <el-col :span="1" class="lock-div"
-      ><i class="el-icon-lock lock font-noto-md"></i
-    ></el-col>
+    <el-col :span="1" class="lock-div">
+      <i class="el-icon-lock lock font-noto-md"></i>
+    </el-col>
     <el-col :span="1"></el-col>
   </el-row>
 </template>
 
 <script>
-import { useStore, computed, watch } from 'vuex';
+import { computed, ref, watch, reactive } from 'vue';
+import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
 export default {
   setup() {
     const store = useStore();
     const router = useRouter();
-    // store.getters['categoryGetter'];
-    // const category = computed(() => store.getters['categoryGetter']);
-    // const category = 1;
-    // console.log('카테고리!@#!@');
-    // console.log(category);
-    // watch(category, () => {
-    //   store.dispatch('study/introduce', studyId.value);
-    // });
+
+    const category = computed(() => store.getters['categoryGetter']);
+
+    watch(category, () => {
+      console.log('카테고리 변함. Watch');
+      // store.dispatch('study/introduce', studyId.value);
+    });
 
     const clickIntroduceStudy = function () {
+      store.commit('setCategory', 1);
       router.push({ path: '/subheader/study/introduce' });
     };
 
     const clickIntroduceProject = function () {
+      store.commit('setCategory', 2);
       router.push({ path: '/subheader/project/introduce' });
     };
 
     const clickIntroduceClub = function () {
+      store.commit('setCategory', 3);
       router.push({ path: '/subheader/club/introduce' });
     };
 
@@ -113,7 +127,8 @@ export default {
     };
 
     const clickManageStudy = function () {
-      router.push({ path: '/subheader/manage' });
+      store.commit('setCategory', 1);
+      router.push({ path: '/subheader/study/manage' });
     };
 
     const clickManageProject = function () {
@@ -126,7 +141,7 @@ export default {
     return {
       store,
       router,
-      // category,
+      category,
       clickIntroduceStudy,
       clickIntroduceProject,
       clickIntroduceClub,
