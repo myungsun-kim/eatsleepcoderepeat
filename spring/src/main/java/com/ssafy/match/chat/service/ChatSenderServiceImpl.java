@@ -26,11 +26,21 @@ public class ChatSenderServiceImpl {
         if(data.getType() == 2){
             chatPersistentService.setReadSignal(data);
         }else{
+            System.out.println("1");
             chatPersistentService.setMessage(data);
+            System.out.println("2");
         }
+        System.out.println("3");
+
         System.out.println(data);
+        System.out.println("4");
+
         try{
+            System.out.println("5");
+
             chatReceiverService.receive(data);
+            System.out.println("6");
+
         }
         catch(Exception e){
             e.printStackTrace();

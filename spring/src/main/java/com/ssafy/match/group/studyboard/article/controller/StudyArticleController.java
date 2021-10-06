@@ -1,6 +1,7 @@
 package com.ssafy.match.group.studyboard.article.controller;
 
 
+import com.ssafy.match.group.studyboard.article.dto.StudyArticleListDto;
 import com.ssafy.match.group.studyboard.article.dto.StudyArticleCreateRequestDto;
 import com.ssafy.match.group.studyboard.article.dto.StudyArticleInfoDto;
 import com.ssafy.match.group.studyboard.article.dto.StudyArticleListDto;
@@ -27,6 +28,18 @@ public class StudyArticleController {
     @ApiOperation(value = "(스터디)게시물 리스트 조회", notes = "<strong>받은 게시판 id</strong>를 사용해서 게시물들을 조회한다.")
     public ResponseEntity<Page<StudyArticleListDto>> getArticles(@PathVariable("boardid") Integer boardid, @PageableDefault(size = 10) @SortDefault(sort = "createDate", direction= Sort.Direction.DESC) Pageable pageable) throws Exception {
         return ResponseEntity.ok(studyArticleService.getStudyArticles(boardid, pageable));
+    }
+
+    @GetMapping("/{boardid}/title/articles/{title}")
+    @ApiOperation(value = "(스터디)게시물 리스트 제목 조회", notes = "<strong>받은 게시판 id와 제목</strong>을 사용해서 게시물들을 조회한다.")
+    public ResponseEntity<Page<StudyArticleListDto>> getArticlesByTitle(@PathVariable("boardid") Integer boardid, @PathVariable("title") String title, @PageableDefault(size = 10) @SortDefault(sort = "createDate", direction= Sort.Direction.DESC) Pageable pageable) throws Exception {
+        return ResponseEntity.ok(studyArticleService.getStudyArticlesByTitle(boardid, title, pageable));
+    }
+
+    @GetMapping("/{boardid}/nickname/articles/{nickname}")
+    @ApiOperation(value = "(스터디)게시물 리스트 닉네임 조회", notes = "<strong>받은 게시판 id와 닉네임</strong>을 사용해서 게시물들을 조회한다.")
+    public ResponseEntity<Page<StudyArticleListDto>> getArticlesByNickname(@PathVariable("boardid") Integer boardid, @PathVariable("nickname") String nickname, @PageableDefault(size = 10) @SortDefault(sort = "createDate", direction= Sort.Direction.DESC) Pageable pageable) throws Exception {
+        return ResponseEntity.ok(studyArticleService.getStudyArticlesByNickname(boardid, nickname, pageable));
     }
 
     @GetMapping("/{boardid}/articles/{articleid}")
