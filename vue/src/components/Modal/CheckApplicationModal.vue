@@ -21,11 +21,19 @@
         <el-row class="height40">
           <!-- 좌 우 -->
           <el-col :span="12" :offset="3" class="test-border font-14 height100">
+            <!-- {{ temp }} -->
+            @@ <br />
+            <!-- {{ props.propData }} <br /> -->
+            {{ propData }} <br />
+            <!-- {{ props.propData.value }} <br /> -->
+            @
+            {{ propData.value }} <br />
+
             <el-row class="test-border height25">
               <el-col :span="3"></el-col>
               <el-col :span="6" class="test-border"> 닉네임 </el-col>
               <el-col :span="2"></el-col>
-              <el-col :span="13" class="test-border">{{ propData }} </el-col>
+              <el-col :span="13" class="test-border"> </el-col>
             </el-row>
             <el-row class="test-border height25">
               <el-col :span="3"></el-col>
@@ -277,6 +285,7 @@ export default {
       memberNickname,
       studyId,
       user,
+      // temp: this.propData,
     };
   },
 };

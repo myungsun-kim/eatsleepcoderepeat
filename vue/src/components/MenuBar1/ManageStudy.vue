@@ -43,7 +43,8 @@
           width=""
           align="center"
         >
-          <CheckApplicationModal propData="state.form.studyId" />
+          @@@ {{ state }}
+          <CheckApplicationModal :propData="state.form.studyId" />
         </el-table-column>
         <el-table-column
           prop="manage"
@@ -135,7 +136,7 @@ export default {
       // router.push({ path: '/subheader/notice/detail' });
     };
 
-    const state = reactive({
+    let state = reactive({
       form: {
         studyId: studyId.value,
         memberNickname: '',
@@ -150,8 +151,10 @@ export default {
       store.dispatch('member/updateUserEmail', val.email);
       //선택한 회원의 닉네임 정보 저장
       store.dispatch('study/updateStudyMemberNickname', val.nickname);
+
       state.form.studyId = studyId.value;
       state.form.memberNickname = val.nickname;
+
       //선택한 회원의 지원서 저장하기
       store.dispatch('study/applicationOne', state.form);
       console.log('ManageStudy 지원서조회끝');
@@ -226,6 +229,7 @@ export default {
     return {
       store,
       router,
+      state,
       studyApplications,
       application,
       goCreateNotice,
