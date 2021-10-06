@@ -35,8 +35,8 @@ export const study = {
       // console.log(state.totalStudyList);
     },
     updateRecommendStudyList(state, payload) {
-      console.log('저장된 추천 스터디 목록');
-      console.log(state.recommendStudyList);
+      // console.log('저장된 추천 스터디 목록');
+      // console.log(state.recommendStudyList);
       state.recommendStudyList = payload;
     },
     updateStudyId(state, payload) {
@@ -178,8 +178,7 @@ export const study = {
       commit('updateArticleId', data);
     },
     introduce({ commit }, data) {
-      console.log('###############');
-      const res = axios.get(BASE_URL + '/api/study/' + data, header);
+      const res = axios.get(BASE_URL + `/api/study/${data}`, header);
       res.then((res) => {
         // console.log('스터디 introduce 조회 결과');
         // console.log(res);
@@ -251,9 +250,6 @@ export const study = {
       // return res.data;
     },
     createArticle({ commit }, param) {
-      // console.log('보드 ID: ' + param.boardId);
-      // console.log('글 내용: ' + param.content);
-
       const articleContent = {
         content: param.content,
         title: param.title,
@@ -270,7 +266,26 @@ export const study = {
           console.log(res.data);
           commit('updateArticleId', res.data);
         });
-      // return res.data;
+    },
+    updateArticle({ commit }, param) {
+      const articleContent = {
+        studyArticleUpdateRequestDto: param.studyArticleUpdateRequestDto,
+      };
+
+      const res = axios
+        .put(
+          BASE_URL +
+            `
+          ​/api​/studyboards​/${param.boardid}​/articles​/${param.articleid}
+          `,
+          JSON.stringify(articleContent),
+          header
+        )
+        .then((res) => {
+          console.log('updateArticle 결과');
+          console.log(res.data);
+          commit('updateArticle', res.data);
+        });
     },
 
     // 게시판 무관: 글 목록 가져오기
@@ -410,12 +425,11 @@ export const study = {
       return state.totalStudyList;
     },
     recommendStudyListGetter: (state) => {
-      console.log(state.recommendStudyList);
+      // console.log(state.recommendStudyList);
       return state.recommendStudyList;
     },
     studyIdGetter: (state) => {
-      console.log('스터디 ID GETTER');
-      console.log(state.studyId);
+      console.log('스터디 ID GETTER: ' + state.studyId);
       return state.studyId;
     },
     studyInfoGetter: (state) => {
