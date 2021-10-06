@@ -202,15 +202,23 @@ public class MemberService {
     @Transactional
     public void updateMember(String email, String name, String password, String nickname, String tel, String bio, String city, String position, String portfolio_uri) {
         Member member = memberRepository.getById(SecurityUtil.getCurrentMemberId());
-
         if (memberRepository.existsByNickname(nickname)) {
         } else {
             member.setNickname(nickname);
         }
-        member.setPassword(passwordEncoder.encode(password));
+        if (password == null || password == "") {
+        } else {
+            member.setPassword(passwordEncoder.encode(password));
+        }
         member.setTel(tel);
-        member.setName(name);
-        member.setEmail(email);
+        if (name == null || name == "") {
+        } else {
+            member.setName(name);
+        }
+        if (email == null || email == "") {
+        } else {
+            member.setEmail(email);
+        }
         member.setBio(bio);
         member.setCity(city);
         member.setPosition(position);

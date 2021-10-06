@@ -27,18 +27,32 @@ public class ChatReceiverServiceImpl {
     //@KafkaListener 어노테이션 부착 시 -> 받아올 메세지가 있을 때 수행하는 일들을 아래 메서드에 적용한다.
 //    @KafkaListener(topics = "test1")
     public void receive(/*@Payload*/ ChatMessage message) throws Exception {
+        System.out.println("socket1");
+
         LOGGER.info("message='{}'", message);
         System.out.println(message.getContent());
+        System.out.println("socket2");
 
         ObjectMapper mapper = new ObjectMapper();
+        System.out.println("socket3");
+
         String json = mapper.writeValueAsString(message);
+        System.out.println("socket4");
+
         // 프론트의Stringify와 유사
         StringBuilder destSocket = new StringBuilder("/sub");
         destSocket.append('/').append(message.getSenderId());
+        System.out.println("socket5");
+
         StringBuilder departSocket = new StringBuilder("/sub");
         departSocket.append('/').append(message.getReceiverId());
+        System.out.println("socket6");
+
         this.template.convertAndSend(destSocket.toString(), json);
+        System.out.println("socket7");
+
         this.template.convertAndSend(departSocket.toString(), json);
+        System.out.println("socket8");
 
         // 실제 socket으로 메세지를 전달하는 메서드
     }

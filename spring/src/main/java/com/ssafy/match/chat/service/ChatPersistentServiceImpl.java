@@ -68,36 +68,61 @@ public class ChatPersistentServiceImpl {
 //        }
 
         ChatMessage saved = null;
+        System.out.println("s1");
+
         for(int i = 0; i < RETRY_COUNT; i++){
             try{
                 saved = messageRepository.save(msg);
+                System.out.println("s2");
+
                 break;
             }catch(DataAccessException e){
                 e.printStackTrace();
                 System.out.println("!");
             }
         }
+        System.out.println("s3");
         pushMessageToRedis(saved, saved.getReceiverId(), saved.getSenderId());
+        System.out.println("s4");
         pushMessageToRedis(saved, saved.getSenderId(), saved.getReceiverId());
+        System.out.println("s5");
+
     }
     public List<ChatMessage> findSessions(long id){
         return messageRepository.findSessions(id);
     }
     private void pushMessageToRedis(ChatMessage msg, long key1, long key2){
+        System.out.println("p1");
+
         final ListOperations<String, Object> strObjListOps = redisTemplate.opsForList();
+        System.out.println("p2");
+
         String redisKey = concatChatKey(key1, key2);
+        System.out.println("p3");
+
         if(!redisTemplate.hasKey(redisKey)){
+            System.out.println("p3-1");
+
             setMessageToRedisInit(key1, key2);
         }
+        System.out.println("p4");
+
         strObjListOps.rightPush(redisKey, msg);
+        System.out.println("p5");
+
         long cacheSize = strObjListOps.size(redisKey);
+        System.out.println("p6");
         if(cacheSize > CACHE_SIZE){
+            System.out.println("p7");
+
             strObjListOps.trim(
                 redisKey,
                 cacheSize-CACHE_SIZE,
                 cacheSize-1
             );
         }
+        System.out.println("p8");
+
     }
     private String concatChatKey(long key1, long key2){
         StringBuilder sb = new StringBuilder("chat:");

@@ -19,38 +19,101 @@
             </div>
             <div class="box3">
               <div class="box4">
-                <div class="label1">ID</div>
+                <div class="label1">이메일</div>
                 <input
                   type="text"
                   id="email"
                   class="input1"
+                  placeholder="이메일을 입력해주세요"
+                  onfocus="this.placeholder=''"
+                  onblur="this.placeholder='이메일을 입력해주세요'"
                   v-model="state.form.email"
                   readonly
                 />
               </div>
               <div class="box4">
                 <div class="label1">이름</div>
-                <input type="text" class="input1" v-model="state.form.name" />
+                <input
+                  type="text"
+                  class="input1"
+                  placeholder="이름을 입력해주세요."
+                  onfocus="this.placeholder=''"
+                  onblur="this.placeholder='이름을 입력해주세요.'"
+                  v-model="state.form.name"
+                  @blur="checkName()"
+                  autocomplete="off"
+                  maxlength="10"
+                />
+                <div class="box0">
+                  <div id="warning12" style="display: none">
+                    한글 이름은 1~7자 이내,
+                    <br />
+                    영문 이름은 2~10자 이내로 작성해주세요.(혼용 불가)
+                  </div>
+                  <div id="success1" style="display: none">
+                    사용가능한 '이름'입니다!
+                  </div>
+                </div>
               </div>
               <div class="box4">
                 <div class="label1">닉네임</div>
                 <input
                   type="text"
                   class="input1"
+                  placeholder="닉네임을 입력해주세요."
+                  onfocus="this.placeholder=''"
+                  onblur="this.placeholder='닉네임을 입력해주세요.'"
                   v-model="state.form.nickname"
+                  @blur="checkNickName()"
+                  autocomplete="off"
+                  maxlength="10"
                 />
+                <div class="box0">
+                  <div id="success3" style="display: none">
+                    변경 전 닉네임입니다.
+                  </div>
+                  <div id="warning13" style="display: none">
+                    한글, 영문, 숫자만 가능합니다.(혼용가능)
+                    <br />
+                    닉네임 길이는 2~7자 이내로 작성해주세요.
+                  </div>
+                  <div id="warning13_1" style="display: none">
+                    이미 존재하는 닉네임입니다.
+                  </div>
+                  <div id="success2" style="display: none">
+                    사용가능한 '닉네임'입니다!
+                  </div>
+                </div>
               </div>
               <div class="box4">
                 <div class="label1">역할</div>
-                <input
-                  type="text"
-                  class="input1"
-                  v-model="state.form.position"
-                />
+                <select class="position" v-model="state.form.position">
+                  <option value="기획자">기획자</option>
+                  <option value="개발자">개발자</option>
+                  <option value="디자이너">디자이너</option>
+                </select>
               </div>
               <div class="box4">
                 <div class="label1">지역</div>
-                <input type="text" class="input1" v-model="state.form.city" />
+                <select class="position" v-model="state.form.city">
+                  <option value="서울">서울</option>
+                  <option value="부산">부산</option>
+                  <option value="대구">대구</option>
+                  <option value="인천">인천</option>
+                  <option value="광주">광주</option>
+                  <option value="대전">대전</option>
+                  <option value="울산">울산</option>
+                  <option value="세종">세종</option>
+                  <option value="경기">경기</option>
+                  <option value="강원">강원</option>
+                  <option value="충북">충북</option>
+                  <option value="충남">충남</option>
+                  <option value="전북">전북</option>
+                  <option value="전남">전남</option>
+                  <option value="경북">경북</option>
+                  <option value="경남">경남</option>
+                  <option value="제주">제주</option>
+                </select>
               </div>
             </div>
             <!-- <el-upload
@@ -76,7 +139,19 @@
                 type="password"
                 class="input2"
                 v-model="state.form.password"
+                @blur="checkPassword()"
+                autocomplete="off"
+                maxlength="255"
               />
+            </div>
+            <div class="box0_0">
+              <div id="warning14" style="display: none">
+                비밀번호는 최소 8자 이상이어야 합니다.
+              </div>
+              <div id="warning14_1" style="display: none">
+                비밀번호는 영문(소문자), 영문(대문자), 숫자, 특수문자가 반드시
+                조합되어야 합니다.
+              </div>
             </div>
             <div class="box4">
               <div class="label2">새 비밀번호 확인</div>
@@ -84,7 +159,15 @@
                 type="password"
                 class="input2"
                 v-model="state.affirmPassword"
+                @blur="checkAffirmPassword()"
+                autocomplete="off"
+                maxlength="255"
               />
+            </div>
+            <div class="box0_0">
+              <div id="warning15" style="display: none">
+                비밀번호가 일치하지 않습니다.
+              </div>
             </div>
             <div class="box4">
               <div class="label2">github</div>
@@ -314,7 +397,7 @@
 </template>
 
 <script>
-import { ref, computed, watch, reactive, onBeforeMount } from 'vue';
+import { computed, watch, reactive, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import techstacks from '@/autocomplete/techstack.js';
@@ -339,13 +422,13 @@ export default {
     console.log('유저정보');
     console.log(user);
     console.log(user.value);
-    let tmp = Object.values(user.value.dpositionList);
-    let tmp1 = [];
-    tmp.forEach(function (item) {
-      tmp1.push(item.name);
+    // user.value.dpositionList의 형태가 {0, {"id"= 1, "name"="프론트앤드"}}처럼 들어오기때문에
+    // 해당 객체를 반복문으로 돌면서 name의 value값만 모아서 dpList1에 저장
+    let dpList = Object.values(user.value.dpositionList);
+    let dpList1 = [];
+    dpList.forEach(function (item) {
+      dpList1.push(item.name);
     });
-    console.log(tmp1);
-    console.log(tmp, '111111111111');
 
     const state = reactive({
       form: {
@@ -374,16 +457,21 @@ export default {
         // portfolio_uri: user.value.portfolio_uri, //포트폴리오 주소
         expTechList: user.value.expTechList, //Experinced
         beginTechList: user.value.beginTechList, //beginner
-        dpositionList: tmp, //세부 포지션
+        dpositionList: dpList1, //세부 포지션
         bio: user.value.bio, // 자기소개
         tel: '', //연락처
       },
+      affirmPassword: '', //비밀번호확인
       exp: '',
       beg: '',
       dp: '',
       result: '',
       result1: '',
-      affirmPassword: '',
+      existedNickname: user.value.nickname,
+      validate2: true,
+      validate3: true,
+      validate4: true,
+      validate5: true,
     });
 
     onBeforeMount(() => {
@@ -406,7 +494,132 @@ export default {
           state.form.snsHashMap.backjoon = user.value.snsList[i].snsAccount;
         }
       }
+      console.log(user.value, '@@@@@@@@@@@@@@@@@@@');
     });
+
+    // 이름 유효성 검사
+    const checkName = function () {
+      console.log('이름 유효성 체크!!!');
+      const warning12 = document.getElementById('warning12');
+      const success1 = document.getElementById('success1');
+      let nameVal = state.form.name;
+      let reg = /^[가-힣]{1,7}$/;
+      let reg1 = /^[a-zA-Z]{2,10}$/;
+      // 유효성 검사를 통과하지 못했을 경우
+      if (nameVal.match(reg) == null && nameVal.match(reg1) == null) {
+        warning12.style = '';
+        success1.style = 'display:none';
+        state.validate2 = false;
+      } else {
+        warning12.style = 'display:none';
+        success1.style = '';
+        state.validate2 = true;
+      }
+    };
+
+    // 닉네임 유효성 검사
+    const checkNickName = function () {
+      console.log('닉네임 포커싱 벗어남!!!');
+      var warning13 = document.getElementById('warning13');
+      var warning13_1 = document.getElementById('warning13_1');
+      var success2 = document.getElementById('success2');
+      var success3 = document.getElementById('success3');
+      let nickNameVal = state.form.nickname;
+      let reg = /^[(가-힣a-zA-Z0-9)]{2,7}$/;
+
+      if (nickNameVal.match(reg) == null) {
+        warning13.style = '';
+        warning13_1.style = 'display:none';
+        success2.style = 'display:none';
+        success3.style = 'display:none';
+        state.validate3 = false;
+        // alert(
+        //   '올바른 형식이 아닙니다.\n한글, 영문, 숫자만 가능합니다.\n닉네임 길이는 2~7자 이내여야 합니다.'
+        // );
+      } else {
+        store
+          .dispatch('auth/checkNickName', state.form.nickname)
+          .then((res) => {
+            // 중복되지도 않고 기존의 내 닉네임도 아닐 경우
+            if (res.data == false && state.existedNickname) {
+              // alert('사용가능한 닉네임 입니다!');
+              warning13.style = 'display:none';
+              warning13_1.style = 'display:none';
+              success2.style = '';
+              success3.style = 'display:none';
+              state.validate3 = true;
+            }
+            // 기존의 내 닉네임일 경우
+            else if (state.existedNickname == state.form.nickname) {
+              warning13.style = 'display:none';
+              warning13_1.style = 'display:none';
+              success2.style = 'display:none';
+              success3.style = '';
+              state.validate3 = true;
+            }
+            // 기존의 내 닉네임은 아니나, 중복될 경우
+            else {
+              warning13.style = 'display:none';
+              warning13_1.style = '';
+              success2.style = 'display:none';
+              success3.style = 'display:none';
+              state.validate3 = false;
+            }
+          });
+      }
+    };
+
+    // 비밀번호 유효성 검사
+    const checkPassword = function () {
+      console.log('비밀번호 유효성 검사!!!');
+      var warning14 = document.getElementById('warning14');
+      var warning14_1 = document.getElementById('warning14_1');
+      let passwordVal = state.form.password;
+      let reg =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      // 새 비밀번호 입력칸이 비어있을 경우
+      // 백엔드에서 기존의 비밀번호를 그대로 유지하는 로직이 되어있다.
+      if (passwordVal.length == 0) {
+        warning14.style = 'display:none';
+        warning14_1.style = 'display:none';
+        state.validate4 = true;
+      }
+      // 비밀번호가 1글자 이상, 8글자 미만인 경우
+      else if (0 < passwordVal.length < 8) {
+        state.validate4 = false;
+        warning14.style = '';
+        warning14_1.style = 'display:none';
+      }
+      // 8글자 이상 입력했으나 유효성 검사를 통과하지 못했을 경우
+      else if (passwordVal.match(reg) == null) {
+        warning14.style = 'display:none';
+        warning14_1.style = '';
+        state.validate4 = false;
+      }
+      // 모든 유효성 검사를 통과했을 경우
+      else {
+        warning14.style = 'display:none';
+        warning14_1.style = 'display:none';
+        state.validate4 = true;
+      }
+    };
+
+    // 비밀번호 확인 유효성 검사
+    const checkAffirmPassword = function () {
+      console.log('비밀번호확인 유효성 검사!!!');
+      var warning15 = document.getElementById('warning15');
+      let affirmPasswordVal = state.affirmPassword;
+
+      // 유효성 검사를 통과하지 못했을 경우
+      if (affirmPasswordVal !== state.form.password) {
+        warning15.style = '';
+        state.validate5 = false;
+        // alert('두 비밀번호가 일치하지 않습니다.');
+      } else {
+        warning15.style = 'display:none';
+        state.validate5 = true;
+      }
+    };
 
     // 프로필 사진 업로드
     const beforeProfileUpload = (file) => {
@@ -907,10 +1120,28 @@ export default {
     };
 
     const updateMember = function () {
-      store.dispatch('member/updateMember', state.form).then((res) => {
-        store.dispatch('member/readMyPage');
-        console.log(res);
-      });
+      // 입력칸이 비었을 경우
+      if (state.form.name == '') {
+        alert('이름을 입력하세요.');
+      } else if (state.form.nickname == '') {
+        alert('닉네임을 입력하세요.');
+      }
+      // 입력칸이 비진 않았지만, 유효성 검사를 하나라도 통과하지 못했을 경우
+      else if (!state.validate2) {
+        alert('올바른 이름이 아닙니다!');
+      } else if (!state.validate3) {
+        alert('올바른 닉네임이 아닙니다!');
+      } else if (!state.validate4) {
+        alert('올바른 비밀번호 형식이 아닙니다!');
+      } else if (!state.validate5) {
+        alert('비밀번호가 일치하지 않습니다!');
+      } else {
+        store.dispatch('member/updateMember', state.form).then((res) => {
+          // store.dispatch('member/readMyPage');
+          console.log(res);
+          router.push({ path: '/nosubheader/readmypage' });
+        });
+      }
     };
 
     return {
@@ -932,6 +1163,10 @@ export default {
       deletePosition1,
       updateMember,
       user,
+      checkName,
+      checkNickName,
+      checkPassword,
+      checkAffirmPassword,
     };
   },
 
@@ -981,6 +1216,22 @@ export default {
 .bg {
   background: #f2f2f2;
 }
+.box0 {
+  width: 377px;
+  display: flex;
+  flex-flow: column;
+  text-align: left;
+  /* border: 1px solid red; */
+}
+.box0_0 {
+  width: 770px;
+  display: flex;
+  flex-flow: column;
+  text-align: left;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  /* border: 1px solid red; */
+}
 .box1 {
   height: 360px;
   display: flex;
@@ -992,12 +1243,12 @@ export default {
   flex-flow: column;
 }
 .box3 {
-  margin-left: 150px;
+  margin-left: 50px;
   width: 300px;
   height: 50px;
 }
 .box4 {
-  width: 650px;
+  width: 800px;
   display: flex;
   align-items: center;
   margin-bottom: 20px;
@@ -1066,7 +1317,7 @@ export default {
   font-size: 16px;
 }
 .input1 {
-  width: 200px;
+  width: 300px;
   height: 50px;
   border: none;
   border-radius: 4px;
@@ -1461,5 +1712,100 @@ export default {
   font-weight: normal;
   font-size: 15px;
   color: #ff5757;
+}
+#warning12 {
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning13 {
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning13_1 {
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning14 {
+  margin-left: 205px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning14_1 {
+  margin-left: 205px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning15 {
+  margin-left: 205px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#success1 {
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #307ff5;
+}
+#success2 {
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #307ff5;
+}
+#success3 {
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: black;
+}
+.position {
+  width: 312px;
+  height: 50px;
+  border: none;
+  border-radius: 4px;
+  padding-left: 10px;
+  background: white;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  cursor: pointer;
 }
 </style>

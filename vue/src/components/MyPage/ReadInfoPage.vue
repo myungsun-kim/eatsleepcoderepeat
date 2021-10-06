@@ -17,12 +17,15 @@
       <el-row class="test-border height30">
         <el-col :span="8" class="test-border">
           <el-row class="height100">
-            <div class="profile">
+            <div class="profile" v-if="user.cover_pic != null">
               <img
                 v-if="user.cover_pic"
                 :src="`${user.cover_pic}`"
                 class="previewImg"
               />
+            </div>
+            <div v-else class="profile">
+              <img src="/src/assets/item/basic.png" />
             </div>
           </el-row>
         </el-col>
