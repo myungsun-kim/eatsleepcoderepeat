@@ -267,7 +267,7 @@
         <!-- Item 리스트 1개씩 v-for로 -->
         <el-col
           :span="5"
-          class="test-border item-border"
+          class="test-border item-border list"
           v-for="(item, index) in user.myClubList.slice(0, 4)"
           :key="index"
           @click="goIntroduce(item.id)"
@@ -337,7 +337,7 @@
         <!-- Item 리스트 1개씩 v-for로 -->
         <el-col
           :span="5"
-          class="test-border item-border"
+          class="test-border item-border list"
           v-for="(item, index) in user.myStudyList.slice(0, 4)"
           :key="index"
           @click="goIntroduce(item.id)"
@@ -407,7 +407,7 @@
         <!-- Item 리스트 1개씩 v-for로 -->
         <el-col
           :span="5"
-          class="test-border item-border"
+          class="test-border item-border list"
           v-for="(item, index) in user.myProjectList.slice(0, 4)"
           :key="index"
           @click="goIntroduce(item.id)"
