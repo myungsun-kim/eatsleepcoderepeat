@@ -42,7 +42,7 @@
           width=""
           align="center"
         >
-          <CheckApplicationModal />
+          <el-button @click="goApplicate" class=""> 지원서 보기 </el-button>
         </el-table-column>
         <el-table-column
           prop="manage"
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import CheckApplicationModal from '../Modal/CheckApplicationModal.vue';
+// import CheckApplicationModal from '../Modal/CheckApplicationModal.vue';
 import MemberAcceptModal from '../Modal/MemberAcceptModal.vue';
 import MemberRejectModal from '../Modal/MemberRejectModal.vue';
 
@@ -93,7 +93,7 @@ import { useRouter } from 'vue-router';
 
 export default {
   components: {
-    CheckApplicationModal,
+    // CheckApplicationModal,
     MemberAcceptModal,
     MemberRejectModal,
   },
@@ -121,69 +121,43 @@ export default {
         memberId: '',
         email: '',
         nickname: '',
-        city: '',
-        git: '',
-        twitter: '',
-        facebook: '',
-        backjoon: '',
-        strong: [],
-        knowledgeable: [],
-        bio: '',
       },
     });
 
     const cellClickEvent = function (val) {
       console.log('셀 클릭');
+      console.log(val);
       // 선택한 회원의 memberId 정보 저장
       store.commit('study/updateStudyMemberId', val.memberId);
       //선택한 회원의 이메일 정보 저장
       store.dispatch('member/updateUserEmail', val.email);
       //선택한 회원의 닉네임 정보 저장
       store.dispatch('study/updateStudyMemberNickname', val.nickname);
-
-      state.form.studyId = studyId.value;
+      state.form.email = val.email;
       state.form.nickname = val.nickname;
+      state.form.memberId = val.memberId;
 
       //선택한 회원의 지원서 저장하기
-      // store.dispatch('study/applicationOne', state.form);
+      store.dispatch('study/getStudyApplicationOne', state.form);
       // router.push({ path: '/subheader/notice/detail' });
-      const tmp = computed(
-        () => store.getters['member/studyApplicationGetter']
-      );
+      // const tmp = computed(
+      //   () => store.getters['member/studyApplicationGetter']
+      // );
     };
 
-    watch(state, () => {
-      // console.log('bbbbb');
-      // store.dispatch('study/applicationOne', state.form);
-    });
-
-    //해당 지원자 신청서 가져오기
-    const application = computed(
-      () => store.getters['member/studyApplicationGetter']
-    );
-    console.log(application.value);
-
-    watch(application, () => {
-      console.log(application.value);
-    });
     // watch(state, () => {
-    //   console.log('param 변경...');
-    //   const application = computed(
-    //     () => store.getters['member/studyApplicationGetter']
-    //   );
-    //   if (application.value != undefined) {
-    //     state.form.memberId = application.value.memberId;
-    //     state.form.email = application.value.email;
-    //     state.form.city = application.value.city;
-    //     state.form.memberNickname = application.value.nickname;
-    //     state.form.git = application.value.git;
-    //     state.form.twitter = application.value.twitter;
-    //     state.form.facebook = application.value.facebook;
-    //     state.form.backjoon = application.value.backjoon;
-    //     state.form.strong = application.value.strong;
-    //     state.form.knowledgeable = application.value.knowledgeable;
-    //     state.form.bio = application.value.bio;
-    //   }
+    //   // console.log('bbbbb');
+    //   store.dispatch('study/applicationOne', state.form);
+    // });
+
+    // //해당 지원자 신청서 가져오기
+    // const application = computed(
+    //   () => store.getters['member/studyApplicationGetter']
+    // );
+    // console.log(application.value);
+
+    // watch(application, () => {
+    //   console.log(application.value);
     // });
 
     // 해당 회원의 정보 페이지로 이동
@@ -191,7 +165,7 @@ export default {
       console.log('GO INFO PAGE');
       // 선택한 회원의 memberId 정보 저장
       store.commit('study/updateStudyMemberId', val.memberId);
-
+      state.form.memberId = val.memberId;
       // 선택한 회원의 이메일 정보 저장
       store.dispatch('member/updateUserEmail', val.email);
       console.log('이메일정보');
@@ -203,6 +177,16 @@ export default {
       // 선택한 회원의 정보 저장
       store.dispatch('member/readInfoPage', val.email);
       router.push({ path: '/nosubheader/readinfopage' });
+    };
+
+    // 해당 회원의 지원서 조회
+    const goApplicate = function () {
+      console.log('이동부터하니 ...');
+
+      setTimeout(function () {
+        router.push({ path: '/subheader/study/application' });
+      }, 100);
+      // router.push({ path: '/subheader/study/application' });
     };
     const event = function () {
       // 게시글 클릭 이벤트 하려고 했으나 실패함.
@@ -219,7 +203,7 @@ export default {
       goCreateNotice,
       cellClickEvent,
       // tableData,
-      application,
+      goApplicate,
       event,
       clcikEvent,
       goInfoPage,

@@ -52,7 +52,7 @@ export const study = {
     },
     updateStudyMemberId(state, payload) {
       console.log('넘겨준 회원의 id' + payload);
-      state.memberNickname = payload;
+      state.memberId = payload;
     },
     updateStudyIntroduce(state, payload) {
       console.log('넘겨준 STUDY INTRODUCE 값');
@@ -60,7 +60,7 @@ export const study = {
       state.studyIntroduce = payload;
     },
     updateStudyApplications(state, payload) {
-      console.log('넘겨준 STUDY APPLICATION 값');
+      console.log('넘겨준 STUDY APPLICATIONS 값');
       console.log(payload);
       state.studyApplications = payload;
     },
@@ -107,6 +107,9 @@ export const study = {
       // console.log(payload);
       state.currentPage = payload;
     },
+    // updateMemberId(state, payload) {
+    //   state.memberId = payload;
+    // },
   },
   actions: {
     // 전체 스터디 목록
@@ -212,7 +215,7 @@ export const study = {
       axios
         .get(
           BASE_URL +
-            `/api/studyapplication/one/${para.studyId}/${para.currentId}`,
+            `/api/studyapplication/one/${para.studyId}/${para.memberId}`,
           header
         )
         .then((res) => {
