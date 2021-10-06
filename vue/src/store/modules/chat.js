@@ -198,6 +198,22 @@ export const chat = {
     },
   },
   actions: {
+    // 채팅 시작
+    startChat({ commit }, body) {
+      const res = axios
+        .post(
+          BASE_URL + '/api/chat/sessions/start',
+          JSON.stringify(body),
+          header
+        )
+        .then((res) => {
+          console.log('채팅방 개설 결과');
+          console.log(res);
+          // console.log(res.data.content);
+          // commit('updateTotalStudyList', res.data.content);
+        });
+      // return res;
+    },
     cleanup({ commit }) {
       commit('cleanup');
     },

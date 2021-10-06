@@ -1,13 +1,8 @@
 <template>
   <div class="all">
     <el-row style="maxheight: 85%">
-      <el-col :span="3">
-        element-plus tablem 일정 개수를 넘어가면 다음 페이지로 넘어가는 알고리즘
-        필요 <br />
-        보드 아이디: {{ boardId }}
-      </el-col>
+      <el-col :span="3"> </el-col>
       <el-col :span="18">
-        <!-- :data="articleList" -->
         <el-table
           :data="tableData"
           stripe
@@ -36,7 +31,6 @@
       </el-col>
       <el-col :span="3"></el-col>
     </el-row>
-
     <!-- 하단 부분: pagination + 겸색 등 -->
     <el-row style="height: 15%">
       <el-col :span="3"></el-col>
@@ -45,7 +39,14 @@
         <el-row style="height: 25%">
           <el-col :span="5"></el-col>
           <el-col :span="14">
-            <el-pagination background layout="prev, pager, next" :total="1000">
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="totalPage"
+              @current-change="pageClick"
+              :default-current-page="1"
+              :current-page="currentPage"
+            >
             </el-pagination>
           </el-col>
           <el-col :span="3"> </el-col>
@@ -61,7 +62,7 @@
 
         <el-row class="height20"></el-row>
         <!-- dropdown -->
-        <el-row style="height: 35%" class="footer">
+        <!-- <el-row style="height: 35%" class="footer">
           <el-col :span="2" :offset="4" id="footer1">
             <select id="select" v-model="state.select">
               <option value="" class="option1">제목</option>
@@ -81,7 +82,7 @@
             <button id="button1">검색</button>
           </el-col>
           <el-col :span="4"></el-col>
-        </el-row>
+        </el-row> -->
       </el-col>
       <el-col :span="3"></el-col>
       <el-col :span="3"></el-col>
@@ -97,7 +98,10 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
-    const currentRow = ref('1');
+    let totalPage = 10;
+    const currentPage = computed(
+      () => store.getters['study/currentPageGetter']
+    );
     const state = reactive({
       form: {},
       select: '',
@@ -111,81 +115,80 @@ export default {
     });
 
     // 2. 현재 이 게시판 board id를 가져와야 함.
-    // 1번 매커니즘 고치면 stidyId.value로 바꿔야 할 듯.
+    const boardId = computed(
+      () => store.getters['study/studyNoticeBoardIdGetter']
+    );
+    // 3. 2값이 없을 수 있으니 가져오는 알고리즘.
     const boardIdList = computed(
       () => store.getters['study/studyBoardIdListGetter']
     );
 
-    watch(boardIdList.length, () => {
-      console.log('boardIdList length 바뀜');
-      store.dispatch('study/getNoticeArticleList', boardId);
-    });
-    watch(boardIdList, () => {
-      console.log('boardIdList 바뀜');
-      store.dispatch('study/getNoticeArticleList', boardId);
-    });
-    // 0: {id: 1, name: '공지사항'}
-    // 1: {id: 2, name: '게시판'}
-
-    // 3. 보드 id 가져오기
+    // 4. 보드 id 가져오기
     // 일단 접근이 잘 안되서 tempList로 옮김
     let tempList = boardIdList.value;
-    console.log(tempList);
-    let boardId = 1;
+
     for (let index = 0; index < tempList.length; index++) {
       if (tempList[index].name == '공지사항') {
-        boardId = tempList[index].id;
-        console.log(boardId);
-
         store.commit('study/updateStudyNoticeBoardId', tempList[index].id);
       } else {
         store.commit('study/updateStudyNormalBoardId', tempList[index].id);
       }
     }
-    //  4. 게시판 목록 가져오기
-    watch(boardId, () => {
-      console.log('boardId 바뀜');
-      store.dispatch('study/getNoticeArticleList', boardId);
+    //  5. 게시판 목록 가져오기
+    // 일단 기본 가져오기
+    store.dispatch('study/getArticleList', boardId);
+    const articleList = computed(
+      () => store.getters['study/studyArticleListGetter']
+    );
+
+    const tableData = ref(articleList.value.content);
+    for (let index = 0; index < tableData.value.length; index++) {
+      tableData.value[index].createdDate = tableData.value[
+        index
+      ].createdDate.substr(2, 8);
+    }
+    totalPage = articleList.value.totalElements;
+
+    // 새로 값이 바뀔 때마다 로딩
+    watch(articleList, () => {
+      tableData.value = articleList.value.content;
+      for (let index = 0; index < tableData.value.length; index++) {
+        tableData.value[index].createdDate = tableData.value[
+          index
+        ].createdDate.substr(2, 8);
+      }
+      totalPage = articleList.value.totalElements;
     });
 
-    store.dispatch('study/getNoticeArticleList', boardId);
-    const articleList = computed(
-      () => store.getters['study/studyNoticeArticleListGetter']
-    );
-    // watch(articleList.value, () => {
-    //   console.log('articleList 바뀜');
-    //   store.dispatch('study/getNoticeArticleList', boardId);
-    // });
-    // watch(articleList.value.content.length, () => {
-    //   console.log('articleList.value.content.length 바뀜');
-    //   store.dispatch('study/getNoticeArticleList', boardId);
-    // });
-    console.log('articleList 출력');
-    // console.log(articleList);
-    // console.log(articleList.value);
-    console.log(articleList.value.content);
-    // console.log(articleList.value.content[0]);
-    // articleId: 8
-    // createdDate: "2021-10-05T16:08:11.246601"
-    // createdMember: "별명"
-    // modifiedDate: null
-    // studyBoard: "공지사항"
-    // title: "ㅁㄴㅇㅁㅇㅁ"
-    // viewCount: 0
-    // console.log(articleList.value.content[0].title);
+    const pageClick = function (pageNumber) {
+      // 페이지 넘버 갱신
+      store.commit('study/updateCurrentPage', pageNumber);
 
-    const tableData = articleList.value.content;
-    // watch(tableData, () => {
-    //   console.log('tableData 바뀜');
-    //   // store.dispatch('study/getNoticeArticleList', boardId);
-    // });
+      const param = reactive({
+        form: {
+          boardid: boardId,
+          pageNumber: pageNumber - 1,
+        },
+      });
+
+      store.dispatch('study/getArticleListPage', param.form);
+      let temp = store.getters['study/studyArticleListGetter'];
+
+      tableData.value = temp.content;
+      for (let index = 0; index < tableData.value.length; index++) {
+        tableData.value[index].createdDate = tableData.value[
+          index
+        ].createdDate.substr(2, 8);
+      }
+      totalPage = articleList.value.totalElements;
+      window.location = '/subheader/notice/read';
+    };
 
     const goCreateNotice = function () {
       router.push({ path: '/subheader/notice/create' });
     };
 
     const goArticle = function (val) {
-      console.log(val.articleId);
       store.dispatch('study/callUpdateArticleId', val.articleId);
       router.push({ path: '/subheader/notice/detail' });
     };
@@ -195,10 +198,12 @@ export default {
       router,
       state,
       boardId,
+      pageClick,
+      totalPage,
+      currentPage,
       goCreateNotice,
       goArticle,
       tableData,
-      currentRow,
     };
   },
 };
