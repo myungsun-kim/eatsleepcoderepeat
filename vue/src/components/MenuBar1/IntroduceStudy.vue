@@ -275,9 +275,10 @@ export default {
     const goOtherPage = function () {
       visible.value = false;
 
-      // 김명선 -> 팀장의 마이지페이지로 이동하는 코드
-
-      // router.push({ path: '/nosubheader/study/update' });
+      // 팀장의 마이지페이지로 이동
+      console.log(studyIntroduce.value.host.email);
+      store.dispatch('member/updateUserEmail', studyIntroduce.value.host.email);
+      router.push({ path: '/nosubheader/readinfopage' });
     };
     const goUpdate = function () {
       router.push({ path: '/nosubheader/study/update' });

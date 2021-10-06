@@ -194,12 +194,14 @@ export default {
 
       // 선택한 회원의 이메일 정보 저장
       store.dispatch('member/updateUserEmail', val.email);
+      console.log('이메일정보');
+      console.log(val.email);
       // 선택한 회원의 닉네임 정보 저장
       store.dispatch('study/updateStudyMemberNickname', val.nickname);
       state.form.nickname = val.nickname;
 
       // 선택한 회원의 정보 저장
-      store.dispatch('member/readInfoPage', state.form);
+      store.dispatch('member/readInfoPage', val.email);
       router.push({ path: '/nosubheader/readinfopage' });
     };
     const event = function () {
