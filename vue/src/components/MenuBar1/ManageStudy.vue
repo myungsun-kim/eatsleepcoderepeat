@@ -179,8 +179,8 @@ export default {
       store.dispatch('study/updateStudyMemberNickname', val.nickname);
       state.form.memberNickname = val.nickname;
 
-      // 선택한 회원의 지원서 불러오기
-      store.dispatch('study/applicationOne', state.form);
+      // 선택한 회원의 정보 저장
+      store.dispatch('member/readInfoPage', state.form);
       router.push({ path: '/nosubheader/readinfopage' });
     };
     const event = function () {
