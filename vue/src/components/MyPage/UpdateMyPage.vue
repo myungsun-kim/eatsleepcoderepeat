@@ -11,7 +11,8 @@
           <div class="box1">
             <div class="box2">
               <div class="profile">
-                <img class="previewImg" />
+                <!-- <img class="previewImg" /> -->
+                <img class="previewImg" src="../../assets/Item/basic.png" />
               </div>
               <el-upload :before-upload="beforeProfileUpload" class="upload">
                 업로드
@@ -123,7 +124,7 @@
               <div class="link0">
                 <a :href="`${state.form.portfolio}`" class="link1">
                   포트폴리오
-                  {{ state.form.portfolio }}
+                  <!-- {{ state.form.portfolio }} -->
                 </a>
                 <el-upload :before-upload="beforePortUpload" class="link2">
                   업로드
@@ -355,7 +356,7 @@ export default {
         expDelTechList: [], //삭제할 Experienced 기술 리스트
         dpositionAddList: [], //추가할 세부 포지션
         dpositionDelList: [], //삭제할 세부 포지션
-        cover_pic: user.value.cover_pic, //프로필 사진 url
+        // cover_pic: user.value.cover_pic, //프로필 사진 url
         email: user.value.email, //아이디=메일
         name: user.value.name, //이름
         nickname: user.value.nickname, //별명
@@ -369,9 +370,9 @@ export default {
           facebook: '',
           backjoon: '',
         },
-        portfolio: user.value.portfolio, //포트폴리오 다운로드 주소
-        portfolio_uuid: '', //포트폴리오 id
-        // portfolio_uri: user.value.portfolio_uri, //포트폴리오 주소
+        // portfolio: user.value.portfolio, //포트폴리오 다운로드 주소
+        // portfolio_uuid: '', //포트폴리오 id
+        portfolio_uri: user.value.portfolio_uri, //포트폴리오 주소
         expTechList: user.value.expTechList, //Experinced
         beginTechList: user.value.beginTechList, //beginner
         dpositionList: dpList1, //세부 포지션
@@ -968,10 +969,12 @@ export default {
   height: 32px;
 }
 .previewImg {
-  min-width: 275px;
-  min-height: 275px;
-  width: 100%;
-  height: 100%;
+  /* min-width: 275px;
+  min-height: 275px; */
+  /* width: 70%;
+  height: 70%; */
+  max-width: 100%;
+  max-height: 100%;
 
   object-fit: cover;
   border: 1px dotted black;
@@ -1462,5 +1465,13 @@ export default {
   font-weight: normal;
   font-size: 15px;
   color: #ff5757;
+}
+.profile {
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+  /* border: 0.5px dashed black; */
+  /* border-radius: 3%; */
 }
 </style>

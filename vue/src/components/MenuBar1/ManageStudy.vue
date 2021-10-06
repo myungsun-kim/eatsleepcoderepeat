@@ -43,7 +43,7 @@
           width=""
           align="center"
         >
-          <CheckApplicationModal />
+          <CheckApplicationModal propData="state.form.studyId" />
         </el-table-column>
         <el-table-column
           prop="manage"
@@ -85,10 +85,10 @@
 
 <script>
 import CheckApplicationModal from '../Modal/CheckApplicationModal.vue';
-import MemberAcceptModal from '../Modal/MemberAcceptModal.vue';
-import MemberRejectModal from '../Modal/MemberRejectModal.vue';
+// import MemberAcceptModal from '../Modal/MemberAcceptModal.vue';
+// import MemberRejectModal from '../Modal/MemberRejectModal.vue';
 
-import { ref, computed, reactive } from 'vue';
+import { ref, computed, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
@@ -107,13 +107,16 @@ export default {
 
     // 해당 스터디의 모든 신청서 가져오기
     store.dispatch('study/applicationAll', studyId.value);
-    console.log('??');
     // store.dispatch('changeScrollModal', false);
-
     const studyApplications = computed(
       () => store.getters['study/studyApplicationsGetter']
     );
-    console.log('studyApplications: ' + studyApplications.value);
+    // console.log('studyApplications: ' + studyApplications.value);
+
+    // 해당 지원자 신청서 가져오기
+    const application = computed(
+      () => store.getters['member/studyApplicationGetter']
+    );
 
     const currentRow = ref('1');
 
@@ -123,38 +126,50 @@ export default {
 
     const handleCurrentChange = function (val) {
       // this.currentRow.value = val;
-      console.log('click one item@');
-      console.log(val.nickname);
+      // console.log('click one item@');
+      // console.log(val.nickname);
       // 선택한 회원의 이메일 정보 저장
       // store.dispatch('member/updateUserEmail',val.email);
       // 선택한 회원의 닉네임 정보 저장
       // store.dispatch('study/updateStudyMemberNickname',val.nickname);
-
       // router.push({ path: '/subheader/notice/detail' });
     };
+
+    const state = reactive({
+      form: {
+        studyId: studyId.value,
+        memberNickname: '',
+      },
+    });
+
     const handleCurrentChange2 = function (val) {
       // this.currentRow.value = val;
       console.log('2222222222222');
-      console.log(val.nickname);
+      // console.log(val.nickname);
       //선택한 회원의 이메일 정보 저장
       store.dispatch('member/updateUserEmail', val.email);
       //선택한 회원의 닉네임 정보 저장
       store.dispatch('study/updateStudyMemberNickname', val.nickname);
-      const state = reactive({
-        form: {
-          studyId: studyId.value,
-          memberNickname: val.nickname,
-        },
-      });
+      state.form.studyId = studyId.value;
+      state.form.memberNickname = val.nickname;
       //선택한 회원의 지원서 저장하기
       store.dispatch('study/applicationOne', state.form);
       console.log('ManageStudy 지원서조회끝');
+      // const application = computed(
+      //   () => store.getters['member/studyApplicationGetter']
+      // );
       // console.log(row);
       // console.log(col);
       // console.log(cell);
       // console.log(event);
       // router.push({ path: '/subheader/notice/detail' });
     };
+
+    watch(state, () => {
+      console.log('param 변경...');
+      store.dispatch('study/applicationOne', state.form);
+    });
+
     // 해당 회원의 정보 페이지로 이동
     const goInfoPage = function (val) {
       console.log('goInfoPage');
@@ -162,12 +177,8 @@ export default {
       store.dispatch('member/updateUserEmail', val.email);
       // 선택한 회원의 닉네임 정보 저장
       store.dispatch('study/updateStudyMemberNickname', val.nickname);
-      const state = reactive({
-        form: {
-          studyId: studyId.value,
-          memberNickname: val.nickname,
-        },
-      });
+      state.form.memberNickname = val.nickname;
+
       // 선택한 회원의 지원서 불러오기
       store.dispatch('study/applicationOne', state.form);
       router.push({ path: '/nosubheader/readinfopage' });
@@ -180,46 +191,47 @@ export default {
       console.log('CLICK EVENT');
     };
 
-    const tableData = [
-      {
-        studyId: 3,
-        memberId: 46,
-        email: 'ms@gmail.com',
-        nickname: 'BJP',
-        city: '서울',
-        git: 'BEOMKING',
-        twitter: 'twitter.com',
-        facebook: 'facebook.com',
-        backjoon: 'qjawlsqjacks',
-        strong: ['python', 'java'],
-        knowledgeable: ['python', 'java'],
-        bio: '설명ㅇㅇㅇㅇ',
-        fileDownloadUri: null,
-      },
-      {
-        studyId: 3,
-        memberId: 46,
-        email: 'ms@gmail.com',
-        nickname: 'BJP',
-        city: '서울',
-        git: 'BEOMKING',
-        twitter: 'twitter.com',
-        facebook: 'facebook.com',
-        backjoon: 'qjawlsqjacks',
-        strong: ['python', 'java'],
-        knowledgeable: ['python', 'java'],
-        bio: '설명ㅇㅇㅇㅇ',
-        fileDownloadUri: null,
-      },
-    ];
+    // const tableData = [
+    //   {
+    //     studyId: 3,
+    //     memberId: 46,
+    //     email: 'ms@gmail.com',
+    //     nickname: 'BJP',
+    //     city: '서울',
+    //     git: 'BEOMKING',
+    //     twitter: 'twitter.com',
+    //     facebook: 'facebook.com',
+    //     backjoon: 'qjawlsqjacks',
+    //     strong: ['python', 'java'],
+    //     knowledgeable: ['python', 'java'],
+    //     bio: '설명ㅇㅇㅇㅇ',
+    //     fileDownloadUri: null,
+    //   },
+    //   {
+    //     studyId: 3,
+    //     memberId: 46,
+    //     email: 'ms@gmail.com',
+    //     nickname: 'BJP',
+    //     city: '서울',
+    //     git: 'BEOMKING',
+    //     twitter: 'twitter.com',
+    //     facebook: 'facebook.com',
+    //     backjoon: 'qjawlsqjacks',
+    //     strong: ['python', 'java'],
+    //     knowledgeable: ['python', 'java'],
+    //     bio: '설명ㅇㅇㅇㅇ',
+    //     fileDownloadUri: null,
+    //   },
+    // ];
     return {
       store,
       router,
       studyApplications,
+      application,
       goCreateNotice,
       handleCurrentChange,
       handleCurrentChange2,
-      tableData,
+      // tableData,
       currentRow,
       event,
       clcikEvent,

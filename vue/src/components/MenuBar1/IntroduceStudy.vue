@@ -100,7 +100,9 @@
     <el-col :span="1"></el-col>
     <el-col :span="8">
       <el-row class="height5"></el-row>
-      <el-row style="height: 80%; background-color: red"> 사진 </el-row>
+      <el-row style="height: 80%">
+        <img src="../../assets/Item/basic.png" />
+      </el-row>
     </el-col>
     <el-col :span="3"></el-col>
   </el-row>
