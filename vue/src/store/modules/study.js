@@ -11,7 +11,8 @@ export const study = {
   // 모듈별로 구분이 가능하게 하기 위해(독립적이기 위해) vuex namespaced: true
   namespaced: true,
   state: {
-    totalStudyList: [],
+    totalStudyList: [], //전체 스터디 목록
+    recommendStudyList: [], //추천 스터디 목록
     studyId: '',
     memberNickname: '', //어떤 회원의 정보를 조회할지
     studyIntroduce: {},
@@ -28,8 +29,13 @@ export const study = {
   mutations: {
     updateTotalStudyList(state, payload) {
       state.totalStudyList = payload;
-      console.log('저장된 모든 스터디 목록');
-      console.log(state.totalStudyList);
+      // console.log('저장된 모든 스터디 목록');
+      // console.log(state.totalStudyList);
+    },
+    updateRecommendStudyList(state, payload) {
+      console.log('저장된 추천 스터디 목록');
+      console.log(state.recommendStudyList);
+      state.recommendStudyList = payload;
     },
     updateStudyId(state, payload) {
       console.log('넘겨준 STUDY ID 값' + payload);
@@ -103,6 +109,15 @@ export const study = {
         commit('updateTotalStudyList', res.data.content);
       });
       return res;
+    },
+    // 추천 스터디 목록
+    getRecommendStudyList({ commit }) {
+      axios.get(BASE_URL + '/api/study/recommend', header).then((res) => {
+        console.log('추천 스터디 목록 조회 결과');
+        console.log(res);
+        console.log(res.data.content);
+        commit('updateRecommendStudyList', res.data.content);
+      });
     },
 
     // 스터디 생성
@@ -349,6 +364,10 @@ export const study = {
       // console.log('###########################');
       // console.log(state.totalStudyList);
       return state.totalStudyList;
+    },
+    recommendStudyListGetter: (state) => {
+      console.log(state.recommendStudyList);
+      return state.recommendStudyList;
     },
     studyIdGetter: (state) => {
       return state.studyId;

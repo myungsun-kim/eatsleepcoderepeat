@@ -90,21 +90,24 @@
   </el-row>
 
   <!-- 아이템 목록 시작 -->
-  <!-- <el-row class="height25" v-if="totalStudyList">
+  <el-row class="height25" v-if="recommendStudyList">
     <el-col :span="2" class="test-border"></el-col>
     <el-col
       :span="4"
       :offset="1"
       class="test-border item-border"
-      v-for="(item, index) in totalStudyList"
+      v-for="(item, index) in recommendStudyList.slice(0, 4)"
       :key="index"
       @click="goIntroduce(item.id)"
     >
       <el-row class="height40 item-img"></el-row>
       <el-row class="height10 item-head-title">{{ item.name }}</el-row>
       <el-row class="height10 item-content"
-        >기술 스택: {{ item.techList[0] }}, {{ item.techList[1] }}</el-row
-      >
+        >기술 스택:&nbsp;
+        <div v-for="(tech, index) in item.techList" :key="index">
+          {{ tech }} &nbsp;
+        </div>
+      </el-row>
       <el-row class="height10"></el-row>
       <el-row class="height10 item-content">
         <el-col :span="12" class="test-border left-content"
@@ -124,7 +127,7 @@
       </el-row>
       <el-row class="height10">
         <el-col :span="12" class="test-border item-small-content left-content"
-          >작성일: {{ item.modifyDate.substr(2, 8) }}</el-col
+          >작성일: {{ item.modifiedDate.substr(2, 8) }}</el-col
         >
         <el-col :span="12" class="test-border right-content">
           <div
@@ -146,7 +149,7 @@
       </el-row>
     </el-col>
     <el-col :span="2" class="test-border"></el-col>
-  </el-row> -->
+  </el-row>
   <!-- 아이템 목록 끝 -->
 
   <el-row class="height5">
@@ -241,15 +244,22 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    store.dispatch('study/getTotalStudyList');
-    const totalStudyList = computed(
-      () => store.getters['study/totalStudyGetter']
-    );
-
     // 내가 속한 스터디 목록 받을 것임
     store.dispatch('member/readMyPage');
     const myStudyList = computed(
       () => store.getters['member/myStudyListGetter']
+    );
+
+    // 추천 스터디 목록
+    store.dispatch('study/getRecommendStudyList');
+    const recommendStudyList = computed(
+      () => store.getters['study/recommendStudyListGetter']
+    );
+
+    // 전체 스터디 목록
+    store.dispatch('study/getTotalStudyList');
+    const totalStudyList = computed(
+      () => store.getters['study/totalStudyGetter']
     );
 
     // watch(myStudyList, () => {
@@ -271,6 +281,7 @@ export default {
       store,
       router,
       totalStudyList,
+      recommendStudyList,
       myStudyList,
       goCreate,
       goIntroduce,
