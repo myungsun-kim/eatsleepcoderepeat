@@ -23,6 +23,7 @@ export const study = {
     studyNoticeBoardId: '', //스터디 공지사항 보드 ID
     studyNormalBoardId: '', // 스터디 게시판 보드 ID
     article: {}, //게시글 내용
+    currentPage: '', //현재 페이지네이션 할 페이지 위치
   },
   mutations: {
     updateTotalStudyList(state, payload) {
@@ -85,6 +86,11 @@ export const study = {
       console.log('넘겨준 게시판 내용값');
       console.log(payload);
       state.article = payload;
+    },
+    updateCurrentPage(state, payload) {
+      // console.log('넘겨준 게시판 내용값');
+      // console.log(payload);
+      state.currentPage = payload;
     },
   },
   actions: {
@@ -203,16 +209,36 @@ export const study = {
       // return res.data;
     },
     getNoticeArticleList({ commit }, data) {
-      const res = axios.get(
-        BASE_URL + `/api/studyboards/${data}/articles`,
-        header
-      );
-      res.then((res) => {
-        // console.log('getNoticeArticleList 조회 결과');
-        // console.log(res.data);
-        commit('updateNoticeArticleList', res.data);
-      });
+      const res = axios
+        .get(BASE_URL + `/api/studyboards/${data}/articles`, header)
+        .then((res) => {
+          // console.log('getNoticeArticleList 조회 결과');
+          // console.log(res.data);
+          commit('updateNoticeArticleList', res.data);
+        });
       // return res.data;
+    },
+    // 페이지별 게시글 요청
+    getArticleListPage({ commit }, param) {
+      // console.log('상세조회, 글 id, 보드 id');
+      // console.log(param);
+      // console.log(param.boardid);
+      // console.log(param.pageNumber);
+      // console.log(
+      //   `/api/studyboards/${param.boardid}/articles?page=${param.pageNumber}`
+      // );
+
+      const res = axios
+        .get(
+          BASE_URL +
+            `/api/studyboards/${param.boardid}/articles?page=${param.pageNumber}`,
+          header
+        )
+        .then((res) => {
+          console.log('getArticleListPage 조회 결과');
+          console.log(res.data);
+          commit('updateNoticeArticleList', res.data);
+        });
     },
     // 스터디 신청
     applicateStudy({ commit }, form) {
@@ -375,6 +401,11 @@ export const study = {
       // console.log('article GETTER');
       // console.log(state.article);
       return state.article;
+    },
+    currentPageGetter: (state) => {
+      // console.log('article GETTER');
+      // console.log(state.article);
+      return state.currentPage;
     },
   },
   modules: {},

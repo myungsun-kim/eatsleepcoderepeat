@@ -36,7 +36,6 @@
       </el-col>
       <el-col :span="3"></el-col>
     </el-row>
-
     <!-- 하단 부분: pagination + 겸색 등 -->
     <el-row style="height: 15%">
       <el-col :span="3"></el-col>
@@ -45,7 +44,14 @@
         <el-row style="height: 25%">
           <el-col :span="5"></el-col>
           <el-col :span="14">
-            <el-pagination background layout="prev, pager, next" :total="1000">
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="totalPage"
+              @current-change="pageClick"
+              :default-current-page="1"
+              :current-page="currentPage"
+            >
             </el-pagination>
           </el-col>
           <el-col :span="3"> </el-col>
@@ -98,6 +104,10 @@ export default {
     const store = useStore();
     const router = useRouter();
     const currentRow = ref('1');
+    let totalPage = 10;
+    const currentPage = computed(
+      () => store.getters['study/currentPageGetter']
+    );
     const state = reactive({
       form: {},
       select: '',
@@ -174,12 +184,40 @@ export default {
     // viewCount: 0
     // console.log(articleList.value.content[0].title);
 
-    const tableData = articleList.value.content;
+    let tableData = articleList.value.content;
+    totalPage = articleList.value.totalElements;
+
     // watch(tableData, () => {
     //   console.log('tableData 바뀜');
     //   // store.dispatch('study/getNoticeArticleList', boardId);
     // });
 
+    const pageClick = function (pageNumber) {
+      console.log('@@@@@@@@@@@@@@@@@@');
+      store.commit('study/updateCurrentPage', pageNumber);
+      // console.log(boardId);
+
+      // currentPage = pageNumber;
+
+      const param = reactive({
+        form: {
+          boardid: boardId,
+          pageNumber: pageNumber - 1,
+        },
+      });
+
+      // console.log(pageNumber);
+      // console.log(param);
+      store.dispatch('study/getArticleListPage', param.form);
+      let temp = store.getters['study/studyNoticeArticleListGetter'];
+
+      totalPage = articleList.totalElements;
+      // console.log(temp);
+      // console.log(temp.content);
+      tableData = temp.content;
+      window.location = '/subheader/notice/read';
+      console.log('@@@@@@@@@@@@@@@@@@');
+    };
     const goCreateNotice = function () {
       router.push({ path: '/subheader/notice/create' });
     };
@@ -195,6 +233,9 @@ export default {
       router,
       state,
       boardId,
+      pageClick,
+      totalPage,
+      currentPage,
       goCreateNotice,
       goArticle,
       tableData,
