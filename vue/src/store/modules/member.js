@@ -47,11 +47,11 @@ export const member = {
       return res;
     },
     // 다른 회원 정보 가져오기
-    readInfoPage({ commit }, form) {
+    readInfoPage({ commit }, data) {
       console.log('readIn');
       // form = encodeURIComponent(form);
       const res = axios
-        .get(BASE_URL + `/api/member/mypage/${encodeURI(form)}`, {
+        .get(BASE_URL + `/api/member/mypage/${encodeURI(data)}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           },
