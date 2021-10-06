@@ -306,6 +306,11 @@ export const study = {
           alert('스터디장은 탈퇴할 수 없습니다.');
         });
     },
+    updateStudyMemberNickname({ commit }, data) {
+      commit('updateStudyMemberNickname', data);
+
+      // return res.data;
+    },
   },
   getters: {
     totalStudyGetter: (state) => {
@@ -332,8 +337,8 @@ export const study = {
       return state.studyApplications;
     },
     studyApplicationGetter: (state) => {
-      // console.log('APPLICATION ALL GETTER');
-      // console.log(state.studyApplication);
+      console.log('APPLICATION ONE GETTER');
+      console.log(state.studyApplication);
       return state.studyApplication;
     },
     studyBoardIdListGetter: (state) => {

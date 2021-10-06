@@ -22,7 +22,7 @@
     </el-col>
     <el-col :span="18">
       <el-table
-        :data="tableData"
+        :data="studyApplications"
         stripe
         style="width: 100%"
         highlight-current-row
@@ -52,8 +52,8 @@
           align="center"
           @click="event"
         >
-          <MemberAcceptModal />
-          <MemberRejectModal />
+          <!-- <MemberAcceptModal />
+          <MemberRejectModal /> -->
         </el-table-column>
       </el-table>
     </el-col>
@@ -88,15 +88,15 @@ import CheckApplicationModal from '../Modal/CheckApplicationModal.vue';
 import MemberAcceptModal from '../Modal/MemberAcceptModal.vue';
 import MemberRejectModal from '../Modal/MemberRejectModal.vue';
 
-import { ref, computed } from 'vue';
+import { ref, computed, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
 export default {
   components: {
     CheckApplicationModal,
-    MemberAcceptModal,
-    MemberRejectModal,
+    // MemberAcceptModal,
+    // MemberRejectModal,
   },
   setup() {
     const store = useStore();
@@ -107,6 +107,7 @@ export default {
 
     // 해당 스터디의 모든 신청서 가져오기
     store.dispatch('study/applicationAll', studyId.value);
+    console.log('??');
     // store.dispatch('changeScrollModal', false);
 
     const studyApplications = computed(
@@ -131,13 +132,27 @@ export default {
 
       // router.push({ path: '/subheader/notice/detail' });
     };
-    const handleCurrentChange2 = function (row, col, cell, event) {
+    const handleCurrentChange2 = function (val) {
       // this.currentRow.value = val;
       console.log('2222222222222');
-      console.log(row);
-      console.log(col);
-      console.log(cell);
-      console.log(event);
+      console.log(val.nickname);
+      //선택한 회원의 이메일 정보 저장
+      store.dispatch('member/updateUserEmail', val.email);
+      //선택한 회원의 닉네임 정보 저장
+      store.dispatch('study/updateStudyMemberNickname', val.nickname);
+      const state = reactive({
+        form: {
+          studyId: studyId.value,
+          memberNickname: val.nickname,
+        },
+      });
+      //선택한 회원의 지원서 저장하기
+      store.dispatch('study/applicationOne', state.form);
+      console.log('ManageStudy 지원서조회끝');
+      // console.log(row);
+      // console.log(col);
+      // console.log(cell);
+      // console.log(event);
       // router.push({ path: '/subheader/notice/detail' });
     };
     // 해당 회원의 정보 페이지로 이동
@@ -145,6 +160,16 @@ export default {
       console.log('goInfoPage');
       // 선택한 회원의 이메일 정보 저장
       store.dispatch('member/updateUserEmail', val.email);
+      // 선택한 회원의 닉네임 정보 저장
+      store.dispatch('study/updateStudyMemberNickname', val.nickname);
+      const state = reactive({
+        form: {
+          studyId: studyId.value,
+          memberNickname: val.nickname,
+        },
+      });
+      // 선택한 회원의 지원서 불러오기
+      store.dispatch('study/applicationOne', state.form);
       router.push({ path: '/nosubheader/readinfopage' });
     };
     const event = function () {

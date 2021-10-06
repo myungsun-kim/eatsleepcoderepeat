@@ -7,8 +7,13 @@
       <div class="height50 flex-parent" style="width: 50%">
         <el-row class="height10"></el-row>
         <el-row class="height10">
-          <el-col :span="18" :offset="6" class="font-noto-bold font-20">
-            (닉네임)의 (스터디 이름) 스터디 신청서
+          <el-col
+            :span="18"
+            :offset="6"
+            class="font-noto-bold font-20"
+            v-if="user"
+          >
+            {{ user.nickname }}의 (스터디 이름) 스터디 신청서
           </el-col>
         </el-row>
         <el-row class="height10"></el-row>
@@ -122,7 +127,7 @@
 </template>
 <script>
 import { useRouter } from 'vue-router';
-import { reactive, computed } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -135,15 +140,7 @@ export default {
     const router = useRouter();
     const store = useStore();
     const modalOpen = computed(() => store.getters['scrollGetter']);
-    console.log('모달' + modalOpen.value);
-    const state = reactive({
-      form: {
-        studyId: 3,
-        memberNickname: 'ms',
-        memberId: 47, //user.memberId
-      },
-    });
-
+    console.log('Check 모달');
     // 스터디 ID 가져오기
     const studyId = computed(() => store.getters['study/studyIdGetter']);
 
@@ -151,17 +148,73 @@ export default {
     const memberNickname = computed(
       () => store.getters['member/studyMemberNicknameGetter']
     );
-    // store.dispatch('member/readInfoPage', 'test@gmail.com');
-    store.dispatch('study/applicationOne', state.form);
-    const user = computed(() => store.getters['member/userInfoGetter']);
 
+    const param = reactive({
+      form: {
+        studyId: studyId.value,
+        memberNickname: memberNickname.value,
+        memberId: '',
+        // memberId: user.value.memberNickname,
+      },
+    });
+
+    // 지원서 정보 가져오기
+    store.dispatch('study/applicationOne', param.form);
+    const user = computed(() => store.getters['member/studyApplicationGetter']);
+    console.log('지원자정보');
+    console.log(user);
+
+    watch(param, () => {
+      console.log('param 변경...');
+      store.dispatch('study/applicationOne', param.form);
+    });
+    watch(user, () => {
+      console.log('지원자 정보 바뀌어서 새로 가져오기');
+      store.dispatch('study/applicationOne', param.form);
+    });
+    watch(memberNickname, () => {
+      console.log('지원자 정보(닉네임) 바뀌어서 새로 가져오기');
+      store.dispatch('study/applicationOne', param.form);
+    });
+
+    // watch(modalOpen, () => {
+    //   console.log('mmmmmm');
+    //   console.log(state.form.studyId);
+    //   // state.form.memberNickname =
+    //   //   store.getters['member/studyMemberNicknameGetter'];
+    //   // console.log(state.form.memberNickname);
+    //   // console.log(memberNickname.value);
+    //   // store.dispatch('study/applicationOne', state.form);
+    //   // user = computed(() => store.getters['member/studyApplicationGetter']);
+    //   console.log('modal ㅕㄴㄷㄱㄷㄱㄷㄷㄱ');
+    //   console.log(user);
+    //   console.log('모달끝');
+    // });
+
+    // store.dispatch('study/applicationOne', state.form);
+
+    // 모달처리
     const changemodalOpen = function () {
       store.dispatch('changeScrollModal', !modalOpen.value);
     };
 
+    // const stateUser = reactive({
+    //   form: {
+    //     // memberId: user.value.memberId,
+    //     bio: user.value.bio,
+    //     city: user.value.city,
+    //     backjoon: '',
+    //     git: '',
+    //     twitter: '',
+    //     facebook: '',
+    //     nickname: user.value.nickname,
+    //     beginTechList: user.value.beginTechList,
+    //     expTechList: user.value.expTechList,
+    //   },
+    // });
     // 수락 누를 시
     const goManage = function () {
-      store.dispatch('study/approvalStudy', state.form); //신청서 수락
+      store.dispatch('study/approvalStudy', param.form); //신청서 수락
       store.dispatch('changeScrollModal', !modalOpen.value);
       router.push({ path: '/subheader/study/manage' });
     };
@@ -169,13 +222,13 @@ export default {
     return {
       store,
       router,
-      state,
+      param,
       modalOpen,
       goManage,
       changemodalOpen,
-      user,
       memberNickname,
       studyId,
+      user,
     };
   },
 };

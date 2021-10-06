@@ -109,6 +109,9 @@ export const member = {
         });
       return res;
     },
+    updateUserEmail({ commit }, data) {
+      commit('updateUserEmail', data);
+    },
   },
   getters: {
     mypageGetter: (state) => {
