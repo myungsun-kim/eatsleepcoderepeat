@@ -11,7 +11,8 @@ export const study = {
   // 모듈별로 구분이 가능하게 하기 위해(독립적이기 위해) vuex namespaced: true
   namespaced: true,
   state: {
-    totalStudyList: [],
+    totalStudyList: [], //전체 스터디 목록
+    recommendStudyList: [], //추천 스터디 목록
     studyId: '',
     memberNickname: '', //어떤 회원의 정보를 조회할지
     studyIntroduce: {},
@@ -19,16 +20,22 @@ export const study = {
     studyApplication: {}, //특정 회원의 지원서
     studyBoardIdList: [],
     studyArticleId: '', // 스터디 게시글 아이디
-    studyNoticeArticleList: [],
+    studyArticleList: [], // 스터디 (공지/일반) 게시글 목록
     studyNoticeBoardId: '', //스터디 공지사항 보드 ID
     studyNormalBoardId: '', // 스터디 게시판 보드 ID
     article: {}, //게시글 내용
+    currentPage: '1', //현재 페이지네이션 할 페이지 위치
   },
   mutations: {
     updateTotalStudyList(state, payload) {
       state.totalStudyList = payload;
-      console.log('저장된 모든 스터디 목록');
-      console.log(state.totalStudyList);
+      // console.log('저장된 모든 스터디 목록');
+      // console.log(state.totalStudyList);
+    },
+    updateRecommendStudyList(state, payload) {
+      console.log('저장된 추천 스터디 목록');
+      console.log(state.recommendStudyList);
+      state.recommendStudyList = payload;
     },
     updateStudyId(state, payload) {
       console.log('넘겨준 STUDY ID 값' + payload);
@@ -54,50 +61,62 @@ export const study = {
       state.studyApplication = payload;
     },
     updateBoardIdList(state, payload) {
-      console.log('넘겨준 updateBoardIdList 값');
-      console.log(payload);
+      // console.log('넘겨준 updateBoardIdList 값');
+      // console.log(payload);
       state.studyBoardIdList = payload;
     },
     updateArticleId(state, payload) {
-      console.log('넘겨준 updateArticleId 값');
-      console.log(payload);
+      // console.log('넘겨준 updateArticleId 값');
+      // console.log(payload);
       state.studyArticleId = payload;
     },
     updateNoticeArticleList(state, payload) {
       // console.log('넘겨준 updateArticleId 값');
       // console.log(payload);
-      state.studyNoticeArticleList = payload;
+      state.studyArticleList = payload;
     },
     updateStudyNoticeBoardId(state, payload) {
       //스터디 공지사항 보드 ID
-      console.log('넘겨준 공지사항 게시판 ID 값');
+      // console.log('넘겨준 공지사항 게시판 ID 값');
       // console.log(payload);
       state.studyNoticeBoardId = payload;
     },
     updateStudyNormalBoardId(state, payload) {
-      // 스터디 게시판 보드 ID
-      console.log('넘겨준 일반 게시판 ID 값');
+      // 스터디 게시판 보드 ID1
+      // console.log('넘겨준 일반 게시판 ID 값');
       // console.log(payload);
       state.studyNormalBoardId = payload;
     },
     updateArticle(state, payload) {
-      // 스터디 게시판 보드 ID
-      console.log('넘겨준 게시판 내용값');
-      console.log(payload);
+      // console.log('넘겨준 게시판 내용값');
+      // console.log(payload);
       state.article = payload;
+    },
+    updateCurrentPage(state, payload) {
+      // console.log('넘겨준 게시판 내용값');
+      // console.log(payload);
+      state.currentPage = payload;
     },
   },
   actions: {
     // 전체 스터디 목록
     getTotalStudyList({ commit }) {
-      const res = axios.get(BASE_URL + '/api/study', header);
-      res.then((res) => {
+      const res = axios.get(BASE_URL + '/api/study', header).then((res) => {
         // console.log('스터디 목록 조회 결과');
         // console.log(res);
         // console.log(res.data.content);
         commit('updateTotalStudyList', res.data.content);
       });
       return res;
+    },
+    // 추천 스터디 목록
+    getRecommendStudyList({ commit }) {
+      axios.get(BASE_URL + '/api/study/recommend', header).then((res) => {
+        console.log('추천 스터디 목록 조회 결과');
+        console.log(res);
+        console.log(res.data.content);
+        commit('updateRecommendStudyList', res.data.content);
+      });
     },
 
     // 스터디 생성
@@ -202,17 +221,39 @@ export const study = {
         });
       // return res.data;
     },
-    getNoticeArticleList({ commit }, data) {
-      const res = axios.get(
-        BASE_URL + `/api/studyboards/${data}/articles`,
-        header
-      );
-      res.then((res) => {
-        // console.log('getNoticeArticleList 조회 결과');
-        // console.log(res.data);
-        commit('updateNoticeArticleList', res.data);
-      });
-      // return res.data;
+
+    // 게시판 무관: 글 목록 가져오기
+    getArticleList({ commit }, boardid) {
+      const res = axios
+        .get(BASE_URL + `/api/studyboards/${boardid}/articles`, header)
+        .then((res) => {
+          // console.log('getArticleList 조회 결과');
+          // console.log(res.data);
+          commit('updateNoticeArticleList', res.data);
+        });
+    },
+
+    // 페이지별 게시글 요청
+    getArticleListPage({ commit }, param) {
+      // console.log('상세조회, 글 id, 보드 id');
+      // console.log(param);
+      // console.log(param.boardid);
+      // console.log(param.pageNumber);
+      // console.log(
+      //   `/api/studyboards/${param.boardid}/articles?page=${param.pageNumber}`
+      // );
+
+      const res = axios
+        .get(
+          BASE_URL +
+            `/api/studyboards/${param.boardid}/articles?page=${param.pageNumber}`,
+          header
+        )
+        .then((res) => {
+          console.log('getArticleListPage 조회 결과');
+          console.log(res.data);
+          commit('updateNoticeArticleList', res.data);
+        });
     },
     // 스터디 신청
     applicateStudy({ commit }, form) {
@@ -318,6 +359,10 @@ export const study = {
       // console.log(state.totalStudyList);
       return state.totalStudyList;
     },
+    recommendStudyListGetter: (state) => {
+      console.log(state.recommendStudyList);
+      return state.recommendStudyList;
+    },
     studyIdGetter: (state) => {
       return state.studyId;
       // return state.filter((studyId) => studyId.done);
@@ -347,9 +392,9 @@ export const study = {
       return state.studyBoardIdList;
     },
     studyNoticeArticleListGetter: (state) => {
-      // console.log('studyNoticeArticleList GETTER');
-      // console.log(state.studyNoticeArticleList);
-      return state.studyNoticeArticleList;
+      // console.log('studyArticleList GETTER');
+      // console.log(state.studyArticleList);
+      return state.studyArticleList;
     },
     studyNoticeBoardIdGetter: (state) => {
       // console.log('studyNoticeBoardId GETTER');
@@ -370,6 +415,11 @@ export const study = {
       // console.log('article GETTER');
       // console.log(state.article);
       return state.article;
+    },
+    currentPageGetter: (state) => {
+      // console.log('article GETTER');
+      // console.log(state.article);
+      return state.currentPage;
     },
   },
   modules: {},
