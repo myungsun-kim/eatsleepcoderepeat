@@ -204,9 +204,9 @@ export const study = {
           header
         )
         .then((res) => {
-          // console.log('지원서 정보 조회');
-          // console.log(res);
-          // console.log(res.data);
+          console.log('지원서 정보 조회');
+          console.log(res);
+          console.log(res.data);
           commit('updateStudyApplication', res.data);
         });
       // return res.data;
