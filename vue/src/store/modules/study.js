@@ -101,8 +101,7 @@ export const study = {
   actions: {
     // 전체 스터디 목록
     getTotalStudyList({ commit }) {
-      const res = axios.get(BASE_URL + '/api/study', header);
-      res.then((res) => {
+      const res = axios.get(BASE_URL + '/api/study', header).then((res) => {
         // console.log('스터디 목록 조회 결과');
         // console.log(res);
         // console.log(res.data.content);
