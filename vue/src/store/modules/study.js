@@ -144,6 +144,22 @@ export const study = {
         commit('updateStudyId', res.data);
       });
     },
+    // 스터디 수정
+    // JSON 형태로 보내야 하고, null인건 null로 보내야함 ""말고
+    updateStudy({ commit }, state) {
+      console.log(state);
+      const res = axios.patch(
+        BASE_URL + `/api/study/${state.studyId}`,
+        JSON.stringify(state.form),
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 생성 결과');
+        console.log(res);
+        console.log(res.data);
+        commit('updateStudyId', res.data);
+      });
+    },
     // 스터디 수정을 위한 정보 조회
     // studyInfo
     studyInfo({ commit }, studyId) {
