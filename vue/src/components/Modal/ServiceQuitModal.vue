@@ -28,8 +28,9 @@
               class="btn-ghost-blue font-noto-bold"
               @click="modalOpen = false"
               style="font-size: 14px"
-              >취소</el-button
             >
+              취소
+            </el-button>
           </el-col>
           <el-col :span="6"></el-col>
         </el-row>
