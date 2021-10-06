@@ -573,9 +573,11 @@ export default {
     // 비밀번호 유효성 검사
     const checkPassword = function () {
       console.log('비밀번호 유효성 검사!!!');
+      // 비밀번호는 최소 8자 이상이어야 합니다
       var warning14 = document.getElementById('warning14');
+      // 정규표현식에 어긋납니다
       var warning14_1 = document.getElementById('warning14_1');
-      let passwordVal = state.form.password;
+      var passwordVal = state.form.password;
       let reg =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
       // 새 비밀번호 입력칸이 비어있을 경우
@@ -586,22 +588,25 @@ export default {
         state.validate4 = true;
       }
       // 비밀번호가 1글자 이상, 8글자 미만인 경우
-      else if (0 < passwordVal.length < 8) {
-        state.validate4 = false;
+      else if (0 < passwordVal.length && passwordVal.length < 8) {
         warning14.style = '';
         warning14_1.style = 'display:none';
-      }
-      // 8글자 이상 입력했으나 유효성 검사를 통과하지 못했을 경우
-      else if (passwordVal.match(reg) == null) {
-        warning14.style = 'display:none';
-        warning14_1.style = '';
         state.validate4 = false;
       }
-      // 모든 유효성 검사를 통과했을 경우
-      else {
-        warning14.style = 'display:none';
-        warning14_1.style = 'display:none';
-        state.validate4 = true;
+      // 비밀번호가 8글자 이상일 경우
+      else if (passwordVal.length >= 8) {
+        // 유효성 검사를 통과하지 못했을 경우
+        if (passwordVal.match(reg) == null) {
+          warning14.style = 'display:none';
+          warning14_1.style = '';
+          state.validate4 = false;
+        }
+        // 유효성 검사를 통과했을 경우
+        else if (passwordVal.match(reg) !== null) {
+          warning14.style = 'display:none';
+          warning14_1.style = 'display:none';
+          state.validate4 = true;
+        }
       }
     };
 
