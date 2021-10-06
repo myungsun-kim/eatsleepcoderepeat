@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { computed, ref, watch, reactive } from 'vue';
+import { computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
