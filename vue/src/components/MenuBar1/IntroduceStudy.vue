@@ -200,8 +200,9 @@ export default {
     const store = useStore();
     const router = useRouter();
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    // console.log(111111111111111);
-    // console.log(studyId);
+
+    // 스터디 id를 가지고 dispatch 해야함
+    store.dispatch('study/introduce', studyId.value);
     const studyIntroduce = computed(
       () => store.getters['study/studyIntroduceGetter']
     );

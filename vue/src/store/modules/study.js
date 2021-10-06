@@ -35,8 +35,8 @@ export const study = {
       // console.log(state.totalStudyList);
     },
     updateRecommendStudyList(state, payload) {
-      console.log('저장된 추천 스터디 목록');
-      console.log(state.recommendStudyList);
+      // console.log('저장된 추천 스터디 목록');
+      // console.log(state.recommendStudyList);
       state.recommendStudyList = payload;
     },
     updateStudyId(state, payload) {
@@ -162,8 +162,7 @@ export const study = {
       commit('updateArticleId', data);
     },
     introduce({ commit }, data) {
-      console.log('###############');
-      const res = axios.get(BASE_URL + '/api/study/' + data, header);
+      const res = axios.get(BASE_URL + `/api/study/${data}`, header);
       res.then((res) => {
         // console.log('스터디 introduce 조회 결과');
         // console.log(res);
@@ -410,12 +409,11 @@ export const study = {
       return state.totalStudyList;
     },
     recommendStudyListGetter: (state) => {
-      console.log(state.recommendStudyList);
+      // console.log(state.recommendStudyList);
       return state.recommendStudyList;
     },
     studyIdGetter: (state) => {
-      console.log('스터디 ID GETTER');
-      console.log(state.studyId);
+      console.log('스터디 ID GETTER: ' + state.studyId);
       return state.studyId;
     },
     studyInfoGetter: (state) => {
