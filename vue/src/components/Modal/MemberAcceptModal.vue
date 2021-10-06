@@ -44,7 +44,7 @@
 </template>
 <script>
 import { useRouter } from 'vue-router';
-import { reactive, computed } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 export default {
   setup() {
@@ -70,8 +70,13 @@ export default {
       },
     });
 
+    watch(modalOpen, () => {
+      console.log('memberId 바뀜');
+      console.log(state.form.memberId);
+    });
+
     // 해당 멤버 정보 가져오기
-    store.dispatch('study/applicationOne', state.form);
+    // store.dispatch('study/applicationOne', state.form);
     // const user = computed(() => store.getters['member/userInfoGetter']);
 
     const accept = function () {
