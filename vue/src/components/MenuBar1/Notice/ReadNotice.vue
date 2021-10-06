@@ -123,11 +123,11 @@ export default {
 
     watch(boardIdList.length, () => {
       console.log('boardIdList length 바뀜');
-      store.dispatch('study/getNoticeArticleList', boardId);
+      store.dispatch('study/getArticleList', boardId);
     });
     watch(boardIdList, () => {
       console.log('boardIdList 바뀜');
-      store.dispatch('study/getNoticeArticleList', boardId);
+      store.dispatch('study/getArticleList', boardId);
     });
 
     // 3. 보드 id 가져오기
@@ -148,10 +148,10 @@ export default {
     //  4. 게시판 목록 가져오기
     watch(boardId, () => {
       console.log('boardId 바뀜');
-      store.dispatch('study/getNoticeArticleList', boardId);
+      store.dispatch('study/getArticleList', boardId);
     });
 
-    store.dispatch('study/getNoticeArticleList', boardId);
+    store.dispatch('study/getArticleList', boardId);
     const articleList = computed(
       () => store.getters['study/studyNoticeArticleListGetter']
     );

@@ -19,7 +19,7 @@ export const study = {
     studyApplication: {},
     studyBoardIdList: [],
     studyArticleId: '', // 스터디 게시글 아이디
-    studyNoticeArticleList: [],
+    studyArticleList: [], // 스터디 (공지/일반) 게시글 목록
     studyNoticeBoardId: '', //스터디 공지사항 보드 ID
     studyNormalBoardId: '', // 스터디 게시판 보드 ID
     article: {}, //게시글 내용
@@ -67,7 +67,7 @@ export const study = {
     updateNoticeArticleList(state, payload) {
       // console.log('넘겨준 updateArticleId 값');
       // console.log(payload);
-      state.studyNoticeArticleList = payload;
+      state.studyArticleList = payload;
     },
     updateStudyNoticeBoardId(state, payload) {
       //스터디 공지사항 보드 ID
@@ -209,11 +209,11 @@ export const study = {
     },
 
     // 게시판 무관: 글 목록 가져오기
-    getNoticeArticleList({ commit }, boardid) {
+    getArticleList({ commit }, boardid) {
       const res = axios
         .get(BASE_URL + `/api/studyboards/${boardid}/articles`, header)
         .then((res) => {
-          // console.log('getNoticeArticleList 조회 결과');
+          // console.log('getArticleList 조회 결과');
           // console.log(res.data);
           commit('updateNoticeArticleList', res.data);
         });
@@ -379,9 +379,9 @@ export const study = {
       return state.studyBoardIdList;
     },
     studyNoticeArticleListGetter: (state) => {
-      // console.log('studyNoticeArticleList GETTER');
-      // console.log(state.studyNoticeArticleList);
-      return state.studyNoticeArticleList;
+      // console.log('studyArticleList GETTER');
+      // console.log(state.studyArticleList);
+      return state.studyArticleList;
     },
     studyNoticeBoardIdGetter: (state) => {
       // console.log('studyNoticeBoardId GETTER');
