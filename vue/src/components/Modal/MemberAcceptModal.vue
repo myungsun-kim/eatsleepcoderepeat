@@ -51,13 +51,7 @@ export default {
     const router = useRouter();
     const store = useStore();
     const modalOpen = computed(() => store.getters['acceptModalGetter']);
-    const state = reactive({
-      form: {
-        studyId: 3,
-        memberNickname: 'ms',
-        memberId: 47, //user.memberId
-      },
-    });
+
     // 스터디 ID 가져오기
     const studyId = computed(() => store.getters['study/studyIdGetter']);
 
@@ -65,9 +59,20 @@ export default {
     const memberNickname = computed(
       () => store.getters['member/studyMemberNicknameGetter']
     );
+
+    const user = computed(() => store.getters['member/userInfoGetter']);
+
+    const state = reactive({
+      form: {
+        studyId: studyId.value,
+        memberNickname: memberNickname.value,
+        memberId: user.value.memberId,
+      },
+    });
+
     // 해당 멤버 정보 가져오기
     store.dispatch('study/applicationOne', state.form);
-    const user = computed(() => store.getters['member/userInfoGetter']);
+    // const user = computed(() => store.getters['member/userInfoGetter']);
 
     const accept = function () {
       store.dispatch('study/approvalStudy', state.form);

@@ -17,7 +17,7 @@ export const study = {
     memberNickname: '', //어떤 회원의 정보를 조회할지
     studyIntroduce: {},
     studyApplications: [],
-    studyApplication: {},
+    studyApplication: {}, //특정 회원의 지원서
     studyBoardIdList: [],
     studyArticleId: '', // 스터디 게시글 아이디
     studyArticleList: [], // 스터디 (공지/일반) 게시글 목록
@@ -257,6 +257,8 @@ export const study = {
     },
     // 스터디 신청
     applicateStudy({ commit }, form) {
+      console.log(form);
+      console.log(form.studyId + '스터디아이디ㅣㅇㅇ신청');
       const res = axios.post(
         BASE_URL + `/api/studyapplication/${form.studyId}`,
         JSON.stringify(form),
@@ -296,19 +298,7 @@ export const study = {
       });
       return res.data;
     },
-    // 스터디 신청 거절
-    rejectStudy({ commit }, form) {
-      const res = axios.post(
-        BASE_URL + `/api/studyapplication/${form.studyId}/${form.memberId}`,
-        header
-      );
-      res.then((res) => {
-        console.log('스터디 신청 거절');
-        console.log(res);
-        console.log(res.data);
-      });
-      return res.data;
-    },
+
     // 특정 게시글 하나 조회
     getArticleDetail({ commit }, form) {
       // console.log(form);
@@ -357,6 +347,11 @@ export const study = {
           alert('스터디장은 탈퇴할 수 없습니다.');
         });
     },
+    updateStudyMemberNickname({ commit }, data) {
+      commit('updateStudyMemberNickname', data);
+
+      // return res.data;
+    },
   },
   getters: {
     totalStudyGetter: (state) => {
@@ -387,8 +382,8 @@ export const study = {
       return state.studyApplications;
     },
     studyApplicationGetter: (state) => {
-      // console.log('APPLICATION ALL GETTER');
-      // console.log(state.studyApplication);
+      console.log('APPLICATION ONE GETTER');
+      console.log(state.studyApplication);
       return state.studyApplication;
     },
     studyBoardIdListGetter: (state) => {

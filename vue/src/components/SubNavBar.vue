@@ -79,9 +79,6 @@
       </el-row>
     </el-col>
     <el-col :span="8"> </el-col>
-    <el-col :span="1" class="lock-div">
-      <i class="el-icon-lock lock font-noto-md"></i>
-    </el-col>
     <el-col :span="1"></el-col>
   </el-row>
 </template>

@@ -300,9 +300,9 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .item-img {
-  background-image: url('../../assets/Item/Cat.png');
+  background-image: url('../../assets/Item/basic.png');
   background-repeat: no-repeat;
   background-size: cover;
   box-sizing: border-box;
@@ -311,77 +311,5 @@ export default {
   top: 0px;
 
   padding: 0px;
-}
-
-.item-head-title {
-  font-size: 16pt;
-  font-weight: bold;
-  padding: 0 3px 0 3px;
-}
-.item-content {
-  font-size: 12pt;
-  font-weight: normal;
-  padding: 0 3px 0 3px;
-}
-.item-small-content {
-  font-size: 10pt;
-  font-weight: normal;
-  padding: 0 3px 0 3px;
-}
-
-.left-content {
-  text-align: left;
-  padding: 0 3px 0 3px;
-}
-.right-content {
-  text-align: right;
-  padding: 0 3px 0 3px;
-}
-
-.item-state-badge-blue {
-  display: inline-block;
-  padding: 0 3px 0 3px;
-  margin: 0 2px 0 2px;
-  color: white;
-  background: #4361ff;
-  border-radius: 3px;
-  /* vertical-align: middle; */
-}
-.item-state-badge-green {
-  display: inline-block;
-  padding: 0 3px 0 3px;
-  margin: 0 2px 0 2px;
-  color: white;
-  background: #00bf00;
-  border-radius: 3px;
-  /* vertical-align: middle; */
-}
-.item-state-badge-red {
-  display: inline-block;
-  padding: 0 3px 0 3px;
-  margin: 0 2px 0 2px;
-  color: white;
-  background: #bf0000;
-  border-radius: 3px;
-  /* vertical-align: middle; */
-}
-.item-state-badge-black {
-  display: inline-block;
-  padding: 0 3px 0 3px;
-  margin: 0 2px 0 2px;
-  color: white;
-  background: #000000;
-  border-radius: 3px;
-  /* vertical-align: middle; */
-}
-
-/* icon 크기는 font-size로 작성함 */
-.icon-size {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.item {
-  cursor: pointer;
 }
 </style>
