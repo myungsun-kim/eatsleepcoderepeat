@@ -13,11 +13,11 @@
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
-        <i class="el-icon-date flex-items"></i>&nbsp;프로젝트 일정
+        <i class="el-icon-date flex-items"></i>&nbsp;스터디 일정
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
-        <i class="el-icon-time flex-items"></i>&nbsp;프로젝트 기간
+        <i class="el-icon-time flex-items"></i>&nbsp;스터디 기간
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
@@ -226,7 +226,7 @@ export default {
       auth.value = 2;
     } else {
       for (let index = 0; index < user.value.myStudyList.length; index++) {
-        if (user.value.myStudyList[index].id == studyId) {
+        if (user.value.myStudyList[index].id == studyId.value) {
           auth.value = 1;
         }
       }
