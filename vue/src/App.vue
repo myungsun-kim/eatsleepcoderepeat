@@ -100,6 +100,11 @@ body {
   box-sizing: border-box;
   height: 100%;
 }
+.height96 {
+  /* border: 3px solid rgb(255, 100, 0); */
+  box-sizing: border-box;
+  height: 96%;
+}
 .height95 {
   /* border: 3px solid rgb(255, 0, 0); */
   box-sizing: border-box;
@@ -159,6 +164,21 @@ body {
   /* border: 3px solid rgb(0, 255, 234); */
   box-sizing: border-box;
   height: 5%;
+}
+.height4 {
+  /* border: 3px solid rgb(0, 255, 130); */
+  box-sizing: border-box;
+  height: 4%;
+}
+.height3 {
+  /* border: 3px solid rgb(0, 255, 125); */
+  box-sizing: border-box;
+  height: 3%;
+}
+.height2 {
+  /* border: 3px solid rgb(0, 255, 120); */
+  box-sizing: border-box;
+  height: 2%;
 }
 .height1 {
   /* border: 3px solid rgb(0, 255, 111); */
