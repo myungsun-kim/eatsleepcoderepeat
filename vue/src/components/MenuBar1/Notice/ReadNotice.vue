@@ -1,11 +1,7 @@
 <template>
   <div class="all">
     <el-row style="maxheight: 85%">
-      <el-col :span="3">
-        element-plus tablem 일정 개수를 넘어가면 다음 페이지로 넘어가는 알고리즘
-        필요 <br />
-        보드 아이디: {{ boardId }}
-      </el-col>
+      <el-col :span="3"> </el-col>
       <el-col :span="18">
         <el-table
           :data="tableData"
@@ -66,7 +62,7 @@
 
         <el-row class="height20"></el-row>
         <!-- dropdown -->
-        <el-row style="height: 35%" class="footer">
+        <!-- <el-row style="height: 35%" class="footer">
           <el-col :span="2" :offset="4" id="footer1">
             <select id="select" v-model="state.select">
               <option value="" class="option1">제목</option>
@@ -86,7 +82,7 @@
             <button id="button1">검색</button>
           </el-col>
           <el-col :span="4"></el-col>
-        </el-row>
+        </el-row> -->
       </el-col>
       <el-col :span="3"></el-col>
       <el-col :span="3"></el-col>
@@ -133,8 +129,6 @@ export default {
       console.log('boardIdList 바뀜');
       store.dispatch('study/getNoticeArticleList', boardId);
     });
-    // 0: {id: 1, name: '공지사항'}
-    // 1: {id: 2, name: '게시판'}
 
     // 3. 보드 id 가져오기
     // 일단 접근이 잘 안되서 tempList로 옮김
@@ -161,16 +155,6 @@ export default {
     const articleList = computed(
       () => store.getters['study/studyNoticeArticleListGetter']
     );
-
-    // console.log(articleList.value.content[0]);
-    // articleId: 8
-    // createdDate: "2021-10-05T16:08:11.246601"
-    // createdMember: "별명"
-    // modifiedDate: null
-    // studyBoard: "공지사항"
-    // title: "ㅁㄴㅇㅁㅇㅁ"
-    // viewCount: 0
-    // console.log(articleList.value.content[0].title);
 
     let tableData = articleList.value.content;
     for (let index = 0; index < tableData.length; index++) {

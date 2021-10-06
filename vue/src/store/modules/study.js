@@ -55,13 +55,13 @@ export const study = {
       state.studyApplication = payload;
     },
     updateBoardIdList(state, payload) {
-      console.log('넘겨준 updateBoardIdList 값');
-      console.log(payload);
+      // console.log('넘겨준 updateBoardIdList 값');
+      // console.log(payload);
       state.studyBoardIdList = payload;
     },
     updateArticleId(state, payload) {
-      console.log('넘겨준 updateArticleId 값');
-      console.log(payload);
+      // console.log('넘겨준 updateArticleId 값');
+      // console.log(payload);
       state.studyArticleId = payload;
     },
     updateNoticeArticleList(state, payload) {
@@ -71,20 +71,19 @@ export const study = {
     },
     updateStudyNoticeBoardId(state, payload) {
       //스터디 공지사항 보드 ID
-      console.log('넘겨준 공지사항 게시판 ID 값');
+      // console.log('넘겨준 공지사항 게시판 ID 값');
       // console.log(payload);
       state.studyNoticeBoardId = payload;
     },
     updateStudyNormalBoardId(state, payload) {
-      // 스터디 게시판 보드 ID
-      console.log('넘겨준 일반 게시판 ID 값');
+      // 스터디 게시판 보드 ID1
+      // console.log('넘겨준 일반 게시판 ID 값');
       // console.log(payload);
       state.studyNormalBoardId = payload;
     },
     updateArticle(state, payload) {
-      // 스터디 게시판 보드 ID
-      console.log('넘겨준 게시판 내용값');
-      console.log(payload);
+      // console.log('넘겨준 게시판 내용값');
+      // console.log(payload);
       state.article = payload;
     },
     updateCurrentPage(state, payload) {
@@ -208,16 +207,18 @@ export const study = {
         });
       // return res.data;
     },
-    getNoticeArticleList({ commit }, data) {
+
+    // 게시판 무관: 글 목록 가져오기
+    getNoticeArticleList({ commit }, boardid) {
       const res = axios
-        .get(BASE_URL + `/api/studyboards/${data}/articles`, header)
+        .get(BASE_URL + `/api/studyboards/${boardid}/articles`, header)
         .then((res) => {
           // console.log('getNoticeArticleList 조회 결과');
           // console.log(res.data);
           commit('updateNoticeArticleList', res.data);
         });
-      // return res.data;
     },
+
     // 페이지별 게시글 요청
     getArticleListPage({ commit }, param) {
       // console.log('상세조회, 글 id, 보드 id');
