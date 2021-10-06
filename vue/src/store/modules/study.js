@@ -14,6 +14,7 @@ export const study = {
     totalStudyList: [], //전체 스터디 목록
     recommendStudyList: [], //추천 스터디 목록
     studyId: '',
+    studyInfo: {}, //스터디 수정을 위한 정보
     memberNickname: '', //어떤 회원의 정보를 조회할지
     memberId: '', //어떤 회원의 정보를 조회할지
     studyIntroduce: {},
@@ -39,8 +40,11 @@ export const study = {
       state.recommendStudyList = payload;
     },
     updateStudyId(state, payload) {
-      // console.log('넘겨준 STUDY ID 값' + payload);
+      console.log('넘겨준 STUDY ID 값' + payload);
       state.studyId = payload;
+    },
+    updateStudyInfo(state, payload) {
+      state.studyInfo = payload;
     },
     updateStudyMemberNickname(state, payload) {
       // console.log('넘겨준 회원의 닉네임' + payload);
@@ -118,9 +122,9 @@ export const study = {
     // 추천 스터디 목록
     getRecommendStudyList({ commit }) {
       axios.get(BASE_URL + '/api/study/recommend', header).then((res) => {
-        console.log('추천 스터디 목록 조회 결과');
-        console.log(res);
-        console.log(res.data.content);
+        // console.log('추천 스터디 목록 조회 결과');
+        // console.log(res);
+        // console.log(res.data.content);
         commit('updateRecommendStudyList', res.data.content);
       });
     },
@@ -139,6 +143,15 @@ export const study = {
         console.log(res.data);
         commit('updateStudyId', res.data);
       });
+    },
+    // 스터디 수정을 위한 정보 조회
+    // studyInfo
+    studyInfo({ commit }, studyId) {
+      const res = axios
+        .get(BASE_URL + `/api/study/infoforupdate/${studyId}`, header)
+        .then((res) => {
+          commit('updateStudyInfo', res.data);
+        });
     },
     callUpdateStudyId({ commit }, data) {
       // console.log('넘겨줄 STUDY ID 값' + data);
@@ -385,9 +398,12 @@ export const study = {
       return state.recommendStudyList;
     },
     studyIdGetter: (state) => {
+      console.log('스터디 ID GETTER');
+      console.log(state.studyId);
       return state.studyId;
-      // return state.filter((studyId) => studyId.done);
-      // return state.studyId.filter((todo) => todo.done);
+    },
+    studyInfoGetter: (state) => {
+      return state.studyInfo;
     },
     studyMemberNicknameGetter: (state) => {
       return state.memberNickname;

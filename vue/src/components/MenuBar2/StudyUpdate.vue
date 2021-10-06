@@ -2,7 +2,7 @@
   <div class="bg">
     <el-row :gutter="0">
       <el-col :span="6" :offset="0">
-        <div class="height100"></div>
+        <div class="height100">{{ studyInfo }}</div>
       </el-col>
       <el-col :span="12" :offset="0">
         <div>
@@ -277,10 +277,22 @@ export default {
     const router = useRouter();
     const store = useStore();
 
+    // 1. 스터디 정보를 가져오기 위해 study Id 값 가져오기
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    console.log('studyId: ' + studyId.value);
-    watch(studyId, () => {});
+    console.log('studyId: ');
+    console.log(studyId.value);
 
+    // 2. 스터디 정보 조회
+    store.dispatch('study/studyInfo', studyId.value);
+    const studyInfo = computed(() => store.getters['study/studyInfoGetter']);
+    console.log('스터디 정보 출력');
+    console.log(studyInfo.value);
+    // watch(studyInfo, () => {
+    //   console.log('studyInfo.value');
+    //   console.log(studyInfo.value);
+    // });
+
+    // 3. 클럽 목록을 출력하기 위한 내 정보 조회
     store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
 
@@ -474,7 +486,9 @@ export default {
     return {
       store,
       router,
+
       studyId,
+      studyInfo,
       user,
       clubList,
       clubId,
