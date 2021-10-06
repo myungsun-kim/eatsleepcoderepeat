@@ -30,7 +30,11 @@ import ClubUpdate from '../components/MenuBar2/ClubUpdate.vue';
 import HomeStudy from '../components/MenuBar2/HomeStudy.vue';
 import HomeProject from '../components/MenuBar2/HomeProject.vue';
 import HomeClub from '../components/MenuBar2/HomeClub.vue';
-import InfiniteScroll from '../components/MenuBar2/InfiniteScroll.vue';
+
+import InfiniteStudyMy from '../components/MenuBar2/InfiniteStudyMy.vue';
+import InfiniteStudyRecommend from '../components/MenuBar2/InfiniteStudyRecommend.vue';
+import InfiniteStudyTotal from '../components/MenuBar2/InfiniteStudyTotal.vue';
+
 import GeneralSearch from '../components/Search/GeneralSearch.vue';
 import AdvancedSearch from '../components/Search/AdvancedSearch.vue';
 import Chat from '../components/Chat.vue';
@@ -168,8 +172,16 @@ const routes = [
             component: ProjectCreate,
           },
           {
-            path: '/nosubheader/infinitescroll',
-            component: InfiniteScroll,
+            path: '/nosubheader/study/infinite/my',
+            component: InfiniteStudyMy,
+          },
+          {
+            path: '/nosubheader/study/infinite/recommend',
+            component: InfiniteStudyRecommend,
+          },
+          {
+            path: '/nosubheader/study/infinite/total',
+            component: InfiniteStudyTotal,
           },
           {
             path: '/nosubheader/project/update',
