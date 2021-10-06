@@ -1,8 +1,6 @@
 <template>
   <el-row class="height5">
-    <el-col :span="21" class="test-border">
-      home - study, project, club 5% 여백
-    </el-col>
+    <el-col :span="21" class="test-border"></el-col>
     <el-col :span="3" class="test-border">
       <el-button class="btn-1747C9 font-noto-bold" @click="goCreate"
         >스터디 생성</el-button
@@ -79,7 +77,7 @@
 
   <el-row class="height5">
     <el-col :span="24" class="test-border">
-      <a href="">더보기</a>
+      <a @click="goInfiniteMyStudy">더보기</a>
     </el-col>
   </el-row>
 
@@ -154,7 +152,7 @@
 
   <el-row class="height5">
     <el-col :span="24" class="test-border">
-      <a href="">더보기</a>
+      <a @click="goInfiniteRecommendStudy">더보기</a>
     </el-col>
   </el-row>
 
@@ -230,7 +228,7 @@
 
   <el-row class="height5">
     <el-col :span="24" class="test-border">
-      <a href="">더보기</a>
+      <a @click="goInfiniteTotalStudy">더보기</a>
     </el-col>
   </el-row>
 </template>
@@ -275,8 +273,18 @@ export default {
       router.push({ path: '/subheader/study/introduce' });
     };
 
-    // 누가 만드신거죠? 어디 쓰는거지?
-    const tempArray = ['a', 'BBB'];
+    const goInfiniteMyStudy = function () {
+      router.push({ path: '/nosubheader/study/infinite/my' });
+    };
+
+    const goInfiniteRecommendStudy = function () {
+      router.push({ path: '/nosubheader/study/infinite/recommend' });
+    };
+
+    const goInfiniteTotalStudy = function () {
+      router.push({ path: '/nosubheader/study/infinite/total' });
+    };
+
     return {
       store,
       router,
@@ -285,7 +293,9 @@ export default {
       myStudyList,
       goCreate,
       goIntroduce,
-      tempArray,
+      goInfiniteMyStudy,
+      goInfiniteRecommendStudy,
+      goInfiniteTotalStudy,
     };
   },
 };
