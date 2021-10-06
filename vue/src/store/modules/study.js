@@ -205,7 +205,6 @@ export const study = {
         content: param.content,
         title: param.title,
       };
-      // console.log('글 내용 JSON: ' + JSON.stringify(articleContent));
 
       const res = axios
         .post(
@@ -224,10 +223,10 @@ export const study = {
     // 게시판 무관: 글 목록 가져오기
     getArticleList({ commit }, boardid) {
       const res = axios
-        .get(BASE_URL + `/api/studyboards/${boardid}/articles`, header)
+        .get(BASE_URL + `/api/studyboards/${boardid.value}/articles`, header)
         .then((res) => {
-          // console.log('getArticleList 조회 결과');
-          // console.log(res.data);
+          console.log('getArticleList 조회 결과');
+          console.log(res.data);
           commit('updateNoticeArticleList', res.data);
         });
     },
@@ -390,7 +389,7 @@ export const study = {
       // console.log(state.studyBoardIdList);
       return state.studyBoardIdList;
     },
-    studyNoticeArticleListGetter: (state) => {
+    studyArticleListGetter: (state) => {
       // console.log('studyArticleList GETTER');
       // console.log(state.studyArticleList);
       return state.studyArticleList;
