@@ -235,9 +235,6 @@ export const study = {
       // return res.data;
     },
     createArticle({ commit }, param) {
-      // console.log('보드 ID: ' + param.boardId);
-      // console.log('글 내용: ' + param.content);
-
       const articleContent = {
         content: param.content,
         title: param.title,
@@ -254,7 +251,26 @@ export const study = {
           console.log(res.data);
           commit('updateArticleId', res.data);
         });
-      // return res.data;
+    },
+    updateArticle({ commit }, param) {
+      const articleContent = {
+        studyArticleUpdateRequestDto: param.studyArticleUpdateRequestDto,
+      };
+
+      const res = axios
+        .put(
+          BASE_URL +
+            `
+          ​/api​/studyboards​/${param.boardid}​/articles​/${param.articleid}
+          `,
+          JSON.stringify(articleContent),
+          header
+        )
+        .then((res) => {
+          console.log('updateArticle 결과');
+          console.log(res.data);
+          commit('updateArticle', res.data);
+        });
     },
 
     // 게시판 무관: 글 목록 가져오기
