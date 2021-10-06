@@ -1,115 +1,125 @@
 <template>
   <el-row class="height5">
-    <el-col :span="24" class="test-border"> Chat여백: </el-col>
+    <el-col :span="24" class=""> Chat여백: </el-col>
   </el-row>
   <el-row class="height90">
-    <!-- 채팅방 목록 -->
-    <el-col :span="5" :offset="1" class="test-border chat-list">
-      <el-row class="height5"> </el-row>
+    <el-col :span="3"></el-col>
 
-      <el-row
-        v-for="(session, index) in chatList"
-        :key="index"
-        class="height10 chat-list-item"
-        @click="changeSession(session[1])"
-      >
-        <!-- 보내는사람: {{ session[1].senderId }} <br /> -->
-        <el-col :span="4" class="flex-items">사진</el-col>
-        <el-col :span="16">
-          <el-row class="height50 flex-items chat-list-item-title">
-            받는 사람: {{ session[1].receiverId }}
-          </el-row>
-          <el-row class="height50 flex-items chat-list-item-msg">
-            내용: {{ session[1].content }}
-          </el-row>
-        </el-col>
-        <el-col :span="4" class="chat-list-item-msg"
-          >읽은 시간: {{ session[1].read_time }}</el-col
-        >
-      </el-row>
-    </el-col>
-    <el-tabs
-      type="card"
-      v-model="status"
-      @tab-click="handleClick"
-      style="margin-top: 10px"
-    >
-      <!-- <el-tab-pane label="진행" name="LIVE">
-          <template #label>진행<el-badge :value="count[0]" class="badge"/></template>
-        </el-tab-pane> -->
-      <!-- <el-tab-pane label="대기" name="OPEN">
-          <template #label>대기<el-badge :value="count[1]" class="badge"/></template>
-        </el-tab-pane>
-        <el-tab-pane label="종료" name="END">
-          <template #label>종료<el-badge :value="count[2]" class="badge"/></template>
-        </el-tab-pane> -->
-    </el-tabs>
-    <el-scrollbar style="max-height: 87vh">
-      <div
-        v-for="room in listStatus"
-        :key="room.session.session_id"
-        class="noborder"
-      >
-        <div
-          @click="pickRoom(room.session.session_id)"
-          class="list-item box-card"
-          :class="{ selected: room.session.session_id == selectedSession }"
-        >
-          <ChatItem :room="room" />
-        </div>
-      </div>
-    </el-scrollbar>
-    <!-- 채팅창 -->
-    <el-col :span="17" class="test-border chat-detail">
-      <div class="chat-log">
-        <!-- 채팅 내역 -->
-        <el-row v-for="msg in chatMessages" :key="msg.id" class="height10">
-          <el-col
-            v-if="msg.receiverId == currentId && msg.type == 1"
-            class="other-msg"
+    <!-- 채팅방 목록 -->
+    <el-col :span="4">
+      <div class="box1">
+        <div class="height2"></div>
+        <div class="height96">
+          <div
+            v-for="(session, index) in chatList"
+            :key="index"
+            @click="changeSession(session[1])"
           >
-            {{ msg.content }}
-            {{ msg.sent_time }}
-            {{ msg.read_time }}
-          </el-col>
-          <el-col
-            v-if="msg.receiverId != currentId && msg.type == 1"
-            class="my-msg"
-          >
-            {{ msg.content }} @ {{ new Date(msg.sent_time) }} 이건 substr(숫자,
-            숫자)으로 해결 가능@
-            {{ msg.read_time }}
-            <!-- {{msg.read_time.getTime()}} -->
-            <p v-if="msg.read_time == 1000">읽지않음</p>
-          </el-col>
-        </el-row>
-      </div>
-      <div>
-        <!-- 검색창 -->
-        <el-row>
-          <el-col :span="20">
-            <div>
-              <el-input
-                type="text"
-                @keyup.enter="sendMessage"
-                v-model="message"
-                placeholder="메시지를 입력해주세요:)"
-                clearable
-              >
-              </el-input>
+            <div class="box5">
+              <div class="box6">
+                <div class="box8">
+                  <!-- 보내는사람: {{ session[1].senderId }} <br /> -->
+
+                  나한테 보낸 사람: {{ session[1].receiverId }}
+                </div>
+                <div class="box9">
+                  <!-- 메세지 받은 시간: {{ new Date(session[1].sent_time) }} -->
+                  방금
+                </div>
+              </div>
+              <div v-if="session[1].content.length > 12">
+                <div class="box7">
+                  내용: {{ session[1].content.slice(0, 12) }}...
+                </div>
+              </div>
+              <div v-else>
+                <div class="box7">내용: {{ session[1].content }}</div>
+              </div>
             </div>
-          </el-col>
-          <el-col :span="2">
+          </div>
+        </div>
+        <div class="height2"></div>
+      </div>
+    </el-col>
+    <el-col :span="14">
+      <!-- 채팅창 -->
+      <div class="box2">
+        <div class="box3">
+          <!-- 채팅 내역 -->
+          <div v-for="msg in chatMessages" :key="msg.id">
+            <!-- 내가 보낸 메세지일 경우 -->
+            <div class="box12">
+              <div
+                v-if="msg.receiverId != currentId && msg.type == 1"
+                class="me"
+              >
+                {{ msg.content }}
+              </div>
+            </div>
+            <div>
+              <div
+                v-if="msg.receiverId != currentId && msg.type == 1"
+                class="my_send_time"
+              >
+                <div class="box12_1">
+                  {{ new Date(msg.sent_time) }}
+
+                  <!-- 이건 substr(숫자, 숫자)으로 해결가능! -->
+                  <!-- {{msg.read_time.getTime()}} -->
+                </div>
+
+                <div class="box12_2" v-if="msg.read_time == 1000">읽지않음</div>
+                <div class="box12_2" v-if="msg.read_time !== 1000">읽음</div>
+              </div>
+            </div>
+            <!-- 상대방이 보낸 메세지일 경우 -->
+            <div class="box13">
+              <div
+                v-if="msg.receiverId == currentId && msg.type == 1"
+                class="theother"
+              >
+                {{ msg.content }}
+              </div>
+            </div>
+            <div
+              v-if="msg.receiverId == currentId && msg.type == 1"
+              class="other_send_time"
+            >
+              <div class="box13_1">
+                {{ new Date(msg.sent_time) }}
+                <!-- {{ calcTime(new Date(msg.sent_time)) }} -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box4">
+          <!-- 검색창 -->
+          <div class="box10">
+            <el-input
+              type="text"
+              @keyup.enter="sendMessage"
+              v-model="message"
+              placeholder="메시지를 입력해주세요:)"
+              clearable
+            >
+            </el-input>
+          </div>
+          <div class="box11">
             <el-button
               @click="sendMessage"
               icon="el-icon-s-promotion"
               class="icon-m-p green-color-btn"
-            ></el-button>
-          </el-col>
-        </el-row>
+            >
+            </el-button>
+          </div>
+        </div>
+        <!-- 검색창 끝 -->
       </div>
-      <!-- 검색창 끝 -->
     </el-col>
+    <el-col :span="3"></el-col>
+  </el-row>
+  <el-row class="height5">
+    <el-col :span="24" class=""> Chat여백: </el-col>
   </el-row>
 </template>
 
@@ -200,6 +210,56 @@ export default {
       return msg.senderId == currentId.value ? msg.receiverId : msg.senderId;
     };
 
+    const calcTime = (time) => {
+      var now = new Date();
+      var writeDay = new Date(time);
+      let timeMsg = '';
+
+      // Tue Aug 17 2021 21:39:53 GMT+0900 (한국 표준시)
+      // Tue Aug 17 2021 05:06:23 GMT+0900 (한국 표준시)
+      // console.log(now);
+      // console.log(writeDay);
+      var minus;
+      //현재 년도랑 글쓴시간의 년도 비교
+      if (now.getFullYear() > writeDay.getFullYear()) {
+        //두개의 차이를 구해서 표시
+        timeMsg = time.slice(0, 11);
+      } else if (now.getMonth() > writeDay.getMonth()) {
+        //년도가 같을 경우 달을 비교해서 출력
+        timeMsg = time.slice(0, 11);
+      } else if (now.getDate() > writeDay.getDate()) {
+        //같은 달일 경우 일을 계산
+        minus = now.getDate() - writeDay.getDate();
+        if (minus == 1) {
+          timeMsg = '어제';
+        } else {
+          timeMsg = time.slice(0, 11);
+        }
+      } else if (now.getDate() == writeDay.getDate()) {
+        //당일인 경우에는
+        var nowTime = now.getTime();
+        var writeTime = writeDay.getTime();
+        if (nowTime > writeTime) {
+          //시간을 비교
+          let sec = parseInt(nowTime - writeTime) / 1000;
+          let day = parseInt(sec / 60 / 60 / 24);
+          sec = sec - day * 60 * 60 * 24;
+          let hour = parseInt(sec / 60 / 60);
+          sec = sec - hour * 60 * 60;
+          let min = parseInt(sec / 60);
+          sec = parseInt(sec - min * 60);
+          if (hour > 0) {
+            timeMsg = hour + '시간 전';
+          } else if (min > 0) {
+            timeMsg = min + '분 전';
+          } else if (sec > 0) {
+            timeMsg = sec + '초 전';
+          }
+        }
+      }
+      return timeMsg;
+    };
+
     return {
       /*
         Variables
@@ -221,26 +281,180 @@ export default {
       loadMessages,
       changeSession,
       getCounterPart,
+      calcTime,
     };
   },
 };
 </script>
 <style scoped>
-.chat-list-item {
-  background-color: #ffffff;
+.box1 {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-flow: column;
+  background: white;
+  border: 1px solid blue;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
-.chat-list-item-title {
+.box2 {
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  background: #e9e9e9;
+  border: 1px solid red;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+.box3 {
+  display: flex;
+  flex-flow: column;
+  padding-top: 10px;
+}
+.box4 {
+  display: flex;
+  border: 2px solid orange;
+  border-bottom-right-radius: 15px;
+}
+.box5 {
+  height: 50px;
+  display: flex;
+  flex-flow: column;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-top: 5px;
+  border-top: 1px solid lightgrey;
+  /* border: 2px solid palegreen; */
+}
+.box6 {
+  display: flex;
+  justify-content: space-between;
+}
+.box7 {
+  display: flex;
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
 }
-.chat-list-item-msg {
+.box8 {
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 16px;
+}
+.box9 {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
   color: rgba(0, 0, 0, 0.5);
+}
+.box10 {
+  width: 90%;
+}
+.box11 {
+  width: 10%;
+}
+.box12 {
+  display: flex;
+  justify-content: right;
+  margin-right: 10px;
+}
+.box12_1 {
+  display: flex;
+  align-items: center;
+}
+.box12_2 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+.box13 {
+  display: flex;
+  justify-content: left;
+  margin-left: 10px;
+}
+.box13_1 {
+  display: flex;
+  align-items: center;
+}
+.box13_2 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+.me {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 60%;
+  min-height: 30px;
+  border-radius: 10px 0px 10px 10px;
+  text-align: left;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: #7b9dff;
+  color: #ffffff;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+}
+.my_send_time {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-bottom: 5px;
+  padding-right: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 20px;
+}
+.theother {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  max-width: 60%;
+  min-height: 30px;
+  text-align: left;
+
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: white;
+  color: #000000;
+  border-radius: 0px 10px 10px 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+}
+.other_send_time {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 5px;
+  padding-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 20px;
 }
 
 .chat-list {
@@ -254,36 +468,5 @@ export default {
   display: flex;
   flex-flow: column;
   justify-content: space-between;
-}
-
-.chat-log {
-  display: flex;
-  flex-flow: column;
-  justify-content: space-between;
-}
-
-.other-msg {
-  border-radius: 15px 15px 0px 15px;
-  text-align: left;
-  background: #ffffff;
-  color: #000000;
-
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-}
-.my-msg {
-  border-radius: 15px 0px 15px 15px;
-  text-align: right;
-  background: #7b9dff;
-  color: #ffffff;
-
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
 }
 </style>
