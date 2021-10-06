@@ -1,22 +1,19 @@
 <template>
-  <el-button @click="modalOpen = true" class="btn-ghost-red font-noto-bold">
+  <el-button @click="changemodalOpen" class="btn-ghost-red font-noto-bold">
     삭제
   </el-button>
   <teleport to="body">
-    <div v-if="modalOpen" class="modal">
+    <div v-if="!modalOpen" class="modal">
       <div class="height40">
-        <!-- 참고:
-        https://v3.ko.vuejs.org/guide/teleport.html#vue-%E1%84%8F%E1%85%A5%E1%86%B7%E1%84%91%E1%85%A9%E1%84%82%E1%85%A5%E1%86%AB%E1%84%90%E1%85%B3%E1%84%8B%E1%85%AA-%E1%84%92%E1%85%A1%E1%86%B7%E1%84%81%E1%85%A6-%E1%84%89%E1%85%A1%E1%84%8B%E1%85%AD%E1%86%BC
-        I'm a teleported modal! (My parent is "body") -->
         <el-row class="height10"></el-row>
         <el-row class="height8">
-          <el-col :span="24" class="font-noto-bold font-20"
-            >백준 알고리즘 스터디</el-col
-          >
+          <el-col :span="24" class="font-noto-bold font-20">
+            {{ studyIntroduce.name }}
+          </el-col>
         </el-row>
         <el-row class="height8">
           <el-col :span="24" class="font-noto-md font-20"
-            >정말로 탈퇴하시겠습니까</el-col
+            >정말로 삭제하시겠습니까</el-col
           >
         </el-row>
         <el-row class="height8">
@@ -28,18 +25,20 @@
           <el-col :span="6" :offset="6">
             <el-button
               class="btn-ghost-red font-noto-bold"
-              @click="modalOpen = false"
+              @click="goStudyHome"
               style="font-size: 14px"
-              >탈퇴</el-button
             >
+              삭제
+            </el-button>
           </el-col>
           <el-col :span="6">
             <el-button
               class="btn-ghost-blue font-noto-bold"
               @click="modalOpen = false"
               style="font-size: 14px"
-              >취소</el-button
             >
+              취소
+            </el-button>
           </el-col>
           <el-col :span="6"></el-col>
         </el-row>
@@ -48,10 +47,51 @@
   </teleport>
 </template>
 <script>
+import { computed, watch } from 'vue';
+import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
+
 export default {
   data() {
     return {
       modalOpen: false,
+    };
+  },
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+    // 1. 스터디 ID를 받아옴
+    const studyId = computed(() => store.getters['study/studyIdGetter']);
+    // console.log(studyId);
+    // 2. 모달창에 스터디 정보를 일부 띄워야하기 때문에 스터디 정보를 받음
+    const studyIntroduce = computed(
+      () => store.getters['study/studyIntroduceGetter']
+    );
+    // 혹시나 스터디 정보가 바뀌면 다시 정보 가져오기
+    watch(studyId, () => {
+      store.dispatch('study/introduce', studyId.value);
+    });
+
+    // console.log('studyId: ' + studyId.value);
+
+    // 모달 처리
+    const modalOpen = computed(() => store.getters['scrollGetter']);
+    const changemodalOpen = function () {
+      store.dispatch('changeScrollModal', !modalOpen.value);
+    };
+    // 탈퇴 누를 시
+    const goStudyHome = function () {
+      // console.log(studyId.value);
+      store.dispatch('study/deleteStudy', studyId.value);
+      store.dispatch('changeScrollModal', !modalOpen.value);
+      router.push({ path: '/nosubheader/study/home' });
+    };
+
+    return {
+      modalOpen,
+      changemodalOpen,
+      studyIntroduce,
+      goStudyHome,
     };
   },
 };

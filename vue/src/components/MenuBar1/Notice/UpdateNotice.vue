@@ -25,7 +25,7 @@
           <el-button
             class="btn-ghost-red"
             style="font-size: 14px"
-            @click="goReadDetailNotice"
+            @click="goBack"
           >
             취소
           </el-button>
@@ -54,10 +54,14 @@ export default {
     const goReadDetailNotice = function () {
       router.push({ path: '/subheader/notice/detail' });
     };
+    const goBack = function () {
+      router.push({ path: '/subheader/notice/detail' });
+    };
 
     return {
       store,
       router,
+      goBack,
       goReadDetailNotice,
     };
   },
