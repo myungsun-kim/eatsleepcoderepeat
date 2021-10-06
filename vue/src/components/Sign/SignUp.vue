@@ -600,9 +600,10 @@ export default {
       const warning3 = document.getElementById('warning3');
       const success3 = document.getElementById('success3');
       let nameVal = state.form.name;
-      let reg = /^[가-힣]{1,7}|[a-zA-Z]{2,10}$/;
+      let reg = /^[가-힣]{1,7}$/;
+      let reg1 = /^[a-zA-Z]{2,10}$/;
       // 유효성 검사를 통과하지 못했을 경우
-      if (nameVal.match(reg) == null) {
+      if (nameVal.match(reg) == null && nameVal.match(reg) == null) {
         warning3.style = '';
         success3.style = 'display:none';
         state.validate2 = false;
@@ -615,6 +616,7 @@ export default {
         state.validate2 = true;
       }
     };
+
     // 닉네임 유효성 검사
     const checkNickName = function () {
       console.log('닉네임 포커싱 벗어남!!!');
@@ -651,6 +653,7 @@ export default {
           });
       }
     };
+
     // 비밀번호 유효성 검사
     const checkPassword = function () {
       console.log('비밀번호 유효성 검사!!!');
@@ -670,6 +673,7 @@ export default {
         state.validate4 = true;
       }
     };
+
     // 비밀번호 확인 유효성 검사
     const checkAffirmPassword = function () {
       console.log('비밀번호확인 유효성 검사!!!');
