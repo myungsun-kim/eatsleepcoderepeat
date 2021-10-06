@@ -177,8 +177,7 @@ export const study = {
     // 해당 스터디 특정 회원 신청서 조회
     applicationOne({ commit }, form) {
       const res = axios.get(
-        BASE_URL +
-          `/api/studyapplication/all/${form.studyId}/${form.memberNickname}`,
+        BASE_URL + `/api/studyapplication/all/${form.studyId}/${form.nickname}`,
         header
       );
       res.then((res) => {
