@@ -1723,6 +1723,7 @@ export default {
   overflow: hidden;
   /* border: 0.5px dashed black; */
   /* border-radius: 3%; */
+}
 #warning12 {
   margin-left: 10px;
 
