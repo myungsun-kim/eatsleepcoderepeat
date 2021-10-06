@@ -2,9 +2,7 @@
   <el-row>
     <el-col :span="5"></el-col>
     <el-col :span="13">
-      <el-row class="author-font">
-        공지사항 보드아이디: {{ boardId }}, 글아이디: {{ articleId }}
-      </el-row>
+      <el-row class="author-font"> 공지사항 </el-row>
       <el-row id="article-title"> {{ article.title }} </el-row>
       <el-row class="author-font"> {{ article.createdMember }} </el-row>
       <el-row>
@@ -23,6 +21,8 @@
       <el-row class="gray-font">
         {{ article.content }}
       </el-row>
+
+      <el-row class="height10"> </el-row>
       <el-row>
         <el-col :span="21"></el-col>
         <el-col :span="2">
@@ -30,7 +30,9 @@
         </el-col>
         <el-col :span="1"></el-col>
       </el-row>
-      <el-row>
+
+      <!-- 여기부터 댓글 -->
+      <!-- <el-row>
         <el-col :span="2">댓글</el-col>
         <el-col :span="22"></el-col>
       </el-row>
@@ -55,7 +57,8 @@
       </el-row>
       <el-row>
         <el-col :span="24"><textarea>등록버튼</textarea></el-col>
-      </el-row>
+      </el-row> -->
+      <!-- 댓글 끝 -->
     </el-col>
     <el-col :span="6"></el-col>
   </el-row>

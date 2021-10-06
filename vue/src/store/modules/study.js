@@ -23,7 +23,7 @@ export const study = {
     studyNoticeBoardId: '', //스터디 공지사항 보드 ID
     studyNormalBoardId: '', // 스터디 게시판 보드 ID
     article: {}, //게시글 내용
-    currentPage: '', //현재 페이지네이션 할 페이지 위치
+    currentPage: '1', //현재 페이지네이션 할 페이지 위치
   },
   mutations: {
     updateTotalStudyList(state, payload) {

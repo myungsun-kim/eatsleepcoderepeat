@@ -7,7 +7,6 @@
         보드 아이디: {{ boardId }}
       </el-col>
       <el-col :span="18">
-        <!-- :data="articleList" -->
         <el-table
           :data="tableData"
           stripe
@@ -162,18 +161,7 @@ export default {
     const articleList = computed(
       () => store.getters['study/studyNoticeArticleListGetter']
     );
-    // watch(articleList.value, () => {
-    //   console.log('articleList 바뀜');
-    //   store.dispatch('study/getNoticeArticleList', boardId);
-    // });
-    // watch(articleList.value.content.length, () => {
-    //   console.log('articleList.value.content.length 바뀜');
-    //   store.dispatch('study/getNoticeArticleList', boardId);
-    // });
-    console.log('articleList 출력');
-    // console.log(articleList);
-    // console.log(articleList.value);
-    console.log(articleList.value.content);
+
     // console.log(articleList.value.content[0]);
     // articleId: 8
     // createdDate: "2021-10-05T16:08:11.246601"
@@ -185,19 +173,14 @@ export default {
     // console.log(articleList.value.content[0].title);
 
     let tableData = articleList.value.content;
+    for (let index = 0; index < tableData.length; index++) {
+      tableData[index].createdDate = tableData[index].createdDate.substr(2, 8);
+    }
     totalPage = articleList.value.totalElements;
 
-    // watch(tableData, () => {
-    //   console.log('tableData 바뀜');
-    //   // store.dispatch('study/getNoticeArticleList', boardId);
-    // });
-
     const pageClick = function (pageNumber) {
-      console.log('@@@@@@@@@@@@@@@@@@');
+      // 페이지 넘버 갱신
       store.commit('study/updateCurrentPage', pageNumber);
-      // console.log(boardId);
-
-      // currentPage = pageNumber;
 
       const param = reactive({
         form: {
@@ -206,18 +189,21 @@ export default {
         },
       });
 
-      // console.log(pageNumber);
-      // console.log(param);
       store.dispatch('study/getArticleListPage', param.form);
       let temp = store.getters['study/studyNoticeArticleListGetter'];
 
       totalPage = articleList.totalElements;
-      // console.log(temp);
-      // console.log(temp.content);
+
       tableData = temp.content;
+      for (let index = 0; index < tableData.length; index++) {
+        tableData[index].createdDate = tableData[index].createdDate.substr(
+          2,
+          8
+        );
+      }
       window.location = '/subheader/notice/read';
-      console.log('@@@@@@@@@@@@@@@@@@');
     };
+
     const goCreateNotice = function () {
       router.push({ path: '/subheader/notice/create' });
     };
