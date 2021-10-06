@@ -12,6 +12,7 @@
     <div v-if="modalOpen" class="modal">
       <div class="height80" style="width: 30%">
         <el-row class="height10"></el-row>
+        {{ studyIntroduce.memberDtos }}
         <el-row
           class="height20"
           v-for="(item, index) in studyIntroduce.memberDtos"

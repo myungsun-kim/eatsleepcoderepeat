@@ -18,13 +18,13 @@ export const member = {
       // console.log('2-5');
     },
     updateUserEmail(state, payload) {
-      console.log('updateUserEmail');
-      console.log(payload);
+      // console.log('updateUserEmail');
+      // console.log(payload);
       state.userEmail = payload;
     },
     updateUserInfo(state, payload) {
-      console.log('update User Info');
-      console.log(payload);
+      // console.log('update User Info');
+      // console.log(payload);
       state.userInfo = payload;
     },
   },
