@@ -11,6 +11,8 @@ import com.ssafy.match.group.projectboard.article.repository.ProjectArticleRepos
 import com.ssafy.match.group.projectboard.article.repository.ProjectContentRepository;
 import com.ssafy.match.group.projectboard.board.entity.ProjectBoard;
 import com.ssafy.match.group.projectboard.board.repository.ProjectBoardRepository;
+import com.ssafy.match.group.projectboard.article.dto.ProjectArticleListDto;
+import com.ssafy.match.group.projectboard.board.entity.ProjectBoard;
 import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.member.repository.MemberRepository;
 import com.ssafy.match.util.SecurityUtil;
@@ -53,6 +55,28 @@ public class ProjectArticleService {
         ProjectBoard projectBoard = projectBoardRepository.getById(boardId);
         Page<ProjectArticleListDto> projectArticleListDtos = projectArticleRepository.findAllByProjectBoard(projectBoard ,pageable)
                 .map(ProjectArticleListDto::of);
+        return projectArticleListDtos;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProjectArticleListDto> getProjectArticlesByTitle(Integer boardId, String title, Pageable pageable) throws Exception {
+        if (!projectBoardRepository.existsById(boardId)) {
+            throw new RuntimeException("존재하지 않는 게시판입니다");
+        }
+        ProjectBoard projectBoard = projectBoardRepository.getById(boardId);
+        Page<ProjectArticleListDto> projectArticleListDtos = projectArticleRepository.findAllByProjectBoardAndTitle(projectBoard, title, pageable)
+            .map(ProjectArticleListDto::of);
+        return projectArticleListDtos;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProjectArticleListDto> getProjectArticlesByNickname(Integer boardId, String nickname, Pageable pageable) throws Exception {
+        if (!projectBoardRepository.existsById(boardId)) {
+            throw new RuntimeException("존재하지 않는 게시판입니다");
+        }
+        ProjectBoard projectBoard = projectBoardRepository.getById(boardId);
+        Page<ProjectArticleListDto> projectArticleListDtos = projectArticleRepository.findAllByProjectBoardAndNickname(projectBoard, nickname, pageable)
+            .map(ProjectArticleListDto::of);
         return projectArticleListDtos;
     }
 

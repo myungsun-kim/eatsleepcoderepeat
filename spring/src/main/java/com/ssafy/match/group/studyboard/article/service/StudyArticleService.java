@@ -1,6 +1,8 @@
 package com.ssafy.match.group.studyboard.article.service;
 
 
+import com.ssafy.match.group.studyboard.article.dto.StudyArticleListDto;
+import com.ssafy.match.group.studyboard.board.entity.StudyBoard;
 import com.ssafy.match.group.studyboard.article.dto.StudyArticleCreateRequestDto;
 import com.ssafy.match.group.studyboard.article.dto.StudyArticleInfoDto;
 import com.ssafy.match.group.studyboard.article.dto.StudyArticleListDto;
@@ -55,6 +57,28 @@ public class StudyArticleService {
         StudyBoard studyBoard = studyBoardRepository.getById(boardId);
         Page<StudyArticleListDto> studyArticleListDtos = studyArticleRepository.findAllByStudyBoard(studyBoard, pageable)
                 .map(StudyArticleListDto::of);
+        return studyArticleListDtos;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<StudyArticleListDto> getStudyArticlesByTitle(Integer boardId, String title, Pageable pageable) throws Exception {
+        if (!studyBoardRepository.existsById(boardId)) {
+            throw new RuntimeException("존재하지 않는 게시판입니다");
+        }
+        StudyBoard studyBoard = studyBoardRepository.getById(boardId);
+        Page<StudyArticleListDto> studyArticleListDtos = studyArticleRepository.findAllByStudyBoardAndTitle(studyBoard, title, pageable)
+                .map(StudyArticleListDto::of);
+        return studyArticleListDtos;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<StudyArticleListDto> getStudyArticlesByNickname(Integer boardId, String nickname, Pageable pageable) throws Exception {
+        if (!studyBoardRepository.existsById(boardId)) {
+            throw new RuntimeException("존재하지 않는 게시판입니다");
+        }
+        StudyBoard studyBoard = studyBoardRepository.getById(boardId);
+        Page<StudyArticleListDto> studyArticleListDtos = studyArticleRepository.findAllByStudyBoardAndNickname(studyBoard, nickname, pageable)
+            .map(StudyArticleListDto::of);
         return studyArticleListDtos;
     }
 

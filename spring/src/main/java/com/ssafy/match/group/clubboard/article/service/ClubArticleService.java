@@ -15,9 +15,7 @@ import com.ssafy.match.member.entity.Member;
 import com.ssafy.match.member.repository.MemberRepository;
 import com.ssafy.match.util.SecurityUtil;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,6 +50,37 @@ public class ClubArticleService {
         }
         ClubBoard clubBoard = clubBoardRepository.getById(boardId);
         Page<ClubArticleListDto> clubArticleListDtos = clubArticleRepository.findAllByClubBoard(clubBoard, pageable)
+                .map(ClubArticleListDto::of);
+        return clubArticleListDtos;
+    }
+
+//    @Transactional(readOnly = true)
+//    public Page<ClubArticleListDto> getClubArticlesByTitle(Integer boardId, String title, Pageable pageable) throws Exception {
+//        if (!clubBoardRepository.existsById(boardId)) {
+//            throw new RuntimeException("존재하지 않는 게시판입니다");
+//        }
+//        ClubBoard clubBoard = clubBoardRepository.getById(boardId);
+//        Page<ClubArticleListDto> clubArticleListDtos = clubArticleRepository.findAllByClubBoardAndTitle(clubBoard, title, pageable)
+//                .map(ClubArticleListDto::of);
+//        return clubArticleListDtos;
+//    }
+    @Transactional(readOnly = true)
+    public Page<ClubArticleListDto> getClubArticlesByTitle(Integer boardId, String title, Pageable pageable) throws Exception {
+        if (!clubBoardRepository.existsById(boardId)) {
+            throw new RuntimeException("존재하지 않는 게시판입니다");
+        }
+        ClubBoard clubBoard = clubBoardRepository.getById(boardId);
+        Page<ClubArticleListDto> clubArticleListDtos = clubArticleRepository.findAllByClubBoardAndTitle(clubBoard, title, pageable);
+        return clubArticleListDtos;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ClubArticleListDto> getClubArticlesByNickname(Integer boardId, String nickname, Pageable pageable) throws Exception {
+        if (!clubBoardRepository.existsById(boardId)) {
+            throw new RuntimeException("존재하지 않는 게시판입니다");
+        }
+        ClubBoard clubBoard = clubBoardRepository.getById(boardId);
+        Page<ClubArticleListDto> clubArticleListDtos = clubArticleRepository.findAllByClubBoardAndNickname(clubBoard, nickname, pageable)
                 .map(ClubArticleListDto::of);
         return clubArticleListDtos;
     }

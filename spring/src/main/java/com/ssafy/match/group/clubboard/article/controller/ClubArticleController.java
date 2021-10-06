@@ -7,7 +7,6 @@ import com.ssafy.match.group.clubboard.article.dto.ClubArticleListDto;
 import com.ssafy.match.group.clubboard.article.dto.ClubArticleUpdateRequestDto;
 import com.ssafy.match.group.clubboard.article.service.ClubArticleService;
 import io.swagger.annotations.ApiOperation;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +33,24 @@ public class ClubArticleController {
     @ApiOperation(value = "(클럽)게시물 리스트 조회", notes = "<strong>받은 게시판 id</strong>를 사용해서 게시물들을 조회한다.")
     public ResponseEntity<Page<ClubArticleListDto>> getArticles(@PathVariable("boardid") Integer boardid, @PageableDefault(size = 10) @SortDefault(sort = "createDate", direction= Sort.Direction.DESC) Pageable pageable) throws Exception {
         return ResponseEntity.ok(clubArticleService.getClubArticles(boardid, pageable));
+    }
+
+//    @GetMapping("/{boardid}/title/articles/{title}")
+//    @ApiOperation(value = "(클럽)게시물 리스트 제목 조회", notes = "<strong>받은 게시판 id와 제목</strong>을 사용해서 게시물들을 조회한다.")
+//    public ResponseEntity<Page<ClubArticleListDto>> getArticlesByTitle(@PathVariable("boardid") Integer boardid, @PathVariable("title") String title, @PageableDefault(size = 10) @SortDefault(sort = "createDate", direction= Sort.Direction.DESC) Pageable pageable) throws Exception {
+//        return ResponseEntity.ok(clubArticleService.getClubArticlesByTitle(boardid, title, pageable));
+//    }
+
+    @GetMapping("/{boardid}/title/articles/{title}")
+    @ApiOperation(value = "(클럽)게시물 리스트 제목 조회", notes = "<strong>받은 게시판 id와 제목</strong>을 사용해서 게시물들을 조회한다.")
+    public ResponseEntity<Page<ClubArticleListDto>> getArticlesByTitle(@PathVariable("boardid") Integer boardid, @PathVariable("title") String title, @PageableDefault(size = 10) @SortDefault(sort = "createDate", direction= Sort.Direction.DESC) Pageable pageable) throws Exception {
+        return ResponseEntity.ok(clubArticleService.getClubArticlesByTitle(boardid, title, pageable));
+    }
+
+    @GetMapping("/{boardid}/nickname/articles/{nickname}")
+    @ApiOperation(value = "(클럽)게시물 리스트 닉네임 조회", notes = "<strong>받은 게시판 id와 닉네임</strong>을 사용해서 게시물들을 조회한다.")
+    public ResponseEntity<Page<ClubArticleListDto>> getArticlesByNickname(@PathVariable("boardid") Integer boardid, @PathVariable("nickname") String nickname, @PageableDefault(size = 10) @SortDefault(sort = "createDate", direction= Sort.Direction.DESC) Pageable pageable) throws Exception {
+        return ResponseEntity.ok(clubArticleService.getClubArticlesByNickname(boardid, nickname, pageable));
     }
 
     @GetMapping("/{boardid}/articles/{articleid}")

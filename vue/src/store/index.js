@@ -2,15 +2,19 @@ import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import { auth } from '@/store/modules/auth';
 import { member } from '@/store/modules/member';
-import { chat } from '@/store/modules/chat'
+import { chat } from '@/store/modules/chat';
 import { study } from '@/store/modules/study';
+import axios from 'axios';
 
 export default createStore({
   state: {
-    category: null,
+    category: null, // category 1:스터디 2:프로젝트 3:클럽
     user: {},
     scrollModal: 'false',
-    // category 1:스터디 2:프로젝트 3:클럽
+    infoModal: 'false',
+    rejectModal: 'false',
+    acceptModal: 'false',
+    applicationModal: 'false',
     form: {
       email: '',
       name: '',
@@ -31,10 +35,34 @@ export default createStore({
     setMember(state, value) {
       state.user = value;
     },
+    setInfoModal(state, value) {
+      state.infoModal = value;
+    },
+    setRejectModal(state, value) {
+      state.rejectModal = value;
+    },
+    setAcceptModal(state, value) {
+      state.acceptModal = value;
+    },
+    setApplicationModal(state, value) {
+      state.applicationModal = value;
+    },
   },
   actions: {
     changeScrollModal({ commit }, payload) {
       commit('setScrollModal', payload);
+    },
+    changeInfoModal({ commit }, payload) {
+      commit('setInfoModal', payload);
+    },
+    changeRejectModal({ commit }, payload) {
+      commit('setRejectModal', payload);
+    },
+    changeAcceptModal({ commit }, payload) {
+      commit('setAcceptModal', payload);
+    },
+    changeApplicationModal({ commit }, payload) {
+      commit('setApplicationModal', payload);
     },
     uploadFile({ commit }, formData) {
       const BASE_URL = '';
@@ -59,6 +87,23 @@ export default createStore({
     getUserInfo: (state) => {
       return state.user;
     },
+    infoModalGetter: (state) => {
+      return state.infoModal;
+    },
+    rejectModalGetter: (state) => {
+      return state.rejectModal;
+    },
+    acceptModalGetter: (state) => {
+      return state.acceptModal;
+    },
+    applicationModalGetter: (state) => {
+      return state.applicationModal;
+    },
+    categoryGetter: (state) => {
+      console.log('GET 카테고리');
+      console.log(state.category);
+      return state.category;
+    },
   },
   modules: {
     auth,
@@ -69,7 +114,9 @@ export default createStore({
     study,
   },
 
-  plugins: [createPersistedState({
-    paths: ['auth', 'member', 'chat', 'study'] // <<<<<<여기!
-  })],
+  plugins: [
+    createPersistedState({
+      paths: ['auth', 'member', 'chat', 'study'], // <<<<<<여기!
+    }),
+  ],
 });
