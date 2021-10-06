@@ -98,7 +98,6 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
-    const currentRow = ref('1');
     let totalPage = 10;
     const currentPage = computed(
       () => store.getters['study/currentPageGetter']
@@ -116,52 +115,52 @@ export default {
     });
 
     // 2. 현재 이 게시판 board id를 가져와야 함.
-    // 1번 매커니즘 고치면 stidyId.value로 바꿔야 할 듯.
+    const boardId = computed(
+      () => store.getters['study/studyNormalBoardIdGetter']
+    );
+    // 3. 2값이 없을 수 있으니 가져오는 알고리즘.
     const boardIdList = computed(
       () => store.getters['study/studyBoardIdListGetter']
     );
 
-    watch(boardIdList.length, () => {
-      console.log('boardIdList length 바뀜');
-      store.dispatch('study/getArticleList', boardId);
-    });
-    watch(boardIdList, () => {
-      console.log('boardIdList 바뀜');
-      store.dispatch('study/getArticleList', boardId);
-    });
-
-    // 3. 보드 id 가져오기
+    // 4. 보드 id 가져오기
     // 일단 접근이 잘 안되서 tempList로 옮김
     let tempList = boardIdList.value;
-    console.log(tempList);
-    let boardId = 1;
+
     for (let index = 0; index < tempList.length; index++) {
       if (tempList[index].name == '공지사항') {
         // 공지사항 게시판 번호
         store.commit('study/updateStudyNoticeBoardId', tempList[index].id);
       } else {
-        boardId = tempList[index].id;
-        console.log('boardId: ' + boardId);
         // 일반 게시판 번호
         store.commit('study/updateStudyNormalBoardId', tempList[index].id);
       }
     }
-    //  4. 게시판 글 목록 가져오기
-    watch(boardId, () => {
-      console.log('boardId 바뀜');
-      store.dispatch('study/getArticleList', boardId);
-    });
-
+    //  5. 게시판 글 목록 가져오기
+    // 일단 기본 가져오기
     store.dispatch('study/getArticleList', boardId);
     const articleList = computed(
-      () => store.getters['study/studyNoticeArticleListGetter']
+      () => store.getters['study/studyArticleListGetter']
     );
 
-    let tableData = articleList.value.content;
-    for (let index = 0; index < tableData.length; index++) {
-      tableData[index].createdDate = tableData[index].createdDate.substr(2, 8);
+    const tableData = ref(articleList.value.content);
+    for (let index = 0; index < tableData.value.length; index++) {
+      tableData.value[index].createdDate = tableData.value[
+        index
+      ].createdDate.substr(2, 8);
     }
     totalPage = articleList.value.totalElements;
+
+    // 새로 값이 바뀔 때마다 로딩
+    watch(articleList, () => {
+      tableData.value = articleList.value.content;
+      for (let index = 0; index < tableData.value.length; index++) {
+        tableData.value[index].createdDate = tableData.value[
+          index
+        ].createdDate.substr(2, 8);
+      }
+      totalPage = articleList.value.totalElements;
+    });
 
     const pageClick = function (pageNumber) {
       // 페이지 넘버 갱신
@@ -175,17 +174,15 @@ export default {
       });
 
       store.dispatch('study/getArticleListPage', param.form);
-      let temp = store.getters['study/studyNoticeArticleListGetter'];
+      let temp = store.getters['study/studyArticleListGetter'];
 
-      totalPage = articleList.totalElements;
-
-      tableData = temp.content;
-      for (let index = 0; index < tableData.length; index++) {
-        tableData[index].createdDate = tableData[index].createdDate.substr(
-          2,
-          8
-        );
+      tableData.value = temp.content;
+      for (let index = 0; index < tableData.value.length; index++) {
+        tableData.value[index].createdDate = tableData.value[
+          index
+        ].createdDate.substr(2, 8);
       }
+      totalPage = articleList.value.totalElements;
       window.location = '/subheader/board/read';
     };
 
@@ -194,7 +191,6 @@ export default {
     };
 
     const goArticle = function (val) {
-      console.log(val.articleId);
       store.dispatch('study/callUpdateArticleId', val.articleId);
       router.push({ path: '/subheader/board/detail' });
     };
@@ -210,7 +206,6 @@ export default {
       goCreateBoardArticle,
       goArticle,
       tableData,
-      currentRow,
     };
   },
 };
