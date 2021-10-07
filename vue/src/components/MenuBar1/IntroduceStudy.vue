@@ -132,7 +132,7 @@
   <el-row class="height5"> </el-row>
 
   <!-- 버튼 영역 -->
-  <el-row class="height50 font-20">
+  <el-row class="height30 font-20">
     <el-col :span="3"></el-col>
     <el-col :span="18">
       <el-row class="height8">
