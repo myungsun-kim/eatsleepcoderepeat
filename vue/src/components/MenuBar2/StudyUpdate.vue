@@ -253,7 +253,7 @@
             />
           </div>
           <div id="btn">
-            <el-button class="btn-create" @click="goIntroduce">생성</el-button>
+            <el-button class="btn-create" @click="goIntroduce">수정</el-button>
             <el-button class="btn-cancel" @click="goIntroduce">취소</el-button>
           </div>
         </div>
@@ -277,10 +277,22 @@ export default {
     const router = useRouter();
     const store = useStore();
 
+    // 1. 스터디 정보를 가져오기 위해 study Id 값 가져오기
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    console.log('studyId: ' + studyId.value);
-    watch(studyId, () => {});
+    console.log('studyId: ');
+    console.log(studyId.value);
 
+    // 2. 스터디 정보 조회
+    store.dispatch('study/studyInfo', studyId.value);
+    const studyInfo = computed(() => store.getters['study/studyInfoGetter']);
+    console.log('스터디 정보 출력');
+    console.log(studyInfo.value);
+    // watch(studyInfo, () => {
+    //   console.log('studyInfo.value');
+    //   console.log(studyInfo.value);
+    // });
+
+    // 3. 클럽 목록을 출력하기 위한 내 정보 조회
     store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
 
@@ -292,7 +304,7 @@ export default {
         clubId[index] = user.value.myClubList[index].id;
       }
     } else {
-      clubList[0] = '무관 또는 없음';
+      clubList[0] = '없음';
       clubId[0] = null;
     }
 
@@ -313,12 +325,26 @@ export default {
         removeStackList: [], //기술 목록
         // uuid: null, //사진 uuid
       },
+      studyId: studyId.value,
       tech: '',
       result: null,
+      studyInfo: null,
     });
 
     onBeforeMount(() => {
-      store.dispatch('r');
+      console.log(11111111111111111111);
+      console.log(studyInfo.value.name);
+      state.form.bio = studyInfo.value.bio;
+      state.form.city = studyInfo.value.city;
+      state.form.clubId = studyInfo.value.club;
+      state.form.isParticipate = studyInfo.value.isParticipate;
+      state.form.isPublic = studyInfo.value.isPublic;
+      state.form.maxCount = studyInfo.value.maxCount;
+      state.form.name = studyInfo.value.name;
+      state.form.period = studyInfo.value.period;
+      state.form.schedule = studyInfo.value.schedule;
+      state.form.status = studyInfo.value.status;
+      state.form.techList = studyInfo.value.studyTechstack;
     });
 
     const stackAutoComplete = function () {
@@ -432,6 +458,7 @@ export default {
     };
 
     const goIntroduce = function () {
+      store.dispatch('study/updateStudy', state);
       router.push({ path: '/subheader/study/introduce' });
     };
 
@@ -474,7 +501,9 @@ export default {
     return {
       store,
       router,
+
       studyId,
+      studyInfo,
       user,
       clubList,
       clubId,

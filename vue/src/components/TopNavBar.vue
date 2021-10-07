@@ -218,5 +218,6 @@ export default {
   background: #f53030;
   border-radius: 10px;
   opacity: 0.9;
+  color: white;
 }
 </style>
