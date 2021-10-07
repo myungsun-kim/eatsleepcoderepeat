@@ -2,8 +2,7 @@
   <a @click="changemodalOpen" class="grayLittle">삭제</a>
   <teleport to="body">
     <div v-if="!modalOpen" class="modal">
-      <div class="height40">
-        <el-row class="height10"></el-row>
+      <div class="height40" style="width: 30%">
         <el-row class="height10">
           <el-col :span="24" class="font-noto-bold font-20">
             {{ article.title }}
@@ -133,7 +132,7 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: white;
-  width: 50%;
+  width: 100%;
 }
 
 .grayLittle {

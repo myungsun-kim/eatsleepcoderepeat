@@ -6,9 +6,9 @@
       <el-row id="main-box">
         <el-row class="height10"></el-row>
         <el-row class="height20" style="font-size: 64px">
-          <el-col :span="6"></el-col>
-          <el-col :span="12">Eat Sleep Code<br />Repeat</el-col>
-          <el-col :span="6"></el-col>
+          <el-col :span="3"></el-col>
+          <el-col :span="18">Eat Sleep Code<br />Repeat</el-col>
+          <el-col :span="3"></el-col>
         </el-row>
         <el-row class="height20"></el-row>
         <el-row class="height10" style="font-size: 36px">

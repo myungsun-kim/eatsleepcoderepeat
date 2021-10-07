@@ -44,6 +44,8 @@
 import { computed, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+
+import { ElMessage } from 'element-plus';
 export default {
   setup() {
     const store = useStore();
@@ -83,7 +85,11 @@ export default {
           }
         })
         .catch((err) => {
-          alert('잘못된 비밀번호를 입력하셨습니다');
+          ElMessage({
+            showClose: true,
+            message: '잘못된 비밀번호를 입력하셨습니다',
+            type: 'error',
+          });
         });
 
       // router.push({ path: '/nosubheader/updatemypage' });

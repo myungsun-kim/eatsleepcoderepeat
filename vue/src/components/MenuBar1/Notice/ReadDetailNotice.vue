@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <el-col :span="5"></el-col>
-    <el-col :span="13">
+    <el-col :span="13" v-if="article">
       <el-row class="author-font"> 공지사항 </el-row>
       <el-row id="article-title"> {{ article.title }} </el-row>
       <el-row class="author-font"> {{ article.createdMember }} </el-row>
@@ -109,8 +109,6 @@ export default {
 
     store.dispatch('study/getArticleDetail', param.form);
     const article = computed(() => store.getters['study/articleGetter']);
-    console.log(article);
-    console.log(article.value);
 
     const goUpdateNotice = function () {
       router.push({ path: '/subheader/notice/update' });

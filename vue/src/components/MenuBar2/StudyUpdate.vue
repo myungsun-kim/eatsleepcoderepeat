@@ -268,7 +268,9 @@
 import { reactive, computed, watch, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+
 import techstacks from '@/autocomplete/techstack.js';
+import { ElMessage } from 'element-plus';
 
 export default {
   name: 'studyUpdate',
@@ -337,8 +339,6 @@ export default {
     });
 
     onBeforeMount(() => {
-      console.log(11111111111111111111);
-      console.log(studyInfo.value.name);
       state.form.bio = studyInfo.value.bio;
       state.form.city = studyInfo.value.city;
       state.form.clubId = studyInfo.value.club;
@@ -465,7 +465,11 @@ export default {
     const goIntroduce = function () {
       // 스터디 인원 0명일시 수정불가능
       if (state.form.maxCount < 1) {
-        alert('스터디 인원은 최소 1명 이상이어야 합니다.');
+        ElMessage({
+          showClose: true,
+          message: '스터디 인원은 최소 1명 이상이어야 합니다.',
+          type: 'error',
+        });
       } else {
         store.dispatch('study/updateStudy', state);
         router.push({ path: '/subheader/study/introduce' });

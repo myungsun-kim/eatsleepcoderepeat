@@ -383,7 +383,9 @@
 import { onUnmounted, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+
 import techstacks from '@/autocomplete/techstack.js';
+import { ElMessage } from 'element-plus';
 
 export default {
   name: 'SignUp',
@@ -1078,16 +1080,29 @@ export default {
         .dispatch('auth/signUp', state.form)
         .then((res) => {
           if (res.status == 200) {
-            alert('회원가입이 성공적으로 완료되었습니다!');
+            ElMessage({
+              showClose: true,
+              message: '회원가입이 성공적으로 완료되었습니다!',
+              type: 'success',
+            });
             window.location = '/noheader/signin';
           } else {
-            alert('회원가입에 실패하였습니다.');
+            ElMessage({
+              showClose: true,
+              message: '회원가입에 실패하였습니다.',
+              type: 'error',
+            });
+
             window.location = '/noheader/signup';
           }
         })
         .catch((err) => {
           console.log(err);
-          alert('회원가입에 실패하였습니다.');
+          ElMessage({
+            showClose: true,
+            message: '회원가입에 실패하였습니다.',
+            type: 'error',
+          });
           window.location = '/noheader/signup';
         });
     };

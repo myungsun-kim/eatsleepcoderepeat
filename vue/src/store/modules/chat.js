@@ -2,6 +2,7 @@ import axios from 'axios';
 import store from '..';
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
+import { ElMessage } from 'element-plus';
 
 // const BASE_URL = '';
 const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
@@ -62,7 +63,6 @@ export const chat = {
   },
   mutations: {
     cleanup(state) {
-      
       state.chatlist = {};
       state.chatordered = [];
       state.chatdetail = {};
@@ -209,19 +209,26 @@ export const chat = {
   actions: {
     // 채팅 시작
     startChat({ commit }, body) {
-      const res = axios
+      axios
         .post(
           BASE_URL + '/api/chat/sessions/start',
           JSON.stringify(body),
           authHeader
         )
         .then((res) => {
-          console.log('채팅방 개설 결과');
-          console.log(res);
-          // console.log(res.data.content);
-          // commit('updateTotalStudyList', res.data.content);
+          ElMessage({
+            showClose: true,
+            message: '채팅방 생성을 성공했습니다.',
+            type: 'success',
+          });
+        })
+        .catch((error) => {
+          ElMessage({
+            showClose: true,
+            message: '문제가 발생했습니다.',
+            type: 'error',
+          });
         });
-      // return res;
     },
     cleanup({ commit }) {
       commit('cleanup');
@@ -254,7 +261,7 @@ export const chat = {
       //   const serverURL = 'http://localhost:8080/api/socket/chat'; // 서버 채팅 주소
       const serverURL = 'http://j5d105.p.ssafy.io:8080/api/socket/chat'; // 서버 채팅 주소
       let socket = new SockJS(serverURL);
-      socket.onclose = function(){
+      socket.onclose = function () {
         state.stompClient.disconnect();
         state.stompClient = undefined;
         state.socket = undefined;
