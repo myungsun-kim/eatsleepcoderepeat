@@ -4,12 +4,12 @@
     <div v-if="!modalOpen" class="modal">
       <div class="height40" style="width: 30%">
         <el-row class="height10">
-          <el-col :span="24" class="font-noto-bold font-20">
+          <el-col :span="24" class="delete-target">
             [{{ article.title }}] 게시글을
           </el-col>
         </el-row>
         <el-row class="height20">
-          <el-col :span="24" class="font-noto-md font-20">
+          <el-col :span="24" class="delete-msg">
             정말로 삭제하시겠습니까?
           </el-col>
         </el-row>
@@ -136,5 +136,17 @@ export default {
   line-height: 16px;
   text-align: center;
   color: #999999;
+}
+.delete-target {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+}
+.delete-msg {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
 }
 </style>

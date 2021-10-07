@@ -251,6 +251,20 @@ body {
   text-align: center;
   color: #1747c9;
 }
+.btn-ghost-round-blue:hover {
+  background: #1747c9;
+  border: 2px solid #1747c9;
+  box-sizing: border-box;
+  border-radius: 30px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  color: #ffffff;
+}
 .btn-ghost-round-red {
   background: #ffffff;
   border: 1px solid #f53030;
@@ -263,6 +277,19 @@ body {
   line-height: 16px;
   text-align: center;
   color: #f53030;
+}
+.btn-ghost-round-red:hover {
+  background: #f53030;
+  border: 1px solid #f53030;
+  box-sizing: border-box;
+  border-radius: 30px;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  color: #ffffff;
 }
 .btn-ghost-red {
   font-size: 14pt;

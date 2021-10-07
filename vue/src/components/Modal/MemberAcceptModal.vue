@@ -6,14 +6,14 @@
     <div v-if="!modalOpen" class="modal">
       <div class="height40" style="width: 30%">
         <el-row class="height20">
-          <el-col :span="24" class="font-noto-bold font-20">
+          <el-col :span="24" class="title-msg">
             {{ userNickname }}님의 <br />
             [{{ studyIntroduce.name }}] 가입을 <br />
             수락하시겠습니까?
           </el-col>
         </el-row>
         <el-row class="height8">
-          <el-col :span="24" class="font-noto-md font-14">
+          <el-col :span="24" class="sub-msg">
             가입 시 인원 수: {{ studyIntroduce.memberCount + 1 }}/{{
               studyIntroduce.maxCount
             }}
@@ -129,5 +129,19 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.title-msg {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+}
+
+.sub-msg {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
 }
 </style>

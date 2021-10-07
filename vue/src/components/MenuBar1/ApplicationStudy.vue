@@ -13,7 +13,7 @@
               <div class="input1">
                 <el-popover
                   v-model:visible="visible"
-                  placement="top"
+                  placement="left"
                   :width="200"
                 >
                   <div style="text-align: right; margin: 0">

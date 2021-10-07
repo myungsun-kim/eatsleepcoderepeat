@@ -6,7 +6,7 @@
     <div v-if="!modalOpen" class="modal">
       <div class="height40" style="width: 30%">
         <el-row class="height20">
-          <el-col :span="24" class="font-noto-bold font-20">
+          <el-col :span="24" class="title-msg">
             {{ userNickname }}님의 <br />
             [{{ studyIntroduce.name }}] 가입을 <br />
             거절하시겠습니까?
@@ -117,5 +117,12 @@ export default {
   justify-content: center;
   background-color: white;
   width: 100%;
+}
+
+.title-msg {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
 }
 </style>
