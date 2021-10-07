@@ -97,12 +97,20 @@ public class Study {
         this.dbFile = dbFile;
     }
 
-    public void update(StudyUpdateRequestDto dto) {
+    public void setMaxCount(int num) throws Exception {
+        if(num < 1) {
+            throw new Exception("인원은 1명 이상이 되어야합니다.");
+        }
+        this.maxCount = num;
+    }
+
+
+    public void update(StudyUpdateRequestDto dto) throws Exception {
         this.name = dto.getName();
         this.schedule = dto.getSchedule();
         this.period = dto.getPeriod();
         this.bio = dto.getBio();
-        this.maxCount = dto.getMaxCount();
+        setMaxCount(dto.getMaxCount());
         this.city = City.from(dto.getCity());
         this.modifyDate = LocalDateTime.now();
         this.status = Status.from(dto.getStatus());
@@ -110,13 +118,13 @@ public class Study {
         this.isParticipate = dto.getIsParticipate();
     }
 
-    public Study(StudyCreateRequestDto dto) {
+    public Study(StudyCreateRequestDto dto) throws Exception {
         this.name = dto.getName();
         this.schedule = dto.getSchedule();
         this.period = dto.getPeriod();
         this.bio = dto.getBio();
         this.memberCount = 0;
-        this.maxCount = dto.getMaxCount();
+        setMaxCount(dto.getMaxCount());
         this.city = City.from(dto.getCity());
         this.createDate = LocalDateTime.now();
         this.modifyDate = LocalDateTime.now();

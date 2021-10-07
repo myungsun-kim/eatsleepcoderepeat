@@ -44,20 +44,14 @@
 </template>
 <script>
 import { useRouter } from 'vue-router';
-import { reactive, computed } from 'vue';
+import { reactive, computed, watch } from 'vue';
 import { useStore } from 'vuex';
 export default {
   setup() {
     const router = useRouter();
     const store = useStore();
     const modalOpen = computed(() => store.getters['acceptModalGetter']);
-    const state = reactive({
-      form: {
-        studyId: 3,
-        memberNickname: 'ms',
-        memberId: 47, //user.memberId
-      },
-    });
+
     // 스터디 ID 가져오기
     const studyId = computed(() => store.getters['study/studyIdGetter']);
 
@@ -65,9 +59,25 @@ export default {
     const memberNickname = computed(
       () => store.getters['member/studyMemberNicknameGetter']
     );
-    // 해당 멤버 정보 가져오기
-    store.dispatch('study/applicationOne', state.form);
+
     const user = computed(() => store.getters['member/userInfoGetter']);
+
+    const state = reactive({
+      form: {
+        studyId: studyId.value,
+        memberNickname: memberNickname.value,
+        memberId: user.value.memberId,
+      },
+    });
+
+    watch(modalOpen, () => {
+      console.log('memberId 바뀜');
+      console.log(state.form.memberId);
+    });
+
+    // 해당 멤버 정보 가져오기
+    // store.dispatch('study/applicationOne', state.form);
+    // const user = computed(() => store.getters['member/userInfoGetter']);
 
     const accept = function () {
       store.dispatch('study/approvalStudy', state.form);

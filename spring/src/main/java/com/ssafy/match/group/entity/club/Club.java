@@ -73,21 +73,28 @@ public class Club {
         this.member = member;
     }
 
-    public void update(ClubUpdateRequestDto dto) {
+    public void setMaxCount(int num) throws Exception {
+        if(num < 1) {
+            throw new Exception("인원은 1명 이상이 되어야합니다.");
+        }
+        this.maxCount = num;
+    }
+
+    public void update(ClubUpdateRequestDto dto) throws Exception {
         this.name = dto.getName();
         this.topic = dto.getTopic();
         this.bio = dto.getBio();
-        this.maxCount = dto.getMaxCount();
+        setMaxCount(dto.getMaxCount());
         this.city = City.from(dto.getCity());
         this.isPublic = dto.getIsPublic();
     }
 
-    public Club(ClubCreateRequestDto dto) {
+    public Club(ClubCreateRequestDto dto) throws Exception {
         this.name = dto.getName();
         this.topic = dto.getTopic();
         this.bio = dto.getBio();
         this.memberCount = 0;
-        this.maxCount = dto.getMaxCount();
+        setMaxCount(dto.getMaxCount());
         this.city = City.from(dto.getCity());
         this.createDate = LocalDateTime.now();
         this.isActive = true;

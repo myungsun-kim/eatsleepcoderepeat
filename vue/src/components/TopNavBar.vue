@@ -43,13 +43,14 @@
           ><i class="el-icon-search" id="search-icon"></i
         ></el-col>
         <el-col :span="3"></el-col
-        ><el-col v-if="chatCurrentId != 0" :span="3"
+        ><el-col :span="3"
           ><el-button
             class="top-nav-btn font-s-md"
             type="text"
             @click="clickChat"
             >채팅</el-button
-          ><el-button>{{ chatUnreadCounts }}</el-button> </el-col
+          >
+          <div class="chat_count">{{ chatUnreadCounts }}</div> </el-col
         ><el-col :span="3"></el-col
         ><el-col :span="6"
           ><el-button
@@ -204,5 +205,18 @@ export default {
   font-size: 18px;
   text-align: center;
   color: white;
+}
+.chat_count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  margin-top: -17px;
+  margin-left: 35px;
+  background: #f53030;
+  border-radius: 10px;
+  opacity: 0.9;
 }
 </style>
