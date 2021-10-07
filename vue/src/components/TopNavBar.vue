@@ -100,7 +100,9 @@ export default {
     const clickStudy = function () {
       if (token) {
         store.commit('setCategory', 1);
-        router.push({ path: '/nosubheader/study/home' });
+
+        window.location = '/nosubheader/study/home';
+        // router.push({ path: '/nosubheader/study/home' });
       } else {
         router.push({ path: '/noheader/signin' });
       }

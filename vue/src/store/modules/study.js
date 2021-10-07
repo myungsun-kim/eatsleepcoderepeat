@@ -350,19 +350,7 @@ export const study = {
       });
       return res.data;
     },
-    // 스터디 신청 거절
-    rejectStudy({ commit }, form) {
-      const res = axios.post(
-        BASE_URL + `/api/studyapplication/${form.studyId}/${form.memberId}`,
-        header
-      );
-      res.then((res) => {
-        console.log('스터디 신청 거절');
-        console.log(res);
-        console.log(res.data);
-      });
-      return res.data;
-    },
+
     // 스터디 신청 수락
     approvalStudy({ commit }, form) {
       console.log(form);
@@ -377,6 +365,20 @@ export const study = {
           console.log('스터디 신청 수락');
           console.log(res);
           console.log(res.data);
+        });
+    },
+
+    // 스터디 신청 거절
+    rejectStudy({ commit }, form) {
+      const res = axios
+        .delete(
+          BASE_URL + `/api/studyapplication/${form.studyId}/${form.memberId}`,
+          header
+        )
+        .then((res) => {
+          // console.log('스터디 신청 거절');
+          // console.log(res);
+          // console.log(res.data);
         });
     },
 
