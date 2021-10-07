@@ -143,7 +143,7 @@
       </el-row>
 
       <el-row>
-        <el-col :span="7">{{ auth }}</el-col>
+        <el-col :span="7"></el-col>
         <el-col :span="2" v-if="auth == 2">
           <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
             수정
