@@ -1,5 +1,6 @@
 import axios from 'axios';
-const BASE_URL = '';
+// const BASE_URL = '';
+const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
 
 export const member = {
   // 모듈별로 구분이 가능하게 하기 위해(독립적이기 위해) vuex namespaced: true
