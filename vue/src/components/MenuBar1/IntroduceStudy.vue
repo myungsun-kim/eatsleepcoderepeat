@@ -66,13 +66,13 @@
       <el-row class="height8">
         <el-popover v-model:visible="visible" placement="top" :width="200">
           <div style="text-align: right; margin: 0">
-            <el-button
-              size="mini"
-              class="btn-ghost-round-red"
-              @click="goOtherPage"
+            <el-button size="mini" class="btn-ghost-round" @click="goOtherPage"
               >마이페이지
             </el-button>
-            <el-button class="btn-ghost-round-red" size="mini" @click="makeChat"
+            <el-button
+              class="btn-ghost-round-blue"
+              size="mini"
+              @click="makeChat"
               >채팅</el-button
             >
           </div>
@@ -143,7 +143,7 @@
       </el-row>
 
       <el-row>
-        <el-col :span="7">{{ auth }}</el-col>
+        <el-col :span="7"></el-col>
         <el-col :span="2" v-if="auth == 2">
           <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
             수정
@@ -265,12 +265,11 @@ export default {
         read_time: 1000,
         receiverId: studyIntroduce.value.host.id, // 받는 사람
         senderId: currentId.value, //보내는 사람
-        sent_time: 1000,
+        sent_time: new Date(),
         type: 1,
       };
 
       store.dispatch('chat/startChat', body);
-
       router.push({ path: '/nosubheader/chat' });
     };
     // 팀장의 마이페이지 방문

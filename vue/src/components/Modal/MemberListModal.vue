@@ -10,20 +10,16 @@
   </div>
   <teleport to="body">
     <div v-if="!modalOpen" class="modal">
-      <div class="height80" style="width: 30%">
+      <div class="height80" style="width: 50%">
         <el-row class="height10"></el-row>
-        {{ studyIntroduce.memberDtos }}
         <el-row
           class="height20"
           v-for="(item, index) in studyIntroduce.memberDtos"
           :key="index"
         >
-          <el-col :span="1"></el-col>
-          <el-col :span="4">{{ item.email }}</el-col>
-          <el-col :span="1"></el-col>
-          <el-col :span="8">{{ item.nickname }}</el-col>
-          <el-col :span="5"></el-col>
-          <el-col :span="4">
+          <el-col :span="10" :offset="1">{{ item.email }}</el-col>
+          <el-col :span="5" :offset="1">{{ item.nickname }}</el-col>
+          <el-col :span="5" :offset="1">
             <el-button
               class="btn-1747C9 font-noto-bold"
               @click="goInfoPage(item.email)"
