@@ -224,7 +224,7 @@ export default {
           state.form.backjoon = user.value.snsList[i].snsAccount;
         }
       }
-      console.log(user.value, '@@@@@@@@@@@@@@@@@@@');
+      // console.log(user.value, '@@@@@@@@@@@@@@@@@@@');
     });
 
     store.dispatch('study/applicationOne', state.form);

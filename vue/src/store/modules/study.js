@@ -27,6 +27,7 @@ export const study = {
     studyNormalBoardId: '', // 스터디 게시판 보드 ID
     article: {}, //게시글 내용
     currentPage: '1', //현재 페이지네이션 할 페이지 위치
+    checkHost: '', //검사한게 host가 맞는지 아닌지 T/F
   },
   mutations: {
     updateTotalStudyList(state, payload) {
@@ -106,6 +107,11 @@ export const study = {
       // console.log('넘겨준 게시판 내용값');
       // console.log(payload);
       state.currentPage = payload;
+    },
+    updateCheckHost(state, payload) {
+      // console.log('넘겨준 게시판 내용값');
+      // console.log(payload);
+      state.checkHost = payload;
     },
     // updateMemberId(state, payload) {
     //   state.memberId = payload;
@@ -191,11 +197,14 @@ export const study = {
       return res;
     },
     checkHost({ commit }, data) {
-      const res = axios.get(
-        BASE_URL + '/api/auth/check/nickname/' + data,
-        header
-      );
-      return res.data;
+      console.log(data);
+      const res = axios
+        .get(BASE_URL + '/api/auth/check/nickname/' + data, header)
+        .then((res) => {
+          console.log(res);
+          console.log(res.data);
+          commit('updateCheckHost', res.data);
+        });
     },
     // 해당 스터디 전체 신청서 조회
     applicationAll({ commit }, data) {
@@ -496,6 +505,11 @@ export const study = {
       // console.log('article GETTER');
       // console.log(state.article);
       return state.memberId;
+    },
+    checkHostGetter: (state) => {
+      // console.log('article GETTER');
+      // console.log(state.article);
+      return state.checkHost;
     },
   },
   modules: {},
