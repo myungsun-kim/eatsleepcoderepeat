@@ -1,6 +1,6 @@
 <template>
   <el-row class="height5">
-    <el-col :span="24" class=""> Chat여백: </el-col>
+    <el-col :span="24" class=""></el-col>
   </el-row>
   <el-row class="height90">
     <el-col :span="3"></el-col>
@@ -119,7 +119,7 @@
     <el-col :span="3"></el-col>
   </el-row>
   <el-row class="height5">
-    <el-col :span="24" class=""> Chat여백: </el-col>
+    <el-col :span="24" class=""> </el-col>
   </el-row>
 </template>
 
@@ -293,7 +293,7 @@ export default {
   display: flex;
   flex-flow: column;
   background: white;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
 }
@@ -304,7 +304,7 @@ export default {
   flex-flow: column;
   justify-content: space-between;
   background: #e9e9e9;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
@@ -315,7 +315,7 @@ export default {
 }
 .box4 {
   display: flex;
-  border: 2px solid orange;
+  /* border: 2px solid orange; */
   border-bottom-right-radius: 15px;
 }
 .box5 {
