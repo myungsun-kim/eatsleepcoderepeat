@@ -4,17 +4,14 @@
   </el-button>
   <teleport to="body">
     <div v-if="!modalOpen" class="modal">
-      <div class="height40">
-        <el-row class="height30"></el-row>
+      <div class="height40" style="width: 40%">
         <el-row class="height10">
-          <el-col :span="24" class="font-noto-bold font-20">
+          <el-col :span="24" class="title-msg">
             {{ studyIntroduce.name }}
           </el-col>
         </el-row>
         <el-row class="height10">
-          <el-col :span="24" class="font-noto-md font-20"
-            >정말로 탈퇴하시겠습니까</el-col
-          >
+          <el-col :span="24" class="sub-msg">정말로 탈퇴하시겠습니까</el-col>
         </el-row>
         <el-row class="height10">
           <el-col :span="6" :offset="6">
@@ -56,7 +53,6 @@ export default {
     const router = useRouter();
     // 1. 스터디 ID를 받아옴
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    // console.log(studyId);
     // 2. 모달창에 스터디 정보를 일부 띄워야하기 때문에 스터디 정보를 받음
     const studyIntroduce = computed(
       () => store.getters['study/studyIntroduceGetter']
@@ -66,8 +62,6 @@ export default {
       store.dispatch('study/introduce', studyId.value);
     });
 
-    // console.log('studyId: ' + studyId.value);
-
     // 모달 처리
     const modalOpen = computed(() => store.getters['scrollGetter']);
     const changemodalOpen = function () {
@@ -75,7 +69,6 @@ export default {
     };
     // 탈퇴 누를 시
     const goStudyHome = function () {
-      // console.log(studyId.value);
       store.dispatch('study/quitStudy', studyId.value);
       store.dispatch('changeScrollModal', !modalOpen.value);
       router.push({ path: '/nosubheader/study/home' });
@@ -110,6 +103,20 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: white;
-  width: 50%;
+  width: 100%;
+}
+
+.title-msg {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+}
+
+.sub-msg {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
 }
 </style>

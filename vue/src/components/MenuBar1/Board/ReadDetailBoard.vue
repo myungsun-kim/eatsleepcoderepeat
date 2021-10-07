@@ -7,8 +7,8 @@
       <el-row class="author-font"> {{ article.createdMember }} </el-row>
       <el-row>
         <el-col :span="10" class="gray-font left-align">
-          {{ article.createdDate.substr(2, 8) }}&nbsp;
-          {{ article.createdDate.substr(11, 8) }}
+          {{ new String(article.createdDate).substr(2, 8) }}&nbsp;
+          {{ new String(article.createdDate).substr(11, 8) }}
         </el-col>
         <el-col :span="10"></el-col>
         <el-col :span="2">
@@ -21,8 +21,8 @@
       <el-row class="gray-font">
         {{ article.content }}
       </el-row>
-
-      <el-row class="height10"> </el-row>
+      <el-row class="height30"> </el-row>
+      <hr />
       <el-row>
         <el-col :span="21"></el-col>
         <el-col :span="2">
@@ -94,21 +94,17 @@ export default {
     });
 
     watch(articleId, () => {
-      console.log('articleId 바뀜');
       param.form.articleid = articleId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });
 
     watch(boardId, () => {
-      console.log('boardId 바뀜');
       param.form.boardid = boardId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });
 
     store.dispatch('study/getArticleDetail', param.form);
     const article = computed(() => store.getters['study/articleGetter']);
-    console.log(article);
-    console.log(article.value);
 
     const goUpdateArticle = function () {
       router.push({ path: '/subheader/board/update' });

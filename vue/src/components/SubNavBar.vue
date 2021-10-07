@@ -95,11 +95,6 @@ export default {
 
     const category = computed(() => store.getters['categoryGetter']);
 
-    watch(category, () => {
-      console.log('카테고리 변함. Watch');
-      // store.dispatch('study/introduce', studyId.value);
-    });
-
     const clickIntroduceStudy = function () {
       store.commit('setCategory', 1);
       router.push({ path: '/subheader/study/introduce' });
@@ -161,7 +156,20 @@ export default {
   font-size: 28px;
   text-align: center;
   color: black;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
+}
+.sub-nav-btn:hover {
+  font-size: 28px;
+  text-align: center;
+  color: black;
   text-decoration: underline;
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 36px;
 }
 .lock-div {
   display: flex;

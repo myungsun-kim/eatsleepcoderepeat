@@ -15,7 +15,7 @@
                 <img class="previewImg" src="../../assets/Item/basic.png" />
               </div>
               <el-upload :before-upload="beforeProfileUpload" class="upload">
-                업로드
+                <!-- 업로드 -->
               </el-upload>
             </div>
             <div class="box3">
@@ -202,18 +202,18 @@
                 v-model="state.form.snsHashMap.backjoon"
               />
             </div>
-            <div class="box4">
+            <!-- <div class="box4">
               <div class="label2">포트폴리오</div>
               <div class="link0">
                 <a :href="`${state.form.portfolio}`" class="link1">
                   포트폴리오
-                  <!-- {{ state.form.portfolio }} -->
+                  {{ state.form.portfolio }}
                 </a>
-                <el-upload :before-upload="beforePortUpload" class="link2">
-                  업로드
-                </el-upload>
+                <el-upload :before-upload="beforePortUpload" class="link2"> -->
+            <!-- 업로드 -->
+            <!-- </el-upload>
               </div>
-            </div>
+            </div> -->
             <div class="box4">
               <div class="label2">url</div>
               <input
@@ -380,7 +380,7 @@
               />
             </div>
           </div>
-          <div>
+          <div id="btn">
             <el-button class="btn-ghost-round-blue" @click="updateMember"
               >수정
             </el-button>
@@ -420,9 +420,6 @@ export default {
       store.dispatch('member/readMyPage');
     });
 
-    console.log('유저정보');
-    console.log(user);
-    console.log(user.value);
     // user.value.dpositionList의 형태가 {0, {"id"= 1, "name"="프론트앤드"}}처럼 들어오기때문에
     // 해당 객체를 반복문으로 돌면서 name의 value값만 모아서 dpList1에 저장
     let dpList = Object.values(user.value.dpositionList);
@@ -476,14 +473,7 @@ export default {
     });
 
     onBeforeMount(() => {
-      console.log(user.value.portfolio);
-      console.log(user.value.portfolio_uuid);
-      // console.log(user.value.cover_pic);
-      console.log(user.value.name);
-      console.log(state.form.dpositionList);
-
       // 유저 snsList에서 snsName에 따라 snsAccount 계정 설정
-      console.log(user.value.snsList.length);
       for (var i = 0; i < user.value.snsList.length; i++) {
         if (user.value.snsList[i].snsName == 'github') {
           state.form.snsHashMap.github = user.value.snsList[i].snsAccount;
@@ -495,12 +485,10 @@ export default {
           state.form.snsHashMap.backjoon = user.value.snsList[i].snsAccount;
         }
       }
-      console.log(user.value, '@@@@@@@@@@@@@@@@@@@');
     });
 
     // 이름 유효성 검사
     const checkName = function () {
-      console.log('이름 유효성 체크!!!');
       const warning12 = document.getElementById('warning12');
       const success1 = document.getElementById('success1');
       let nameVal = state.form.name;
@@ -520,7 +508,6 @@ export default {
 
     // 닉네임 유효성 검사
     const checkNickName = function () {
-      console.log('닉네임 포커싱 벗어남!!!');
       var warning13 = document.getElementById('warning13');
       var warning13_1 = document.getElementById('warning13_1');
       var success2 = document.getElementById('success2');
@@ -572,7 +559,6 @@ export default {
 
     // 비밀번호 유효성 검사
     const checkPassword = function () {
-      console.log('비밀번호 유효성 검사!!!');
       // 비밀번호는 최소 8자 이상이어야 합니다
       var warning14 = document.getElementById('warning14');
       // 정규표현식에 어긋납니다
@@ -612,7 +598,6 @@ export default {
 
     // 비밀번호 확인 유효성 검사
     const checkAffirmPassword = function () {
-      console.log('비밀번호확인 유효성 검사!!!');
       var warning15 = document.getElementById('warning15');
       let affirmPasswordVal = state.affirmPassword;
 
@@ -636,13 +621,9 @@ export default {
       reader.readAsDataURL(file);
       reader.onload = function (e) {
         // var image = document.createElement('img');
-        console.log('파일리더');
-        console.log(e);
+        // 파일리더 e
         var image = document.querySelector('.previewImg');
-        console.log('이미지');
-        console.log(image);
-        console.log('blob');
-        console.log(e.target.result);
+        // blob e.target.result
         image.src = e.target.result; //blob 매핑
         image.width = 250;
         image.height = 200;
@@ -650,19 +631,13 @@ export default {
         // document.body.appendChild(image);
       };
 
-      console.log('ddd');
-      console.log(typeof formData);
       const res = store.dispatch('uploadFile', formData);
 
       res.then((res) => {
-        console.log('then');
-        console.log(res.data);
-        console.log(res.data.fileDownloadUri);
         // readURL(this.uploadImageFile);
-        console.log('reader');
         state.form.cover_pic = res.data.id;
       });
-      console.log('onfile');
+      // onfile
     };
 
     // 포트폴리오 파일 업로드
@@ -673,9 +648,6 @@ export default {
       const res = store.dispatch('uploadFile', formData);
 
       res.then((res) => {
-        console.log('vv');
-        console.log(res.data.fileDownloadUri);
-        console.log(res.data.id);
         state.form.portfolio = res.data.fileDownloadUri;
         // state.form.portfolio_uuid = res.data.fileDownloadUri;
         state.form.portfolio_uuid = res.data.id;
@@ -734,7 +706,6 @@ export default {
         else {
           // 회원가입할때 보낼 data값
           state.form.expTechList.push(state.exp);
-          console.log(state.form, 'exp찍을거임!');
           warning1.style = 'display:none';
           warning2.style = 'display:none';
           warning3.style = 'display:none';
@@ -821,15 +792,14 @@ export default {
         // box에 보여줄 요소 Data 처리
         // 회원가입할때 보낼 data값
         state.form.expTechList.push(clickedTechStack);
-        console.log(`${state.form.expTechList}이 추가되었다!`);
-
+        // ${state.form.expTechList}이 추가되었다!
         warning2.style = 'display:none';
         warning3.style = 'display:none';
         warning4.style = 'display:none';
         autocomplete.style = 'display:none';
         state.exp = '';
-        console.log(state.form.expAddTechList, 'exp추가할 목록');
-        console.log(state.form.expDelTechList, 'exp삭제할 목록');
+        // state.form.expAddTechList, 'exp추가할 목록'
+        // state.form.expDelTechList, 'exp삭제할 목록'
       }
     };
 
@@ -851,8 +821,8 @@ export default {
       state.form.expTechList = state.form.expTechList.filter(
         (techStack) => techStack !== clickedTechStack
       );
-      console.log(state.form.expAddTechList, 'exp추가할 목록');
-      console.log(state.form.expDelTechList, 'exp삭제할 목록');
+      //state.form.expAddTechList, 'exp추가할 목록'
+      //state.form.expDelTechList, 'exp삭제할 목록'
     };
 
     // Step3 박스에 요소 추가(Beginner)
@@ -907,7 +877,6 @@ export default {
         else {
           // 회원가입할때 보낼 data값
           state.form.beginTechList.push(state.beg);
-          console.log(state.form, 'exp찍을거임!');
           warning5.style = 'display:none';
           warning6.style = 'display:none';
           warning7.style = 'display:none';
@@ -994,15 +963,14 @@ export default {
         // box에 보여줄 요소 Data 처리
         // 회원가입할때 보낼 data값
         state.form.beginTechList.push(clickedTechStack);
-        console.log(`${state.form.beginTechList}이 추가되었다!`);
-
+        // `${state.form.beginTechList}이 추가되었다!`
         warning6.style = 'display:none';
         warning7.style = 'display:none';
         warning8.style = 'display:none';
         autocomplete.style = 'display:none';
         state.beg = '';
-        console.log(state.form.beginAddTechList, 'begin추가할 목록');
-        console.log(state.form.beginDelTechList, 'begin삭제할 목록');
+        // state.form.beginAddTechList, 'begin추가할 목록'
+        // state.form.beginDelTechList, 'begin삭제할 목록'
       }
     };
 
@@ -1023,8 +991,8 @@ export default {
       state.form.beginTechList = state.form.beginTechList.filter(
         (techStack) => techStack !== clickedTechStack
       );
-      console.log(state.form.beginAddTechList, 'begin추가할 목록');
-      console.log(state.form.beginDelTechList, 'begin삭제할 목록');
+      // state.form.beginAddTechList, 'begin추가할 목록'
+      // state.form.beginDelTechList, 'begin삭제할 목록'
     };
 
     const addPosition = function () {
@@ -1089,13 +1057,13 @@ export default {
         // box에 보여줄 요소 Data처리
         // 회원가입할때 보낼 Data값
         state.form.dpositionList.push(state.dp);
-        console.log(state.form, '세부포지션을 찍을거임!');
+        // state.form, '세부포지션을 찍을거임!'
         warning9.style = 'display:none';
         warning10.style = 'display:none';
         warning11.style = 'display:none';
         state.dp = '';
-        console.log(state.form.dpositionAddList, 'exp추가할 목록');
-        console.log(state.form.dpositionDelList, 'exp삭제할 목록');
+        // state.form.dpositionAddList, 'exp추가할 목록'
+        // state.form.dpositionDelList, 'exp삭제할 목록'
       }
     };
 
@@ -1117,8 +1085,8 @@ export default {
       state.form.dpositionList = state.form.dpositionList.filter(
         (detailPosition) => detailPosition !== clickedDetailPosition
       );
-      console.log(state.form.dpositionAddList, 'dposition추가할 목록');
-      console.log(state.form.dpositionDelList, 'dposition삭제할 목록');
+      // state.form.dpositionAddList, 'dposition추가할 목록'
+      // state.form.dpositionDelList, 'dposition삭제할 목록'
     };
 
     const goReadMyPage = function () {
@@ -1144,7 +1112,6 @@ export default {
       } else {
         store.dispatch('member/updateMember', state.form).then((res) => {
           // store.dispatch('member/readMyPage');
-          console.log(res);
           router.push({ path: '/nosubheader/readmypage' });
         });
       }
@@ -1178,14 +1145,10 @@ export default {
 
   methods: {
     // readURL: function (event) {
-    //   console.log('selected');
     //   var reader = new FileReader();
     //   reader.onload = (e) => {
-    //     console.log('onload');
-    //     console.log(e.target.result);
     //     this.uploadImageFile = e.target.result;
     //   };
-    //   console.log(this.uploadImageFile);
     // },
   },
 };
@@ -1823,5 +1786,11 @@ export default {
   font-weight: normal;
   font-size: 18px;
   cursor: pointer;
+}
+
+#btn {
+  margin-top: 50px;
+  width: 782px;
+  padding-bottom: 100px;
 }
 </style>

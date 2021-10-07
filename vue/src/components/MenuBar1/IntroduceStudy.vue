@@ -1,10 +1,10 @@
 <template>
   <!-- 상단 소개 정보 부분 -->
-  <el-row class="font-20">
+  <el-row class="font-20" v-if="studyIntroduce">
     <el-col :span="3"></el-col>
     <el-col :span="3"
       ><el-row class="height1"> </el-row>
-      <el-row class="height8" v-if="store.state.category == 1">
+      <el-row class="height8">
         <i class="el-icon-postcard flex-items"></i>&nbsp;스터디 이름
       </el-row>
       <el-row class="height1"> </el-row>
@@ -120,9 +120,9 @@
     </el-col>
     <el-col :span="1"></el-col>
     <el-col :span="8">
-      <el-row class="height5"></el-row>
-      <el-row style="height: 80%">
-        <img src="../../assets/Item/basic.png" />
+      <!-- <el-row class="height5"></el-row> -->
+      <el-row style="height: 100%">
+        <img class="previewImg" src="../../assets/Item/basic3.png" />
       </el-row>
     </el-col>
     <el-col :span="3"></el-col>
@@ -132,7 +132,7 @@
   <el-row class="height5"> </el-row>
 
   <!-- 버튼 영역 -->
-  <el-row class="height50 font-20">
+  <el-row class="height30 font-20">
     <el-col :span="3"></el-col>
     <el-col :span="18">
       <el-row class="height8">
@@ -143,24 +143,23 @@
       </el-row>
 
       <el-row>
-        <el-col :span="7"></el-col>
-        <el-col :span="2" v-if="auth == 2">
+        <el-col :span="6"></el-col>
+        <el-col :span="6" v-if="auth == 2">
           <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
             수정
           </el-button>
-        </el-col>
-        <el-col :span="2" v-if="auth == 2"> <StudyDeleteModal /> </el-col>
-        <el-col :span="2" v-if="auth == 1"> <StudyQuitModal /> </el-col>
-        <el-col :span="2" v-if="auth == 0">
+        </el-col> 
+        <el-col :span="6" v-if="auth == 2"> <StudyDeleteModal /> </el-col>
+        <el-col :span="12" v-if="auth == 1"> <StudyQuitModal /> </el-col>
+        <el-col :span="6" v-if="auth == 0">
           <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
             돌아가기
           </el-button>
         </el-col>
-        <el-col :span="2" v-if="auth == 0">
+        <el-col :span="6" v-if="auth == 0">
           <CreateApplicationModal />
         </el-col>
-        <el-col :span="10"></el-col>
-        <el-col :span="3"></el-col>
+        <el-col :span="6"></el-col>
       </el-row>
     </el-col>
     <el-col :span="3"></el-col>
@@ -194,8 +193,6 @@ export default {
 
     store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
-    console.log(user);
-    console.log(user.value);
 
     //스터디 장-host2, 팀원-mystudylist에 있음1, 외부인-없음0
     const auth = ref(0);
@@ -277,8 +274,6 @@ export default {
       visible.value = false;
 
       // 팀장의 마이지페이지로 이동
-      console.log(studyIntroduce.value.host.email);
-      // store.dispatch('member/updateUserEmail', studyIntroduce.value.host.email);
       store.dispatch('member/readInfoPage', studyIntroduce.value.host.email);
       router.push({ path: '/nosubheader/readinfopage' });
     };
@@ -309,3 +304,14 @@ export default {
   },
 };
 </script>
+<style scoped>
+.previewImg {
+  width: 60%;
+  height: 100%;
+  object-fit: cover;
+  /* overflow: hidden; */
+}
+.margin {
+  padding-bottom: 150px;
+}
+</style>

@@ -186,7 +186,6 @@ export default {
     const router = useRouter();
     const store = useStore();
     const modalOpen = computed(() => store.getters['applicationModalGetter']);
-    console.log('모달' + modalOpen.value);
     // 스터디 ID 가져오기
     const studyId = computed(() => store.getters['study/studyIdGetter']);
 
@@ -212,7 +211,6 @@ export default {
 
     onBeforeMount(() => {
       // 유저 snsList에서 snsName에 따라 snsAccount 계정 설정
-      console.log(user.value.snsList.length);
       for (var i = 0; i < user.value.snsList.length; i++) {
         if (user.value.snsList[i].snsName == 'github') {
           state.form.git = user.value.snsList[i].snsAccount;
@@ -224,7 +222,6 @@ export default {
           state.form.backjoon = user.value.snsList[i].snsAccount;
         }
       }
-      // console.log(user.value, '@@@@@@@@@@@@@@@@@@@');
     });
 
     store.dispatch('study/applicationOne', state.form);

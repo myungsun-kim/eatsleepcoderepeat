@@ -6,8 +6,8 @@ import { chat } from '@/store/modules/chat';
 import { study } from '@/store/modules/study';
 import axios from 'axios';
 
-// const BASE_URL = '';
-const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
+const BASE_URL = '';
+// const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
 
 export default createStore({
   state: {
@@ -30,7 +30,6 @@ export default createStore({
   },
   mutations: {
     setCategory(state, value) {
-      // console.log('SET CATEGORY: ' + value);
       state.category = value;
     },
     setScrollModal(state, value) {
@@ -103,8 +102,6 @@ export default createStore({
       return state.applicationModal;
     },
     categoryGetter: (state) => {
-      console.log('GET 카테고리');
-      console.log(state.category);
       return state.category;
     },
   },
