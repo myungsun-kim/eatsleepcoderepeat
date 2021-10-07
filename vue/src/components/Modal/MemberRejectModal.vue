@@ -11,7 +11,7 @@
         <el-row class="height10"></el-row>
         <el-row class="height20">
           <el-col :span="24" class="font-noto-bold font-20"
-            >(지원자닉네임)님의 (스터디명) 가입을 거절하시겠습니까?
+            >{{ memberNickname }}님의 (스터디명) 가입을 거절하시겠습니까?
           </el-col>
         </el-row>
         <el-row class="height10">
@@ -61,7 +61,6 @@ export default {
     const state = reactive({
       form: {
         studyId: studyId.value,
-        memberNickname: memberNickname.value,
         memberId: studyApplication.value.memberId,
       },
     });

@@ -31,7 +31,7 @@ export const member = {
   actions: {
     // 마이페이지 정보
     readMyPage({ commit }) {
-      console.log('readmypage 호출');
+      // console.log('readmypage 호출');
       const res = axios
         .get(BASE_URL + `/api/member/mypage`, {
           headers: {
@@ -39,9 +39,9 @@ export const member = {
           },
         })
         .then((res) => {
-          console.log('READ MY PAGE');
-          console.log(res);
-          console.log(res.data);
+          // console.log('READ MY PAGE');
+          // console.log(res);
+          // console.log(res.data);
           commit('updateMypage', res.data);
         });
       return res;

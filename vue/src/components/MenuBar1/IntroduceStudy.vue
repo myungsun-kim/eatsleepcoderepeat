@@ -149,6 +149,7 @@
             수정
           </el-button>
         </el-col>
+        {{ auth }} {{ isHost }}
         <el-col :span="2" v-if="auth == 2"> <StudyDeleteModal /> </el-col>
         <el-col :span="2" v-if="auth == 1"> <StudyQuitModal /> </el-col>
         <el-col :span="2" v-if="auth == 0">
@@ -189,6 +190,7 @@ export default {
     );
     // 1. 새롭게 스터디 id가 바뀌는 것을 감지
     watch(studyId, () => {
+      console.log(222222);
       store.dispatch('study/introduce', studyId.value);
     });
 
@@ -201,11 +203,18 @@ export default {
     //api/auth/check/nickname/에다가
     //내 토큰이랑 스터디 장의 별명을 넣어서 일치하는지 확인
 
-    // console.log(auth.value);
-
     // 권한 체크
     store.dispatch('study/checkHost', studyIntroduce.value.host.nickname);
-    const isHost = computed(() => store.getters['study/checkHost']);
+    const isHost = computed(() => store.getters['study/checkHostGetter']);
+    if (isHost) {
+      auth.value = 2;
+    } else {
+      for (let index = 0; index < user.value.myStudyList.length; index++) {
+        if (user.value.myStudyList[index].id == studyId.value) {
+          auth.value = 1;
+        }
+      }
+    }
 
     watch(isHost, () => {
       if (

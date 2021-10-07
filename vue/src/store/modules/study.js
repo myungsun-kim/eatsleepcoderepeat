@@ -41,7 +41,7 @@ export const study = {
       state.recommendStudyList = payload;
     },
     updateStudyId(state, payload) {
-      console.log('넘겨준 STUDY ID 값' + payload);
+      // console.log('넘겨준 STUDY ID 값' + payload);
       state.studyId = payload;
     },
     updateStudyInfo(state, payload) {
@@ -52,24 +52,24 @@ export const study = {
       state.memberNickname = payload;
     },
     updateStudyMemberId(state, payload) {
-      console.log('넘겨준 회원의 id' + payload);
+      // console.log('넘겨준 회원의 id' + payload);
       state.memberId = payload;
     },
     updateStudyIntroduce(state, payload) {
-      console.log('넘겨준 STUDY INTRODUCE 값');
-      console.log(payload);
+      // console.log('넘겨준 STUDY INTRODUCE 값');
+      // console.log(payload);
       state.studyIntroduce = payload;
     },
     updateStudyApplications(state, payload) {
-      console.log('넘겨준 STUDY APPLICATIONS 값');
-      console.log(payload);
+      // console.log('넘겨준 STUDY APPLICATIONS 값');
+      // console.log(payload);
       state.studyApplications = payload;
     },
     updateStudyApplication(state, payload) {
-      console.log('mutation: updateStudyApplication');
-      console.log(payload);
+      // console.log('mutation: updateStudyApplication');
+      // console.log(payload);
       state.studyApplication = payload;
-      console.log(state.studyApplication);
+      // console.log(state.studyApplication);
     },
     updateBoardIdList(state, payload) {
       // console.log('넘겨준 updateBoardIdList 값');
@@ -109,7 +109,7 @@ export const study = {
       state.currentPage = payload;
     },
     updateCheckHost(state, payload) {
-      // console.log('넘겨준 게시판 내용값');
+      // console.log('넘겨준 isHost 값');
       // console.log(payload);
       state.checkHost = payload;
     },
@@ -191,13 +191,13 @@ export const study = {
       res.then((res) => {
         // console.log('스터디 introduce 조회 결과');
         // console.log(res);
-        console.log(res.data);
+        // console.log(res.data);
         commit('updateStudyIntroduce', res.data);
       });
       return res;
     },
     checkHost({ commit }, data) {
-      console.log(data);
+      // console.log(data);
       const res = axios
         .get(BASE_URL + '/api/auth/check/nickname/' + data, header)
         .then((res) => {
@@ -511,8 +511,8 @@ export const study = {
       return state.memberId;
     },
     checkHostGetter: (state) => {
-      // console.log('article GETTER');
-      // console.log(state.article);
+      console.log('checkHost GETTER');
+      console.log(state.checkHost);
       return state.checkHost;
     },
   },
