@@ -141,27 +141,6 @@
       <el-row class="height92 font-20">
         {{ studyIntroduce.bio }}
       </el-row>
-      <el-row :gutter="20">
-        (이 row은 테스트 끝나면 다 제거할 것임) 현재 권한: {{ auth }} <br />
-        2가 팀장(수정, 삭제), 1이 팀원(탈퇴), 0이 외부인(돌아가기, 신청) <br />
-        <el-col :span="3">
-          <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
-            수정
-          </el-button>
-        </el-col>
-        <el-col :span="3"> <StudyDeleteModal /> </el-col>
-        <el-col :span="3"> <StudyQuitModal /> </el-col>
-        <el-col :span="3">
-          <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
-            돌아가기
-          </el-button>
-        </el-col>
-        <el-col :span="3">
-          <CreateApplicationModal />
-        </el-col>
-        <el-col :span="10"></el-col>
-        <el-col :span="3"></el-col>
-      </el-row>
 
       <el-row>
         <el-col :span="7"></el-col>
@@ -176,6 +155,8 @@
           <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
             돌아가기
           </el-button>
+        </el-col>
+        <el-col :span="2" v-if="auth == 0">
           <CreateApplicationModal />
         </el-col>
         <el-col :span="10"></el-col>
@@ -222,15 +203,23 @@ export default {
 
     // console.log(auth.value);
 
-    if (store.dispatch('study/checkHost', studyIntroduce.value.host.nickname)) {
-      auth.value = 2;
-    } else {
-      for (let index = 0; index < user.value.myStudyList.length; index++) {
-        if (user.value.myStudyList[index].id == studyId.value) {
-          auth.value = 1;
+    // 권한 체크
+    store.dispatch('study/checkHost', studyIntroduce.value.host.nickname);
+    const isHost = computed(() => store.getters['study/checkHost']);
+
+    watch(isHost, () => {
+      if (
+        store.dispatch('study/checkHost', studyIntroduce.value.host.nickname)
+      ) {
+        auth.value = 2;
+      } else {
+        for (let index = 0; index < user.value.myStudyList.length; index++) {
+          if (user.value.myStudyList[index].id == studyId.value) {
+            auth.value = 1;
+          }
         }
       }
-    }
+    });
 
     // const state = reactive({
     //   form: {
