@@ -1,16 +1,28 @@
 <template>
   <el-row class="height100">
     <el-col :span="3">{{ article }}</el-col>
-    <el-col :span="19"
-      ><el-row class="height5"
-        ><el-col :span="2">제목:</el-col
-        ><el-col :span="22" style="margin: auto 0"
-          ><input type="text" id="title" placeholder="제목을 입력하세요"
-        /></el-col> </el-row
-      ><el-row class="height5"> </el-row>
+    <el-col :span="19" v-if="parameter"
+      ><el-row class="height5">
+        <el-col :span="2">제목:</el-col>
+        <el-col :span="22" style="margin: auto 0">
+          <input
+            type="text"
+            id="title"
+            placeholder="제목을 입력하세요"
+            v-model="parameter.studyArticleUpdateRequestDto.title"
+          />
+        </el-col>
+      </el-row>
+      <el-row class="height5"> </el-row>
       <el-row style="height: 65%">
-        <el-col :span="24"><QuillEditor theme="snow" /></el-col> </el-row
-      ><el-row class="height5"> </el-row>
+        <el-col :span="24">
+          <QuillEditor
+            v-model:content="parameter.studyArticleUpdateRequestDto.content"
+            contentType="text"
+          />
+        </el-col>
+      </el-row>
+      <el-row class="height5"> </el-row>
       <el-row class="height5">
         <el-col :span="9"></el-col>
         <el-col :span="2">
@@ -83,14 +95,17 @@ export default {
       boardid: boardId.value,
       articleid: articleId.value,
       studyArticleUpdateRequestDto: {
-        content: 'test c',
-        title: 'test t',
+        content: article.value.content, //초기값 세팅
+        title: article.value.title,
       },
     });
 
     // 3. 게시글을 수정한다.
     // parameter 값이 제대로 들어왔는지,넘어가는지 확인 필요
     const goReadDetailNotice = function () {
+      console.log(parameter);
+      console.log(boardId.value);
+      console.log(parameter.value);
       store.dispatch('study/updateArticle', parameter);
       router.push({ path: '/subheader/notice/detail' });
     };
@@ -102,6 +117,7 @@ export default {
       store,
       router,
 
+      parameter,
       article,
 
       goBack,

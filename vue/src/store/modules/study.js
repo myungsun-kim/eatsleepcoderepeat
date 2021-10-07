@@ -253,21 +253,22 @@ export const study = {
     },
     updateArticle({ commit }, param) {
       const articleContent = {
-        studyArticleUpdateRequestDto: param.studyArticleUpdateRequestDto,
+        studyArticleUpdateRequestDto: {
+          content: param.studyArticleUpdateRequestDto.content, //초기값 세팅
+          title: param.studyArticleUpdateRequestDto.title,
+        },
       };
 
       const res = axios
         .put(
           BASE_URL +
-            `
-          ​/api​/studyboards​/${param.boardid}​/articles​/${param.articleid}
-          `,
-          JSON.stringify(articleContent),
+            `/api/studyboards/${param.boardid}/articles/${param.articleid}`,
+          JSON.stringify(articleContent.studyArticleUpdateRequestDto),
           header
         )
         .then((res) => {
-          console.log('updateArticle 결과');
-          console.log(res.data);
+          // console.log('updateArticle 결과');
+          // console.log(res.data);
           commit('updateArticle', res.data);
         });
     },
