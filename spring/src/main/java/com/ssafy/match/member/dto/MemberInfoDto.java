@@ -1,6 +1,9 @@
 package com.ssafy.match.member.dto;
 
 import com.ssafy.match.file.entity.DBFile;
+import com.ssafy.match.group.dto.club.response.ClubInfoResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
+import com.ssafy.match.group.dto.study.response.StudyInfoResponseDto;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.project.Project;
 import com.ssafy.match.group.entity.study.Study;
@@ -47,10 +50,16 @@ public class MemberInfoDto {
     private String portfolio_uri;
 
 //    @ApiModelProperty(name = "myClubList", example = "[\"\",\"java\"]")
-    private List<Club> myClubList = new ArrayList<>();
+//    private List<Club> myClubList = new ArrayList<>();
+//    @ApiModelProperty(name = "myProjectList", example = "[\"python\",\"java\"]")
+//    private List<Project> myProjectList = new ArrayList<>();
+//    private List<Study> myStudyList = new ArrayList<>();
+    // 임시 수정요 일민님
+    private List<ClubInfoResponseDto> myClubList = new ArrayList<>();
     @ApiModelProperty(name = "myProjectList", example = "[\"python\",\"java\"]")
-    private List<Project> myProjectList = new ArrayList<>();
-    private List<Study> myStudyList = new ArrayList<>();
+    private List<ProjectInfoResponseDto> myProjectList = new ArrayList<>();
+    private List<StudyInfoResponseDto> myStudyList = new ArrayList<>();
+    ////////////////////////////////////
     @ApiModelProperty(name = "expTechList", example = "[\"python\",\"java\"]")
     private List<String> expTechList = new ArrayList<>();
     @ApiModelProperty(name = "beginTechList", example = "[\"python\",\"java\"]")

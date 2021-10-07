@@ -1,5 +1,8 @@
 package com.ssafy.match.member.service;
 
+import com.ssafy.match.group.dto.club.response.ClubInfoResponseDto;
+import com.ssafy.match.group.dto.project.response.ProjectInfoResponseDto;
+import com.ssafy.match.group.dto.study.response.StudyInfoResponseDto;
 import com.ssafy.match.group.entity.club.Club;
 import com.ssafy.match.group.entity.study.Study;
 import com.ssafy.match.group.repository.club.MemberClubRepository;
@@ -18,7 +21,9 @@ import com.ssafy.match.member.repository.MemberExperiencedTechstackRepository;
 import com.ssafy.match.member.repository.MemberRepository;
 import com.ssafy.match.member.repository.MemberSnsRepository;
 import com.ssafy.match.util.SecurityUtil;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -89,9 +94,21 @@ public class MemberService {
                 .orElseThrow(() -> new NullPointerException("유저가 없습니다."));
         Member member = memberRepository.findByEmail(email)
                 .orElseThrow(() -> new NullPointerException("유저가 없습니다."));
-        List<Club> myClubList = memberClubRepository.findClubByMember(member);
-        List<Project> myProjectList = memberProjectRepository.projectInMember(member);
-        List<Study> myStudyList = memberStudyRepository.studyInMember(member);
+//        List<Club> myClubList = memberClubRepository.findClubByMember(member);
+//        List<Project> myProjectList = memberProjectRepository.projectInMember(member);
+//        List<Study> myStudyList = memberStudyRepository.studyInMember(member);
+        List<ClubInfoResponseDto> myClubList = new ArrayList<>();
+        for (Club club : memberClubRepository.findClubByMember(member)) {
+            myClubList.add(ClubInfoResponseDto.of(club));
+        }
+        List<ProjectInfoResponseDto> myProjectList = new ArrayList<>();
+        for (Project project : memberProjectRepository.projectInMember(member)) {
+            myProjectList.add(ProjectInfoResponseDto.of(project));
+        }
+        List<StudyInfoResponseDto> myStudyList = new ArrayList<>();
+        for (Study study : memberStudyRepository.studyInMember(member)) {
+            myStudyList.add(StudyInfoResponseDto.of(study));
+        }
         List<String> expTechList = memberExperiencedTechstackRepository.findTechstackByMemberName(member);
         List<String> begTechList = memberBeginnerTechstackRepository.findTechstackByMemberName(member);
         List<MemberSns> snsList = memberSnsRepository.findAllByMember(member);
@@ -117,9 +134,21 @@ public class MemberService {
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다."));
         Member member = memberRepository.findById(SecurityUtil.getCurrentMemberId())
                 .orElseThrow(() -> new NullPointerException("유저가 없습니다."));
-        List<Club> myClubList = memberClubRepository.findClubByMember(member);
-        List<Project> myProjectList = memberProjectRepository.projectInMember(member);
-        List<Study> myStudyList = memberStudyRepository.studyInMember(member);
+//        List<Club> myClubList = memberClubRepository.findClubByMember(member);
+//        List<Project> myProjectList = memberProjectRepository.projectInMember(member);
+//        List<Study> myStudyList = memberStudyRepository.studyInMember(member);
+        List<ClubInfoResponseDto> myClubList = new ArrayList<>();
+        for (Club club : memberClubRepository.findClubByMember(member)) {
+            myClubList.add(ClubInfoResponseDto.of(club));
+        }
+        List<ProjectInfoResponseDto> myProjectList = new ArrayList<>();
+        for (Project project : memberProjectRepository.projectInMember(member)) {
+            myProjectList.add(ProjectInfoResponseDto.of(project));
+        }
+        List<StudyInfoResponseDto> myStudyList = new ArrayList<>();
+        for (Study study : memberStudyRepository.studyInMember(member)) {
+            myStudyList.add(StudyInfoResponseDto.of(study));
+        }
         List<String> expTechList = memberExperiencedTechstackRepository.findTechstackByMemberName(member);
         List<String> begTechList = memberBeginnerTechstackRepository.findTechstackByMemberName(member);
         List<MemberSns> snsList = memberSnsRepository.findAllByMember(member);
