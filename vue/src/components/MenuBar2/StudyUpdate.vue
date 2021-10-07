@@ -140,10 +140,10 @@
               <label id="h2">프로필 사진 등록</label>
               <div id="thumbnail">
                 <!-- <img class="previewImg" /> -->
-                <img class="previewImg" src="../../assets/Item/basic.png" />
+                <img class="previewImg" src="../../assets/Item/basic3.png" />
               </div>
               <el-upload :before-upload="beforeUpload">
-                <button>사진 업로드</button>
+                <!-- <button>사진 업로드</button> -->
               </el-upload>
             </div>
           </div>
@@ -525,6 +525,7 @@ export default {
 <style scoped>
 .bg {
   background: #f2f2f2;
+  padding-bottom: 100px;
 }
 #h1 {
   width: 184px;
@@ -834,12 +835,13 @@ export default {
 }
 #btn {
   margin-top: 50px;
+  width: 782px;
 }
 .btn-cancel {
   margin-left: 10px;
 }
 #thumbnail {
-  width: 70%;
+  width: 40%;
   height: 80%;
 
   overflow: hidden;

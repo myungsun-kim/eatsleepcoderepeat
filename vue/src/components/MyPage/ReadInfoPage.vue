@@ -511,7 +511,8 @@ export default {
 <style scoped>
 .title {
   font-size: 24px;
-  padding-top: 50px;
+  /* padding-top: 50px; */
+  margin-bottom: 30px;
   text-align: left;
   font-size: 36px;
 }
@@ -534,9 +535,9 @@ export default {
   max-height: 100%;
 }
 .item-img {
-  background-image: url('../../assets/Item/basic.png');
+  background-image: url('../../assets/Item/basic2.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   box-sizing: border-box;
   border-radius: 5px 5px 0px 0px;
   left: 0px;
@@ -616,6 +617,6 @@ export default {
   cursor: pointer;
 }
 .list {
-  margin-left: 40px;
+  margin-right: 10px;
 }
 </style>
