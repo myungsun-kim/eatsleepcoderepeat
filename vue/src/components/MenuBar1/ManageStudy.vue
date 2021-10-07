@@ -89,7 +89,7 @@ export default {
       // 선택한 회원의 memberId 정보 저장
       store.commit('study/updateStudyMemberId', val.memberId);
       //선택한 회원의 이메일 정보 저장
-      store.dispatch('member/updateUserEmail', val.email);
+      store.commit('member/updateUserEmail', val.email);
       //선택한 회원의 닉네임 정보 저장
       store.dispatch('study/updateStudyMemberNickname', val.nickname);
       state.form.email = val.email;
@@ -104,10 +104,7 @@ export default {
       // );
     };
 
-    // watch(state, () => {
-    //   // console.log('bbbbb');
-    //   store.dispatch('study/applicationOne', state.form);
-    // });
+
 
     // //해당 지원자 신청서 가져오기
     // const application = computed(
@@ -115,9 +112,6 @@ export default {
     // );
     // console.log(application.value);
 
-    // watch(application, () => {
-    //   console.log(application.value);
-    // });
 
     // 해당 회원의 정보 페이지로 이동
     const goInfoPage = function (val) {
@@ -126,7 +120,7 @@ export default {
       store.commit('study/updateStudyMemberId', val.memberId);
       state.form.memberId = val.memberId;
       // 선택한 회원의 이메일 정보 저장
-      store.dispatch('member/updateUserEmail', val.email);
+      store.commit('member/updateUserEmail', val.email);
       console.log('이메일정보');
       console.log(val.email);
       // 선택한 회원의 닉네임 정보 저장
