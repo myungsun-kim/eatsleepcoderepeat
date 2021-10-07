@@ -1,10 +1,10 @@
 <template>
   <!-- 상단 소개 정보 부분 -->
-  <el-row class="font-20">
+  <el-row class="font-20" v-if="studyIntroduce">
     <el-col :span="3"></el-col>
     <el-col :span="3"
       ><el-row class="height1"> </el-row>
-      <el-row class="height8" v-if="store.state.category == 1">
+      <el-row class="height8">
         <i class="el-icon-postcard flex-items"></i>&nbsp;스터디 이름
       </el-row>
       <el-row class="height1"> </el-row>
@@ -66,13 +66,13 @@
       <el-row class="height8">
         <el-popover v-model:visible="visible" placement="top" :width="200">
           <div style="text-align: right; margin: 0">
-            <el-button
-              size="mini"
-              class="btn-ghost-round-red"
-              @click="goOtherPage"
+            <el-button size="mini" class="btn-ghost-round" @click="goOtherPage"
               >마이페이지
             </el-button>
-            <el-button class="btn-ghost-round-red" size="mini" @click="makeChat"
+            <el-button
+              class="btn-ghost-round-blue"
+              size="mini"
+              @click="makeChat"
               >채팅</el-button
             >
           </div>
@@ -194,6 +194,8 @@ export default {
 
     store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
+    console.log(user);
+    console.log(user.value);
 
     //스터디 장-host2, 팀원-mystudylist에 있음1, 외부인-없음0
     const auth = ref(0);
@@ -202,27 +204,30 @@ export default {
     //내 토큰이랑 스터디 장의 별명을 넣어서 일치하는지 확인
 
     // 권한 체크
-    store.dispatch('study/checkHost', studyIntroduce.value.host.nickname);
-    const isHost = computed(() => store.getters['study/checkHostGetter']);
-    if (isHost) {
+    // 내 정보(닉네임), 팀장 정보(닉네임) 일치 여부 확인
+
+    if (studyIntroduce.value.host.nickname == user.value.nickname) {
       auth.value = 2;
     } else {
       for (let index = 0; index < user.value.myStudyList.length; index++) {
         if (user.value.myStudyList[index].id == studyId.value) {
           auth.value = 1;
+          break;
+        } else {
+          auth.value = 0;
         }
       }
     }
-
-    watch(isHost, () => {
-      if (
-        store.dispatch('study/checkHost', studyIntroduce.value.host.nickname)
-      ) {
+    watch(studyIntroduce, () => {
+      if (studyIntroduce.value.host.nickname == user.value.nickname) {
         auth.value = 2;
       } else {
         for (let index = 0; index < user.value.myStudyList.length; index++) {
           if (user.value.myStudyList[index].id == studyId.value) {
             auth.value = 1;
+            break;
+          } else {
+            auth.value = 0;
           }
         }
       }
@@ -260,12 +265,11 @@ export default {
         read_time: 1000,
         receiverId: studyIntroduce.value.host.id, // 받는 사람
         senderId: currentId.value, //보내는 사람
-        sent_time: 1000,
+        sent_time: new Date(),
         type: 1,
       };
 
       store.dispatch('chat/startChat', body);
-
       router.push({ path: '/nosubheader/chat' });
     };
     // 팀장의 마이페이지 방문
@@ -289,6 +293,7 @@ export default {
       router,
       studyIntroduce,
       auth,
+
       visible,
       makeChat,
       goUpdate,

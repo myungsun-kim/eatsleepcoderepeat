@@ -6,6 +6,9 @@ import { chat } from '@/store/modules/chat';
 import { study } from '@/store/modules/study';
 import axios from 'axios';
 
+// const BASE_URL = '';
+const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
+
 export default createStore({
   state: {
     category: '', // category 1:스터디 2:프로젝트 3:클럽
@@ -66,7 +69,6 @@ export default createStore({
       commit('setApplicationModal', payload);
     },
     uploadFile({ commit }, formData) {
-      const BASE_URL = '';
       const header = {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -117,7 +119,7 @@ export default createStore({
 
   plugins: [
     createPersistedState({
-      paths: ['auth', 'member', 'chat', 'study', 'category'], // <<<<<<여기!
+      paths: ['auth', 'member', 'study', 'category'], // <<<<<<여기!
     }),
   ],
 });

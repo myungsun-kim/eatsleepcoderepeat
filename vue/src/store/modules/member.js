@@ -1,5 +1,11 @@
 import axios from 'axios';
-const BASE_URL = '';
+// const BASE_URL = '';
+const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
+const header = {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+  },
+};
 
 export const member = {
   // 모듈별로 구분이 가능하게 하기 위해(독립적이기 위해) vuex namespaced: true
@@ -33,11 +39,7 @@ export const member = {
     readMyPage({ commit }) {
       // console.log('readmypage 호출');
       const res = axios
-        .get(BASE_URL + `/api/member/mypage`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
+        .get(BASE_URL + `/api/member/mypage`, header)
         .then((res) => {
           // console.log('READ MY PAGE');
           // console.log(res);

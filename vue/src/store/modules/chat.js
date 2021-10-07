@@ -3,8 +3,15 @@ import store from '..';
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 
-const BASE_URL = '';
+// const BASE_URL = '';
+const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
 const header = { headers: { 'Content-Type': 'application/json' } };
+const authHeader = {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    'Content-Type': 'application/json',
+  },
+};
 
 export const chat = {
   //   모듈별로 구분이 가능하게 하기 위해(독립적이기 위해) vuex namespaced: true
@@ -55,6 +62,7 @@ export const chat = {
   },
   mutations: {
     cleanup(state) {
+      
       state.chatlist = {};
       state.chatordered = [];
       state.chatdetail = {};
@@ -62,9 +70,10 @@ export const chat = {
       state.currentUserId = 0;
       state.stompClient = {};
       state.connected = false;
-      state.socket = {};
       state.unreadSession = {};
       state.unreadCounts = 0;
+      state.socket.close();
+      state.socket = {};
     },
     setUnreadFlag(state, payload) {
       console.log('SETUNREADSTART');
@@ -204,7 +213,7 @@ export const chat = {
         .post(
           BASE_URL + '/api/chat/sessions/start',
           JSON.stringify(body),
-          header
+          authHeader
         )
         .then((res) => {
           console.log('채팅방 개설 결과');
@@ -245,6 +254,11 @@ export const chat = {
       //   const serverURL = 'http://localhost:8080/api/socket/chat'; // 서버 채팅 주소
       const serverURL = 'http://j5d105.p.ssafy.io:8080/api/socket/chat'; // 서버 채팅 주소
       let socket = new SockJS(serverURL);
+      socket.onclose = function(){
+        state.stompClient.disconnect();
+        state.stompClient = undefined;
+        state.socket = undefined;
+      };
       commit('setSocket', socket);
 
       // store.commit('stompSetter', Stomp.over(socket));

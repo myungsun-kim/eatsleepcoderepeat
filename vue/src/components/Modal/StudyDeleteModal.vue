@@ -34,7 +34,7 @@
           <el-col :span="6">
             <el-button
               class="btn-ghost-blue font-noto-bold"
-              @click="modalOpen = false"
+              @click="changemodalOpen"
               style="font-size: 14px"
             >
               취소
@@ -62,7 +62,7 @@ export default {
     const router = useRouter();
     // 1. 스터디 ID를 받아옴
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    // console.log(studyId);
+
     // 2. 모달창에 스터디 정보를 일부 띄워야하기 때문에 스터디 정보를 받음
     const studyIntroduce = computed(
       () => store.getters['study/studyIntroduceGetter']
@@ -79,9 +79,8 @@ export default {
     const changemodalOpen = function () {
       store.dispatch('changeScrollModal', !modalOpen.value);
     };
-    // 탈퇴 누를 시
+    // 삭제 누를 시
     const goStudyHome = function () {
-      // console.log(studyId.value);
       store.dispatch('study/deleteStudy', studyId.value);
       store.dispatch('changeScrollModal', !modalOpen.value);
       router.push({ path: '/nosubheader/study/home' });

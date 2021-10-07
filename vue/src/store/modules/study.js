@@ -1,5 +1,6 @@
 import axios from 'axios';
-const BASE_URL = '';
+// const BASE_URL = '';
+const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
 const header = {
   headers: {
     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -200,7 +201,7 @@ export const study = {
       return res;
     },
     checkHost({ commit }, data) {
-      // console.log(data);
+      console.log(data);
       const res = axios
         .get(BASE_URL + '/api/auth/check/nickname/' + data, header)
         .then((res) => {
@@ -406,6 +407,23 @@ export const study = {
       });
       return res.data;
     },
+
+    // 특정 게시글 하나 삭제
+    deleteArticle({ commit }, form) {
+      const res = axios
+        .delete(
+          BASE_URL +
+            `/api/studyboards/${form.boardid}/articles/${form.articleid}`,
+          header
+        )
+        .then((res) => {
+          // console.log('게시글 삭제');
+          // console.log(res);
+          // console.log(res.data);
+          commit('updateArticle', {});
+        });
+    },
+
     deleteStudy({ commit }, form) {
       // console.log(form);
 
