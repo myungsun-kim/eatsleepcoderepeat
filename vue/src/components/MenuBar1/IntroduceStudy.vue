@@ -278,7 +278,8 @@ export default {
 
       // 팀장의 마이지페이지로 이동
       console.log(studyIntroduce.value.host.email);
-      store.dispatch('member/updateUserEmail', studyIntroduce.value.host.email);
+      // store.dispatch('member/updateUserEmail', studyIntroduce.value.host.email);
+      store.dispatch('member/readInfoPage', studyIntroduce.value.host.email);
       router.push({ path: '/nosubheader/readinfopage' });
     };
     const goUpdate = function () {

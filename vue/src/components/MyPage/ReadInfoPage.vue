@@ -3,7 +3,7 @@
     <!-- 유저: {{ user }} -->
     <el-col :span="1"></el-col>
     <el-col :span="21" class="test-border title">
-      마이페이지
+      {{ user.nickname }}님의 마이페이지
       <hr style="border: 1px color= black" width="100%"
     /></el-col>
     <el-col :span="2"></el-col>
@@ -494,11 +494,10 @@ export default {
     // store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/userInfoGetter']);
 
-    // watch(user, () => {
-    //   console.log('지켜봄');
-    //   console.log(user);
-    //   store.dispatch('member/readMyPage');
-    // });
+    watch(user, () => {
+      // console.log(user);
+      store.dispatch('member/readInfoPage');
+    });
 
     const goIntroduce = function (id) {
       store.dispatch('study/callUpdateStudyId', id);
