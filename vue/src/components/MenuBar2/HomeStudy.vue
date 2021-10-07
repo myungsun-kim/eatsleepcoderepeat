@@ -56,18 +56,30 @@
         <el-col :span="12" class="test-border right-content">
           <div
             v-if="item.status == '종료'"
-            class="item-state-badge-blue item-small-content"
+            class="item-state-badge-black item-small-content"
           >
             {{ item.status }}
+          </div>
+          <div
+            v-else-if="item.status == '진행'"
+            class="item-state-badge-green item-small-content"
+          >
+            {{ item.status }}중
           </div>
           <div v-else class="item-state-badge-blue item-small-content">
             {{ item.status }}중
           </div>
           <div
             v-if="item.isParticipate == true && item.status == '진행'"
-            class="item-state-badge-blue item-small-content"
+            class="item-state-badge-green item-small-content"
           >
             참여 가능
+          </div>
+          <div
+            v-else-if="item.isParticipate == false && item.status == '진행'"
+            class="item-state-badge-red item-small-content"
+          >
+            참여 불가
           </div>
         </el-col>
       </el-row>
@@ -130,18 +142,30 @@
         <el-col :span="12" class="test-border right-content">
           <div
             v-if="item.status == '종료'"
-            class="item-state-badge-blue item-small-content"
+            class="item-state-badge-black item-small-content"
           >
             {{ item.status }}
+          </div>
+          <div
+            v-else-if="item.status == '진행'"
+            class="item-state-badge-green item-small-content"
+          >
+            {{ item.status }}중
           </div>
           <div v-else class="item-state-badge-blue item-small-content">
             {{ item.status }}중
           </div>
           <div
             v-if="item.isParticipate == true && item.status == '진행'"
-            class="item-state-badge-blue item-small-content"
+            class="item-state-badge-green item-small-content"
           >
             참여 가능
+          </div>
+          <div
+            v-else-if="item.isParticipate == false && item.status == '진행'"
+            class="item-state-badge-red item-small-content"
+          >
+            참여 불가
           </div>
         </el-col>
       </el-row>
@@ -206,18 +230,30 @@
         <el-col :span="12" class="test-border right-content">
           <div
             v-if="item.status == '종료'"
-            class="item-state-badge-blue item-small-content"
+            class="item-state-badge-black item-small-content"
           >
             {{ item.status }}
+          </div>
+          <div
+            v-else-if="item.status == '진행'"
+            class="item-state-badge-green item-small-content"
+          >
+            {{ item.status }}중
           </div>
           <div v-else class="item-state-badge-blue item-small-content">
             {{ item.status }}중
           </div>
           <div
             v-if="item.isParticipate == true && item.status == '진행'"
-            class="item-state-badge-blue item-small-content"
+            class="item-state-badge-green item-small-content"
           >
             참여 가능
+          </div>
+          <div
+            v-else-if="item.isParticipate == false && item.status == '진행'"
+            class="item-state-badge-red item-small-content"
+          >
+            참여 불가
           </div>
         </el-col>
       </el-row>
