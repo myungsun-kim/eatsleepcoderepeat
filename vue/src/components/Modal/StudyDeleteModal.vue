@@ -62,7 +62,7 @@ export default {
     const router = useRouter();
     // 1. 스터디 ID를 받아옴
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    // console.log(studyId);
+
     // 2. 모달창에 스터디 정보를 일부 띄워야하기 때문에 스터디 정보를 받음
     const studyIntroduce = computed(
       () => store.getters['study/studyIntroduceGetter']
