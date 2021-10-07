@@ -71,4 +71,5 @@ export const auth = {
     },
   },
   modules: {},
+
 };
