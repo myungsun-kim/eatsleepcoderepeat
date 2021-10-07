@@ -19,13 +19,11 @@
               <div class="box6">
                 <div class="box8">
                   <!-- 보내는사람: {{ session[1].senderId }} <br /> -->
-
-                  나한테 보낸 사람:
                   {{
                     session[1].receiverId == currentId
                       ? session[1].senderId
                       : session[1].receiverId
-                  }}
+                  }}번 사용자
                 </div>
                 <div class="box9">
                   <!-- 메세지 받은 시간: {{ new Date(session[1].sent_time) }} -->
@@ -34,12 +32,10 @@
                 </div>
               </div>
               <div v-if="session[1].content.length > 12">
-                <div class="box7">
-                  내용: {{ session[1].content.slice(0, 12) }}...
-                </div>
+                <div class="box7">{{ session[1].content.slice(0, 12) }}...</div>
               </div>
               <div v-else>
-                <div class="box7">내용: {{ session[1].content }}</div>
+                <div class="box7">{{ session[1].content }}</div>
               </div>
             </div>
           </div>
@@ -69,7 +65,7 @@
               >
                 <div class="box12_1">
                   <!-- {{ new Date(msg.sent_time) }} -->
-                  {{ new String(new Date(msg.sent_time)).substr(19, 5) }}
+                  {{ new String(new Date(msg.sent_time)).substr(16, 5) }}
 
                   <!-- 이건 substr(숫자, 숫자)으로 해결가능! -->
                   <!-- {{msg.read_time.getTime()}} -->
@@ -93,7 +89,7 @@
               class="other_send_time"
             >
               <div class="box13_1">
-                {{ new String(new Date(msg.sent_time)).substr(19, 5) }}
+                {{ new String(new Date(msg.sent_time)).substr(16, 5) }}
                 <!-- {{ calcTime(new Date(msg.sent_time)) }} -->
               </div>
             </div>
