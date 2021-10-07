@@ -145,7 +145,6 @@ export default {
 
     // const chatList = [{content:"123"}, {content:"456"}];
     const store = useStore();
-    console.log('currentId: ' + currentId.value);
 
     const sendMessage = () => {
       store.dispatch('chat/sendMessage', {
@@ -167,14 +166,10 @@ export default {
 
     const connect = () => {};
     const changeSession = (msg) => {
-      console.log(msg);
       let counter = getCounterPart(msg);
       store.dispatch('chat/changeSession', counter).then(() => {
-        console.log('chatmessage');
-        console.log(chatMessages.value);
         if (!chatMessages.value) {
           store.dispatch('chat/loadMessages').then(() => {
-            console.log(counter);
             store.dispatch('chat/sendMessage', {
               type: 2,
               senderId: currentId.value,

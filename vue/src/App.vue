@@ -1,9 +1,4 @@
 <template>
-  <!-- <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">Main</router-link>
-  </div> -->
-
   <div class="bg-color">
     <router-view />
   </div>
@@ -27,7 +22,6 @@ body {
   padding: 0px;
   text-align: center;
   color: #2c3e50;
-  /* overflow: hidden; */
 }
 
 body {
@@ -76,12 +70,10 @@ body {
 }
 
 .test-border {
-  /* border: 1px solid black; */
   box-sizing: border-box;
   padding: 0 3px 0 3px;
 }
 .test-router-border {
-  /* border: 5px solid springgreen; */
   box-sizing: border-box;
   height: 90%;
 }
@@ -96,92 +88,74 @@ body {
   overflow-y: scroll;
 }
 .height100 {
-  /* border: 3px solid rgb(0, 183, 255); */
   box-sizing: border-box;
   height: 100%;
 }
 .height96 {
-  /* border: 3px solid rgb(255, 100, 0); */
   box-sizing: border-box;
   height: 96%;
 }
 .height95 {
-  /* border: 3px solid rgb(255, 0, 0); */
   box-sizing: border-box;
   height: 95%;
 }
 .height92 {
-  /* border: 3px solid rgb(255, 123, 0); */
   box-sizing: border-box;
   height: 92%;
 }
 .height90 {
-  /* border: 3px solid rgb(166, 255, 0); */
   box-sizing: border-box;
   height: 90%;
 }
 .height85 {
-  /* border: 3px solid rgb(255, 238, 0); */
   box-sizing: border-box;
   height: 85%;
 }
 .height50 {
-  /* border: 3px solid rgb(139, 0, 139); */
   box-sizing: border-box;
   height: 50%;
 }
 .height40 {
-  /* border: 3px solid rgb(255, 0, 0); */
   box-sizing: border-box;
   height: 40%;
 }
 .height30 {
-  /* border: 3px solid rgb(255, 0, 212); */
   box-sizing: border-box;
   height: 30%;
 }
 .height25 {
-  /* border: 3px solid rgb(229, 255, 0); */
   box-sizing: border-box;
   height: 25%;
 }
 .height20 {
-  /* border: 3px solid rgb(61, 143, 65); */
   box-sizing: border-box;
   height: 20%;
 }
 .height10 {
-  /* border: 3px solid rgb(0, 25, 139); */
   box-sizing: border-box;
   height: 10%;
 }
 .height8 {
-  /* border: 3px solid rgb(113, 139, 255); */
   box-sizing: border-box;
   height: 8%;
 }
 .height5 {
-  /* border: 3px solid rgb(0, 255, 234); */
   box-sizing: border-box;
   height: 5%;
 }
 .height4 {
-  /* border: 3px solid rgb(0, 255, 130); */
   box-sizing: border-box;
   height: 4%;
 }
 .height3 {
-  /* border: 3px solid rgb(0, 255, 125); */
   box-sizing: border-box;
   height: 3%;
 }
 .height2 {
-  /* border: 3px solid rgb(0, 255, 120); */
   box-sizing: border-box;
   height: 2%;
 }
 .height1 {
-  /* border: 3px solid rgb(0, 255, 111); */
   box-sizing: border-box;
   height: 1%;
 }
@@ -362,7 +336,6 @@ body {
   color: white;
   background: #4361ff;
   border-radius: 3px;
-  /* vertical-align: middle; */
 }
 .item-state-badge-green {
   display: inline-block;
@@ -371,7 +344,6 @@ body {
   color: white;
   background: #00bf00;
   border-radius: 3px;
-  /* vertical-align: middle; */
 }
 .item-state-badge-red {
   display: inline-block;
@@ -380,7 +352,6 @@ body {
   color: white;
   background: #bf0000;
   border-radius: 3px;
-  /* vertical-align: middle; */
 }
 .item-state-badge-black {
   display: inline-block;
@@ -389,7 +360,6 @@ body {
   color: white;
   background: #000000;
   border-radius: 3px;
-  /* vertical-align: middle; */
 }
 
 /* icon 크기는 font-size로 작성함 */

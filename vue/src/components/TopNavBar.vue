@@ -109,8 +109,6 @@ export default {
       }
     };
     onMounted(() => {
-
-      console.log(window.location.search);
         // 토큰 decode해서 내 id 알아내는 과정
         if(localStorage.getItem('accessToken') != null){
           store.dispatch(
@@ -134,7 +132,6 @@ export default {
       if (token) {
         store.commit('setCategory', 3);
         router.push({ path: '/nosubheader/club/home' });
-        // console.log(store.state.category);
       } else {
         router.push({ path: '/noheader/signin' });
       }

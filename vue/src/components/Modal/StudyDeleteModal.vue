@@ -72,7 +72,6 @@ export default {
       store.dispatch('study/introduce', studyId.value);
     });
 
-    // console.log('studyId: ' + studyId.value);
 
     // 모달 처리
     const modalOpen = computed(() => store.getters['scrollGetter']);

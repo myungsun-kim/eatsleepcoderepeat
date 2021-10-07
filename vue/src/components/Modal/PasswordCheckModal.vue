@@ -44,14 +44,14 @@
 import { computed, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+
+import { ElMessage } from 'element-plus';
 export default {
   setup() {
     const store = useStore();
     const router = useRouter();
     const modalOpen = computed(() => store.getters['scrollGetter']);
     const user = computed(() => store.getters['member/mypageGetter']);
-    console.log('유저정보');
-    console.log(user.value);
 
     const state = reactive({
       form: {
@@ -67,10 +67,8 @@ export default {
     // 업데이트 누를 시
     const goUpdateMyPage = function () {
       store.dispatch('changeScrollModal', false);
-      console.log('이메일');
       // state.form.email = user.value.email;
-      console.log(state.form.email);
-      console.log('인풋값' + state.form.password);
+      //'인풋값' + state.form.password
 
       store.dispatch('changeScrollModal', !modalOpen.value);
 
@@ -78,12 +76,15 @@ export default {
         .dispatch('member/checkPassword', state.form)
         .then((res) => {
           if (res.status == 200) {
-            console.log(res);
             router.push({ path: '/nosubheader/updatemypage' });
           }
         })
         .catch((err) => {
-          alert('잘못된 비밀번호를 입력하셨습니다');
+          ElMessage({
+            showClose: true,
+            message: '잘못된 비밀번호를 입력하셨습니다',
+            type: 'error',
+          });
         });
 
       // router.push({ path: '/nosubheader/updatemypage' });

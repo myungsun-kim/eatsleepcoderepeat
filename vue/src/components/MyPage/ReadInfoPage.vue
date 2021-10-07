@@ -495,7 +495,6 @@ export default {
     const user = computed(() => store.getters['member/userInfoGetter']);
 
     watch(user, () => {
-      // console.log(user);
       store.dispatch('member/readInfoPage');
     });
 

@@ -164,11 +164,9 @@ export default {
 
     // 1. 스터디 ID 가져오기
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    console.log(studyId.value);
 
     //2. member id 가져오기
     const currentId = computed(() => store.getters['study/memberIdGetter']);
-    console.log(currentId.value);
 
     // 3. 지원서 정보 가져오기
     const para = reactive({
@@ -181,8 +179,6 @@ export default {
     const application = computed(
       () => store.getters['study/studyApplicationGetter']
     );
-    console.log('applica');
-    console.log(application.value);
 
     const param = reactive({
       form: {

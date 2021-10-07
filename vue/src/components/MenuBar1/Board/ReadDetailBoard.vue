@@ -94,21 +94,17 @@ export default {
     });
 
     watch(articleId, () => {
-      console.log('articleId 바뀜');
       param.form.articleid = articleId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });
 
     watch(boardId, () => {
-      console.log('boardId 바뀜');
       param.form.boardid = boardId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });
 
     store.dispatch('study/getArticleDetail', param.form);
     const article = computed(() => store.getters['study/articleGetter']);
-    console.log(article);
-    console.log(article.value);
 
     const goUpdateArticle = function () {
       router.push({ path: '/subheader/board/update' });

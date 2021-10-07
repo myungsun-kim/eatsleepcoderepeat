@@ -66,7 +66,6 @@ export default {
 
     // 1. 스터디 ID를 받아옴
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    // console.log(studyId);
     // 2. 모달창에 스터디 정보를 일부 띄워야하기 때문에 스터디 정보를 받음
     const studyIntroduce = computed(
       () => store.getters['study/studyIntroduceGetter']
@@ -83,7 +82,6 @@ export default {
       store.dispatch('member/readInfoPage', item);
       router.push({ path: '/nosubheader/readinfopage' });
       store.dispatch('changeInfoModal', !modalOpen.value);
-      // console.log('goInfoPage');
       // 선택한 회원의 이메일 정보 저장
       // store.commit('member/updateUserEmail', val.email);
       // router.push({ path: '/nosubheader/readinfopage' });

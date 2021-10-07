@@ -296,9 +296,6 @@ export default {
       () => store.getters['study/totalStudyGetter']
     );
 
-    // watch(myStudyList, () => {
-    //   console.log('변했다!asdfa!!!!!!!!');
-    // });
 
     const goCreate = function () {
       router.push({ path: '/nosubheader/study/create' });
