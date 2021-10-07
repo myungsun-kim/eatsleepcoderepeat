@@ -14,8 +14,8 @@ import CreateBoard from '../components/MenuBar1/Board/CreateBoard.vue';
 import ReadBoard from '../components/MenuBar1/Board/ReadBoard.vue';
 import ReadDetailBoard from '../components/MenuBar1/Board/ReadDetailBoard.vue';
 import UpdateBoard from '../components/MenuBar1/Board/UpdateBoard.vue';
-import Manage from '../components/MenuBar1/Manage.vue';
 import ManageStudy from '../components/MenuBar1/ManageStudy.vue';
+import ApplicationStudy from '../components/MenuBar1/ApplicationStudy.vue';
 // sub header 끝
 
 // no sub header 시작
@@ -125,12 +125,12 @@ const routes = [
             component: UpdateBoard,
           },
           {
-            path: '/subheader/manage',
-            component: Manage,
-          },
-          {
             path: '/subheader/study/manage',
             component: ManageStudy,
+          },
+          {
+            path: '/subheader/study/application',
+            component: ApplicationStudy,
           },
         ],
       },

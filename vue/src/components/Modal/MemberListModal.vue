@@ -1,5 +1,5 @@
 <template>
-  <div @click="modalOpen = true" class="oneLine">
+  <div @click="changemodalOpen" class="oneLine">
     {{ studyIntroduce.memberCount }}/{{ studyIntroduce.maxCount }} 명(
 
     <div v-for="(member, index) in studyIntroduce.memberDtos" :key="index">
@@ -9,21 +9,25 @@
     )
   </div>
   <teleport to="body">
-    <div v-if="modalOpen" class="modal">
+    <div v-if="!modalOpen" class="modal">
       <div class="height80" style="width: 30%">
         <el-row class="height10"></el-row>
+        {{ studyIntroduce.memberDtos }}
         <el-row
           class="height20"
           v-for="(item, index) in studyIntroduce.memberDtos"
           :key="index"
         >
           <el-col :span="1"></el-col>
-          <el-col :span="4">사진</el-col>
+          <el-col :span="4">{{ item.email }}</el-col>
           <el-col :span="1"></el-col>
           <el-col :span="8">{{ item.nickname }}</el-col>
           <el-col :span="5"></el-col>
           <el-col :span="4">
-            <el-button class="btn-1747C9 font-noto-bold" @click="goInfoPage">
+            <el-button
+              class="btn-1747C9 font-noto-bold"
+              @click="goInfoPage(item.email)"
+            >
               마이페이지
             </el-button>
           </el-col>
@@ -37,7 +41,7 @@
           <el-col :span="14">
             <el-button
               class="btn-1747C9 font-noto-bold"
-              @click="modalOpen = false"
+              @click="changemodalOpen"
               >확인</el-button
             >
           </el-col>
@@ -53,13 +57,16 @@ import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
 export default {
-  data() {
-    return {
-      modalOpen: false,
-    };
-  },
   setup() {
     const store = useStore();
+    const router = useRouter();
+
+    // 모달
+    const modalOpen = computed(() => store.getters['infoModalGetter']);
+    // 모달 변경
+    const changemodalOpen = function () {
+      store.dispatch('changeInfoModal', !modalOpen.value);
+    };
 
     // 1. 스터디 ID를 받아옴
     const studyId = computed(() => store.getters['study/studyIdGetter']);
@@ -75,7 +82,10 @@ export default {
 
     // 아무튼 이메일을 알았다고 가정(백엔드 작업 후)
     // 해당 회원의 정보 페이지로 이동
-    const goInfoPage = function (val) {
+    const goInfoPage = function (item) {
+      store.dispatch('member/updateUserEmail', item);
+      router.push({ path: '/nosubheader/readinfopage' });
+      store.dispatch('changeInfoModal', !modalOpen.value);
       // console.log('goInfoPage');
       // 선택한 회원의 이메일 정보 저장
       // store.dispatch('member/updateUserEmail', val.email);
@@ -85,6 +95,8 @@ export default {
     return {
       studyIntroduce,
       goInfoPage,
+      modalOpen,
+      changemodalOpen,
     };
   },
 };
