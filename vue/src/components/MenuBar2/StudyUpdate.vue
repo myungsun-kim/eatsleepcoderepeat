@@ -265,7 +265,7 @@
   </div>
 </template>
 <script>
-import { reactive, computed, watch, onBeforeMount } from 'vue';
+import { reactive, computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
