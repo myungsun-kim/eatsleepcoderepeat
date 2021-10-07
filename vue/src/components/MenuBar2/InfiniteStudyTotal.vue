@@ -123,7 +123,7 @@ export default {
 </script>
 <style scoped>
 .item-img {
-  background-image: url('../../assets/Item/Cat.png');
+  background-image: url('../../assets/Item/basic2.png');
   background-repeat: no-repeat;
   background-size: cover;
   box-sizing: border-box;
