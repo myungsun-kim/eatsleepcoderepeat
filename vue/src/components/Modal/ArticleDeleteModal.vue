@@ -98,7 +98,7 @@ export default {
 
     // 삭제 누를 시
     const goNoticeRead = function () {
-      // store.dispatch('study/deleteStudy', studyId.value);
+      store.dispatch('study/deleteArticle', param.form);
 
       store.dispatch('changeScrollModal', !modalOpen.value);
       router.push({ path: '/subheader/notice/read' });

@@ -407,6 +407,26 @@ export const study = {
       });
       return res.data;
     },
+
+    // 특정 게시글 하나 삭제
+    deleteArticle({ commit }, form) {
+      // console.log(form);
+
+      const res = axios
+        .delete(
+          BASE_URL +
+            `/api/studyboards/${form.boardid}/articles/${form.articleid}`,
+          header
+        )
+        .then((res) => {
+          console.log('게시글 삭제');
+          // console.log(res);
+          console.log(res.data);
+          // commit('updateArticle', res.data);
+        });
+      // return res.data;
+    },
+
     deleteStudy({ commit }, form) {
       // console.log(form);
 
