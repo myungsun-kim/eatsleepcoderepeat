@@ -17,8 +17,12 @@
           v-for="(item, index) in studyIntroduce.memberDtos"
           :key="index"
         >
-          <el-col :span="10" :offset="1">{{ item.email }}</el-col>
-          <el-col :span="5" :offset="1">{{ item.nickname }}</el-col>
+          <el-col :span="10" :offset="1" class="font-design">{{
+            item.email
+          }}</el-col>
+          <el-col :span="5" :offset="1" class="font-design">{{
+            item.nickname
+          }}</el-col>
           <el-col :span="5" :offset="1">
             <el-button
               class="btn-1747C9 font-noto-bold"
@@ -125,5 +129,12 @@ export default {
 
 .oneLine {
   display: flex;
+}
+
+.font-design {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
 }
 </style>

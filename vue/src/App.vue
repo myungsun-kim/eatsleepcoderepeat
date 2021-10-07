@@ -177,6 +177,11 @@ body {
   color: white;
   background-color: #1747c9;
 }
+.btn-1747C9:hover {
+  color: #1747c9;
+  background-color: #ffffff;
+  border: 2px solid #1747c9;
+}
 .btn-ghost {
   color: black;
   border: 1px solid black;
@@ -189,6 +194,19 @@ body {
   line-height: 15px;
   text-align: center;
   color: #000000;
+}
+.btn-ghost:hover {
+  color: #f2f2f2;
+  border: 1px solid black;
+  background-color: #000000;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 15px;
+  text-align: center;
+  color: #f2f2f2;
 }
 .btn-ghost-round {
   background: #ffffff;
@@ -203,6 +221,20 @@ body {
   line-height: 16px;
   text-align: center;
   color: #000000;
+}
+.btn-ghost-round:hover {
+  background: #000000;
+  border: 1px solid #ffffff;
+  box-sizing: border-box;
+  border-radius: 30px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  color: #ffffff;
 }
 
 .btn-ghost-round-blue {
@@ -265,10 +297,34 @@ body {
   font-weight: normal;
   font-size: 16px;
 }
+.btn-create:hover {
+  width: 76px;
+  height: 32px;
+  color: #1747c9;
+  background-color: #ffffff;
+  border: solid 2px #1747c9;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+}
 .btn-cancel {
   width: 76px;
   height: 32px;
   color: #f53030;
+  border: 1px solid #f53030;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+}
+.btn-cancel:hover {
+  width: 76px;
+  height: 32px;
+  color: #ffffff;
+  background-color: #f53030;
   border: 1px solid #f53030;
 
   font-family: Noto Sans KR;

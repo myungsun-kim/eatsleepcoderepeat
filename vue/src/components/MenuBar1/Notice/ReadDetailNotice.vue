@@ -22,7 +22,8 @@
         {{ article.content }}
       </el-row>
 
-      <el-row class="height10"> </el-row>
+      <el-row class="height30"> </el-row>
+      <hr />
       <el-row>
         <el-col :span="21"></el-col>
         <el-col :span="2">

@@ -254,7 +254,7 @@
           </div>
           <div id="btn">
             <el-button class="btn-create" @click="goIntroduce">수정</el-button>
-            <el-button class="btn-cancel" @click="goIntroduce">취소</el-button>
+            <el-button class="btn-cancel" @click="goBack">취소</el-button>
           </div>
         </div>
       </el-col>
@@ -467,6 +467,9 @@ export default {
         router.push({ path: '/subheader/study/introduce' });
       }
     };
+    const goBack = function () {
+      router.push({ path: '/subheader/study/introduce' });
+    };
 
     // 사진 업로드
     // 프로필 사진 업로드
@@ -487,7 +490,6 @@ export default {
       };
 
       const res = store.dispatch('uploadFile', formData);
-
     };
 
     return {
@@ -501,6 +503,7 @@ export default {
       clubId,
       state,
       goIntroduce,
+      goBack,
       beforeUpload,
       stackAutoComplete,
       deleteStack,
