@@ -1,10 +1,10 @@
 <template>
   <div class="bg">
     <el-row :gutter="0">
-      <el-col :span="5" :offset="0">
+      <el-col :span="6" :offset="0">
         <div class="height100"></div>
       </el-col>
-      <el-col :span="13" :offset="0">
+      <el-col :span="12" :offset="0">
         <div>
           <div id="h1">스터디 수정</div>
           <hr />
@@ -75,16 +75,7 @@
               </div>
             </div>
           </div>
-          <div id="box1">
-            <label id="h2">기술스택</label>
-            <input
-              type="text"
-              placeholder="사용하는 기술 스택을 입력하세요."
-              id="input"
-              onfocus="this.placeholder=''"
-              onblur="this.placeholder='사용하는 기술 스택을 입력하세요.'"
-            />
-          </div>
+
           <div id="box3">
             <div id="box2">
               <div id="box1">
@@ -95,6 +86,7 @@
                   id="input1"
                   onfocus="this.placeholder=''"
                   onblur="this.placeholder='스터디 일정을 입력하세요.'"
+                  v-model="state.form.schedule"
                 />
               </div>
               <div id="box1">
@@ -105,6 +97,7 @@
                   id="input1"
                   onfocus="this.placeholder=''"
                   onblur="this.placeholder='숫자를 입력하세요.'"
+                  v-model="state.form.period"
                 />
               </div>
               <div id="box1">
@@ -115,6 +108,7 @@
                   id="input1"
                   onfocus="this.placeholder=''"
                   onblur="this.placeholder='숫자를 입력하세요.'"
+                  v-model="state.form.maxCount"
                 />
               </div>
               <div id="box1">
@@ -122,11 +116,21 @@
                 <div id="radio">
                   <!-- radio 타입은 name명이 같을 경우 하나만 선택된다. -->
                   <label>
-                    <input type="radio" name="study" value="open" />
+                    <input
+                      type="radio"
+                      name="study"
+                      value="true"
+                      v-model="state.form.isPublic"
+                    />
                     공개
                   </label>
                   <label>
-                    <input type="radio" name="study" value="private" />
+                    <input
+                      type="radio"
+                      name="study"
+                      value="false"
+                      v-model="state.form.isPublic"
+                    />
                     비공개
                   </label>
                 </div>
@@ -145,11 +149,24 @@
           </div>
           <div id="box1">
             <label id="h2">지역</label>
-            <select id="region">
-              <option value="1">11</option>
-              <option value="2">22</option>
-              <option value="3">33</option>
-              <option value="4">44</option>
+            <select id="region" v-model="state.form.city">
+              <option value="서울">서울</option>
+              <option value="부산">부산</option>
+              <option value="대구">대구</option>
+              <option value="인천">인천</option>
+              <option value="광주">광주</option>
+              <option value="대전">대전</option>
+              <option value="울산">울산</option>
+              <option value="세종">세종</option>
+              <option value="경기">경기</option>
+              <option value="강원">강원</option>
+              <option value="충북">충북</option>
+              <option value="충남">충남</option>
+              <option value="전북">전북</option>
+              <option value="전남">전남</option>
+              <option value="경북">경북</option>
+              <option value="경남">경남</option>
+              <option value="제주">제주</option>
             </select>
           </div>
 
@@ -170,15 +187,30 @@
             <div id="radio">
               <!-- radio 타입은 name명이 같을 경우 하나만 선택된다. -->
               <label>
-                <input type="radio" name="state" value="recruiting" />
+                <input
+                  type="radio"
+                  name="state"
+                  value="모집"
+                  v-model="state.form.status"
+                />
                 모집중
               </label>
               <label>
-                <input type="radio" name="state" value="croceeding" />
+                <input
+                  type="radio"
+                  name="state"
+                  value="진행"
+                  v-model="state.form.status"
+                />
                 진행중
               </label>
               <label>
-                <input type="radio" name="state" value="closed" />
+                <input
+                  type="radio"
+                  name="state"
+                  value="종료"
+                  v-model="state.form.status"
+                />
                 종료됨
               </label>
             </div>
@@ -188,11 +220,21 @@
             <div id="radio">
               <!-- radio 타입은 name명이 같을 경우 하나만 선택된다. -->
               <label>
-                <input type="radio" name="participation" value="possible" />
+                <input
+                  type="radio"
+                  name="participation"
+                  value="true"
+                  v-model="state.form.isParticipate"
+                />
                 참여 가능
               </label>
               <label>
-                <input type="radio" name="participation" value="impossible" />
+                <input
+                  type="radio"
+                  name="participation"
+                  value="false"
+                  v-model="state.form.isParticipate"
+                />
                 참여 불가
               </label>
             </div>
@@ -207,10 +249,11 @@
               onblur="this.placeholder='해당 스터디에 대해 소개해주세요.'"
               maxlength="300"
               show-word-limit
+              v-model="state.form.bio"
             />
           </div>
           <div id="btn">
-            <el-button class="btn-create" @click="goIntroduce">생성</el-button>
+            <el-button class="btn-create" @click="goIntroduce">수정</el-button>
             <el-button class="btn-cancel" @click="goIntroduce">취소</el-button>
           </div>
         </div>
@@ -222,7 +265,7 @@
   </div>
 </template>
 <script>
-import { reactive, computed, watch } from 'vue';
+import { reactive, computed, watch, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import techstacks from '@/autocomplete/techstack.js';
@@ -234,10 +277,22 @@ export default {
     const router = useRouter();
     const store = useStore();
 
+    // 1. 스터디 정보를 가져오기 위해 study Id 값 가져오기
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    console.log('studyId: ' + studyId.value);
-    watch(studyId, () => {});
+    console.log('studyId: ');
+    console.log(studyId.value);
 
+    // 2. 스터디 정보 조회
+    store.dispatch('study/studyInfo', studyId.value);
+    const studyInfo = computed(() => store.getters['study/studyInfoGetter']);
+    console.log('스터디 정보 출력');
+    console.log(studyInfo.value);
+    // watch(studyInfo, () => {
+    //   console.log('studyInfo.value');
+    //   console.log(studyInfo.value);
+    // });
+
+    // 3. 클럽 목록을 출력하기 위한 내 정보 조회
     store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
 
@@ -249,27 +304,52 @@ export default {
         clubId[index] = user.value.myClubList[index].id;
       }
     } else {
-      clubList[0] = '무관';
+      clubList[0] = '없음';
       clubId[0] = null;
     }
+
+    const chatCurrentId = computed(
+      () => store.getters['chat/getCurrentUserId']
+    );
 
     const state = reactive({
       form: {
         bio: '', //소개
         city: '', //도시
         clubId: null, //소속 클럽 id
-        isPublic: false, //공개 여부
+        hostId: chatCurrentId.value,
+        isParticipate: true, // 스터디 상태
+        isPublic: true, //공개 여부
         maxCount: 0, //최대 인원수
         name: '', //스터디 이름
-        period: 7, //기간
+        period: '', //기간
         schedule: '', //일정 String
+        status: '모집',
         techList: [], //기술 목록
         addStackList: [], //기술 목록
         removeStackList: [], //기술 목록
         // uuid: null, //사진 uuid
       },
+      studyId: studyId.value,
       tech: '',
       result: null,
+      studyInfo: null,
+    });
+
+    onBeforeMount(() => {
+      console.log(11111111111111111111);
+      console.log(studyInfo.value.name);
+      state.form.bio = studyInfo.value.bio;
+      state.form.city = studyInfo.value.city;
+      state.form.clubId = studyInfo.value.club;
+      state.form.isParticipate = studyInfo.value.isParticipate;
+      state.form.isPublic = studyInfo.value.isPublic;
+      state.form.maxCount = studyInfo.value.maxCount;
+      state.form.name = studyInfo.value.name;
+      state.form.period = studyInfo.value.period;
+      state.form.schedule = studyInfo.value.schedule;
+      state.form.status = studyInfo.value.status;
+      state.form.techList = studyInfo.value.studyTechstack;
     });
 
     const stackAutoComplete = function () {
@@ -383,6 +463,7 @@ export default {
     };
 
     const goIntroduce = function () {
+      store.dispatch('study/updateStudy', state);
       router.push({ path: '/subheader/study/introduce' });
     };
 
@@ -425,7 +506,9 @@ export default {
     return {
       store,
       router,
+
       studyId,
+      studyInfo,
       user,
       clubList,
       clubId,

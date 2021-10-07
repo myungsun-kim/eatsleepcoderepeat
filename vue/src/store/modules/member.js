@@ -18,20 +18,20 @@ export const member = {
       // console.log('2-5');
     },
     updateUserEmail(state, payload) {
-      console.log('updateUserEmail');
-      console.log(payload);
+      // console.log('updateUserEmail');
+      // console.log(payload);
       state.userEmail = payload;
     },
     updateUserInfo(state, payload) {
-      console.log('update User Info');
-      console.log(payload);
+      // console.log('update User Info');
+      // console.log(payload);
       state.userInfo = payload;
     },
   },
   actions: {
     // 마이페이지 정보
     readMyPage({ commit }) {
-      console.log('readmypage 호출');
+      // console.log('readmypage 호출');
       const res = axios
         .get(BASE_URL + `/api/member/mypage`, {
           headers: {
@@ -39,32 +39,32 @@ export const member = {
           },
         })
         .then((res) => {
-          console.log('READ MY PAGE');
-          console.log(res);
-          console.log(res.data);
+          // console.log('READ MY PAGE');
+          // console.log(res);
+          // console.log(res.data);
           commit('updateMypage', res.data);
         });
       return res;
     },
     // 다른 회원 정보 가져오기
-    readInfoPage({ commit }, form) {
+    readInfoPage({ commit }, data) {
       console.log('readIn');
       // form = encodeURIComponent(form);
       const res = axios
-        .get(BASE_URL + `/api/member/mypage/${encodeURI(form)}`, {
+        .get(BASE_URL + `/api/member/mypage/${encodeURI(data)}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
           },
         })
         .then((res) => {
-          console.log('READ MY PAGE');
+          console.log('다른 회원 정보 가져오기');
           console.log(res);
           console.log(res.data);
           // console.log('READ MY PAGE');
           // console.log('2-3');
           // console.log(res);
           // console.log(res.data);
-          commit('updateMypage', res.data);
+          commit('updateUserInfo', res.data);
           // console.log('2-6');
         });
       return res;
@@ -108,9 +108,6 @@ export const member = {
           commit('updateMypage', res.data);
         });
       return res;
-    },
-    updateUserEmail({ commit }, data) {
-      commit('updateUserEmail', data);
     },
   },
   getters: {

@@ -13,11 +13,11 @@
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
-        <i class="el-icon-date flex-items"></i>&nbsp;프로젝트 일정
+        <i class="el-icon-date flex-items"></i>&nbsp;스터디 일정
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
-        <i class="el-icon-time flex-items"></i>&nbsp;프로젝트 기간
+        <i class="el-icon-time flex-items"></i>&nbsp;스터디 기간
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
@@ -141,27 +141,6 @@
       <el-row class="height92 font-20">
         {{ studyIntroduce.bio }}
       </el-row>
-      <el-row :gutter="20">
-        (이 row은 테스트 끝나면 다 제거할 것임) 현재 권한: {{ auth }} <br />
-        2가 팀장(수정, 삭제), 1이 팀원(탈퇴), 0이 외부인(돌아가기, 신청) <br />
-        <el-col :span="3">
-          <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
-            수정
-          </el-button>
-        </el-col>
-        <el-col :span="3"> <StudyDeleteModal /> </el-col>
-        <el-col :span="3"> <StudyQuitModal /> </el-col>
-        <el-col :span="3">
-          <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
-            돌아가기
-          </el-button>
-        </el-col>
-        <el-col :span="3">
-          <CreateApplicationModal />
-        </el-col>
-        <el-col :span="10"></el-col>
-        <el-col :span="3"></el-col>
-      </el-row>
 
       <el-row>
         <el-col :span="7"></el-col>
@@ -176,6 +155,8 @@
           <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
             돌아가기
           </el-button>
+        </el-col>
+        <el-col :span="2" v-if="auth == 0">
           <CreateApplicationModal />
         </el-col>
         <el-col :span="10"></el-col>
@@ -200,8 +181,9 @@ export default {
     const store = useStore();
     const router = useRouter();
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    // console.log(111111111111111);
-    // console.log(studyId);
+
+    // 스터디 id를 가지고 dispatch 해야함
+    store.dispatch('study/introduce', studyId.value);
     const studyIntroduce = computed(
       () => store.getters['study/studyIntroduceGetter']
     );
@@ -219,17 +201,32 @@ export default {
     //api/auth/check/nickname/에다가
     //내 토큰이랑 스터디 장의 별명을 넣어서 일치하는지 확인
 
-    // console.log(auth.value);
-
-    if (store.dispatch('study/checkHost', studyIntroduce.value.host.nickname)) {
+    // 권한 체크
+    store.dispatch('study/checkHost', studyIntroduce.value.host.nickname);
+    const isHost = computed(() => store.getters['study/checkHostGetter']);
+    if (isHost) {
       auth.value = 2;
     } else {
       for (let index = 0; index < user.value.myStudyList.length; index++) {
-        if (user.value.myStudyList[index].id == studyId) {
+        if (user.value.myStudyList[index].id == studyId.value) {
           auth.value = 1;
         }
       }
     }
+
+    watch(isHost, () => {
+      if (
+        store.dispatch('study/checkHost', studyIntroduce.value.host.nickname)
+      ) {
+        auth.value = 2;
+      } else {
+        for (let index = 0; index < user.value.myStudyList.length; index++) {
+          if (user.value.myStudyList[index].id == studyId.value) {
+            auth.value = 1;
+          }
+        }
+      }
+    });
 
     // const state = reactive({
     //   form: {
@@ -275,9 +272,11 @@ export default {
     const goOtherPage = function () {
       visible.value = false;
 
-      // 김명선 -> 팀장의 마이지페이지로 이동하는 코드
-
-      // router.push({ path: '/nosubheader/study/update' });
+      // 팀장의 마이지페이지로 이동
+      console.log(studyIntroduce.value.host.email);
+      // store.dispatch('member/updateUserEmail', studyIntroduce.value.host.email);
+      store.dispatch('member/readInfoPage', studyIntroduce.value.host.email);
+      router.push({ path: '/nosubheader/readinfopage' });
     };
     const goUpdate = function () {
       router.push({ path: '/nosubheader/study/update' });

@@ -4,30 +4,30 @@
     <el-col :span="5"
       ><el-row>
         <el-col :span="1"></el-col>
-        <el-col :span="4"
-          ><el-button
+        <el-col :span="4">
+          <el-button class="top-nav-btn font-s-md" type="text">
+            <!-- @click="clickProject"
+            프로젝트 -->
+          </el-button>
+        </el-col>
+        <el-col :span="4"></el-col>
+        <el-col :span="5">
+          <el-button
             class="top-nav-btn font-s-md"
             type="text"
             @click="clickStudy"
-            >스터디</el-button
-          ></el-col
-        ><el-col :span="4"></el-col
-        ><el-col :span="5"
-          ><el-button
-            class="top-nav-btn font-s-md"
-            type="text"
-            @click="clickProject"
-            >프로젝트</el-button
-          ></el-col
-        ><el-col :span="4"></el-col
-        ><el-col :span="3"
-          ><el-button
-            class="top-nav-btn font-s-md"
-            type="text"
-            @click="clickClub"
-            >클럽</el-button
-          ></el-col
-        ><el-col :span="3"></el-col>
+          >
+            스터디
+          </el-button>
+        </el-col>
+        <el-col :span="4"> </el-col>
+        <el-col :span="3">
+          <el-button class="top-nav-btn font-s-md" type="text">
+            <!-- @click="clickClub"
+            클럽 -->
+          </el-button>
+        </el-col>
+        <el-col :span="3"></el-col>
       </el-row>
     </el-col>
 
@@ -100,7 +100,9 @@ export default {
     const clickStudy = function () {
       if (token) {
         store.commit('setCategory', 1);
-        router.push({ path: '/nosubheader/study/home' });
+
+        window.location = '/nosubheader/study/home';
+        // router.push({ path: '/nosubheader/study/home' });
       } else {
         router.push({ path: '/noheader/signin' });
       }
@@ -140,7 +142,8 @@ export default {
     const clickMyPage = function () {
       if (token) {
         store.dispatch('member/readMyPage');
-        router.push({ path: '/nosubheader/readmypage' });
+        // router.push({ path: '/nosubheader/readmypage' });
+        window.location = '/nosubheader/readmypage';
       } else {
         router.push({ path: '/noheader/signin' });
       }
@@ -218,5 +221,6 @@ export default {
   background: #f53030;
   border-radius: 10px;
   opacity: 0.9;
+  color: white;
 }
 </style>
