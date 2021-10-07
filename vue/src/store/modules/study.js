@@ -39,7 +39,6 @@ export const study = {
       state.recommendStudyList = payload;
     },
     updateStudyId(state, payload) {
-      console.log('넘겨준 STUDY ID 값' + payload);
       state.studyId = payload;
     },
     updateStudyInfo(state, payload) {

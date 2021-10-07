@@ -148,7 +148,7 @@
           <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
             수정
           </el-button>
-        </el-col>
+        </el-col> 
         <el-col :span="6" v-if="auth == 2"> <StudyDeleteModal /> </el-col>
         <el-col :span="12" v-if="auth == 1"> <StudyQuitModal /> </el-col>
         <el-col :span="6" v-if="auth == 0">
