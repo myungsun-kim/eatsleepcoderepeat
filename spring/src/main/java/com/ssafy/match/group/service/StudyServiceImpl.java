@@ -320,7 +320,7 @@ public class StudyServiceImpl implements StudyService {
     public void validStatus(String status) throws Exception {
         if(!Stream.of(Status.values()).map(Enum::name)
             .collect(Collectors.toList()).contains(status)){
-            throw new Exception("존재하지 않는 지역입니다");
+            throw new Exception("존재하지 않는 상태입니다");
         }
     }
     public void validTechstack(List<String> techstacks) throws Exception {
