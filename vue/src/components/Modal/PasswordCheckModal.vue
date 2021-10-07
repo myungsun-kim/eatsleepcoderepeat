@@ -4,7 +4,7 @@
   </el-button>
   <teleport to="body">
     <div v-if="!modalOpen" class="modal">
-      <div class="height40">
+      <div class="height40" style="width: 40%">
         <el-row class="height10"></el-row>
         <el-row class="height10">
           <el-col :span="24" class="font-noto-bold font-20">
@@ -13,9 +13,10 @@
         </el-row>
         <el-row class="height10">
           <el-col :span="8" class="font-noto-bold font-20"> 비밀번호 </el-col>
-          <el-col :span="16" class="font-noto-bold font-20">
+          <el-col :span="14" class="font-noto-bold font-20">
             <el-input type="password" v-model="state.form.password"></el-input>
           </el-col>
+          <el-col :span="2"> </el-col>
         </el-row>
         <el-row class="height10">
           <el-col :span="6" :offset="6">
@@ -28,7 +29,7 @@
           </el-col>
           <el-col :span="6">
             <el-button
-              class="btn-ghost-blue font-noto-bold"
+              class="btn-ghost-red font-noto-bold"
               @click="changemodalOpen"
               style="font-size: 14px"
               >취소</el-button
@@ -122,7 +123,7 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: white;
-  width: 50%;
+  width: 100%;
 }
 
 .quitService {

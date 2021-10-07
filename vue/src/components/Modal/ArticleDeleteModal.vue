@@ -5,7 +5,7 @@
       <div class="height40" style="width: 30%">
         <el-row class="height10">
           <el-col :span="24" class="font-noto-bold font-20">
-            {{ article.title }}
+            [{{ article.title }}] 게시글을
           </el-col>
         </el-row>
         <el-row class="height20">
@@ -67,7 +67,6 @@ export default {
         articleid: articleId.value,
       },
     });
-
 
     watch(articleId, () => {
       param.form.articleid = articleId.value;

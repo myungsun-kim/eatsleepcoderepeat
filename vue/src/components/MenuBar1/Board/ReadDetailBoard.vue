@@ -7,8 +7,8 @@
       <el-row class="author-font"> {{ article.createdMember }} </el-row>
       <el-row>
         <el-col :span="10" class="gray-font left-align">
-          {{ article.createdDate.substr(2, 8) }}&nbsp;
-          {{ article.createdDate.substr(11, 8) }}
+          {{ new String(article.createdDate).substr(2, 8) }}&nbsp;
+          {{ new String(article.createdDate).substr(11, 8) }}
         </el-col>
         <el-col :span="10"></el-col>
         <el-col :span="2">

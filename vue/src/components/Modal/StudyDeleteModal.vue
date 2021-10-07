@@ -4,7 +4,7 @@
   </el-button>
   <teleport to="body">
     <div v-if="!modalOpen" class="modal">
-      <div class="height40">
+      <div class="height40" style="width: 40%">
         <el-row class="height10"></el-row>
         <el-row class="height8">
           <el-col :span="24" class="font-noto-bold font-20">
@@ -72,7 +72,6 @@ export default {
       store.dispatch('study/introduce', studyId.value);
     });
 
-
     // 모달 처리
     const modalOpen = computed(() => store.getters['scrollGetter']);
     const changemodalOpen = function () {
@@ -114,7 +113,7 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: white;
-  width: 50%;
+  width: 100%;
 }
 .warn-msg {
   color: #ff0000;
