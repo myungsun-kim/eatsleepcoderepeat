@@ -208,8 +208,8 @@ export const study = {
         header
       );
       res.then((res) => {
-        console.log('getNoticeArticleList 조회 결과');
-        console.log(res.data);
+        // console.log('getNoticeArticleList 조회 결과');
+        // console.log(res.data);
         commit('updateNoticeArticleList', res.data);
       });
       // return res.data;
@@ -270,13 +270,15 @@ export const study = {
     },
     // 특정 게시글 하나 조회
     getArticleDetail({ commit }, form) {
-      console.log(form);
+      // console.log(form);
+      console.log('상세조회, 글 id, 보드 id');
       console.log(form.articleid);
+      console.log(form.boardid);
 
       const res = axios.get(
         BASE_URL +
           // `/api/studyboards/${form.articleid}/articles/${form.boardid}`,
-          `/api/studyboards/${form.boardid}/articles/${form.articleId}`,
+          `/api/studyboards/${form.boardid}/articles/${form.articleid}`,
         header
       );
       res.then((res) => {
@@ -287,11 +289,38 @@ export const study = {
       });
       return res.data;
     },
+    deleteStudy({ commit }, form) {
+      // console.log(form);
+
+      const res = axios
+        .delete(BASE_URL + `/api/study/${form}`, header)
+        .then(() => {
+          // console.log('스터디 삭제');
+          // console.log(res);
+          // console.log(res.data);
+          commit('updateStudyId', '');
+        });
+    },
+    quitStudy({ commit }, form) {
+      // console.log(form);
+
+      const res = axios
+        .delete(BASE_URL + `/api/study/${form}/member`, header)
+        .then(() => {
+          console.log('스터디 탈퇴@@@@@@@@');
+          console.log(res);
+          console.log(res.data);
+          // commit('updateStudyId', '');
+        })
+        .catch((err) => {
+          alert('스터디장은 탈퇴할 수 없습니다.');
+        });
+    },
   },
   getters: {
     totalStudyGetter: (state) => {
-      console.log('###########################');
-      console.log(state.totalStudyList);
+      // console.log('###########################');
+      // console.log(state.totalStudyList);
       return state.totalStudyList;
     },
     studyIdGetter: (state) => {
@@ -338,13 +367,13 @@ export const study = {
       return state.studyNormalBoardId;
     },
     studyArticleIdGetter: (state) => {
-      console.log('studyArticleId GETTER');
-      console.log(state.studyArticleId);
+      // console.log('studyArticleId GETTER');
+      // console.log(state.studyArticleId);
       return state.studyArticleId;
     },
     articleGetter: (state) => {
-      console.log('article GETTER');
-      console.log(state.article);
+      // console.log('article GETTER');
+      // console.log(state.article);
       return state.article;
     },
   },

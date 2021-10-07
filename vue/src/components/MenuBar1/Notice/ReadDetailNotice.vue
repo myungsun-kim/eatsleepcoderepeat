@@ -2,12 +2,13 @@
   <el-row>
     <el-col :span="5"></el-col>
     <el-col :span="13">
-      <el-row class="author-font"> 공지사항 </el-row>
+      <el-row class="author-font">
+        공지사항 보드아이디: {{ boardId }}, 글아이디: {{ articleId }}
+      </el-row>
       <el-row id="article-title"> {{ article.title }} </el-row>
       <el-row class="author-font"> {{ article.createdMember }} </el-row>
       <el-row>
-        <el-col :span="10" class="gray-font">
-          왼쪽정렬 부탁드림
+        <el-col :span="10" class="gray-font left-align">
           {{ article.createdDate.substr(2, 8) }}&nbsp;
           {{ article.createdDate.substr(11, 8) }}
         </el-col>
@@ -17,6 +18,8 @@
         </el-col>
         <el-col :span="2"><ArticleDeleteModal /></el-col>
       </el-row>
+
+      <el-row class="height10"> </el-row>
       <el-row class="gray-font">
         {{ article.content }}
       </el-row>
@@ -36,7 +39,7 @@
       </el-row>
       <el-row>
         <el-col :span="1"></el-col>
-        <el-col :span="22"></el-col>  
+        <el-col :span="22"></el-col>
         <el-row>
           <el-col :span="1">사진</el-col>
           <el-col :span="21">닉네임<br />3시간전</el-col
@@ -87,9 +90,20 @@ export default {
       },
     });
 
+    watch(param, () => {
+      console.log('param 바뀜');
+      // param.form.articleid = articleId.value;
+      // store.dispatch('study/getArticleDetail', param.form);
+    });
     watch(articleId, () => {
       console.log('articleId 바뀜');
       param.form.articleid = articleId.value;
+      store.dispatch('study/getArticleDetail', param.form);
+    });
+
+    watch(boardId, () => {
+      console.log('boardId 바뀜');
+      param.form.boardid = boardId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });
 
@@ -103,10 +117,14 @@ export default {
     };
     const goReadNotice = function () {
       router.push({ path: '/subheader/notice/read' });
+      // 새로고침을 위해
+      // window.location = '/subheader/notice/read';
     };
 
     return {
       article,
+      boardId,
+      articleId,
       goUpdateNotice,
       goReadNotice,
     };
@@ -143,5 +161,8 @@ export default {
   font-size: 16px;
   line-height: 19px;
   color: #718096;
+}
+.left-align {
+  text-align: left;
 }
 </style>

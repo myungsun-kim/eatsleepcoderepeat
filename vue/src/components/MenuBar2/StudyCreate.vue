@@ -18,25 +18,48 @@
               v-model="state.form.name"
               placeholder="이름을 입력하세요."
               onfocus="this.placeholder=''"
-              onblur="this.placeholder='이름을 입력하세요'"
+              onblur="this.placeholder='이름을 입력하세요.'"
             />
           </div>
           <div id="box1">
-            <label id="h2">기술스택 (1개만 입력 가능합니다)</label>
+            <label id="h2">기술스택 (최대5개)</label>
             <div id="box5">
               <!-- v-model="state.form.techList" -->
-              <div class="input"></div>
-              <input
-                id="techList"
-                class="input"
-                v-model="state.tech"
-                autocomplete="off"
-                @input="stackAutoComplete()"
-                type="text"
-                placeholder="사용하는 기술 스택을 입력하세요."
-                onfocus="this.placeholder=''"
-                onblur="this.placeholder='사용하는 기술 스택을 입력하세요'"
-              />
+              <div class="box0">
+                <div
+                  v-for="useStack in state.form.techList"
+                  :key="useStack"
+                  class="addValue1"
+                  @click="deleteStack(useStack)"
+                >
+                  {{ useStack }}
+                </div>
+              </div>
+              <label class="label3">(영어로 입력)</label>
+              <div class="box6">
+                <input
+                  id="techList"
+                  class="input1"
+                  v-model="state.tech"
+                  autocomplete="off"
+                  @input="stackAutoComplete()"
+                  type="text"
+                  placeholder="사용하는 기술 스택을 입력하세요."
+                  onfocus="this.placeholder=''"
+                  onblur="this.placeholder='사용하는 기술 스택을 입력하세요.'"
+                />
+                <div id="box6">
+                  <div id="warning1" style="display: none">
+                    유효하지 않은 기술스택입니다.
+                  </div>
+                  <div id="warning2" style="display: none">
+                    이미 포함되어 있습니다.
+                  </div>
+                  <div id="warning3" style="display: none">
+                    최대 5개까지 가능합니다.
+                  </div>
+                </div>
+              </div>
               <div id="autocomplete">
                 <div
                   @click="addStack1(techStack1)"
@@ -62,9 +85,9 @@
                   autocomplete="off"
                   type="text"
                   v-model="state.form.schedule"
-                  placeholder="스터디 일정을 입력하세요"
+                  placeholder="스터디 일정을 입력하세요."
                   onfocus="this.placeholder=''"
-                  onblur="this.placeholder='스터디 일정을 입력하세요'"
+                  onblur="this.placeholder='스터디 일정을 입력하세요.'"
                 />
               </div>
               <div id="box1">
@@ -75,9 +98,9 @@
                   autocomplete="off"
                   type="text"
                   v-model="state.form.period"
-                  placeholder="숫자를 입력하세요"
+                  placeholder="숫자를 입력하세요."
                   onfocus="this.placeholder=''"
-                  onblur="this.placeholder='숫자를 입력하세요'"
+                  onblur="this.placeholder='숫자를 입력하세요.'"
                 />
               </div>
               <div id="box1">
@@ -88,9 +111,9 @@
                   autocomplete="off"
                   type="text"
                   v-model="state.form.maxCount"
-                  placeholder="숫자를 입력하세요"
+                  placeholder="숫자를 입력하세요."
                   onfocus="this.placeholder=''"
-                  onblur="this.placeholder='숫자를 입력하세요'"
+                  onblur="this.placeholder='숫자를 입력하세요.'"
                 />
               </div>
               <div id="box1">
@@ -288,23 +311,61 @@ export default {
         autocomplete.style = 'display:none';
       }
     };
-    // 자동완성 목록중에서 내가 클릭한 것을 박스에 추가하는 함수
+
+    // 자동완성 목록중에서 내가 클릭한 것을 input에 추가하는 함수
     // 내가 클릭한 것: clickedTechStack
     const addStack1 = function (clickedTechStack) {
       const autocomplete = document.getElementById('autocomplete');
-      // 회원가입할때 보낼 data값
-      // 기존에 techList에 값이 없었다면 바로 넣는다.
-      state.tech = clickedTechStack;
-      if (!state.form.techList) {
-        state.form.techList.push(clickedTechStack);
+      const warning1 = document.getElementById('warning1');
+      const warning2 = document.getElementById('warning2');
+      const warning3 = document.getElementById('warning3');
+
+      // 기술스택 개수가 5개미만이고 추가되어있는 techStack일때
+      if (
+        state.form.techList.length < 5 &&
+        state.form.techList.includes(clickedTechStack)
+      ) {
+        warning1.style = 'display:none';
+        warning2.style = '';
+        warning3.style = 'display:none';
       }
-      // 기존에 techList에 값이 들어있었다면 빼고 넣는다(임시로 하나만 받아야 하기 때문)
+      // 기술스택 개수가 5개이상이고 추가되어있지 않은 techStack일때
+      else if (
+        state.form.techList.length >= 5 &&
+        !state.form.techList.includes(clickedTechStack)
+      ) {
+        warning1.style = 'display:none';
+        warning2.style = 'display:none';
+        warning3.style = '';
+      }
+      // 기술스택 개수가 5개 이상이고 추가되어있는 techStack일때
+      else if (
+        state.form.techList.length >= 5 &&
+        state.form.techList.includes(clickedTechStack)
+      ) {
+        warning1.style = 'display:none';
+        warning2.style = '';
+        warning3.style = '';
+      }
+      // 기술스택 개수가 5개 미만이고 추가되어있지 않은 techStack일때
       else {
-        state.form.techList.pop();
+        // 회원가입할때 보낼 data값
         state.form.techList.push(clickedTechStack);
+        console.log(`${state.form.techList}이 추가되었다!`);
+
+        warning1.style = 'display:none';
+        warning2.style = 'display:none';
+        warning3.style = 'display:none';
+        autocomplete.style = 'display:none';
+        state.tech = '';
       }
-      autocomplete.style = 'display:none';
-      console.log(state.form.techList);
+    };
+
+    // expTechList에서 내가 클릭한 것을 뺀 나머지를 리스트로 보여주는 함수
+    const deleteStack = (clickedTechStack) => {
+      state.form.techList = state.form.techList.filter(
+        (techStack) => techStack !== clickedTechStack
+      );
     };
 
     const goIntroduce = function () {
@@ -328,6 +389,7 @@ export default {
       goHome,
       stackAutoComplete,
       addStack1,
+      deleteStack,
     };
   },
 };
@@ -364,6 +426,34 @@ export default {
   margin-left: 2px;
   text-align: left;
   color: #000000;
+}
+.box0 {
+  display: flex;
+  align-items: center;
+  width: 782px;
+  height: 50px;
+
+  /* background: #e8e8e8; */
+  background: white;
+  border-radius: 10px;
+  border: 0px;
+  margin-bottom: 10px;
+  padding-left: 10px;
+  margin-left: 2px;
+  /* border: 1px solid blue; */
+
+  /*  텍스트 */
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  /* identical to box height, or 114% */
+  text-align: left;
+
+  color: #919191;
+}
+.box6 {
+  display: flex;
 }
 .input {
   width: 782px;
@@ -498,6 +588,11 @@ export default {
   display: flex;
   flex-flow: column;
 }
+#box6 {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
 #btn {
   margin-top: 50px;
 }
@@ -512,14 +607,46 @@ export default {
 
   width: 400px;
   max-height: 150px;
-  margin-top: 54px;
+  margin-top: 140px;
 
   overflow: auto;
   margin-left: 0px;
   background: #919191;
   border-radius: 4px;
 }
+#warning1 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
 
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning2 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
+#warning3 {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #ff5757;
+}
 .autocomplete1 {
   background: white;
   /* background: #e8e8e8; */
@@ -548,5 +675,54 @@ export default {
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
+}
+.label3 {
+  min-width: 200px;
+  display: flex;
+  text-align: left;
+  align-items: center;
+  margin-top: -5px;
+  margin-left: 5px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+}
+.addValue1 {
+  height: 30px;
+  display: flex;
+  /* text-align: center; */
+  vertical-align: middle;
+
+  margin-right: 5px;
+  padding-top: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 1px solid #307ff5;
+  border-radius: 10px;
+  color: #307ff5;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+}
+.addValue1:hover {
+  height: 30px;
+  display: flex;
+  /* text-align: center; */
+  vertical-align: middle;
+
+  margin-right: 5px;
+  padding-top: 3px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 1px solid #ff5757;
+  border-radius: 10px;
+  color: #ff5757;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+
+  cursor: pointer;
 }
 </style>

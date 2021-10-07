@@ -39,7 +39,7 @@
             id="email"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='이메일'"
-            @input="checkEmail()"
+            @blur="checkEmail()"
             autocomplete="off"
             maxlength="30"
           />
@@ -73,7 +73,7 @@
               onblur="this.placeholder='닉네임'"
               @blur="checkNickName()"
               autocomplete="off"
-              maxlength="7"
+              maxlength="10"
             />
           </div>
           <div id="warning3" style="display: none">
@@ -81,6 +81,9 @@
             <br />
             한글 이름은 1~7자 이내, 영문 이름은 2~10자 이내로 작성해주세요.(혼용
             불가)
+          </div>
+          <div id="success3" style="display: none">
+            사용가능한 '이름'입니다!
           </div>
 
           <div id="warning4" style="display: none">
@@ -102,7 +105,7 @@
             id="password"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='비밀번호'"
-            @input="checkPassword()"
+            @blur="checkPassword()"
             autocomplete="off"
             maxlength="255"
           />
@@ -119,7 +122,7 @@
             id="checkpassword"
             onfocus="this.placeholder=''"
             onblur="this.placeholder='비밀번호 확인'"
-            @input="checkAffirmPassword()"
+            @blur="checkAffirmPassword()"
             autocomplete="off"
             maxlength="255"
           />
@@ -348,6 +351,7 @@
               onfocus="this.placeholder=''"
               onblur="this.placeholder='세부 포지션을 입력하세요'"
               @keyup.enter="addPosition()"
+              maxlength="10"
             />
             <div id="box5">
               <div id="warning14" style="display: none">값을 입력해주세요.</div>
@@ -412,6 +416,11 @@ export default {
       result: null,
       result1: null,
       result2: null,
+      validate1: false,
+      validate2: false,
+      validate3: false,
+      validate4: false,
+      validate5: false,
     });
     // Step1~4 간의 이동시 이동하는 페이지에 기존에 입력해놨던 값이 하나라도 있었다면 모조리 불러온다.(=값을 입력했으나 unMounted 된 적이 없는 경우)
     // router.push로 해당 페이지로 이동했을 때 store.auth.state.form에 저장되어 있는 내용이 있다면 해당 내용을 불러온다.
@@ -475,34 +484,33 @@ export default {
     const nextStep1 = function () {
       console.log('다음 Step으로 이동!');
       console.log(state.form);
+      // 입력칸이 비었을 경우
       if (state.form.email == '') {
         alert('이메일을 입력하세요.');
-        state.step = 1;
-        router.push({ path: '/noheader/signup' });
       } else if (state.form.name == '') {
         alert('이름을 입력하세요.');
-        state.step = 1;
-        router.push({ path: '/noheader/signup' });
       } else if (state.form.nickname == '') {
         alert('닉네임을 입력하세요.');
-        state.step = 1;
-        router.push({ path: '/noheader/signup' });
       } else if (state.form.password == '') {
         alert('비밀번호를 입력하세요.');
-        state.step = 1;
-        router.push({ path: '/noheader/signup' });
       } else if (state.form.affirmPassword == '') {
         alert('비밀번호 확인을 입력하세요.');
-        state.step = 1;
-        router.push({ path: '/noheader/signup' });
       } else if (state.form.position == '') {
         alert('포지션을 선택하세요');
-        state.step = 1;
-        router.push({ path: '/noheader/signup' });
       } else if (state.form.city == '') {
         alert('지역을 선택하세요');
-        state.step = 1;
-        router.push({ path: '/noheader/signup' });
+      }
+      // 입력칸이 비진 않았지만, 유효성 검사를 하나라도 통과하지 못했을 경우
+      else if (!state.validate1) {
+        alert('올바른 이메일 형식이 아닙니다!');
+      } else if (!state.validate2) {
+        alert('올바른 이름이 아닙니다!');
+      } else if (!state.validate3) {
+        alert('올바른 닉네임이 아닙니다!');
+      } else if (!state.validate4) {
+        alert('올바른 비밀번호 형식이 아닙니다!');
+      } else if (!state.validate5) {
+        alert('비밀번호가 일치하지 않습니다!');
       } else {
         store.state.auth.form.email = state.form.email;
         store.state.auth.form.name = state.form.name;
@@ -566,6 +574,7 @@ export default {
       if (emailVal.match(reg) == null) {
         warning1.style = '';
         success1.style = 'display:none';
+        state.validate1 = false;
         // alert('올바른 이메일 형식이 아닙니다.');
       } else {
         warning1.style = 'display:none';
@@ -574,10 +583,12 @@ export default {
           if (res.data == false) {
             warning2.style = 'display:none';
             success1.style = '';
+            state.validate1 = true;
             // alert('사용가능한 이메일 입니다!');
           } else {
             warning2.style = '';
             success1.style = 'display:none';
+            state.validate1 = false;
             // alert('이미 존재하는 이메일 입니다!');
           }
         });
@@ -586,19 +597,26 @@ export default {
     // 이름 유효성 검사
     const checkName = function () {
       console.log('이름 유효성 체크!!!');
-      var warning3 = document.getElementById('warning3');
+      const warning3 = document.getElementById('warning3');
+      const success3 = document.getElementById('success3');
       let nameVal = state.form.name;
-      let reg = /^[가-힣]{1,7}|[a-zA-Z]{2,10}$/;
-
-      if (nameVal.match(reg) == null) {
+      let reg = /^[가-힣]{1,7}$/;
+      let reg1 = /^[a-zA-Z]{2,10}$/;
+      // 유효성 검사를 통과하지 못했을 경우
+      if (nameVal.match(reg) == null && nameVal.match(reg) == null) {
         warning3.style = '';
+        success3.style = 'display:none';
+        state.validate2 = false;
         // alert(
         //   '올바른 형식이 아닙니다.\n한글 이름은 1~7자 이내, \n영문 이름은 2~10자 이내로 작성해주세요.\n(혼용 불가)'
         // );
       } else {
         warning3.style = 'display:none';
+        success3.style = '';
+        state.validate2 = true;
       }
     };
+
     // 닉네임 유효성 검사
     const checkNickName = function () {
       console.log('닉네임 포커싱 벗어남!!!');
@@ -611,6 +629,7 @@ export default {
       if (nickNameVal.match(reg) == null) {
         warning4.style = '';
         success2.style = 'display:none';
+        state.validate3 = false;
         // alert(
         //   '올바른 형식이 아닙니다.\n한글, 영문, 숫자만 가능합니다.\n닉네임 길이는 2~7자 이내여야 합니다.'
         // );
@@ -623,15 +642,18 @@ export default {
               warning4.style = 'display:none';
               warning5.style = 'display:none';
               success2.style = '';
+              state.validate3 = true;
             } else {
               // alert('이미 존재하는 닉네임 입니다!');
               warning4.style = 'display:none';
               warning5.style = '';
               success2.style = 'display:none';
+              state.validate3 = false;
             }
           });
       }
     };
+
     // 비밀번호 유효성 검사
     const checkPassword = function () {
       console.log('비밀번호 유효성 검사!!!');
@@ -639,27 +661,33 @@ export default {
       let passwordVal = state.form.password;
       let reg =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
+      // 유효성 검사를 통과하지 못했을 경우
       if (passwordVal.match(reg) == null) {
         warning6.style = '';
+        state.validate4 = false;
         // alert(
         //   '올바른 비밀번호 형식이 아닙니다.\n비밀번호는 최소 8자 이상이어야 합니다.\n비밀번호는 영문(소문자), 영문(대문자), 숫자, 특수문자가 반드시 조합되어야 합니다.'
         // );
       } else {
         warning6.style = 'display:none';
+        state.validate4 = true;
       }
     };
+
     // 비밀번호 확인 유효성 검사
     const checkAffirmPassword = function () {
       console.log('비밀번호확인 유효성 검사!!!');
       var warning7 = document.getElementById('warning7');
       let affirmPasswordVal = state.form.affirmPassword;
 
+      // 유효성 검사를 통과하지 못했을 경우
       if (affirmPasswordVal != state.form.password) {
         warning7.style = '';
+        state.validate5 = false;
         // alert('두 비밀번호가 일치하지 않습니다.');
       } else {
         warning7.style = 'display:none';
+        state.validate5 = true;
       }
     };
 
@@ -969,6 +997,7 @@ export default {
     //   state.beg = '';
     // };
 
+    // 내가 입력한 값을 세부정보 Box에 추가
     const addPosition = function () {
       var warning14 = document.getElementById('warning14');
       var warning15 = document.getElementById('warning15');
@@ -1023,17 +1052,19 @@ export default {
         state.dp = '';
       }
     };
-
+    // expTechList에서 내가 클릭한 것을 뺀 나머지를 리스트로 보여주는 함수
     const handleClick = (clickedTechStack) => {
       state.form.expTechList = state.form.expTechList.filter(
         (techStack) => techStack !== clickedTechStack
       );
     };
+    // beginTechList에서 내가 클릭한 것을 뺀 나머지를 리스트로 보여주는 함수
     const handleClick1 = (clickedTechStack) => {
       state.form.beginTechList = state.form.beginTechList.filter(
         (techStack) => techStack !== clickedTechStack
       );
     };
+    // dpositionList에서 내가 클릭한 것을 뺀 나머지를 리스트로 보여주는 함수
     const handleClick2 = (clickedDetailPosition) => {
       state.form.dpositionList = state.form.dpositionList.filter(
         (detailPosition) => detailPosition !== clickedDetailPosition
@@ -1322,6 +1353,16 @@ export default {
   color: #307ff5;
 }
 #success2 {
+  display: flex;
+  margin-left: 190px;
+
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #307ff5;
+}
+#success3 {
   display: flex;
   margin-left: 190px;
 
