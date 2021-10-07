@@ -20,7 +20,12 @@
                 <div class="box8">
                   <!-- 보내는사람: {{ session[1].senderId }} <br /> -->
 
-                  나한테 보낸 사람: {{ session[1].receiverId == currentId ? session[1].senderId : session[1].receiverId }}
+                  나한테 보낸 사람:
+                  {{
+                    session[1].receiverId == currentId
+                      ? session[1].senderId
+                      : session[1].receiverId
+                  }}
                 </div>
                 <div class="box9">
                   <!-- 메세지 받은 시간: {{ new Date(session[1].sent_time) }} -->
@@ -64,7 +69,7 @@
               >
                 <div class="box12_1">
                   <!-- {{ new Date(msg.sent_time) }} -->
-                  {{ new String(new Date(msg.sent_time)).substr(15, 9) }}
+                  {{ new String(new Date(msg.sent_time)).substr(19, 5) }}
 
                   <!-- 이건 substr(숫자, 숫자)으로 해결가능! -->
                   <!-- {{msg.read_time.getTime()}} -->
@@ -88,7 +93,7 @@
               class="other_send_time"
             >
               <div class="box13_1">
-                {{ new Date(msg.sent_time) }}
+                {{ new String(new Date(msg.sent_time)).substr(19, 5) }}
                 <!-- {{ calcTime(new Date(msg.sent_time)) }} -->
               </div>
             </div>
