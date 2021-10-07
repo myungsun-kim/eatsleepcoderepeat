@@ -85,8 +85,6 @@ export default {
     // 1-3. 가져오기
     store.dispatch('study/getArticleDetail', param.form);
     const article = computed(() => store.getters['study/articleGetter']);
-    console.log(article);
-    console.log(article.value);
 
     // 2. 새롭게 값을 입력 받은 것으로
 
@@ -103,9 +101,6 @@ export default {
     // 3. 게시글을 수정한다.
     // parameter 값이 제대로 들어왔는지,넘어가는지 확인 필요
     const goReadDetailNotice = function () {
-      console.log(parameter);
-      console.log(boardId.value);
-      console.log(parameter.value);
       store.dispatch('study/updateArticle', parameter);
       router.push({ path: '/subheader/notice/detail' });
     };
