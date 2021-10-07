@@ -365,17 +365,19 @@ export const study = {
     },
     // 스터디 신청 수락
     approvalStudy({ commit }, form) {
-      const res = axios.post(
-        BASE_URL +
-          `/api/studyapplication/approval/${form.studyId}/${form.memberId}`,
-        header
-      );
-      res.then((res) => {
-        console.log('스터디 신청 수락');
-        console.log(res);
-        console.log(res.data);
-      });
-      return res.data;
+      console.log(form);
+      const res = axios
+        .post(
+          BASE_URL +
+            `/api/studyapplication/approval/${form.studyId}/${form.memberId}`,
+          form,
+          header
+        )
+        .then((res) => {
+          console.log('스터디 신청 수락');
+          console.log(res);
+          console.log(res.data);
+        });
     },
 
     // 특정 게시글 하나 조회

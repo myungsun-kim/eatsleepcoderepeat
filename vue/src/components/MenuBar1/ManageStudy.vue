@@ -1,25 +1,8 @@
 <template>
-  <el-row style="height: 15%">
-    <el-col :span="3"></el-col>
-    <el-col :span="18">
-      회원목록테이블
-      <el-row>
-        <el-col :span="4"></el-col>
-        <el-col :span="2">리스트</el-col>
-        <el-col :span="10"></el-col>
-        <el-col :span="2"></el-col>
-        <el-col :span="2"></el-col>
-        <el-col :span="4"></el-col>
-      </el-row>
-    </el-col>
-    <el-col :span="3"></el-col>
-  </el-row>
+  <el-row class="height5"> </el-row>
 
   <el-row style="maxheight: 85%">
-    <el-col :span="3">
-      element-plus tablem 일정 개수를 넘어가면 다음 페이지로 넘어가는 알고리즘
-      필요
-    </el-col>
+    <el-col :span="3"> </el-col>
     <el-col :span="18">
       <el-table
         :data="studyApplications"
@@ -58,28 +41,6 @@
     </el-col>
     <el-col :span="3"></el-col>
   </el-row>
-
-  <el-row style="height: 15%">
-    <el-col :span="3"></el-col>
-    <el-col :span="18"
-      ><el-row style="height: 20%"> </el-row>
-      <el-row style="height: 25%">
-        <el-col :span="5"></el-col><el-col :span="14">페이지네이션</el-col
-        ><el-col :span="3"></el-col><el-col :span="2"></el-col>
-      </el-row>
-      <el-row class="height10"> </el-row>
-      <el-row style="height: 35%">
-        <el-col :span="4"></el-col>
-        <el-col :span="2">리스트</el-col>
-        <el-col :span="10"></el-col>
-        <el-col :span="2"></el-col>
-        <el-col :span="2"></el-col>
-        <el-col :span="4"></el-col>
-      </el-row>
-      <el-row class="height10"> </el-row>
-    </el-col>
-    <el-col :span="3"></el-col><el-col :span="3"></el-col
-  ></el-row>
 </template>
 
 <script>
