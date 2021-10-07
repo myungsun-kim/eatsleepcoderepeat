@@ -20,7 +20,7 @@
                 <div class="box8">
                   <!-- 보내는사람: {{ session[1].senderId }} <br /> -->
 
-                  나한테 보낸 사람: {{ session[1].receiverId }}
+                  나한테 보낸 사람: {{ session[1].receiverId == currentId ? session[1].senderId : session[1].receiverId }}
                 </div>
                 <div class="box9">
                   <!-- 메세지 받은 시간: {{ new Date(session[1].sent_time) }} -->
@@ -160,8 +160,8 @@ export default {
       store.dispatch('chat/sendMessage', {
         type: 1,
         senderId: currentId.value,
-        receiverId: 47,
-        // receiverId: currentCounterpart.value,
+        // receiverId: 47,
+        receiverId: currentCounterpart.value,
         sent_time: 1000,
         read_time: 1000,
         content: message.value,
