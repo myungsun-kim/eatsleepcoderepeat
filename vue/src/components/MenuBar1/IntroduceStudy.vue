@@ -66,13 +66,13 @@
       <el-row class="height8">
         <el-popover v-model:visible="visible" placement="top" :width="200">
           <div style="text-align: right; margin: 0">
-            <el-button
-              size="mini"
-              class="btn-ghost-round-red"
-              @click="goOtherPage"
+            <el-button size="mini" class="btn-ghost-round" @click="goOtherPage"
               >마이페이지
             </el-button>
-            <el-button class="btn-ghost-round-red" size="mini" @click="makeChat"
+            <el-button
+              class="btn-ghost-round-blue"
+              size="mini"
+              @click="makeChat"
               >채팅</el-button
             >
           </div>
