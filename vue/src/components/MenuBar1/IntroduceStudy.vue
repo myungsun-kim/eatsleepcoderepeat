@@ -265,7 +265,7 @@ export default {
         read_time: 1000,
         receiverId: studyIntroduce.value.host.id, // 받는 사람
         senderId: currentId.value, //보내는 사람
-        sent_time: 1000,
+        sent_time: new Date(),
         type: 1,
       };
 
