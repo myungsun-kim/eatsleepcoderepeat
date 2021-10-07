@@ -156,6 +156,11 @@ export default {
   font-size: 28px;
   text-align: center;
   color: black;
+}
+.sub-nav-btn:hover {
+  font-size: 28px;
+  text-align: center;
+  color: black;
   text-decoration: underline;
 }
 .lock-div {
