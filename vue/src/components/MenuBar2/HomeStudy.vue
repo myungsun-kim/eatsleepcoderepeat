@@ -1,8 +1,6 @@
 <template>
   <el-row class="height5">
-    <el-col :span="21" class="test-border">
-      home - study, project, club 5% 여백
-    </el-col>
+    <el-col :span="21" class="test-border"></el-col>
     <el-col :span="3" class="test-border">
       <el-button class="btn-1747C9 font-noto-bold" @click="goCreate"
         >스터디 생성</el-button
@@ -79,7 +77,7 @@
 
   <el-row class="height5">
     <el-col :span="24" class="test-border">
-      <a href="">더보기</a>
+      <a @click="goInfiniteMyStudy">더보기</a>
     </el-col>
   </el-row>
 
@@ -90,21 +88,24 @@
   </el-row>
 
   <!-- 아이템 목록 시작 -->
-  <!-- <el-row class="height25" v-if="totalStudyList">
+  <el-row class="height25" v-if="recommendStudyList">
     <el-col :span="2" class="test-border"></el-col>
     <el-col
       :span="4"
       :offset="1"
       class="test-border item-border"
-      v-for="(item, index) in totalStudyList"
+      v-for="(item, index) in recommendStudyList.slice(0, 4)"
       :key="index"
       @click="goIntroduce(item.id)"
     >
       <el-row class="height40 item-img"></el-row>
       <el-row class="height10 item-head-title">{{ item.name }}</el-row>
       <el-row class="height10 item-content"
-        >기술 스택: {{ item.techList[0] }}, {{ item.techList[1] }}</el-row
-      >
+        >기술 스택:&nbsp;
+        <div v-for="(tech, index) in item.techList" :key="index">
+          {{ tech }} &nbsp;
+        </div>
+      </el-row>
       <el-row class="height10"></el-row>
       <el-row class="height10 item-content">
         <el-col :span="12" class="test-border left-content"
@@ -124,7 +125,7 @@
       </el-row>
       <el-row class="height10">
         <el-col :span="12" class="test-border item-small-content left-content"
-          >작성일: {{ item.modifyDate.substr(2, 8) }}</el-col
+          >작성일: {{ item.modifiedDate.substr(2, 8) }}</el-col
         >
         <el-col :span="12" class="test-border right-content">
           <div
@@ -146,12 +147,12 @@
       </el-row>
     </el-col>
     <el-col :span="2" class="test-border"></el-col>
-  </el-row> -->
+  </el-row>
   <!-- 아이템 목록 끝 -->
 
   <el-row class="height5">
     <el-col :span="24" class="test-border">
-      <a href="">더보기</a>
+      <a @click="goInfiniteRecommendStudy">더보기</a>
     </el-col>
   </el-row>
 
@@ -227,7 +228,7 @@
 
   <el-row class="height5">
     <el-col :span="24" class="test-border">
-      <a href="">더보기</a>
+      <a @click="goInfiniteTotalStudy">더보기</a>
     </el-col>
   </el-row>
 </template>
@@ -241,15 +242,22 @@ export default {
     const store = useStore();
     const router = useRouter();
 
-    store.dispatch('study/getTotalStudyList');
-    const totalStudyList = computed(
-      () => store.getters['study/totalStudyGetter']
-    );
-
     // 내가 속한 스터디 목록 받을 것임
     store.dispatch('member/readMyPage');
     const myStudyList = computed(
       () => store.getters['member/myStudyListGetter']
+    );
+
+    // 추천 스터디 목록
+    store.dispatch('study/getRecommendStudyList');
+    const recommendStudyList = computed(
+      () => store.getters['study/recommendStudyListGetter']
+    );
+
+    // 전체 스터디 목록
+    store.dispatch('study/getTotalStudyList');
+    const totalStudyList = computed(
+      () => store.getters['study/totalStudyGetter']
     );
 
     // watch(myStudyList, () => {
@@ -265,23 +273,36 @@ export default {
       router.push({ path: '/subheader/study/introduce' });
     };
 
-    // 누가 만드신거죠? 어디 쓰는거지?
-    const tempArray = ['a', 'BBB'];
+    const goInfiniteMyStudy = function () {
+      router.push({ path: '/nosubheader/study/infinite/my' });
+    };
+
+    const goInfiniteRecommendStudy = function () {
+      router.push({ path: '/nosubheader/study/infinite/recommend' });
+    };
+
+    const goInfiniteTotalStudy = function () {
+      router.push({ path: '/nosubheader/study/infinite/total' });
+    };
+
     return {
       store,
       router,
       totalStudyList,
+      recommendStudyList,
       myStudyList,
       goCreate,
       goIntroduce,
-      tempArray,
+      goInfiniteMyStudy,
+      goInfiniteRecommendStudy,
+      goInfiniteTotalStudy,
     };
   },
 };
 </script>
-<style>
+<style scoped>
 .item-img {
-  background-image: url('../../assets/Item/Cat.png');
+  background-image: url('../../assets/Item/basic.png');
   background-repeat: no-repeat;
   background-size: cover;
   box-sizing: border-box;
@@ -290,77 +311,5 @@ export default {
   top: 0px;
 
   padding: 0px;
-}
-
-.item-head-title {
-  font-size: 16pt;
-  font-weight: bold;
-  padding: 0 3px 0 3px;
-}
-.item-content {
-  font-size: 12pt;
-  font-weight: normal;
-  padding: 0 3px 0 3px;
-}
-.item-small-content {
-  font-size: 10pt;
-  font-weight: normal;
-  padding: 0 3px 0 3px;
-}
-
-.left-content {
-  text-align: left;
-  padding: 0 3px 0 3px;
-}
-.right-content {
-  text-align: right;
-  padding: 0 3px 0 3px;
-}
-
-.item-state-badge-blue {
-  display: inline-block;
-  padding: 0 3px 0 3px;
-  margin: 0 2px 0 2px;
-  color: white;
-  background: #4361ff;
-  border-radius: 3px;
-  /* vertical-align: middle; */
-}
-.item-state-badge-green {
-  display: inline-block;
-  padding: 0 3px 0 3px;
-  margin: 0 2px 0 2px;
-  color: white;
-  background: #00bf00;
-  border-radius: 3px;
-  /* vertical-align: middle; */
-}
-.item-state-badge-red {
-  display: inline-block;
-  padding: 0 3px 0 3px;
-  margin: 0 2px 0 2px;
-  color: white;
-  background: #bf0000;
-  border-radius: 3px;
-  /* vertical-align: middle; */
-}
-.item-state-badge-black {
-  display: inline-block;
-  padding: 0 3px 0 3px;
-  margin: 0 2px 0 2px;
-  color: white;
-  background: #000000;
-  border-radius: 3px;
-  /* vertical-align: middle; */
-}
-
-/* icon 크기는 font-size로 작성함 */
-.icon-size {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.item {
-  cursor: pointer;
 }
 </style>

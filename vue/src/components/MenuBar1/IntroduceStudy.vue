@@ -1,4 +1,5 @@
 <template>
+  <!-- 상단 소개 정보 부분 -->
   <el-row class="font-20">
     <el-col :span="3"></el-col>
     <el-col :span="3"
@@ -12,11 +13,11 @@
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
-        <i class="el-icon-date flex-items"></i>&nbsp;프로젝트 일정
+        <i class="el-icon-date flex-items"></i>&nbsp;스터디 일정
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
-        <i class="el-icon-time flex-items"></i>&nbsp;프로젝트 기간
+        <i class="el-icon-time flex-items"></i>&nbsp;스터디 기간
       </el-row>
       <el-row class="height1"> </el-row>
       <el-row class="height8">
@@ -62,8 +63,28 @@
       <el-row class="height1"> </el-row>
       <el-row class="height8"> {{ studyIntroduce.period }}주 </el-row>
       <el-row class="height1"> </el-row>
-      <el-row class="height8"> {{ studyIntroduce.host.nickname }} </el-row>
+      <el-row class="height8">
+        <el-popover v-model:visible="visible" placement="top" :width="200">
+          <div style="text-align: right; margin: 0">
+            <el-button
+              size="mini"
+              class="btn-ghost-round-red"
+              @click="goOtherPage"
+              >마이페이지
+            </el-button>
+            <el-button class="btn-ghost-round-red" size="mini" @click="makeChat"
+              >채팅</el-button
+            >
+          </div>
+          <template #reference>
+            <div @click="visible = true">
+              {{ studyIntroduce.host.nickname }}
+            </div>
+          </template>
+        </el-popover>
+      </el-row>
       <el-row class="height1"> </el-row>
+
       <el-row class="height8">
         <MemberListModal />
       </el-row>
@@ -100,11 +121,17 @@
     <el-col :span="1"></el-col>
     <el-col :span="8">
       <el-row class="height5"></el-row>
-      <el-row style="height: 80%; background-color: red"> 사진 </el-row>
+      <el-row style="height: 80%">
+        <img src="../../assets/Item/basic.png" />
+      </el-row>
     </el-col>
     <el-col :span="3"></el-col>
   </el-row>
+
+  <!-- 여백 -->
   <el-row class="height5"> </el-row>
+
+  <!-- 버튼 영역 -->
   <el-row class="height50 font-20">
     <el-col :span="3"></el-col>
     <el-col :span="18">
@@ -113,27 +140,6 @@
       </el-row>
       <el-row class="height92 font-20">
         {{ studyIntroduce.bio }}
-      </el-row>
-      <el-row :gutter="20">
-        (이 row은 테스트 끝나면 다 제거할 것임) 현재 권한: {{ auth }} <br />
-        2가 팀장(수정, 삭제), 1이 팀원(탈퇴), 0이 외부인(돌아가기, 신청) <br />
-        <el-col :span="3">
-          <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
-            수정
-          </el-button>
-        </el-col>
-        <el-col :span="3"> <StudyDeleteModal /> </el-col>
-        <el-col :span="3"> <StudyQuitModal /> </el-col>
-        <el-col :span="3">
-          <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
-            돌아가기
-          </el-button>
-        </el-col>
-        <el-col :span="3">
-          <CreateApplicationModal />
-        </el-col>
-        <el-col :span="10"></el-col>
-        <el-col :span="3"></el-col>
       </el-row>
 
       <el-row>
@@ -149,6 +155,8 @@
           <el-button class="btn-ghost-blue font-noto-bold" @click="goHome">
             돌아가기
           </el-button>
+        </el-col>
+        <el-col :span="2" v-if="auth == 0">
           <CreateApplicationModal />
         </el-col>
         <el-col :span="10"></el-col>
@@ -162,6 +170,7 @@
 import { computed, ref, watch, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+
 import MemberListModal from '../Modal/MemberListModal.vue';
 import StudyDeleteModal from '../Modal/StudyDeleteModal.vue';
 import StudyQuitModal from '../Modal/StudyQuitModal.vue';
@@ -172,8 +181,9 @@ export default {
     const store = useStore();
     const router = useRouter();
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    console.log(111111111111111);
-    console.log(studyId);
+
+    // 스터디 id를 가지고 dispatch 해야함
+    store.dispatch('study/introduce', studyId.value);
     const studyIntroduce = computed(
       () => store.getters['study/studyIntroduceGetter']
     );
@@ -181,10 +191,6 @@ export default {
     watch(studyId, () => {
       store.dispatch('study/introduce', studyId.value);
     });
-
-    console.log('studyId: ' + studyId.value);
-
-    console.log('studyIntroduce: ' + studyIntroduce);
 
     store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
@@ -194,17 +200,33 @@ export default {
     //스터디 장인지 아닌지는
     //api/auth/check/nickname/에다가
     //내 토큰이랑 스터디 장의 별명을 넣어서 일치하는지 확인
-    console.log(auth.value);
 
-    if (store.dispatch('study/checkHost', studyIntroduce.value.host.nickname)) {
+    // 권한 체크
+    store.dispatch('study/checkHost', studyIntroduce.value.host.nickname);
+    const isHost = computed(() => store.getters['study/checkHostGetter']);
+    if (isHost) {
       auth.value = 2;
     } else {
       for (let index = 0; index < user.value.myStudyList.length; index++) {
-        if (user.value.myStudyList[index].id == studyId) {
+        if (user.value.myStudyList[index].id == studyId.value) {
           auth.value = 1;
         }
       }
     }
+
+    watch(isHost, () => {
+      if (
+        store.dispatch('study/checkHost', studyIntroduce.value.host.nickname)
+      ) {
+        auth.value = 2;
+      } else {
+        for (let index = 0; index < user.value.myStudyList.length; index++) {
+          if (user.value.myStudyList[index].id == studyId.value) {
+            auth.value = 1;
+          }
+        }
+      }
+    });
 
     // const state = reactive({
     //   form: {
@@ -225,7 +247,37 @@ export default {
     //     dbFile: null, //사진 file
     //   },
     // });
+    const visible = ref(false);
 
+    // 팀장과 채팅 생성
+    const makeChat = function () {
+      visible.value = false;
+      const currentId = computed(() => store.getters['chat/getCurrentUserId']);
+
+      // 채팅방 개설에 필요한 body
+      const body = {
+        content: '채팅방이 개설되었습니다.',
+        read_time: 1000,
+        receiverId: studyIntroduce.value.host.id, // 받는 사람
+        senderId: currentId.value, //보내는 사람
+        sent_time: 1000,
+        type: 1,
+      };
+
+      store.dispatch('chat/startChat', body);
+
+      router.push({ path: '/nosubheader/chat' });
+    };
+    // 팀장의 마이페이지 방문
+    const goOtherPage = function () {
+      visible.value = false;
+
+      // 팀장의 마이지페이지로 이동
+      console.log(studyIntroduce.value.host.email);
+      // store.dispatch('member/updateUserEmail', studyIntroduce.value.host.email);
+      store.dispatch('member/readInfoPage', studyIntroduce.value.host.email);
+      router.push({ path: '/nosubheader/readinfopage' });
+    };
     const goUpdate = function () {
       router.push({ path: '/nosubheader/study/update' });
     };
@@ -237,7 +289,10 @@ export default {
       router,
       studyIntroduce,
       auth,
+      visible,
+      makeChat,
       goUpdate,
+      goOtherPage,
       goHome,
     };
   },

@@ -1,5 +1,5 @@
 <template>
-  <el-row class="height100 font-noto-md">
+  <el-row class="height90 font-noto-md">
     <el-col :span="3"></el-col>
     <el-col :span="11">
       <el-row class="height100 sub-nav-bar">
@@ -79,15 +79,12 @@
       </el-row>
     </el-col>
     <el-col :span="8"> </el-col>
-    <el-col :span="1" class="lock-div">
-      <i class="el-icon-lock lock font-noto-md"></i>
-    </el-col>
     <el-col :span="1"></el-col>
   </el-row>
 </template>
 
 <script>
-import { computed, ref, watch, reactive } from 'vue';
+import { computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 

@@ -1,6 +1,6 @@
 <template>
-  <el-row class="height5">
-    유저: {{ user }}
+  <el-row>
+    <!-- 유저: {{ user }} -->
     <el-col :span="1"></el-col>
     <el-col :span="21" class="test-border title">
       마이페이지
@@ -15,15 +15,16 @@
     <el-col :span="1"></el-col>
 
     <el-col :span="8" :offset="1" class="test-border font-14 flex-parent">
-      <el-row class="test-border height30">
+      <el-row class="test-border">
         <el-col :span="8" class="test-border">
-          <el-row class="height100">
+          <el-row>
             <div class="profile">
-              <img
+              <!-- <img
                 v-if="user.cover_pic"
                 :src="`${user.cover_pic}`"
                 class="previewImg"
-              />
+              /> -->
+              <img src="../../assets/Item/basic.png" class="previewImg" />
             </div>
           </el-row>
         </el-col>
@@ -248,10 +249,7 @@
         </el-col>
       </el-row>
       <el-row class="test-border">
-        <el-col :span="7" class="test-border">
-          자기소개
-          <div id="myImg" style="width: 100px; height: 100px"></div
-        ></el-col>
+        <el-col :span="7" class="test-border"> 자기소개 </el-col>
         <el-col :span="16" :offset="1" class="info">
           <span v-if="user.bio">{{ user.bio }}</span>
         </el-col>
@@ -261,16 +259,15 @@
 
     <!-- 우측 -->
     <el-col :span="12" :offset="1" class="test-border">
-      <el-row class="height5 test-border title">내가 속한 클럽</el-row>
-      <el-row class="height5"></el-row>
+      <el-row class="test-border title">내가 속한 클럽</el-row>
+      <!-- <el-row class="height5"></el-row> -->
       <!-- 아이템 목록 시작 -->
       <el-row class="height25" v-if="user.myClubList">
         <el-col :span="2" class="test-border"></el-col>
         <!-- Item 리스트 1개씩 v-for로 -->
         <el-col
-          :span="4"
-          :offset="1"
-          class="test-border item-border"
+          :span="5"
+          class="test-border item-border list"
           v-for="(item, index) in user.myClubList.slice(0, 4)"
           :key="index"
           @click="goIntroduce(item.id)"
@@ -331,17 +328,16 @@
         <el-col :span="2" class="test-border"></el-col>
       </el-row>
       <!-- 아이템 목록 끝 -->
-      <el-row class="height5"></el-row>
-      <el-row class="height5 test-border title">내가 속한 스터디</el-row>
-      <el-row class="height5"></el-row>
+      <!-- <el-row class="height5"></el-row> -->
+      <el-row class="test-border title">내가 속한 스터디</el-row>
+      <!-- <el-row class="height5"></el-row> -->
       <!-- 아이템 목록 시작 -->
       <el-row class="height25" v-if="user.myStudyList">
         <el-col :span="2" class="test-border"></el-col>
         <!-- Item 리스트 1개씩 v-for로 -->
         <el-col
-          :span="4"
-          :offset="1"
-          class="test-border item-border"
+          :span="5"
+          class="test-border item-border list"
           v-for="(item, index) in user.myStudyList.slice(0, 4)"
           :key="index"
           @click="goIntroduce(item.id)"
@@ -402,17 +398,16 @@
         <el-col :span="2" class="test-border"></el-col>
       </el-row>
       <!-- 아이템 목록 끝 -->
-      <el-row class="height5"></el-row>
+      <!-- <el-row class="height5"></el-row> -->
       <el-row class="height5 test-border title">내가 속한 프로젝트</el-row>
-      <el-row class="height5"></el-row>
+      <!-- <el-row class="height5"></el-row> -->
       <!-- 아이템 목록 시작 -->
       <el-row class="height25" v-if="user.myProjectList">
         <el-col :span="2" class="test-border"></el-col>
         <!-- Item 리스트 1개씩 v-for로 -->
         <el-col
-          :span="4"
-          :offset="1"
-          class="test-border item-border"
+          :span="5"
+          class="test-border item-border list"
           v-for="(item, index) in user.myProjectList.slice(0, 4)"
           :key="index"
           @click="goIntroduce(item.id)"
@@ -473,7 +468,7 @@
         <el-col :span="2" class="test-border"></el-col>
       </el-row>
       <!-- 아이템 목록 끝 -->
-      <el-row class="height5"
+      <el-row
         ><el-col :span="22"></el-col>
         <el-col :span="2"><ServiceQuitModal /></el-col
       ></el-row>
@@ -508,33 +503,23 @@ export default {
     //   store.dispatch('member/readMyPage');
     // });
 
-    // console.log('11');
-    // const res = store.dispatch('member/readMyPage');
-    // console.log('44');
-    // const user = computed(() => store.getters['member/mypageGetter']);
-    // console.log('55');
+    const goIntroduce = function (id) {
+      store.dispatch('study/callUpdateStudyId', id);
+      router.push({ path: '/subheader/study/introduce' });
+    };
 
-    // const user = computed(() => store.getters['getUserInfo']);
-
-    // const mypage = store.dispatch('member/readMyPage');
-    // mypage.then((mypage) => {
-    //   store.commit('setMember', mypage.data);
-    // });
-
-    // const res = store.dispatch('member/readMyPage');
-    // res.then((res) => {
-    //   store.state.user = res.data;
-    // });
-    // const user = computed(() => store.getters['member/mypageGetter']);
-
-    return { store, router, user };
+    return { store, router, user, goIntroduce };
   },
 };
 </script>
 <style scoped>
 .title {
   font-size: 24px;
+  padding-top: 50px;
+  text-align: left;
+  font-size: 36px;
 }
+
 .info {
   border-radius: 4px;
   border: 0px;
@@ -552,9 +537,86 @@ export default {
   max-width: 100%;
   max-height: 100%;
 }
-.title {
-  padding-top: 50px;
+.item-img {
+  background-image: url('../../assets/Item/basic.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-sizing: border-box;
+  border-radius: 5px 5px 0px 0px;
+  left: 0px;
+  top: 0px;
+
+  padding: 0px;
+}
+.item-head-title {
+  font-size: 16pt;
+  font-weight: bold;
+  padding: 0 3px 0 3px;
+}
+.item-content {
+  font-size: 12pt;
+  font-weight: normal;
+  padding: 0 3px 0 3px;
+}
+.item-small-content {
+  font-size: 10pt;
+  font-weight: normal;
+  padding: 0 3px 0 3px;
+}
+
+.left-content {
   text-align: left;
-  font-size: 36px;
+  padding: 0 3px 0 3px;
+}
+.right-content {
+  text-align: right;
+  padding: 0 3px 0 3px;
+}
+
+.item-state-badge-blue {
+  display: inline-block;
+  padding: 0 3px 0 3px;
+  margin: 0 2px 0 2px;
+  color: white;
+  background: #4361ff;
+  border-radius: 3px;
+  /* vertical-align: middle; */
+}
+.item-state-badge-green {
+  display: inline-block;
+  padding: 0 3px 0 3px;
+  margin: 0 2px 0 2px;
+  color: white;
+  background: #00bf00;
+  border-radius: 3px;
+  /* vertical-align: middle; */
+}
+.item-state-badge-red {
+  display: inline-block;
+  padding: 0 3px 0 3px;
+  margin: 0 2px 0 2px;
+  color: white;
+  background: #bf0000;
+  border-radius: 3px;
+  /* vertical-align: middle; */
+}
+.item-state-badge-black {
+  display: inline-block;
+  padding: 0 3px 0 3px;
+  margin: 0 2px 0 2px;
+  color: white;
+  background: #000000;
+  border-radius: 3px;
+  /* vertical-align: middle; */
+}
+
+/* icon 크기는 font-size로 작성함 */
+.icon-size {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.item {
+  cursor: pointer;
 }
 </style>

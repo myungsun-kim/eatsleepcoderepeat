@@ -22,18 +22,18 @@
         </el-row>
         <el-row class="height20"></el-row>
         <el-row class="height5">
-          <el-col :span="10"></el-col>
-          <el-col :span="2">
+          <el-col :span="8"></el-col>
+          <el-col :span="4">
             <button class="sign-btn" @click="goSignIn" v-if="!token">
               로그인
             </button>
           </el-col>
-          <el-col :span="2">
+          <el-col :span="4">
             <button class="sign-btn" @click="goSignUp" v-if="!token">
               회원가입
             </button>
           </el-col>
-          <el-col :span="10"></el-col>
+          <el-col :span="8"></el-col>
         </el-row>
       </el-row>
     </el-col>
@@ -45,30 +45,28 @@
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode';
 
 export default {
   components: {},
   setup() {
-    onMounted(()=> {
+    onMounted(() => {
       chatInit();
     });
 
     const store = useStore();
     const router = useRouter();
     // 채팅을 위한 준비
-    const chatInit = function(){
-      console.log("yeah!");
-      console.log(window.location.search );
-      if(window.location.search == "?logined=true"){
-        console.log("yeah!");
+    const chatInit = function () {
+      console.log(window.location.search);
+      if (window.location.search == '?logined=true') {
         // 토큰 decode해서 내 id 알아내는 과정
-        store.dispatch("chat/startup", 
-          jwt_decode(localStorage.getItem('accessToken'))["sub"]
+        store.dispatch(
+          'chat/startup',
+          jwt_decode(localStorage.getItem('accessToken'))['sub']
         );
       }
-    
-    }
+    };
     const goSignIn = function () {
       router.push({ path: '/noheader/signin' });
     };
@@ -76,6 +74,7 @@ export default {
       router.push({ path: '/noheader/signup' });
     };
     const token = localStorage.getItem('accessToken');
+    console.log(token);
     return {
       store,
       router,

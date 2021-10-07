@@ -27,7 +27,7 @@ export default createStore({
   },
   mutations: {
     setCategory(state, value) {
-      console.log('SET CATEGORY: ' + value);
+      // console.log('SET CATEGORY: ' + value);
       state.category = value;
     },
     setScrollModal(state, value) {

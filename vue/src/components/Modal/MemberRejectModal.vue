@@ -11,7 +11,7 @@
         <el-row class="height10"></el-row>
         <el-row class="height20">
           <el-col :span="24" class="font-noto-bold font-20"
-            >(지원자닉네임)님의 (스터디명) 가입을 거절하시겠습니까?
+            >{{ memberNickname }}님의 (스터디명) 가입을 거절하시겠습니까?
           </el-col>
         </el-row>
         <el-row class="height10">
@@ -46,23 +46,25 @@ export default {
     const router = useRouter();
     const store = useStore();
     const modalOpen = computed(() => store.getters['rejectModalGetter']);
-    const state = reactive({
-      form: {
-        studyId: 3,
-        memberNickname: 'ms',
-        memberId: 47, //user.memberId
-      },
-    });
     // 스터디 ID 가져오기
     const studyId = computed(() => store.getters['study/studyIdGetter']);
 
     // 해당 멤버 닉네임 가져오기
     const memberNickname = computed(
-      () => store.getters['member/studyMemberNicknameGetter']
+      () => store.getters['study/studyMemberNicknameGetter']
     );
+
+    // 해당 멤버 지원서 정보 가져오기
+    const studyApplication = computed(
+      () => store.getters['study/studyApplicationGetter']
+    );
+    const state = reactive({
+      form: {
+        studyId: studyId.value,
+        memberId: studyApplication.value.memberId,
+      },
+    });
     // 해당 멤버 정보 가져오기
-    store.dispatch('study/applicationOne', state.form);
-    const user = computed(() => store.getters['member/userInfoGetter']);
 
     const reject = function () {
       store.dispatch('study/rejectStudy', state.form);
@@ -80,7 +82,6 @@ export default {
       modalOpen,
       reject,
       changemodalOpen,
-      user,
       memberNickname,
       studyId,
     };

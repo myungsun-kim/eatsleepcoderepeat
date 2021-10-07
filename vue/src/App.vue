@@ -93,11 +93,17 @@ body {
   background-color: #f2f2f2;
   width: 100%;
   height: 100%;
+  overflow-y: scroll;
 }
 .height100 {
   /* border: 3px solid rgb(0, 183, 255); */
   box-sizing: border-box;
   height: 100%;
+}
+.height96 {
+  /* border: 3px solid rgb(255, 100, 0); */
+  box-sizing: border-box;
+  height: 96%;
 }
 .height95 {
   /* border: 3px solid rgb(255, 0, 0); */
@@ -158,6 +164,21 @@ body {
   /* border: 3px solid rgb(0, 255, 234); */
   box-sizing: border-box;
   height: 5%;
+}
+.height4 {
+  /* border: 3px solid rgb(0, 255, 130); */
+  box-sizing: border-box;
+  height: 4%;
+}
+.height3 {
+  /* border: 3px solid rgb(0, 255, 125); */
+  box-sizing: border-box;
+  height: 3%;
+}
+.height2 {
+  /* border: 3px solid rgb(0, 255, 120); */
+  box-sizing: border-box;
+  height: 2%;
 }
 .height1 {
   /* border: 3px solid rgb(0, 255, 111); */
@@ -308,4 +329,77 @@ body {
   align-items: center;
 }
 /* 정렬 끝 */
+
+.item-head-title {
+  font-size: 16pt;
+  font-weight: bold;
+  padding: 0 3px 0 3px;
+}
+.item-content {
+  font-size: 12pt;
+  font-weight: normal;
+  padding: 0 3px 0 3px;
+}
+.item-small-content {
+  font-size: 10pt;
+  font-weight: normal;
+  padding: 0 3px 0 3px;
+}
+
+.left-content {
+  text-align: left;
+  padding: 0 3px 0 3px;
+}
+.right-content {
+  text-align: right;
+  padding: 0 3px 0 3px;
+}
+
+.item-state-badge-blue {
+  display: inline-block;
+  padding: 0 3px 0 3px;
+  margin: 0 2px 0 2px;
+  color: white;
+  background: #4361ff;
+  border-radius: 3px;
+  /* vertical-align: middle; */
+}
+.item-state-badge-green {
+  display: inline-block;
+  padding: 0 3px 0 3px;
+  margin: 0 2px 0 2px;
+  color: white;
+  background: #00bf00;
+  border-radius: 3px;
+  /* vertical-align: middle; */
+}
+.item-state-badge-red {
+  display: inline-block;
+  padding: 0 3px 0 3px;
+  margin: 0 2px 0 2px;
+  color: white;
+  background: #bf0000;
+  border-radius: 3px;
+  /* vertical-align: middle; */
+}
+.item-state-badge-black {
+  display: inline-block;
+  padding: 0 3px 0 3px;
+  margin: 0 2px 0 2px;
+  color: white;
+  background: #000000;
+  border-radius: 3px;
+  /* vertical-align: middle; */
+}
+
+/* icon 크기는 font-size로 작성함 */
+.icon-size {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.item {
+  cursor: pointer;
+}
+/* Home css 시작 */
 </style>

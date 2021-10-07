@@ -198,6 +198,22 @@ export const chat = {
     },
   },
   actions: {
+    // 채팅 시작
+    startChat({ commit }, body) {
+      const res = axios
+        .post(
+          BASE_URL + '/api/chat/sessions/start',
+          JSON.stringify(body),
+          header
+        )
+        .then((res) => {
+          console.log('채팅방 개설 결과');
+          console.log(res);
+          // console.log(res.data.content);
+          // commit('updateTotalStudyList', res.data.content);
+        });
+      // return res;
+    },
     cleanup({ commit }) {
       commit('cleanup');
     },
@@ -227,7 +243,7 @@ export const chat = {
     connectSocket({ state, dispatch, commit }) {
       console.log('connect socket' + state.connected);
       //   const serverURL = 'http://localhost:8080/api/socket/chat'; // 서버 채팅 주소
-      const serverURL = 'http://localhost:8080/api/socket/chat'; // 서버 채팅 주소
+      const serverURL = 'http://j5d105.p.ssafy.io:8080/api/socket/chat'; // 서버 채팅 주소
       let socket = new SockJS(serverURL);
       commit('setSocket', socket);
 
@@ -314,7 +330,9 @@ export const chat = {
       axios
         //   의도한 부분인가?? @김대연
         .get(
-          'http://localhost:8080/api/chat/sessions/' + `${state.currentUserId}`,
+          // 'http://localhost:8080/api/chat/sessions/' + `${state.currentUserId}`,
+          'http://j5d105.p.ssafy.io:8080/api/chat/sessions/' +
+            `${state.currentUserId}`,
           // JSON.stringify(form),
           { headers: { 'Content-Type': 'application/json' } }
         )
@@ -356,8 +374,8 @@ export const chat = {
       console.log(`loadMessages`);
       const res = axios
         .get(
-          // const serverURL = 'http://114.129.238.179:8080/api/socket/chat';
-          'http://localhost:8080/api/chat/messages/' +
+          // 'http://localhost:8080/api/chat/messages/' +
+          'http://j5d105.p.ssafy.io:8080/api/chat/messages/' +
             `${state.currentUserId}` +
             '/' +
             `${state.currentCounterpart}`,
@@ -375,7 +393,8 @@ export const chat = {
       const res = axios
         .get(
           // const serverURL = 'http://114.129.238.179:8080/api/socket/chat';
-          'http://localhost:8080/api/chat/messages/' +
+          // 'http://localhost:8080/api/chat/messages/' +
+          'http://j5d105.p.ssafy.io:8080/api/chat/messages/' +
             `${state.currentUserId}` +
             '/' +
             `${state.currentCounterpart}` +
