@@ -56,7 +56,6 @@ export default {
     const router = useRouter();
     // 1. 스터디 ID를 받아옴
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    // console.log(studyId);
     // 2. 모달창에 스터디 정보를 일부 띄워야하기 때문에 스터디 정보를 받음
     const studyIntroduce = computed(
       () => store.getters['study/studyIntroduceGetter']
@@ -66,8 +65,6 @@ export default {
       store.dispatch('study/introduce', studyId.value);
     });
 
-    // console.log('studyId: ' + studyId.value);
-
     // 모달 처리
     const modalOpen = computed(() => store.getters['scrollGetter']);
     const changemodalOpen = function () {
@@ -75,7 +72,6 @@ export default {
     };
     // 탈퇴 누를 시
     const goStudyHome = function () {
-      // console.log(studyId.value);
       store.dispatch('study/quitStudy', studyId.value);
       store.dispatch('changeScrollModal', !modalOpen.value);
       router.push({ path: '/nosubheader/study/home' });

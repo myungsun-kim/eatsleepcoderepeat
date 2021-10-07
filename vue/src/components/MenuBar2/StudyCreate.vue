@@ -268,8 +268,6 @@ export default {
       store
         .dispatch('uploadFile', formData)
         .then((res) => {
-          // console.log(res.data.id);
-          // console.log(res.data.fileDownloadUri);
           state.form.coverpic_uuid = res.data.id;
         })
         .catch(() => {
@@ -358,7 +356,7 @@ export default {
       else {
         // 회원가입할때 보낼 data값
         state.form.techList.push(clickedTechStack);
-        console.log(`${state.form.techList}이 추가되었다!`);
+        //`${state.form.techList}이 추가되었다!`
 
         warning1.style = 'display:none';
         warning2.style = 'display:none';

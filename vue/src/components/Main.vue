@@ -73,7 +73,6 @@ export default {
       router.push({ path: '/noheader/signup' });
     };
     const token = localStorage.getItem('accessToken');
-    console.log(token);
     return {
       store,
       router,

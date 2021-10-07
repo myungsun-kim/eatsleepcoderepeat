@@ -281,18 +281,10 @@ export default {
 
     // 1. 스터디 정보를 가져오기 위해 study Id 값 가져오기
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    console.log('studyId: ');
-    console.log(studyId.value);
 
     // 2. 스터디 정보 조회
     store.dispatch('study/studyInfo', studyId.value);
     const studyInfo = computed(() => store.getters['study/studyInfoGetter']);
-    console.log('스터디 정보 출력');
-    console.log(studyInfo.value);
-    // watch(studyInfo, () => {
-    //   console.log('studyInfo.value');
-    //   console.log(studyInfo.value);
-    // });
 
     // 3. 클럽 목록을 출력하기 위한 내 정보 조회
     store.dispatch('member/readMyPage');
@@ -427,15 +419,15 @@ export default {
         // 회원가입할때 보낼 data값
         // 회원가입할때 보낼 data값
         state.form.techList.push(clickedTechStack);
-        console.log(`${state.form.techList}이 추가되었다!`);
+        //`${state.form.techList}이 추가되었다!
 
         warning1.style = 'display:none';
         warning2.style = 'display:none';
         warning3.style = 'display:none';
         autocomplete.style = 'display:none';
         state.tech = '';
-        console.log(state.form.addStackList, '추가할 목록');
-        console.log(state.form.removeStackList, '삭제할 목록');
+        //state.form.addStackList, '추가할 목록'
+        // state.form.removeStackList, '삭제할 목록'
       }
     };
 
@@ -458,8 +450,8 @@ export default {
       state.form.techList = state.form.techList.filter(
         (techStack) => techStack !== clickedTechStack
       );
-      console.log(state.form.addStackList, '추가할 목록');
-      console.log(state.form.removeStackList, '삭제할 목록');
+      //state.form.addStackList, '추가할 목록'
+      //state.form.removeStackList, '삭제할 목록'
     };
 
     const goIntroduce = function () {
@@ -496,20 +488,6 @@ export default {
 
       const res = store.dispatch('uploadFile', formData);
 
-      res.then((res) => {
-        console.log('then');
-        console.log(res.data);
-        console.log(res.data.fileDownloadUri);
-        // readURL(this.uploadImageFile);
-        console.log('reader');
-      });
-      console.log('onfile');
-
-      // this.onFileSelected(file);
-      // console.log('res');
-      // console.log(res);
-      // console.log(res.data);
-      // console.log(res.data.fileDownloadUri);
     };
 
     return {

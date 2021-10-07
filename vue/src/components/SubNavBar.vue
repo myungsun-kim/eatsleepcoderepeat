@@ -95,11 +95,6 @@ export default {
 
     const category = computed(() => store.getters['categoryGetter']);
 
-    watch(category, () => {
-      console.log('카테고리 변함. Watch');
-      // store.dispatch('study/introduce', studyId.value);
-    });
-
     const clickIntroduceStudy = function () {
       store.commit('setCategory', 1);
       router.push({ path: '/subheader/study/introduce' });

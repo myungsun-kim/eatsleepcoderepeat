@@ -193,8 +193,6 @@ export default {
 
     store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
-    console.log(user);
-    console.log(user.value);
 
     //스터디 장-host2, 팀원-mystudylist에 있음1, 외부인-없음0
     const auth = ref(0);
@@ -276,8 +274,6 @@ export default {
       visible.value = false;
 
       // 팀장의 마이지페이지로 이동
-      console.log(studyIntroduce.value.host.email);
-      // store.commit('member/updateUserEmail', studyIntroduce.value.host.email);
       store.dispatch('member/readInfoPage', studyIntroduce.value.host.email);
       router.push({ path: '/nosubheader/readinfopage' });
     };

@@ -61,8 +61,6 @@ export default {
     );
 
     watch(userId, () => {
-      console.log('@@@@@@@@@@@@@@@');
-      console.log(userId.value);
       state.form.memberId.value = userId.value;
     });
 

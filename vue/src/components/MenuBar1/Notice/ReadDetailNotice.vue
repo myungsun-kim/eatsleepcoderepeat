@@ -95,14 +95,12 @@ export default {
 
     // 필요없는 코드일 수 있음
     watch(articleId, () => {
-      console.log('articleId 바뀜');
       param.form.articleid = articleId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });
 
     // 필요없는 코드일 수 있음
     watch(boardId, () => {
-      console.log('boardId 바뀜');
       param.form.boardid = boardId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });

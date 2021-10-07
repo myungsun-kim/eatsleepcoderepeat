@@ -52,8 +52,6 @@ export default {
     const router = useRouter();
     const modalOpen = computed(() => store.getters['scrollGetter']);
     const user = computed(() => store.getters['member/mypageGetter']);
-    console.log('유저정보');
-    console.log(user.value);
 
     const state = reactive({
       form: {
@@ -69,10 +67,8 @@ export default {
     // 업데이트 누를 시
     const goUpdateMyPage = function () {
       store.dispatch('changeScrollModal', false);
-      console.log('이메일');
       // state.form.email = user.value.email;
-      console.log(state.form.email);
-      console.log('인풋값' + state.form.password);
+      //'인풋값' + state.form.password
 
       store.dispatch('changeScrollModal', !modalOpen.value);
 
@@ -80,7 +76,6 @@ export default {
         .dispatch('member/checkPassword', state.form)
         .then((res) => {
           if (res.status == 200) {
-            console.log(res);
             router.push({ path: '/nosubheader/updatemypage' });
           }
         })

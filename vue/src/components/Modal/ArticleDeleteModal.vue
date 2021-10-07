@@ -68,19 +68,13 @@ export default {
       },
     });
 
-    watch(param, () => {
-      console.log('param 바뀜');
-      // param.form.articleid = articleId.value;
-      // store.dispatch('study/getArticleDetail', param.form);
-    });
+
     watch(articleId, () => {
-      console.log('articleId 바뀜');
       param.form.articleid = articleId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });
 
     watch(boardId, () => {
-      console.log('boardId 바뀜');
       param.form.boardid = boardId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });

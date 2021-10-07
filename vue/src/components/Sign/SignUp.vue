@@ -432,7 +432,6 @@ export default {
     watch(state.step, () => {
       // 'state 중 auth 모둘의 값을 쓸 것이다.' 라는 문법
       if (store.state.auth.form) {
-        console.log(store.state.form);
         state.form.email = store.state.auth.form.email;
         state.form.name = store.state.auth.form.name;
         state.form.nickname = store.state.auth.form.nickname;
@@ -466,8 +465,6 @@ export default {
     // 현제 페이지에서 입력했던 내용들을 vuex-persistedstate가 적용되는 store에 저장시켜놓고
     // 이전 회원가입 Step으로 이동
     const previousStep = function () {
-      console.log('이전 Step으로 이동!');
-      console.log(state.form);
       store.state.auth.form.email = state.form.email;
       store.state.auth.form.name = state.form.name;
       store.state.auth.form.nickname = state.form.nickname;
@@ -484,8 +481,6 @@ export default {
     // 현제 페이지에서 입력했던 내용들을 vuex-persistedstate가 적용되는 store에 저장시켜놓고
     // 회원가입 Step1에서 Step2으로 이동하기전에 유효성 검사
     const nextStep1 = function () {
-      console.log('다음 Step으로 이동!');
-      console.log(state.form);
       // 입력칸이 비었을 경우
       if (state.form.email == '') {
         alert('이메일을 입력하세요.');
@@ -529,7 +524,6 @@ export default {
     // 현제 페이지에서 입력했던 내용들을 vuex-persistedstate가 적용되는 store에 저장시켜놓고
     // 회원가입 다음 Step으로 이동
     const nextStep = function () {
-      console.log('다음 Step으로 이동!');
       store.state.auth.form.email = state.form.email;
       store.state.auth.form.name = state.form.name;
       store.state.auth.form.nickname = state.form.nickname;
@@ -546,10 +540,6 @@ export default {
     };
     // 회원가입 Step 입력안하고 다음 Step으로 이동 (필수 입력이 아닌 Step들만 건너뛰기 가능)
     const skipStep = function () {
-      console.log('건너뛰기!');
-      console.log(state.form);
-      console.log(state.form.expTechList);
-      console.log(state.form.beginTechList);
       store.state.auth.form.email = state.form.email;
       store.state.auth.form.name = state.form.name;
       store.state.auth.form.nickname = state.form.nickname;
@@ -566,7 +556,6 @@ export default {
 
     // 이메일 유효성 검사
     const checkEmail = function () {
-      console.log('이메일 유효성 체크!!!!');
       var warning1 = document.getElementById('warning1');
       var warning2 = document.getElementById('warning2');
       var success1 = document.getElementById('success1');
@@ -581,7 +570,6 @@ export default {
       } else {
         warning1.style = 'display:none';
         store.dispatch('auth/checkEmail', state.form.email).then((res) => {
-          console.log(res.data);
           if (res.data == false) {
             warning2.style = 'display:none';
             success1.style = '';
@@ -598,7 +586,6 @@ export default {
     };
     // 이름 유효성 검사
     const checkName = function () {
-      console.log('이름 유효성 체크!!!');
       const warning3 = document.getElementById('warning3');
       const success3 = document.getElementById('success3');
       let nameVal = state.form.name;
@@ -621,7 +608,6 @@ export default {
 
     // 닉네임 유효성 검사
     const checkNickName = function () {
-      console.log('닉네임 포커싱 벗어남!!!');
       var warning4 = document.getElementById('warning4');
       var warning5 = document.getElementById('warning5');
       var success2 = document.getElementById('success2');
@@ -658,7 +644,6 @@ export default {
 
     // 비밀번호 유효성 검사
     const checkPassword = function () {
-      console.log('비밀번호 유효성 검사!!!');
       var warning6 = document.getElementById('warning6');
       let passwordVal = state.form.password;
       let reg =
@@ -678,7 +663,6 @@ export default {
 
     // 비밀번호 확인 유효성 검사
     const checkAffirmPassword = function () {
-      console.log('비밀번호확인 유효성 검사!!!');
       var warning7 = document.getElementById('warning7');
       let affirmPasswordVal = state.form.affirmPassword;
 
@@ -745,7 +729,6 @@ export default {
         else {
           // 회원가입할때 보낼 data값
           state.form.expTechList.push(state.exp);
-          console.log(state.form, 'exp찍을거임!');
           warning8.style = 'display:none';
           warning8_1.style = 'display:none';
           warning9.style = 'display:none';
@@ -817,8 +800,7 @@ export default {
       else {
         // 회원가입할때 보낼 data값
         state.form.expTechList.push(clickedTechStack);
-        console.log(`${state.form.expTechList}이 추가되었다!`);
-
+        // `${state.form.expTechList}이 추가되었다!`
         warning8_1.style = 'display:none';
         warning9.style = 'display:none';
         warning10.style = 'display:none';
@@ -828,7 +810,6 @@ export default {
     };
 
     // const addEx = function () {
-    //   console.log('addEx');
     //   // 1.추가할 값을 input태그에서 읽어온다
     //   const addValue1 = document.getElementById('stack1').value;
     //   // 2.추가할 div element 생성
@@ -898,7 +879,7 @@ export default {
         else {
           // 회원가입할때 보낼 data값
           state.form.beginTechList.push(state.beg);
-          console.log(state.form, 'exp찍을거임!');
+          // state.form, 'exp찍을거임!'
           warning11.style = 'display:none';
           warning11_1.style = 'display:none';
           warning12.style = 'display:none';
@@ -970,7 +951,7 @@ export default {
       else {
         // 회원가입할때 보낼 data값
         state.form.beginTechList.push(clickedTechStack);
-        console.log(`${state.form.beginTechList}이 추가되었다!`);
+        // `${state.form.beginTechList}이 추가되었다!`
 
         warning11_1.style = 'display:none';
         warning12.style = 'display:none';
@@ -981,7 +962,6 @@ export default {
     };
 
     // const addBe = function () {
-    //   console.log('addBe');
     //   // 1.추가할 값을 input태그에서 읽어온다
     //   const addValue2 = document.getElementById('stack2').value;
     //   // 2.추가할 div element 생성
@@ -1047,7 +1027,7 @@ export default {
       else {
         // 회원가입할때 보낼 data값
         state.form.dpositionList.push(state.dp);
-        console.log(state.form, '세부포지션을 찍을거임!');
+        // state.form, '세부포지션을 찍을거임!'
         warning14.style = 'display:none';
         warning15.style = 'display:none';
         warning16.style = 'display:none';
@@ -1097,7 +1077,6 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err);
           ElMessage({
             showClose: true,
             message: '회원가입에 실패하였습니다.',
