@@ -4,30 +4,30 @@
     <el-col :span="5"
       ><el-row>
         <el-col :span="1"></el-col>
-        <el-col :span="4"
-          ><el-button
+        <el-col :span="4">
+          <el-button class="top-nav-btn font-s-md" type="text">
+            <!-- @click="clickProject"
+            프로젝트 -->
+          </el-button>
+        </el-col>
+        <el-col :span="4"></el-col>
+        <el-col :span="5">
+          <el-button
             class="top-nav-btn font-s-md"
             type="text"
             @click="clickStudy"
-            >스터디</el-button
-          ></el-col
-        ><el-col :span="4"></el-col
-        ><el-col :span="5"
-          ><el-button
-            class="top-nav-btn font-s-md"
-            type="text"
-            @click="clickProject"
-            >프로젝트</el-button
-          ></el-col
-        ><el-col :span="4"></el-col
-        ><el-col :span="3"
-          ><el-button
-            class="top-nav-btn font-s-md"
-            type="text"
-            @click="clickClub"
-            >클럽</el-button
-          ></el-col
-        ><el-col :span="3"></el-col>
+          >
+            스터디
+          </el-button>
+        </el-col>
+        <el-col :span="4"> </el-col>
+        <el-col :span="3">
+          <el-button class="top-nav-btn font-s-md" type="text">
+            <!-- @click="clickClub"
+            클럽 -->
+          </el-button>
+        </el-col>
+        <el-col :span="3"></el-col>
       </el-row>
     </el-col>
 
