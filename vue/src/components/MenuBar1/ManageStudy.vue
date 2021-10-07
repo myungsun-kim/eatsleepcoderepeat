@@ -23,7 +23,9 @@
           width=""
           align="center"
         >
-          <el-button @click="goApplicate" class=""> 지원서 보기 </el-button>
+          <el-button @click="goApplicate" class="btn-ghost">
+            지원서 보기
+          </el-button>
         </el-table-column>
         <el-table-column
           prop="manage"
@@ -96,9 +98,6 @@ export default {
       store.dispatch('study/getStudyApplicationOne', state.form);
     };
 
-
-
-
     // 해당 회원의 정보 페이지로 이동
     const goInfoPage = function (val) {
       // 선택한 회원의 memberId 정보 저장
@@ -117,13 +116,11 @@ export default {
 
     // 해당 회원의 지원서 조회
     const goApplicate = function () {
-
       setTimeout(function () {
         router.push({ path: '/subheader/study/application' });
       }, 100);
       // router.push({ path: '/subheader/study/application' });
     };
-
 
     return {
       store,
