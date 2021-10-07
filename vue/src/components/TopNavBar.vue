@@ -39,9 +39,9 @@
     ><el-col :span="3"></el-col
     ><el-col :span="6"
       ><el-row class="height100">
-        <el-col :span="2" id="search"
+        <!-- <el-col :span="2" id="search"
           ><i class="el-icon-search" id="search-icon"></i
-        ></el-col>
+        ></el-col> -->
         <el-col :span="3"></el-col
         ><el-col :span="3"
           ><el-button
@@ -109,16 +109,13 @@ export default {
       }
     };
     onMounted(() => {
-
-      console.log(window.location.search);
-        // 토큰 decode해서 내 id 알아내는 과정
-        if(localStorage.getItem('accessToken') != null){
-          store.dispatch(
-            'chat/startup',
-            jwt_decode(localStorage.getItem('accessToken'))['sub']
-          );
-        }
-      
+      // 토큰 decode해서 내 id 알아내는 과정
+      if (localStorage.getItem('accessToken') != null) {
+        store.dispatch(
+          'chat/startup',
+          jwt_decode(localStorage.getItem('accessToken'))['sub']
+        );
+      }
     });
 
     const clickProject = function () {
@@ -134,7 +131,6 @@ export default {
       if (token) {
         store.commit('setCategory', 3);
         router.push({ path: '/nosubheader/club/home' });
-        // console.log(store.state.category);
       } else {
         router.push({ path: '/noheader/signin' });
       }
@@ -229,7 +225,7 @@ export default {
   width: 20px;
   height: 20px;
   position: absolute;
-  margin-top: -17px;
+  margin-top: -45px;
   margin-left: 35px;
   background: #f53030;
   border-radius: 10px;

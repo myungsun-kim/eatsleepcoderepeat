@@ -84,12 +84,6 @@ export default {
 
     // 글 작성
     const goReadDetailNotice = function () {
-      // 게시글 내용 확인
-      // console.log(state.form);
-      // console.log(state.form.title);
-      // console.log(state.form.content);
-      // console.log(state.form.boardId);
-
       store.dispatch('study/createArticle', state.form);
 
       router.push({ path: '/subheader/notice/detail' });

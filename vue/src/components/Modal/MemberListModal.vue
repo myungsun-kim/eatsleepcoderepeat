@@ -17,8 +17,12 @@
           v-for="(item, index) in studyIntroduce.memberDtos"
           :key="index"
         >
-          <el-col :span="10" :offset="1">{{ item.email }}</el-col>
-          <el-col :span="5" :offset="1">{{ item.nickname }}</el-col>
+          <el-col :span="10" :offset="1" class="font-design">{{
+            item.email
+          }}</el-col>
+          <el-col :span="5" :offset="1" class="font-design">{{
+            item.nickname
+          }}</el-col>
           <el-col :span="5" :offset="1">
             <el-button
               class="btn-1747C9 font-noto-bold"
@@ -66,7 +70,6 @@ export default {
 
     // 1. 스터디 ID를 받아옴
     const studyId = computed(() => store.getters['study/studyIdGetter']);
-    // console.log(studyId);
     // 2. 모달창에 스터디 정보를 일부 띄워야하기 때문에 스터디 정보를 받음
     const studyIntroduce = computed(
       () => store.getters['study/studyIntroduceGetter']
@@ -79,13 +82,12 @@ export default {
     // 아무튼 이메일을 알았다고 가정(백엔드 작업 후)
     // 해당 회원의 정보 페이지로 이동
     const goInfoPage = function (item) {
-      // store.dispatch('member/updateUserEmail', item);
+      // store.commit('member/updateUserEmail', item);
       store.dispatch('member/readInfoPage', item);
       router.push({ path: '/nosubheader/readinfopage' });
       store.dispatch('changeInfoModal', !modalOpen.value);
-      // console.log('goInfoPage');
       // 선택한 회원의 이메일 정보 저장
-      // store.dispatch('member/updateUserEmail', val.email);
+      // store.commit('member/updateUserEmail', val.email);
       // router.push({ path: '/nosubheader/readinfopage' });
     };
 
@@ -127,5 +129,12 @@ export default {
 
 .oneLine {
   display: flex;
+}
+
+.font-design {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
 }
 </style>

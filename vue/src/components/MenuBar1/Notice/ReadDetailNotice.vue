@@ -1,7 +1,7 @@
 <template>
   <el-row>
     <el-col :span="5"></el-col>
-    <el-col :span="13">
+    <el-col :span="13" v-if="article">
       <el-row class="author-font"> 공지사항 </el-row>
       <el-row id="article-title"> {{ article.title }} </el-row>
       <el-row class="author-font"> {{ article.createdMember }} </el-row>
@@ -22,7 +22,8 @@
         {{ article.content }}
       </el-row>
 
-      <el-row class="height10"> </el-row>
+      <el-row class="height30"> </el-row>
+      <hr />
       <el-row>
         <el-col :span="21"></el-col>
         <el-col :span="2">
@@ -95,22 +96,18 @@ export default {
 
     // 필요없는 코드일 수 있음
     watch(articleId, () => {
-      console.log('articleId 바뀜');
       param.form.articleid = articleId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });
 
     // 필요없는 코드일 수 있음
     watch(boardId, () => {
-      console.log('boardId 바뀜');
       param.form.boardid = boardId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });
 
     store.dispatch('study/getArticleDetail', param.form);
     const article = computed(() => store.getters['study/articleGetter']);
-    console.log(article);
-    console.log(article.value);
 
     const goUpdateNotice = function () {
       router.push({ path: '/subheader/notice/update' });

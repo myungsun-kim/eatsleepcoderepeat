@@ -61,9 +61,9 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 import { ElMessage } from 'element-plus';
 
@@ -93,9 +93,13 @@ export default {
             // 한 번 값 비우기
             localStorage.removeItem('accessToken');
             localStorage.setItem('accessToken', res.data.accessToken);
-            console.log(localStorage.getItem('accessToken'));
             window.location = '/?logined=true';
             store.dispatch('member/readMyPage');
+            ElMessage({
+              showClose: true,
+              message: '로그인 성공!',
+              type: 'success',
+            });
           } else if (res.status == 404) {
             ElMessage({
               showClose: true,
@@ -107,8 +111,11 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err);
-          alert('아이디 또는 비밀번호가 틀렸습니다!');
+          ElMessage({
+            showClose: true,
+            message: '아이디 또는 비밀번호가 틀렸습니다!',
+            type: 'error',
+          });
         });
     };
     return {
@@ -182,6 +189,7 @@ export default {
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
+  margin-top: 10px;
   line-height: 16px;
   /* identical to box height, or 114% */
 

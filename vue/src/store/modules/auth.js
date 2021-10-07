@@ -1,6 +1,6 @@
 import axios from 'axios';
-// const BASE_URL = 'http://localhost:8080';
-const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
+const BASE_URL = 'http://localhost:8080';
+// const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
 const header = { headers: { 'Content-Type': 'application/json' } };
 
 export const auth = {
@@ -38,38 +38,28 @@ export const auth = {
         JSON.stringify(form),
         header
       );
-      console.log('바로 밑이 res!');
-      console.log(res);
-      console.log(JSON.stringify(form));
-      console.log(form, '나... 로그인 된 걸지도?');
       return res;
     },
-    // 여기서의 form은 SignUp.vue의 signUp 함수에서 dispatch로 보내는 state.form임.
+
     signUp({ commit }, form) {
-      // swagger url경로
       const res = axios.post(
         BASE_URL + '/api/auth/signup',
         JSON.stringify(form),
         header
       );
-      console.log(form, '나... 회원가입 한 걸지도?');
       return res;
     },
-    // 여기서의 form은 SignUp.vue의 checkEmail 함수에서 dispatch로 보내는 state.form.email임.
+
     checkEmail({ commit }, form) {
-      // swagger url경로
       const res = axios.get(BASE_URL + `/api/auth/check/email/${form}`);
-      console.log(form, '나... 이메일 중복체크 한 걸지도?');
       return res;
     },
-    // 여기서의 form은 SignUp.vue의 checkNickName 함수에서 dispatch로 보내는 state.form.nickname임.
+
     checkNickName({ commit }, form) {
       // swagger url경로
       const res = axios.get(BASE_URL + `/api/auth/check/nickname/${form}`);
-      console.log(form, '나... 닉네임 중복체크 한 걸지도?');
       return res;
     },
   },
   modules: {},
-
 };

@@ -142,13 +142,13 @@
               </div>
             </div>
             <div id="box4">
-              <label id="h2">프로필 사진 등록</label>
+              <!-- <label id="h2">프로필 사진 등록</label> -->
               <div id="thumbnail">
                 <!-- <img class="previewImg" /> -->
-                <img class="previewImg" src="../../assets/Item/basic.png" />
+                <img class="previewImg" src="../../assets/Item/basic3.png" />
               </div>
               <el-upload :before-upload="beforeUpload">
-                <button>사진 업로드</button>
+                <!-- <button>사진 업로드</button> -->
               </el-upload>
             </div>
           </div>
@@ -219,7 +219,9 @@
 import { useRouter } from 'vue-router';
 import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
+
 import techstacks from '@/autocomplete/techstack.js';
+import { ElMessage } from 'element-plus';
 
 export default {
   name: 'studyCreate',
@@ -266,12 +268,14 @@ export default {
       store
         .dispatch('uploadFile', formData)
         .then((res) => {
-          // console.log(res.data.id);
-          // console.log(res.data.fileDownloadUri);
           state.form.coverpic_uuid = res.data.id;
         })
         .catch(() => {
-          alert('이미지를 불러오지 못했습니다.');
+          ElMessage({
+            showClose: true,
+            message: '이미지를 불러오지 못했습니다.',
+            type: 'error',
+          });
         });
     };
 
@@ -352,7 +356,7 @@ export default {
       else {
         // 회원가입할때 보낼 data값
         state.form.techList.push(clickedTechStack);
-        console.log(`${state.form.techList}이 추가되었다!`);
+        //`${state.form.techList}이 추가되었다!`
 
         warning1.style = 'display:none';
         warning2.style = 'display:none';
@@ -371,10 +375,12 @@ export default {
 
     const goIntroduce = function () {
       if (state.form.maxCount < 1) {
-        alert('스터디 최소 인원은 1명입니다.');
+        ElMessage({
+          showClose: true,
+          message: '스터디 최소 인원은 1명입니다.',
+          type: 'error',
+        });
       } else {
-        console.log(state.form, '스터디 생성 테스트!!!');
-        // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다?)
         store.dispatch('study/createStudy', state.form);
         router.push({ path: '/subheader/study/introduce' });
       }
@@ -402,6 +408,7 @@ export default {
 <style scoped>
 .bg {
   background: #f2f2f2;
+  padding-bottom: 100px;
 }
 #h1 {
   width: 184px;
@@ -600,6 +607,7 @@ export default {
 }
 #btn {
   margin-top: 50px;
+  width: 782px;
 }
 .btn-cancel {
   margin-left: 10px;
@@ -665,7 +673,7 @@ export default {
   background: black;
 }
 #thumbnail {
-  width: 70%;
+  width: 40%;
   height: 80%;
 
   overflow: hidden;
