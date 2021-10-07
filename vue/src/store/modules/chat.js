@@ -6,6 +6,12 @@ import Stomp from 'webstomp-client';
 // const BASE_URL = '';
 const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
 const header = { headers: { 'Content-Type': 'application/json' } };
+const authHeader = {
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    'Content-Type': 'application/json',
+  },
+};
 
 export const chat = {
   //   모듈별로 구분이 가능하게 하기 위해(독립적이기 위해) vuex namespaced: true
@@ -205,7 +211,7 @@ export const chat = {
         .post(
           BASE_URL + '/api/chat/sessions/start',
           JSON.stringify(body),
-          header
+          authHeader
         )
         .then((res) => {
           console.log('채팅방 개설 결과');
