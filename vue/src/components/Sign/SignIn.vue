@@ -88,6 +88,8 @@ export default {
         .dispatch('auth/signIn', state.form)
         .then((res) => {
           if (res.status == 200) {
+            // 한 번 값 비우기
+            localStorage.removeItem('accessToken');
             localStorage.setItem('accessToken', res.data.accessToken);
             console.log(localStorage.getItem('accessToken'));
             window.location = '/?logined=true';

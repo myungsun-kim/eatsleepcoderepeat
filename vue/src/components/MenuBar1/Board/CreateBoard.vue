@@ -3,8 +3,8 @@
     ><el-col :span="3"></el-col>
     <el-col :span="19">
       <el-row class="height5">
-        <el-col :span="2">제목:</el-col>
-        <el-col :span="22" style="margin: auto 0">
+        <el-col :span="1" class="flex-items">제목:</el-col>
+        <el-col :span="23" style="margin: auto 0">
           <input
             type="text"
             id="title"
