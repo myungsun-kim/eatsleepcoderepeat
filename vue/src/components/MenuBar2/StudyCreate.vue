@@ -144,7 +144,8 @@
             <div id="box4">
               <label id="h2">프로필 사진 등록</label>
               <div id="thumbnail">
-                <img class="previewImg" />
+                <!-- <img class="previewImg" /> -->
+                <img class="previewImg" src="../../assets/Item/basic.png" />
               </div>
               <el-upload :before-upload="beforeUpload">
                 <button>사진 업로드</button>
@@ -660,8 +661,10 @@ export default {
   background: black;
 }
 #thumbnail {
-  width: 100%;
-  height: 60%;
+  width: 70%;
+  height: 80%;
+
+  overflow: hidden;
 
   border: 0.5px dashed black;
   border-radius: 3%;
@@ -675,6 +678,7 @@ export default {
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
+  overflow: hidden;
 }
 .label3 {
   min-width: 200px;
