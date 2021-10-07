@@ -132,7 +132,7 @@
   <el-row class="height5"> </el-row>
 
   <!-- 버튼 영역 -->
-  <el-row class="height50 font-20">
+  <el-row class="height30 font-20">
     <el-col :span="3"></el-col>
     <el-col :span="18">
       <el-row class="height8">
@@ -278,7 +278,7 @@ export default {
 
       // 팀장의 마이지페이지로 이동
       console.log(studyIntroduce.value.host.email);
-      // store.dispatch('member/updateUserEmail', studyIntroduce.value.host.email);
+      // store.commit('member/updateUserEmail', studyIntroduce.value.host.email);
       store.dispatch('member/readInfoPage', studyIntroduce.value.host.email);
       router.push({ path: '/nosubheader/readinfopage' });
     };
