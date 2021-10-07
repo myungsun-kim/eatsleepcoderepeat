@@ -176,6 +176,7 @@ export default {
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
+  margin-top: 10px;
   line-height: 16px;
   /* identical to box height, or 114% */
 
