@@ -60,10 +60,6 @@ export default {
       () => store.getters['study/studyIntroduceGetter']
     );
 
-    watch(userId, () => {
-      state.form.memberId.value = userId.value;
-    });
-
     const state = reactive({
       form: {
         studyId: studyId.value,
@@ -71,10 +67,15 @@ export default {
       },
     });
 
+    watch(userId, () => {
+      state.form.memberId.value = userId.value;
+    });
+
     // 거절
     const reject = function () {
       store.dispatch('study/rejectStudy', state.form);
       store.dispatch('changeRejectModal', !modalOpen.value);
+      window.location = '/subheader/study/manage';
     };
 
     const changemodalOpen = function () {

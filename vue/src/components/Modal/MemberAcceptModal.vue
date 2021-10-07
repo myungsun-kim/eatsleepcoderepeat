@@ -66,10 +66,6 @@ export default {
       () => store.getters['study/studyIntroduceGetter']
     );
 
-    watch(userId, () => {
-      state.form.memberId.value = userId.value;
-    });
-
     const state = reactive({
       form: {
         studyId: studyId.value,
@@ -77,10 +73,15 @@ export default {
       },
     });
 
+    watch(userId, () => {
+      state.form.memberId.value = userId.value;
+    });
+
     // 수락
     const accept = function () {
       store.dispatch('study/approvalStudy', state.form);
       store.dispatch('changeAcceptModal', !modalOpen.value);
+      window.location = '/subheader/study/manage';
     };
 
     const changemodalOpen = function () {
