@@ -5,7 +5,6 @@
   <teleport to="body">
     <div v-if="!modalOpen" class="modal">
       <div class="height40" style="width: 40%">
-        <el-row class="height10"></el-row>
         <el-row class="height10">
           <el-col :span="24" class="font-noto-bold font-20">
             비밀번호를 입력해주세요

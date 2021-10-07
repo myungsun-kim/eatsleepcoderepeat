@@ -4,17 +4,14 @@
   </el-button>
   <teleport to="body">
     <div v-if="!modalOpen" class="modal">
-      <div class="height40">
-        <el-row class="height30"></el-row>
+      <div class="height40" style="width: 40%">
         <el-row class="height10">
-          <el-col :span="24" class="font-noto-bold font-20">
+          <el-col :span="24" class="title-msg">
             {{ studyIntroduce.name }}
           </el-col>
         </el-row>
         <el-row class="height10">
-          <el-col :span="24" class="font-noto-md font-20"
-            >정말로 탈퇴하시겠습니까</el-col
-          >
+          <el-col :span="24" class="sub-msg">정말로 탈퇴하시겠습니까</el-col>
         </el-row>
         <el-row class="height10">
           <el-col :span="6" :offset="6">
@@ -106,6 +103,20 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: white;
-  width: 50%;
+  width: 100%;
+}
+
+.title-msg {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+}
+
+.sub-msg {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
 }
 </style>
