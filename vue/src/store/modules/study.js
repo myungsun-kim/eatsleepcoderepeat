@@ -1,5 +1,6 @@
 import axios from 'axios';
-const BASE_URL = '';
+// const BASE_URL = '';
+const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
 const header = {
   headers: {
     Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -200,7 +201,7 @@ export const study = {
       return res;
     },
     checkHost({ commit }, data) {
-      // console.log(data);
+      console.log(data);
       const res = axios
         .get(BASE_URL + '/api/auth/check/nickname/' + data, header)
         .then((res) => {

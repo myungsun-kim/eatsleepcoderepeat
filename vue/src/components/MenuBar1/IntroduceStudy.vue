@@ -143,7 +143,7 @@
       </el-row>
 
       <el-row>
-        <el-col :span="7"></el-col>
+        <el-col :span="7">{{ auth }}</el-col>
         <el-col :span="2" v-if="auth == 2">
           <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
             수정
@@ -194,6 +194,8 @@ export default {
 
     store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/mypageGetter']);
+    console.log(user);
+    console.log(user.value);
 
     //스터디 장-host2, 팀원-mystudylist에 있음1, 외부인-없음0
     const auth = ref(0);
@@ -202,27 +204,30 @@ export default {
     //내 토큰이랑 스터디 장의 별명을 넣어서 일치하는지 확인
 
     // 권한 체크
-    store.dispatch('study/checkHost', studyIntroduce.value.host.nickname);
-    const isHost = computed(() => store.getters['study/checkHostGetter']);
-    if (isHost) {
+    // 내 정보(닉네임), 팀장 정보(닉네임) 일치 여부 확인
+
+    if (studyIntroduce.value.host.nickname == user.value.nickname) {
       auth.value = 2;
     } else {
       for (let index = 0; index < user.value.myStudyList.length; index++) {
         if (user.value.myStudyList[index].id == studyId.value) {
           auth.value = 1;
+          break;
+        } else {
+          auth.value = 0;
         }
       }
     }
-
-    watch(isHost, () => {
-      if (
-        store.dispatch('study/checkHost', studyIntroduce.value.host.nickname)
-      ) {
+    watch(studyIntroduce, () => {
+      if (studyIntroduce.value.host.nickname == user.value.nickname) {
         auth.value = 2;
       } else {
         for (let index = 0; index < user.value.myStudyList.length; index++) {
           if (user.value.myStudyList[index].id == studyId.value) {
             auth.value = 1;
+            break;
+          } else {
+            auth.value = 0;
           }
         }
       }
@@ -289,6 +294,7 @@ export default {
       router,
       studyIntroduce,
       auth,
+
       visible,
       makeChat,
       goUpdate,

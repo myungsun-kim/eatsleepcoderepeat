@@ -3,7 +3,8 @@ import store from '..';
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 
-const BASE_URL = '';
+// const BASE_URL = '';
+const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
 const header = { headers: { 'Content-Type': 'application/json' } };
 
 export const chat = {
