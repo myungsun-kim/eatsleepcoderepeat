@@ -38,14 +38,22 @@ export const member = {
       return res;
     },
     // 다른 회원 정보 가져오기
-    readInfoPage({ commit }, data) {
+    readInfoPage({ commit }, email) {
       // form = encodeURIComponent(form);
+      console.log(`${new String(encodeURI(email)).replace('@', '%40')}`);
       const res = axios
-        .get(BASE_URL + `/api/member/mypage/${encodeURI(data)}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-          },
-        })
+        .get(
+          BASE_URL +
+            `/api/member/mypage/${new String(encodeURI(email)).replace(
+              '@',
+              '%40'
+            )}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+          }
+        )
         .then((res) => {
           commit('updateUserInfo', res.data);
         });

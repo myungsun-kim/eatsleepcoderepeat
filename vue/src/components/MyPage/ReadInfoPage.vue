@@ -494,10 +494,6 @@ export default {
     // store.dispatch('member/readMyPage');
     const user = computed(() => store.getters['member/userInfoGetter']);
 
-    watch(user, () => {
-      store.dispatch('member/readInfoPage');
-    });
-
     const goIntroduce = function (id) {
       store.dispatch('study/callUpdateStudyId', id);
       router.push({ path: '/subheader/study/introduce' });
