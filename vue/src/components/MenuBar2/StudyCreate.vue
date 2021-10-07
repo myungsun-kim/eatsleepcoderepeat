@@ -370,10 +370,14 @@ export default {
     };
 
     const goIntroduce = function () {
-      console.log(state.form, '스터디 생성 테스트!!!');
-      // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다?)
-      store.dispatch('study/createStudy', state.form);
-      router.push({ path: '/subheader/study/introduce' });
+      if (state.form.maxCount < 1) {
+        alert('스터디 최소 인원은 1명입니다.');
+      } else {
+        console.log(state.form, '스터디 생성 테스트!!!');
+        // 값이 일치하는지 확인하고 잘못되었으면(생성이 안되면 다시 돌려보낸다?)
+        store.dispatch('study/createStudy', state.form);
+        router.push({ path: '/subheader/study/introduce' });
+      }
     };
     const goHome = function () {
       router.push({ path: '/nosubheader/study/home' });

@@ -62,6 +62,7 @@ export const chat = {
   },
   mutations: {
     cleanup(state) {
+      
       state.chatlist = {};
       state.chatordered = [];
       state.chatdetail = {};
@@ -69,9 +70,10 @@ export const chat = {
       state.currentUserId = 0;
       state.stompClient = {};
       state.connected = false;
-      state.socket = {};
       state.unreadSession = {};
       state.unreadCounts = 0;
+      state.socket.close();
+      state.socket = {};
     },
     setUnreadFlag(state, payload) {
       console.log('SETUNREADSTART');
@@ -252,6 +254,11 @@ export const chat = {
       //   const serverURL = 'http://localhost:8080/api/socket/chat'; // 서버 채팅 주소
       const serverURL = 'http://j5d105.p.ssafy.io:8080/api/socket/chat'; // 서버 채팅 주소
       let socket = new SockJS(serverURL);
+      socket.onclose = function(){
+        state.stompClient.disconnect();
+        state.stompClient = undefined;
+        state.socket = undefined;
+      };
       commit('setSocket', socket);
 
       // store.commit('stompSetter', Stomp.over(socket));

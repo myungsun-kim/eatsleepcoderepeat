@@ -79,13 +79,13 @@ export default {
     // 아무튼 이메일을 알았다고 가정(백엔드 작업 후)
     // 해당 회원의 정보 페이지로 이동
     const goInfoPage = function (item) {
-      // store.dispatch('member/updateUserEmail', item);
+      // store.commit('member/updateUserEmail', item);
       store.dispatch('member/readInfoPage', item);
       router.push({ path: '/nosubheader/readinfopage' });
       store.dispatch('changeInfoModal', !modalOpen.value);
       // console.log('goInfoPage');
       // 선택한 회원의 이메일 정보 저장
-      // store.dispatch('member/updateUserEmail', val.email);
+      // store.commit('member/updateUserEmail', val.email);
       // router.push({ path: '/nosubheader/readinfopage' });
     };
 

@@ -65,6 +65,8 @@ import { useRouter } from 'vue-router';
 import { reactive } from 'vue';
 import { useStore } from 'vuex';
 
+import { ElMessage } from 'element-plus';
+
 export default {
   name: 'signIn',
   components: {},
@@ -88,12 +90,18 @@ export default {
         .dispatch('auth/signIn', state.form)
         .then((res) => {
           if (res.status == 200) {
+            // 한 번 값 비우기
+            localStorage.removeItem('accessToken');
             localStorage.setItem('accessToken', res.data.accessToken);
             console.log(localStorage.getItem('accessToken'));
             window.location = '/?logined=true';
             store.dispatch('member/readMyPage');
           } else if (res.status == 404) {
-            alert('해당 아이디가 존재하지 않습니다.');
+            ElMessage({
+              showClose: true,
+              message: '해당 아이디가 존재하지 않습니다.',
+              type: 'error',
+            });
             state.form.email = '';
             state.form.password = '';
           }

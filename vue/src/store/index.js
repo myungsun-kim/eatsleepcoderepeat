@@ -119,7 +119,7 @@ export default createStore({
 
   plugins: [
     createPersistedState({
-      paths: ['auth', 'member', 'chat', 'study', 'category'], // <<<<<<여기!
+      paths: ['auth', 'member', 'study', 'category'], // <<<<<<여기!
     }),
   ],
 });

@@ -463,8 +463,13 @@ export default {
     };
 
     const goIntroduce = function () {
-      store.dispatch('study/updateStudy', state);
-      router.push({ path: '/subheader/study/introduce' });
+      // 스터디 인원 0명일시 수정불가능
+      if (state.form.maxCount < 1) {
+        alert('스터디 인원은 최소 1명 이상이어야 합니다.');
+      } else {
+        store.dispatch('study/updateStudy', state);
+        router.push({ path: '/subheader/study/introduce' });
+      }
     };
 
     // 사진 업로드

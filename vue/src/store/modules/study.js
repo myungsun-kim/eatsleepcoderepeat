@@ -114,9 +114,6 @@ export const study = {
       // console.log(payload);
       state.checkHost = payload;
     },
-    // updateMemberId(state, payload) {
-    //   state.memberId = payload;
-    // },
   },
   actions: {
     // 전체 스터디 목록
@@ -190,8 +187,8 @@ export const study = {
       // console.log('넘겨줄 Article ID 값' + data);
       commit('updateArticleId', data);
     },
-    introduce({ commit }, data) {
-      const res = axios.get(BASE_URL + `/api/study/${data}`, header);
+    introduce({ commit }, studyId) {
+      const res = axios.get(BASE_URL + `/api/study/${studyId}`, header);
       res.then((res) => {
         // console.log('스터디 introduce 조회 결과');
         // console.log(res);
@@ -212,16 +209,14 @@ export const study = {
     },
     // 해당 스터디 전체 신청서 조회
     applicationAll({ commit }, data) {
-      const res = axios.get(
-        BASE_URL + '/api/studyapplication/all/' + data,
-        header
-      );
-      res.then((res) => {
-        console.log('스터디 application ALL 조회 결과');
-        console.log(res);
-        console.log(res.data);
-        commit('updateStudyApplications', res.data);
-      });
+      const res = axios
+        .get(BASE_URL + '/api/studyapplication/all/' + data, header)
+        .then((res) => {
+          console.log('스터디 application ALL 조회 결과');
+          console.log(res);
+          console.log(res.data);
+          commit('updateStudyApplications', res.data);
+        });
       return res.data;
     },
     // 해당 스터디 특정 회원 신청서 조회
@@ -357,7 +352,7 @@ export const study = {
 
     // 스터디 신청 수락
     approvalStudy({ commit }, form) {
-      console.log(form);
+      // console.log(form);
       const res = axios
         .post(
           BASE_URL +
@@ -473,9 +468,7 @@ export const study = {
     studyInfoGetter: (state) => {
       return state.studyInfo;
     },
-    studyMemberNicknameGetter: (state) => {
-      return state.memberNickname;
-    },
+
     studyIntroduceGetter: (state) => {
       // console.log('Introduce GETTER');
       // console.log(state.studyIntroduce);
@@ -525,6 +518,9 @@ export const study = {
       // console.log('article GETTER');
       // console.log(state.article);
       return state.currentPage;
+    },
+    studyMemberNicknameGetter: (state) => {
+      return state.memberNickname;
     },
     memberIdGetter: (state) => {
       // console.log('article GETTER');

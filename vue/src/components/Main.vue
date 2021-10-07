@@ -45,28 +45,27 @@
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
-import jwt_decode from 'jwt-decode';
 
 export default {
   components: {},
   setup() {
     onMounted(() => {
-      chatInit();
+      // chatInit();
     });
 
     const store = useStore();
     const router = useRouter();
     // 채팅을 위한 준비
-    const chatInit = function () {
-      console.log(window.location.search);
-      if (window.location.search == '?logined=true') {
-        // 토큰 decode해서 내 id 알아내는 과정
-        store.dispatch(
-          'chat/startup',
-          jwt_decode(localStorage.getItem('accessToken'))['sub']
-        );
-      }
-    };
+    // const chatInit = function () {
+    //   console.log(window.location.search);
+    //   if (window.location.search == '?logined=true') {
+    //     // 토큰 decode해서 내 id 알아내는 과정
+    //     store.dispatch(
+    //       'chat/startup',
+    //       jwt_decode(localStorage.getItem('accessToken'))['sub']
+    //     );
+    //   }
+    // };
     const goSignIn = function () {
       router.push({ path: '/noheader/signin' });
     };
@@ -80,7 +79,7 @@ export default {
       router,
       goSignIn,
       goSignUp,
-      chatInit,
+      // chatInit,
       token,
     };
   },

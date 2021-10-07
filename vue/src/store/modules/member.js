@@ -62,12 +62,8 @@ export const member = {
           console.log('다른 회원 정보 가져오기');
           console.log(res);
           console.log(res.data);
-          // console.log('READ MY PAGE');
-          // console.log('2-3');
-          // console.log(res);
-          // console.log(res.data);
+
           commit('updateUserInfo', res.data);
-          // console.log('2-6');
         });
       return res;
     },
