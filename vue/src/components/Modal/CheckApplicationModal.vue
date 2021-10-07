@@ -12,8 +12,8 @@
             :offset="6"
             class="font-noto-bold font-20"
             v-if="application"
-          >
-            {{ application[0].nickname }}의 (스터디 이름) 스터디 신청서
+            >{{ application }}
+            <!-- {{ application[0].nickname }}의 (스터디 이름) 스터디 신청서 -->
           </el-col>
         </el-row>
         <el-row class="height10"></el-row>
@@ -25,8 +25,8 @@
               <el-col :span="3"></el-col>
               <el-col :span="6" class="test-border"> 닉네임 </el-col>
               <el-col :span="2"></el-col>
-              <el-col :span="13" class="test-border"
-                >{{ application[0].nickname }}
+              <el-col :span="13" class="test-border">
+                <!-- {{ application[0].nickname }} -->
               </el-col>
             </el-row>
             <el-row class="test-border height25">
@@ -34,7 +34,7 @@
               <el-col :span="6" class="test-border"> 지역 </el-col>
               <el-col :span="2"></el-col>
               <el-col :span="13" class="test-border">
-                {{ application[0].city }}
+                <!-- {{ application[0].city }} -->
               </el-col>
             </el-row>
             <el-row class="test-border height25">
@@ -42,7 +42,7 @@
               <el-col :span="6" class="test-border"> 깃 </el-col>
               <el-col :span="2"></el-col>
               <el-col :span="13" class="test-border">
-                {{ application[0].git }}
+                <!-- {{ application[0].git }} -->
               </el-col>
             </el-row>
             <el-row class="test-border height25">
@@ -50,7 +50,7 @@
               <el-col :span="6" class="test-border"> twitter </el-col>
               <el-col :span="2"></el-col>
               <el-col :span="13" class="test-border">
-                {{ application[0].twitter }}
+                <!-- {{ application[0].twitter }} -->
               </el-col>
             </el-row>
           </el-col>
@@ -90,35 +90,43 @@
           <el-col :span="4" :offset="2" class="test-border"
             >&nbsp;baekjoon
           </el-col>
-          <el-col :span="16" class="test-border">{{
+          <el-col :span="16" class="test-border">
+            <!-- {{
             application[0].backjoon
-          }}</el-col>
+          }} -->
+          </el-col>
         </el-row>
         <!-- 한 줄 -->
         <el-row class="height10 font-14">
           <el-col :span="4" :offset="2" class="test-border">
             &nbsp;Experienced</el-col
           >
-          <el-col :span="16" class="test-border">{{
+          <el-col :span="16" class="test-border">
+            <!-- {{
             application[0].strong
-          }}</el-col>
+          }} -->
+          </el-col>
         </el-row>
         <el-row class="height10 font-14">
           <el-col :span="4" :offset="2" class="test-border"
             >&nbsp;Beginner</el-col
           >
-          <el-col :span="16" class="test-border">{{
+          <el-col :span="16" class="test-border">
+            <!-- {{
             application[0].knowledgeable
-          }}</el-col>
+          }} -->
+          </el-col>
         </el-row>
         <!-- 한 줄 -->
         <el-row class="height10 font-14">
           <el-col :span="4" :offset="2" class="test-border"
             >&nbsp;자기소개</el-col
           >
-          <el-col :span="16" class="test-border">{{
+          <el-col :span="16" class="test-border">
+            <!-- {{
             application[0].bio
-          }}</el-col>
+          }} -->
+          </el-col>
         </el-row>
         <!-- 한 줄 -->
         <el-row class="height10">
@@ -173,7 +181,8 @@ export default {
     const application = computed(
       () => store.getters['study/studyApplicationGetter']
     );
-    // console.log(application.value);
+    console.log('applica');
+    console.log(application.value);
 
     const param = reactive({
       form: {
