@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ElMessage } from 'element-plus';
 // const BASE_URL = '';
 const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
 const header = {
@@ -17,40 +18,27 @@ export const member = {
   },
   mutations: {
     updateMypage(state, payload) {
-      // console.log('SAVE MY PAGE');
-      // console.log('2-4');
-      // console.log(payload);
       state.mypage = payload;
-      // console.log('2-5');
     },
     updateUserEmail(state, payload) {
-      // console.log('updateUserEmail');
-      // console.log(payload);
       state.userEmail = payload;
     },
     updateUserInfo(state, payload) {
-      // console.log('update User Info');
-      // console.log(payload);
       state.userInfo = payload;
     },
   },
   actions: {
     // 마이페이지 정보
     readMyPage({ commit }) {
-      // console.log('readmypage 호출');
       const res = axios
         .get(BASE_URL + `/api/member/mypage`, header)
         .then((res) => {
-          // console.log('READ MY PAGE');
-          // console.log(res);
-          // console.log(res.data);
           commit('updateMypage', res.data);
         });
       return res;
     },
     // 다른 회원 정보 가져오기
     readInfoPage({ commit }, data) {
-      console.log('readIn');
       // form = encodeURIComponent(form);
       const res = axios
         .get(BASE_URL + `/api/member/mypage/${encodeURI(data)}`, {
@@ -59,18 +47,12 @@ export const member = {
           },
         })
         .then((res) => {
-          console.log('다른 회원 정보 가져오기');
-          console.log(res);
-          console.log(res.data);
-
           commit('updateUserInfo', res.data);
         });
       return res;
     },
     // 프로필 다운로드
     readProfile({ commit }, form) {
-      console.log(localStorage.getItem('accessToken'));
-      console.log(form);
       const res = axios.get(form, {
         headers: {
           // Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -81,11 +63,6 @@ export const member = {
     },
     // 비밀번호 체크
     checkPassword({ commit }, form) {
-      // console.log('데이터');
-      // console.log(JSON.stringify(form));
-      // console.log('form');
-      // console.log(form);
-      console.log(localStorage.getItem('accessToken'));
       const res = axios.post(BASE_URL + `/api/member/check/password`, form, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -95,7 +72,6 @@ export const member = {
     },
     // 회원 정보 수정
     updateMember({ commit }, form) {
-      console.log(JSON.stringify(form));
       const res = axios
         .put(BASE_URL + `/api/member`, form, {
           headers: {
@@ -104,30 +80,33 @@ export const member = {
         })
         .then((res) => {
           commit('updateMypage', res.data);
+          ElMessage({
+            showClose: true,
+            message: '회원정보 수정 성공 :D',
+            type: 'success',
+          });
+        })
+        .catch((error) => {
+          ElMessage({
+            showClose: true,
+            message: '문제가 발생했습니다 :(',
+            type: 'error',
+          });
         });
       return res;
     },
   },
   getters: {
     mypageGetter: (state) => {
-      console.log('getter');
-      console.log(state.mypage);
       return state.mypage;
     },
     myStudyListGetter: (state) => {
-      // console.log('myStudyListGetter 값 조회');
-      // console.log(state.mypage);
-      // console.log(state.mypage.myStudyList);
       return state.mypage.myStudyList;
     },
     userEmailGetter: (state) => {
-      console.log('userEmailGetter');
-      console.log(state.userEmail);
       return state.userEmail;
     },
     userInfoGetter: (state) => {
-      console.log('userInfoGetter');
-      console.log(state.userInfo);
       return state.userInfo;
     },
   },

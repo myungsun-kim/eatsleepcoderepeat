@@ -1,5 +1,4 @@
 import axios from 'axios';
-import store from '..';
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 import { ElMessage } from 'element-plus';
@@ -19,12 +18,9 @@ export const chat = {
   namespaced: true,
   getters: {
     getChatList: (state) => {
-      // console.log(state.chatList);
-      // console.log(state.currentUserId);
       return state.chatordered;
     },
     getMessages: (state) => {
-      console.log(state.currentCounterpart);
       return state.chatdetail[`${state.currentCounterpart}`];
     },
     getCurrentCounterpart: (state) => {
@@ -48,18 +44,6 @@ export const chat = {
     socket: {},
     unreadSession: {},
     unreadCounts: 0,
-
-    //     // category 1:스터디 2:프로젝트 3:클럽
-    //     category: null,
-    //     form: {
-    //       email: '',
-    //       name: '',
-    //       nickname: '',
-    //       password: '',
-    //       affirmPassword: '',
-    //       position: '',
-    //       city: '',
-    //     },
   },
   mutations: {
     cleanup(state) {
@@ -76,15 +60,10 @@ export const chat = {
       state.socket = {};
     },
     setUnreadFlag(state, payload) {
-      console.log('SETUNREADSTART');
       if (
         state.unreadSession[payload] === undefined ||
         state.unreadSession[payload] == false
       ) {
-        console.log('SETUNREAD');
-        console.log(payload);
-        console.log(state.unreadSession);
-        console.log(state.unreadSession[payload]);
         state.unreadCounts++;
         state.unreadSession[payload] = true;
       }
@@ -98,10 +77,7 @@ export const chat = {
     readMyMessage(state, payload) {
       let counterpart = payload.receiverId;
       let sessionMsgs = state.chatdetail[counterpart];
-      console.log(sessionMsgs);
       for (let i = sessionMsgs.length - 1; i >= 0; i--) {
-        console.log(sessionMsgs[i]);
-
         if (sessionMsgs[i].senderId == state.currentUserId) {
           continue;
         }
@@ -117,10 +93,7 @@ export const chat = {
       }
       let counterpart = payload.senderId;
       let sessionMsgs = state.chatdetail[counterpart];
-      console.log(sessionMsgs);
       for (let i = sessionMsgs.length - 1; i >= 0; i--) {
-        console.log(sessionMsgs[i]);
-
         if (sessionMsgs[i].receiverId == state.currentUserId) {
           continue;
         }
@@ -132,7 +105,6 @@ export const chat = {
     },
     setCurrentId(state, payload) {
       state.currentUserId = Number(payload);
-      console.log(state.currentUserId);
     },
     setSocket(state, payload) {
       if (!state.connected) {
@@ -156,27 +128,16 @@ export const chat = {
       let counterpart = payload.counterpart;
       let data = payload.item;
       let chatlist = state.chatlist;
-      console.log('addSession');
-      console.log(counterpart);
-      console.log(!(counterpart in chatlist));
-      console.log(chatlist.value);
       if (!(counterpart in chatlist)) {
-        console.log('create new session');
         chatlist[counterpart] = data;
       } else {
-        console.log('add to existing session');
         if (chatlist[counterpart].id < data.id) {
           chatlist[counterpart] = data;
         }
       }
-      console.log(state.chatlist);
       state.chatordered = Object.entries(state.chatlist).sort(
         (a, b) => b[1].id - a[1].id
       );
-      console.log(state.chatordered);
-      console.log(state.chatlist);
-      console.log(state.chatlist);
-      // console.log(state.chatlist);
     },
     initMessages(state, payload) {
       for (let i = 0; i < payload.length; i++) {
@@ -190,12 +151,6 @@ export const chat = {
       // let counterpart = Number(`${payload.counterpart}`);
       let counterpart = payload.counterpart;
       let msg = payload.item;
-      console.log('addMessage');
-      console.log(counterpart);
-      console.log(counterpart + 3);
-      console.log(payload);
-      console.log(msg);
-      console.log(state.chatdetail[counterpart]);
       if (!state.chatdetail[counterpart]) {
         state.chatdetail[counterpart] = [msg];
       } else {
@@ -237,7 +192,6 @@ export const chat = {
       commit('setCurrentId', pk);
       dispatch('connectSocket');
       dispatch('initSession', pk);
-      // alert("!")
     },
 
     sendMessage({ state }, msg) {
@@ -257,7 +211,6 @@ export const chat = {
       return msg.senderId != state.currentId ? msg.receiverId : msg.senderId;
     },
     connectSocket({ state, dispatch, commit }) {
-      console.log('connect socket' + state.connected);
       //   const serverURL = 'http://localhost:8080/api/socket/chat'; // 서버 채팅 주소
       const serverURL = 'http://j5d105.p.ssafy.io:8080/api/socket/chat'; // 서버 채팅 주소
       let socket = new SockJS(serverURL);
@@ -269,7 +222,6 @@ export const chat = {
       commit('setSocket', socket);
 
       // store.commit('stompSetter', Stomp.over(socket));
-      console.log(`connecting to socket=> ${serverURL}`);
       let stompClient = Stomp.over(socket);
       commit('setStompClient', stompClient);
       stompClient.connect(
@@ -278,7 +230,7 @@ export const chat = {
           // 구독 == 채팅방 입장.
           stompClient.subscribe('/sub/' + `${state.currentUserId}`, (res) => {
             const item = JSON.parse(res.body);
-            console.log('stomp on');
+            // stomp on
             // item.read_time = new Date(item.read_time);
             // item.sent_time = new Date(item.sent_time);
             switch (item.type) {
@@ -292,18 +244,12 @@ export const chat = {
                   item.senderId == state.currentUserId
                     ? item.receiverId
                     : item.senderId;
-                console.log(state.currentUserId);
-                console.log(counterpart);
-                console.log(counterpart.value);
-                console.log(item);
-                console.log('message done');
                 // item.read_time = new Date(item.read_time);
                 // item.sent_time = new Date(item.sent_time);
 
                 commit('addSession', { item, counterpart });
                 commit('addMessage', { item, counterpart });
                 if (item.senderId == state.currentCounterpart) {
-                  console.log('!!!!');
                   dispatch('sendMessage', {
                     type: 2,
                     senderId: state.currentUserId,
@@ -333,7 +279,6 @@ export const chat = {
           });
         },
         (error) => {
-          console.log('stomperr');
           // 소켓 연결 실패
         }
       );
@@ -349,7 +294,6 @@ export const chat = {
       // currentId += 0;
       // currentId = "asdf";
       axios
-        //   의도한 부분인가?? @김대연
         .get(
           // 'http://localhost:8080/api/chat/sessions/' + `${state.currentUserId}`,
           'http://j5d105.p.ssafy.io:8080/api/chat/sessions/' +
@@ -358,13 +302,11 @@ export const chat = {
           { headers: { 'Content-Type': 'application/json' } }
         )
         .then((response) => {
-          console.log(response, state.currentId);
           response.data.forEach((item) => {
             let counterpart =
               item['senderId'] == state.currentUserId
                 ? item['receiverId']
                 : item['senderId'];
-            console.log(item);
             item.read_time = new Date(item.read_time).getTime();
             item.sent_time = new Date(item.sent_time).getTime();
 
@@ -378,22 +320,12 @@ export const chat = {
                   : item.senderId;
               this.commit('chat/setUnreadFlag', counterpart);
             }
-            // console.log("------------");
-            // console.log(state.currentUserId);
-            // console.log(item['senderId']);
-            // console.log(item['senderId']==state.currentUserId);
-            // console.log(item['senderId']===state.currentUserId);
-            // console.log(item);
-            // console.log(counterpart);
-            // console.log("------------");
-            // console.log(item);
             commit('addSession', { counterpart, item });
           });
         });
     },
     loadMessages({ state, commit }) {
-      console.log(`loadMessages`);
-      const res = axios
+      axios
         .get(
           // 'http://localhost:8080/api/chat/messages/' +
           'http://j5d105.p.ssafy.io:8080/api/chat/messages/' +
@@ -404,9 +336,7 @@ export const chat = {
           { headers: { 'Content-Type': 'application/json' } }
         )
         .then((response) => {
-          console.log(response.data);
           commit('initMessages', response.data);
-          console.log(response.data);
         });
     },
     loadMoreMessages({ state, commit }, pk) {
@@ -429,43 +359,6 @@ export const chat = {
           console.log(response.data);
         });
     },
-    //       // swagger url경로
-    //       const res = axios.post(
-    //         BASE_URL + '/api/auth/login',
-    //         JSON.stringify(form),
-    //         header
-    //       );
-    //       console.log('바로 밑이 res!');
-    //       console.log(res);
-    //       console.log(JSON.stringify(form));
-    //       console.log(form, '나... 로그인 된 걸지도?');
-    //       return res;
-    //     },
-    //     // 여기서의 form은 SignUp.vue의 signUp 함수에서 dispatch로 보내는 state.form임.
-    //     signUp({ commit }, form) {
-    //       // swagger url경로
-    //       const res = axios.post(
-    //         BASE_URL + '/api/auth/signup',
-    //         JSON.stringify(form),
-    //         header
-    //       );
-    //       console.log(form, '나... 회원가입 한 걸지도?');
-    //       return res;
-    //     },
-    //     // 여기서의 form은 SignUp.vue의 checkEmail 함수에서 dispatch로 보내는 state.form.email임.
-    //     checkEmail({ commit }, form) {
-    //       // swagger url경로
-    //       const res = axios.get(BASE_URL + `/api/auth/check/email/${form}`);
-    //       console.log(form, '나... 이메일 중복체크 한 걸지도?');
-    //       return res;
-    //     },
-    //     // 여기서의 form은 SignUp.vue의 checkNickName 함수에서 dispatch로 보내는 state.form.nickname임.
-    //     checkNickName({ commit }, form) {
-    //       // swagger url경로
-    //       const res = axios.get(BASE_URL + `/api/auth/check/nickname/${form}`);
-    //       console.log(form, '나... 닉네임 중복체크 한 걸지도?');
-    //       return res;
-    //     },
   },
   modules: {},
 };
