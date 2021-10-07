@@ -15,7 +15,7 @@
                 <img class="previewImg" src="../../assets/Item/basic.png" />
               </div>
               <el-upload :before-upload="beforeProfileUpload" class="upload">
-                업로드
+                <!-- 업로드 -->
               </el-upload>
             </div>
             <div class="box3">
@@ -202,18 +202,18 @@
                 v-model="state.form.snsHashMap.backjoon"
               />
             </div>
-            <div class="box4">
+            <!-- <div class="box4">
               <div class="label2">포트폴리오</div>
               <div class="link0">
                 <a :href="`${state.form.portfolio}`" class="link1">
                   포트폴리오
-                  <!-- {{ state.form.portfolio }} -->
+                  {{ state.form.portfolio }}
                 </a>
-                <el-upload :before-upload="beforePortUpload" class="link2">
-                  업로드
-                </el-upload>
+                <el-upload :before-upload="beforePortUpload" class="link2"> -->
+            <!-- 업로드 -->
+            <!-- </el-upload>
               </div>
-            </div>
+            </div> -->
             <div class="box4">
               <div class="label2">url</div>
               <input
@@ -380,7 +380,7 @@
               />
             </div>
           </div>
-          <div>
+          <div id="btn">
             <el-button class="btn-ghost-round-blue" @click="updateMember"
               >수정
             </el-button>
@@ -1823,5 +1823,11 @@ export default {
   font-weight: normal;
   font-size: 18px;
   cursor: pointer;
+}
+
+#btn {
+  margin-top: 50px;
+  width: 782px;
+  padding-bottom: 100px;
 }
 </style>

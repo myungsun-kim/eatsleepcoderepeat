@@ -3,7 +3,8 @@
     <div class="height8">
       <SubNavBar />
     </div>
-    <div class="height92">
+    <div style="height: 5%"></div>
+    <div style="height: 87%">
       <router-view></router-view>
     </div>
   </div>

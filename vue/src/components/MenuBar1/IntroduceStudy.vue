@@ -120,9 +120,9 @@
     </el-col>
     <el-col :span="1"></el-col>
     <el-col :span="8">
-      <el-row class="height5"></el-row>
-      <el-row style="height: 80%">
-        <img src="../../assets/Item/basic.png" />
+      <!-- <el-row class="height5"></el-row> -->
+      <el-row style="height: 100%">
+        <img class="previewImg" src="../../assets/Item/basic3.png" />
       </el-row>
     </el-col>
     <el-col :span="3"></el-col>
@@ -142,7 +142,7 @@
         {{ studyIntroduce.bio }}
       </el-row>
 
-      <el-row>
+      <el-row class="margin">
         <el-col :span="7"></el-col>
         <el-col :span="2" v-if="auth == 2">
           <el-button class="btn-ghost-blue font-noto-bold" @click="goUpdate">
@@ -309,3 +309,14 @@ export default {
   },
 };
 </script>
+<style scoped>
+.previewImg {
+  width: 60%;
+  height: 100%;
+  object-fit: cover;
+  /* overflow: hidden; */
+}
+.margin {
+  padding-bottom: 150px;
+}
+</style>

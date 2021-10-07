@@ -8,7 +8,7 @@
     /></el-col>
     <el-col :span="2"></el-col>
   </el-row>
-  <el-row class="height5"> </el-row>
+  <!-- <el-row class="height5"> </el-row> -->
   <!-- 좌측 | 우측 갈리는 부분 1:9:1: 12: 1-->
   <el-row class="height90">
     <!-- 좌측 -->
@@ -515,7 +515,8 @@ export default {
 <style scoped>
 .title {
   font-size: 24px;
-  padding-top: 50px;
+  /* padding-top: 50px; */
+  margin-bottom: 30px;
   text-align: left;
   font-size: 36px;
 }
@@ -538,14 +539,13 @@ export default {
   max-height: 100%;
 }
 .item-img {
-  background-image: url('../../assets/Item/basic.png');
+  background-image: url('../../assets/Item/basic2.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   box-sizing: border-box;
   border-radius: 5px 5px 0px 0px;
   left: 0px;
   top: 0px;
-
   padding: 0px;
 }
 .item-head-title {
@@ -618,5 +618,9 @@ export default {
 
 .item {
   cursor: pointer;
+}
+
+.list {
+  margin-right: 10px;
 }
 </style>

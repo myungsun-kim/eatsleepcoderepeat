@@ -1,5 +1,5 @@
 <template>
-  <el-row class="height5">
+  <el-row class="height5 margin">
     <el-col :span="21" class="test-border"></el-col>
     <el-col :span="3" class="test-border">
       <el-button class="btn-1747C9 font-noto-bold" @click="goCreate"
@@ -8,7 +8,7 @@
     </el-col>
   </el-row>
 
-  <el-row class="height5">
+  <el-row class="height5 margin">
     <el-col :span="22" :offset="2" class="test-border">
       <p class="itemlist-title-left">내 스터디 목록</p>
     </el-col>
@@ -87,13 +87,13 @@
     <el-col :span="2" class="test-border"></el-col>
   </el-row>
 
-  <el-row class="height5">
+  <el-row class="height5 margin">
     <el-col :span="24" class="test-border">
       <a @click="goInfiniteMyStudy">더보기</a>
     </el-col>
   </el-row>
 
-  <el-row class="height5">
+  <el-row class="height5 margin">
     <el-col :span="22" :offset="2" class="test-border">
       <p class="itemlist-title-left">추천 스터디 목록</p>
     </el-col>
@@ -174,13 +174,13 @@
   </el-row>
   <!-- 아이템 목록 끝 -->
 
-  <el-row class="height5">
+  <el-row class="height5 margin">
     <el-col :span="24" class="test-border">
       <a @click="goInfiniteRecommendStudy">더보기</a>
     </el-col>
   </el-row>
 
-  <el-row class="height5">
+  <el-row class="height5 margin">
     <el-col :span="22" :offset="2" class="test-border">
       <p class="itemlist-title-left">전체 스터디 목록</p>
     </el-col>
@@ -262,7 +262,7 @@
   </el-row>
   <!-- 아이템 목록 끝 -->
 
-  <el-row class="height5">
+  <el-row class="height5 margin">
     <el-col :span="24" class="test-border">
       <a @click="goInfiniteTotalStudy">더보기</a>
     </el-col>
@@ -338,14 +338,18 @@ export default {
 </script>
 <style scoped>
 .item-img {
-  background-image: url('../../assets/Item/basic.png');
+  background-image: url('../../assets/Item/basic2.png');
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   box-sizing: border-box;
   border-radius: 5px 5px 0px 0px;
   left: 0px;
   top: 0px;
 
   padding: 0px;
+}
+.margin {
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 </style>
