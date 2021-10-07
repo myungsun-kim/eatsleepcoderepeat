@@ -330,9 +330,9 @@ export const chat = {
       axios
         //   의도한 부분인가?? @김대연
         .get(
-          // 'http://localhost:8080/api/chat/sessions/' + `${state.currentUserId}`,
-          'http://j5d105.p.ssafy.io:8080/api/chat/sessions/' +
-            `${state.currentUserId}`,
+          'http://localhost:8080/api/chat/sessions/' + `${state.currentUserId}`,
+          // 'http://j5d105.p.ssafy.io:8080/api/chat/sessions/' +
+          `${state.currentUserId}`,
           // JSON.stringify(form),
           { headers: { 'Content-Type': 'application/json' } }
         )
@@ -375,8 +375,8 @@ export const chat = {
       const res = axios
         .get(
           // const serverURL = 'http://114.129.238.179:8080/api/socket/chat';
-          // 'http://localhost:8080/api/chat/messages/' +
-          'http://j5d105.p.ssafy.io:8080/api/chat/messages/' +
+          'http://localhost:8080/api/chat/messages/' +
+            // 'http://j5d105.p.ssafy.io:8080/api/chat/messages/' +
             `${state.currentUserId}` +
             '/' +
             `${state.currentCounterpart}`,
@@ -394,8 +394,8 @@ export const chat = {
       const res = axios
         .get(
           // const serverURL = 'http://114.129.238.179:8080/api/socket/chat';
-          // 'http://localhost:8080/api/chat/messages/' +
-          'http://j5d105.p.ssafy.io:8080/api/chat/messages/' +
+          'http://localhost:8080/api/chat/messages/' +
+            // 'http://j5d105.p.ssafy.io:8080/api/chat/messages/' +
             `${state.currentUserId}` +
             '/' +
             `${state.currentCounterpart}` +
