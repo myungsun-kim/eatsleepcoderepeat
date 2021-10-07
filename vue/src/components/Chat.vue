@@ -1,6 +1,6 @@
 <template>
   <el-row class="height5">
-    <el-col :span="24" class=""> Chat여백: </el-col>
+    <el-col :span="24" class=""></el-col>
   </el-row>
   <el-row class="height90">
     <el-col :span="3"></el-col>
@@ -19,21 +19,23 @@
               <div class="box6">
                 <div class="box8">
                   <!-- 보내는사람: {{ session[1].senderId }} <br /> -->
-
-                  나한테 보낸 사람: {{ session[1].receiverId == currentId ? session[1].senderId : session[1].receiverId }}
+                  {{
+                    session[1].receiverId == currentId
+                      ? session[1].senderId
+                      : session[1].receiverId
+                  }}번 사용자
                 </div>
                 <div class="box9">
                   <!-- 메세지 받은 시간: {{ new Date(session[1].sent_time) }} -->
-                  방금
+                  <!-- {{ new Date(session[1].sent_time) }} -->
+                  {{ calcTime(new Date(session[1].sent_time)) }}
                 </div>
               </div>
               <div v-if="session[1].content.length > 12">
-                <div class="box7">
-                  내용: {{ session[1].content.slice(0, 12) }}...
-                </div>
+                <div class="box7">{{ session[1].content.slice(0, 12) }}...</div>
               </div>
               <div v-else>
-                <div class="box7">내용: {{ session[1].content }}</div>
+                <div class="box7">{{ session[1].content }}</div>
               </div>
             </div>
           </div>
@@ -62,7 +64,8 @@
                 class="my_send_time"
               >
                 <div class="box12_1">
-                  {{ new Date(msg.sent_time) }}
+                  <!-- {{ new Date(msg.sent_time) }} -->
+                  {{ new String(new Date(msg.sent_time)).substr(16, 5) }}
 
                   <!-- 이건 substr(숫자, 숫자)으로 해결가능! -->
                   <!-- {{msg.read_time.getTime()}} -->
@@ -86,7 +89,7 @@
               class="other_send_time"
             >
               <div class="box13_1">
-                {{ new Date(msg.sent_time) }}
+                {{ new String(new Date(msg.sent_time)).substr(16, 5) }}
                 <!-- {{ calcTime(new Date(msg.sent_time)) }} -->
               </div>
             </div>
@@ -119,7 +122,7 @@
     <el-col :span="3"></el-col>
   </el-row>
   <el-row class="height5">
-    <el-col :span="24" class=""> Chat여백: </el-col>
+    <el-col :span="24" class=""> </el-col>
   </el-row>
 </template>
 
@@ -131,17 +134,6 @@ export default {
   components: {},
 
   setup() {
-    // created(() => {
-    //   console.log(this);
-    //   }),
-    onMounted(() => {
-      // initSession();
-      // connect();
-      // 현재 보고 있다는 신호
-    });
-    // onUnmounted(() => {
-    //   // 현재 보고 있지 않다는 신호
-    // });
     const currentId = computed(() => store.getters['chat/getCurrentUserId']);
     const currentCounterpart = computed(
       () => store.getters['chat/getCurrentCounterpart']
@@ -154,7 +146,6 @@ export default {
 
     // const chatList = [{content:"123"}, {content:"456"}];
     const store = useStore();
-    console.log('currentId: ' + currentId.value);
 
     const sendMessage = () => {
       store.dispatch('chat/sendMessage', {
@@ -176,14 +167,10 @@ export default {
 
     const connect = () => {};
     const changeSession = (msg) => {
-      console.log(msg);
       let counter = getCounterPart(msg);
       store.dispatch('chat/changeSession', counter).then(() => {
-        console.log('chatmessage');
-        console.log(chatMessages.value);
         if (!chatMessages.value) {
           store.dispatch('chat/loadMessages').then(() => {
-            console.log(counter);
             store.dispatch('chat/sendMessage', {
               type: 2,
               senderId: currentId.value,
@@ -293,7 +280,7 @@ export default {
   display: flex;
   flex-flow: column;
   background: white;
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
 }
@@ -304,7 +291,7 @@ export default {
   flex-flow: column;
   justify-content: space-between;
   background: #e9e9e9;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
@@ -315,7 +302,7 @@ export default {
 }
 .box4 {
   display: flex;
-  border: 2px solid orange;
+  /* border: 2px solid orange; */
   border-bottom-right-radius: 15px;
 }
 .box5 {

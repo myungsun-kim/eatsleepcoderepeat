@@ -3,8 +3,8 @@
     ><el-col :span="3"></el-col>
     <el-col :span="19">
       <el-row class="height5">
-        <el-col :span="2">제목:</el-col>
-        <el-col :span="22" style="margin: auto 0">
+        <el-col :span="1" class="flex-items">제목:</el-col>
+        <el-col :span="23" style="margin: auto 0">
           <input
             type="text"
             id="title"
@@ -84,12 +84,6 @@ export default {
 
     // 글 작성
     const goReadDetailNotice = function () {
-      // 게시글 내용 확인
-      // console.log(state.form);
-      // console.log(state.form.title);
-      // console.log(state.form.content);
-      // console.log(state.form.boardId);
-
       store.dispatch('study/createArticle', state.form);
 
       router.push({ path: '/subheader/notice/detail' });

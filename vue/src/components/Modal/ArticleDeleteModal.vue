@@ -2,15 +2,14 @@
   <a @click="changemodalOpen" class="grayLittle">삭제</a>
   <teleport to="body">
     <div v-if="!modalOpen" class="modal">
-      <div class="height40">
-        <el-row class="height10"></el-row>
+      <div class="height40" style="width: 30%">
         <el-row class="height10">
-          <el-col :span="24" class="font-noto-bold font-20">
-            {{ article.title }}
+          <el-col :span="24" class="delete-target">
+            [{{ article.title }}] 게시글을
           </el-col>
         </el-row>
         <el-row class="height20">
-          <el-col :span="24" class="font-noto-md font-20">
+          <el-col :span="24" class="delete-msg">
             정말로 삭제하시겠습니까?
           </el-col>
         </el-row>
@@ -69,19 +68,12 @@ export default {
       },
     });
 
-    watch(param, () => {
-      console.log('param 바뀜');
-      // param.form.articleid = articleId.value;
-      // store.dispatch('study/getArticleDetail', param.form);
-    });
     watch(articleId, () => {
-      console.log('articleId 바뀜');
       param.form.articleid = articleId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });
 
     watch(boardId, () => {
-      console.log('boardId 바뀜');
       param.form.boardid = boardId.value;
       store.dispatch('study/getArticleDetail', param.form);
     });
@@ -98,10 +90,10 @@ export default {
 
     // 삭제 누를 시
     const goNoticeRead = function () {
-      // store.dispatch('study/deleteStudy', studyId.value);
-
+      store.dispatch('study/deleteArticle', param.form);
       store.dispatch('changeScrollModal', !modalOpen.value);
-      router.push({ path: '/subheader/notice/read' });
+      window.location = '/subheader/notice/read';
+      // router.push({ path: '/subheader/notice/read' });
     };
 
     return {
@@ -133,7 +125,7 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: white;
-  width: 50%;
+  width: 100%;
 }
 
 .grayLittle {
@@ -144,5 +136,17 @@ export default {
   line-height: 16px;
   text-align: center;
   color: #999999;
+}
+.delete-target {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 20px;
+}
+.delete-msg {
+  font-family: Noto Sans KR;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
 }
 </style>

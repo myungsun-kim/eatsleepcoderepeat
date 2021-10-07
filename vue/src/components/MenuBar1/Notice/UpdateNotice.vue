@@ -1,6 +1,6 @@
 <template>
   <el-row class="height100">
-    <el-col :span="3">{{ article }}</el-col>
+    <el-col :span="3"></el-col>
     <el-col :span="19" v-if="parameter"
       ><el-row class="height5">
         <el-col :span="2">제목:</el-col>

@@ -110,7 +110,7 @@ export default {
     // 1. 스터디 id를 가져와야 함.
     const studyId = computed(() => store.getters['study/studyIdGetter']);
     watch(studyId, () => {
-      console.log('studyId가 바뀌어서 새로 가져오기');
+      //studyId가 바뀌어서 새로 가져오기
       store.dispatch('study/getBoardId', studyId);
     });
 

@@ -10,7 +10,33 @@
             <div id="box1">
               <label id="h2">닉네임</label>
 
-              <div class="input1">{{ application.nickname }}</div>
+              <div class="input1">
+                <el-popover
+                  v-model:visible="visible"
+                  placement="left"
+                  :width="200"
+                >
+                  <div style="text-align: right; margin: 0">
+                    <el-button
+                      size="mini"
+                      class="btn-ghost-round"
+                      @click="goOtherPage"
+                      >마이페이지
+                    </el-button>
+                    <el-button
+                      class="btn-ghost-round-blue"
+                      size="mini"
+                      @click="makeChat"
+                      >채팅</el-button
+                    >
+                  </div>
+                  <template #reference>
+                    <div @click="visible = true">
+                      {{ application.nickname }}
+                    </div>
+                  </template>
+                </el-popover>
+              </div>
             </div>
             <div id="box1">
               <label id="h2">지역</label>
@@ -76,9 +102,9 @@
   <div class="height10"></div>
 </template>
 <script>
-import { useRouter } from 'vue-router';
-import { reactive, computed, watch } from 'vue';
+import { reactive, computed, watch, ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default {
   name: 'ApplicationStudy',
@@ -97,6 +123,34 @@ export default {
         memberId: application.value.memberId,
       },
     });
+
+    const visible = ref(false);
+    // 다른 사람과 채팅 생성
+    const makeChat = function () {
+      visible.value = false;
+      const currentId = computed(() => store.getters['chat/getCurrentUserId']);
+
+      // 채팅방 개설에 필요한 body
+      const body = {
+        content: '채팅방이 개설되었습니다.',
+        read_time: 1000,
+        receiverId: application.value.memberId, // 받는 사람
+        senderId: currentId.value, //보내는 사람
+        sent_time: new Date(),
+        type: 1,
+      };
+
+      // store.dispatch('chat/startChat', body);
+      // router.push({ path: '/nosubheader/chat' });
+    };
+    // 다른 사람의 마이페이지 방문
+    const goOtherPage = function () {
+      visible.value = false;
+      // 다른 사람의 마이지페이지로 이동
+      store.dispatch('member/readInfoPage', application.value.email);
+      router.push({ path: '/nosubheader/readinfopage' });
+    };
+
     // 수락
     const accept = function () {
       store.dispatch('study/approvalStudy', state.form);
@@ -117,9 +171,15 @@ export default {
       router,
       state,
       application,
+
       accept,
       reject,
       goback,
+
+      // popover set
+      visible,
+      makeChat,
+      goOtherPage,
     };
   },
 };

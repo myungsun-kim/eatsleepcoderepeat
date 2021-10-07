@@ -4,8 +4,7 @@
   </el-button>
   <teleport to="body">
     <div v-if="!modalOpen" class="modal">
-      <div class="height40">
-        <el-row class="height10"></el-row>
+      <div class="height40" style="width: 40%">
         <el-row class="height10">
           <el-col :span="24" class="font-noto-bold font-20">
             비밀번호를 입력해주세요
@@ -13,9 +12,10 @@
         </el-row>
         <el-row class="height10">
           <el-col :span="8" class="font-noto-bold font-20"> 비밀번호 </el-col>
-          <el-col :span="16" class="font-noto-bold font-20">
+          <el-col :span="14" class="font-noto-bold font-20">
             <el-input type="password" v-model="state.form.password"></el-input>
           </el-col>
+          <el-col :span="2"> </el-col>
         </el-row>
         <el-row class="height10">
           <el-col :span="6" :offset="6">
@@ -28,7 +28,7 @@
           </el-col>
           <el-col :span="6">
             <el-button
-              class="btn-ghost-blue font-noto-bold"
+              class="btn-ghost-red font-noto-bold"
               @click="changemodalOpen"
               style="font-size: 14px"
               >취소</el-button
@@ -44,6 +44,8 @@
 import { computed, reactive } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
+
+import { ElMessage } from 'element-plus';
 export default {
   setup() {
     const store = useStore();
@@ -62,24 +64,27 @@ export default {
       store.dispatch('changeScrollModal', !modalOpen.value);
     };
 
+    // 업데이트 누를 시
     const goUpdateMyPage = function () {
       store.dispatch('changeScrollModal', false);
-      console.log(modalOpen.value);
-      console.log('이메일');
       // state.form.email = user.value.email;
-      console.log(state.form.email);
-      console.log('인풋값' + state.form.password);
+      //'인풋값' + state.form.password
+
+      store.dispatch('changeScrollModal', !modalOpen.value);
 
       const res = store
         .dispatch('member/checkPassword', state.form)
         .then((res) => {
           if (res.status == 200) {
-            console.log(res);
             router.push({ path: '/nosubheader/updatemypage' });
           }
         })
         .catch((err) => {
-          alert('잘못된 비밀번호를 입력하셨습니다');
+          ElMessage({
+            showClose: true,
+            message: '잘못된 비밀번호를 입력하셨습니다',
+            type: 'error',
+          });
         });
 
       // router.push({ path: '/nosubheader/updatemypage' });
@@ -117,7 +122,7 @@ export default {
   align-items: center;
   justify-content: center;
   background-color: white;
-  width: 50%;
+  width: 100%;
 }
 
 .quitService {
