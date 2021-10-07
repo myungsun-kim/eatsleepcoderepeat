@@ -41,7 +41,7 @@ export const study = {
       state.recommendStudyList = payload;
     },
     updateStudyId(state, payload) {
-      // console.log('넘겨준 STUDY ID 값' + payload);
+      console.log('넘겨준 STUDY ID 값' + payload);
       state.studyId = payload;
     },
     updateStudyInfo(state, payload) {
@@ -157,6 +157,8 @@ export const study = {
     // JSON 형태로 보내야 하고, null인건 null로 보내야함 ""말고
     updateStudy({ commit }, state) {
       console.log(state);
+      console.log(JSON.stringify(state.form));
+
       const res = axios.patch(
         BASE_URL + `/api/study/${state.studyId}`,
         JSON.stringify(state.form),
@@ -166,7 +168,8 @@ export const study = {
         console.log('스터디 생성 결과');
         console.log(res);
         console.log(res.data);
-        commit('updateStudyId', res.data);
+        // ok 이런거 반환함 저장 ㄴㄴ
+        // commit('updateStudyId', res.data);
       });
     },
     // 스터디 수정을 위한 정보 조회

@@ -149,7 +149,6 @@
             수정
           </el-button>
         </el-col>
-        {{ auth }} {{ isHost }}
         <el-col :span="2" v-if="auth == 2"> <StudyDeleteModal /> </el-col>
         <el-col :span="2" v-if="auth == 1"> <StudyQuitModal /> </el-col>
         <el-col :span="2" v-if="auth == 0">
@@ -190,7 +189,6 @@ export default {
     );
     // 1. 새롭게 스터디 id가 바뀌는 것을 감지
     watch(studyId, () => {
-      console.log(222222);
       store.dispatch('study/introduce', studyId.value);
     });
 

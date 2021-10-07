@@ -308,11 +308,16 @@ export default {
       clubId[0] = null;
     }
 
+    const chatCurrentId = computed(
+      () => store.getters['chat/getCurrentUserId']
+    );
+
     const state = reactive({
       form: {
         bio: '', //소개
         city: '', //도시
         clubId: null, //소속 클럽 id
+        hostId: chatCurrentId.value,
         isParticipate: true, // 스터디 상태
         isPublic: true, //공개 여부
         maxCount: 0, //최대 인원수
