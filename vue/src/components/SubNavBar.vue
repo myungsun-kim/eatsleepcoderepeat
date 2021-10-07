@@ -1,5 +1,5 @@
 <template>
-  <el-row class="height100 font-noto-md">
+  <el-row class="height90 font-noto-md">
     <el-col :span="3"></el-col>
     <el-col :span="11">
       <el-row class="height100 sub-nav-bar">

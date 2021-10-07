@@ -1,6 +1,4 @@
 <template>
-  <el-row class="height5"> </el-row>
-
   <el-row style="maxheight: 85%">
     <el-col :span="3"> </el-col>
     <el-col :span="18">
