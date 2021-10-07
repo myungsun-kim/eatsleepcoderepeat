@@ -297,7 +297,7 @@ export const chat = {
         .get(
           'http://localhost:8080/api/chat/sessions/' + `${state.currentUserId}`,
           // 'http://j5d105.p.ssafy.io:8080/api/chat/sessions/' +
-          `${state.currentUserId}`,
+          // `${state.currentUserId}`,
           // JSON.stringify(form),
           { headers: { 'Content-Type': 'application/json' } }
         )
