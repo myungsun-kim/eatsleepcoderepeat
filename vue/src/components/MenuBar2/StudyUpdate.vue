@@ -2,7 +2,7 @@
   <div class="bg">
     <el-row :gutter="0">
       <el-col :span="6" :offset="0">
-        <div class="height100">{{ studyInfo }}</div>
+        <div class="height100"></div>
       </el-col>
       <el-col :span="12" :offset="0">
         <div>
@@ -253,7 +253,7 @@
             />
           </div>
           <div id="btn">
-            <el-button class="btn-create" @click="goIntroduce">생성</el-button>
+            <el-button class="btn-create" @click="goIntroduce">수정</el-button>
             <el-button class="btn-cancel" @click="goIntroduce">취소</el-button>
           </div>
         </div>
@@ -304,7 +304,7 @@ export default {
         clubId[index] = user.value.myClubList[index].id;
       }
     } else {
-      clubList[0] = '무관 또는 없음';
+      clubList[0] = '없음';
       clubId[0] = null;
     }
 
@@ -325,12 +325,26 @@ export default {
         removeStackList: [], //기술 목록
         // uuid: null, //사진 uuid
       },
+      studyId: studyId.value,
       tech: '',
       result: null,
+      studyInfo: null,
     });
 
     onBeforeMount(() => {
-      store.dispatch('r');
+      console.log(11111111111111111111);
+      console.log(studyInfo.value.name);
+      state.form.bio = studyInfo.value.bio;
+      state.form.city = studyInfo.value.city;
+      state.form.clubId = studyInfo.value.club;
+      state.form.isParticipate = studyInfo.value.isParticipate;
+      state.form.isPublic = studyInfo.value.isPublic;
+      state.form.maxCount = studyInfo.value.maxCount;
+      state.form.name = studyInfo.value.name;
+      state.form.period = studyInfo.value.period;
+      state.form.schedule = studyInfo.value.schedule;
+      state.form.status = studyInfo.value.status;
+      state.form.techList = studyInfo.value.studyTechstack;
     });
 
     const stackAutoComplete = function () {
@@ -444,6 +458,7 @@ export default {
     };
 
     const goIntroduce = function () {
+      store.dispatch('study/updateStudy', state);
       router.push({ path: '/subheader/study/introduce' });
     };
 

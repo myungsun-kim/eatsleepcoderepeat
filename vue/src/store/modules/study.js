@@ -52,7 +52,7 @@ export const study = {
     },
     updateStudyMemberId(state, payload) {
       console.log('넘겨준 회원의 id' + payload);
-      state.memberNickname = payload;
+      state.memberId = payload;
     },
     updateStudyIntroduce(state, payload) {
       console.log('넘겨준 STUDY INTRODUCE 값');
@@ -60,7 +60,7 @@ export const study = {
       state.studyIntroduce = payload;
     },
     updateStudyApplications(state, payload) {
-      console.log('넘겨준 STUDY APPLICATION 값');
+      console.log('넘겨준 STUDY APPLICATIONS 값');
       console.log(payload);
       state.studyApplications = payload;
     },
@@ -107,6 +107,9 @@ export const study = {
       // console.log(payload);
       state.currentPage = payload;
     },
+    // updateMemberId(state, payload) {
+    //   state.memberId = payload;
+    // },
   },
   actions: {
     // 전체 스터디 목록
@@ -135,6 +138,22 @@ export const study = {
       const res = axios.post(
         BASE_URL + '/api/study',
         JSON.stringify(form),
+        header
+      );
+      res.then((res) => {
+        console.log('스터디 생성 결과');
+        console.log(res);
+        console.log(res.data);
+        commit('updateStudyId', res.data);
+      });
+    },
+    // 스터디 수정
+    // JSON 형태로 보내야 하고, null인건 null로 보내야함 ""말고
+    updateStudy({ commit }, state) {
+      console.log(state);
+      const res = axios.patch(
+        BASE_URL + `/api/study/${state.studyId}`,
+        JSON.stringify(state.form),
         header
       );
       res.then((res) => {
@@ -212,7 +231,7 @@ export const study = {
       axios
         .get(
           BASE_URL +
-            `/api/studyapplication/one/${para.studyId}/${para.currentId}`,
+            `/api/studyapplication/one/${para.studyId}/${para.memberId}`,
           header
         )
         .then((res) => {
