@@ -16,27 +16,6 @@
           width="100"
           align="center"
         >
-          <el-popover v-model:visible="visible" placement="top" :width="200">
-            <div style="text-align: right; margin: 0">
-              <el-button
-                size="mini"
-                class="btn-ghost-round"
-                @click="goOtherPage"
-                >마이페이지
-              </el-button>
-              <el-button
-                class="btn-ghost-round-blue"
-                size="mini"
-                @click="makeChat"
-                >채팅</el-button
-              >
-            </div>
-            <template #reference>
-              <div @click="visible = true">
-                {{ studyIntroduce.host.nickname }}
-              </div>
-            </template>
-          </el-popover>
         </el-table-column>
         <el-table-column
           prop="application"
@@ -103,8 +82,6 @@ export default {
         nickname: '',
       },
     });
-
-    const visible = ref(false);
 
     const cellClickEvent = function (val) {
       console.log('셀 클릭');

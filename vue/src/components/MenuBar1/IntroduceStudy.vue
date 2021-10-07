@@ -270,7 +270,6 @@ export default {
       };
 
       store.dispatch('chat/startChat', body);
-
       router.push({ path: '/nosubheader/chat' });
     };
     // 팀장의 마이페이지 방문
