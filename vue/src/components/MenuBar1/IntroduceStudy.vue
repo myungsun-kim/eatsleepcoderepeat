@@ -1,10 +1,10 @@
 <template>
   <!-- 상단 소개 정보 부분 -->
-  <el-row class="font-20">
+  <el-row class="font-20" v-if="studyIntroduce">
     <el-col :span="3"></el-col>
     <el-col :span="3"
       ><el-row class="height1"> </el-row>
-      <el-row class="height8" v-if="store.state.category == 1">
+      <el-row class="height8">
         <i class="el-icon-postcard flex-items"></i>&nbsp;스터디 이름
       </el-row>
       <el-row class="height1"> </el-row>
