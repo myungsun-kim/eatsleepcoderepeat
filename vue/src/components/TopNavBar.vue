@@ -109,14 +109,13 @@ export default {
       }
     };
     onMounted(() => {
-        // 토큰 decode해서 내 id 알아내는 과정
-        if(localStorage.getItem('accessToken') != null){
-          store.dispatch(
-            'chat/startup',
-            jwt_decode(localStorage.getItem('accessToken'))['sub']
-          );
-        }
-      
+      // 토큰 decode해서 내 id 알아내는 과정
+      if (localStorage.getItem('accessToken') != null) {
+        store.dispatch(
+          'chat/startup',
+          jwt_decode(localStorage.getItem('accessToken'))['sub']
+        );
+      }
     });
 
     const clickProject = function () {
@@ -226,7 +225,7 @@ export default {
   width: 20px;
   height: 20px;
   position: absolute;
-  margin-top: -17px;
+  margin-top: -45px;
   margin-left: 35px;
   background: #f53030;
   border-radius: 10px;

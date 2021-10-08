@@ -592,7 +592,7 @@ export default {
       let reg = /^[가-힣]{1,7}$/;
       let reg1 = /^[a-zA-Z]{2,10}$/;
       // 유효성 검사를 통과하지 못했을 경우
-      if (nameVal.match(reg) == null && nameVal.match(reg) == null) {
+      if (nameVal.match(reg) == null && nameVal.match(reg1) == null) {
         warning3.style = '';
         success3.style = 'display:none';
         state.validate2 = false;
