@@ -50,15 +50,15 @@ public class MemberInfoDto {
     private String portfolio_uri;
 
 //    @ApiModelProperty(name = "myClubList", example = "[\"\",\"java\"]")
-//    private List<Club> myClubList = new ArrayList<>();
-//    @ApiModelProperty(name = "myProjectList", example = "[\"python\",\"java\"]")
-//    private List<Project> myProjectList = new ArrayList<>();
-//    private List<Study> myStudyList = new ArrayList<>();
-    // 임시 수정요 일민님
-    private List<ClubInfoResponseDto> myClubList = new ArrayList<>();
+    private List<Club> myClubList = new ArrayList<>();
     @ApiModelProperty(name = "myProjectList", example = "[\"python\",\"java\"]")
-    private List<ProjectInfoResponseDto> myProjectList = new ArrayList<>();
-    private List<StudyInfoResponseDto> myStudyList = new ArrayList<>();
+    private List<Project> myProjectList = new ArrayList<>();
+    private List<Study> myStudyList = new ArrayList<>();
+    // 임시 수정요 일민님
+//    private List<ClubInfoResponseDto> myClubList = new ArrayList<>();
+//    @ApiModelProperty(name = "myProjectList", example = "[\"python\",\"java\"]")
+//    private List<ProjectInfoResponseDto> myProjectList = new ArrayList<>();
+//    private List<StudyInfoResponseDto> myStudyList = new ArrayList<>();
     ////////////////////////////////////
     @ApiModelProperty(name = "expTechList", example = "[\"python\",\"java\"]")
     private List<String> expTechList = new ArrayList<>();
