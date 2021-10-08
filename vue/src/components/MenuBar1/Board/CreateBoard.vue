@@ -71,7 +71,6 @@ export default {
     const boardId = computed(
       () => store.getters['study/studyNormalBoardIdGetter']
     );
-    // console.log(boardId.value);
 
     // 값을 넘길 파라미터
     const state = reactive({

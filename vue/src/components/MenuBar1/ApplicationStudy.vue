@@ -13,7 +13,7 @@
               <div class="input1">
                 <el-popover
                   v-model:visible="visible"
-                  placement="top"
+                  placement="left"
                   :width="200"
                 >
                   <div style="text-align: right; margin: 0">
@@ -124,8 +124,6 @@ export default {
       },
     });
 
-    console.log(application);
-
     const visible = ref(false);
     // 다른 사람과 채팅 생성
     const makeChat = function () {
@@ -148,9 +146,7 @@ export default {
     // 다른 사람의 마이페이지 방문
     const goOtherPage = function () {
       visible.value = false;
-
       // 다른 사람의 마이지페이지로 이동
-      console.log(application.value.email);
       store.dispatch('member/readInfoPage', application.value.email);
       router.push({ path: '/nosubheader/readinfopage' });
     };
