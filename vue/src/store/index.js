@@ -6,8 +6,8 @@ import { chat } from '@/store/modules/chat';
 import { study } from '@/store/modules/study';
 import axios from 'axios';
 
-const BASE_URL = '';
-// const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
+// const BASE_URL = '';
+const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
 
 export default createStore({
   state: {

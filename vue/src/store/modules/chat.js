@@ -3,8 +3,8 @@ import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client';
 import { ElMessage } from 'element-plus';
 
-const BASE_URL = '';
-// const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
+// const BASE_URL = '';
+const BASE_URL = 'http://j5d105.p.ssafy.io:8080';
 const header = { headers: { 'Content-Type': 'application/json' } };
 const authHeader = {
   headers: {
@@ -211,8 +211,8 @@ export const chat = {
       return msg.senderId != state.currentId ? msg.receiverId : msg.senderId;
     },
     connectSocket({ state, dispatch, commit }) {
-      const serverURL = 'http://localhost:8080/api/socket/chat'; // 서버 채팅 주소
-      // const serverURL = 'http://j5d105.p.ssafy.io:8080/api/socket/chat'; // 서버 채팅 주소
+      // const serverURL = 'http://localhost:8080/api/socket/chat'; // 서버 채팅 주소
+      const serverURL = 'http://j5d105.p.ssafy.io:8080/api/socket/chat'; // 서버 채팅 주소
       let socket = new SockJS(serverURL);
       socket.onclose = function () {
         state.stompClient.disconnect();
@@ -297,8 +297,6 @@ export const chat = {
         .get(
           'http://localhost:8080/api/chat/sessions/' + `${state.currentUserId}`,
           // 'http://j5d105.p.ssafy.io:8080/api/chat/sessions/' +
-          // `${state.currentUserId}`,
-          // JSON.stringify(form),
           { headers: { 'Content-Type': 'application/json' } }
         )
         .then((response) => {
@@ -327,8 +325,8 @@ export const chat = {
     loadMessages({ state, commit }) {
       axios
         .get(
-          'http://localhost:8080/api/chat/messages/' +
-            // 'http://j5d105.p.ssafy.io:8080/api/chat/messages/' +
+          // 'http://localhost:8080/api/chat/messages/' +
+            'http://j5d105.p.ssafy.io:8080/api/chat/messages/' +
             `${state.currentUserId}` +
             '/' +
             `${state.currentCounterpart}`,
@@ -344,8 +342,8 @@ export const chat = {
       const res = axios
         .get(
           // const serverURL = 'http://114.129.238.179:8080/api/socket/chat';
-          'http://localhost:8080/api/chat/messages/' +
-            // 'http://j5d105.p.ssafy.io:8080/api/chat/messages/' +
+          // 'http://localhost:8080/api/chat/messages/' +
+            'http://j5d105.p.ssafy.io:8080/api/chat/messages/' +
             `${state.currentUserId}` +
             '/' +
             `${state.currentCounterpart}` +
